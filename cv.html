@@ -401,7 +401,7 @@
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, 0.72);
             background: rgba(0, 0, 0, 0.22);
-            color: #ffffff;
+            color: #3b82f6;
             cursor: pointer;
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
@@ -412,7 +412,7 @@
 
         .cv-portfolio-button:hover {
             background: #ffffff;
-            color: #000000;
+            color: #3b82f6;
             border-color: #ffffff;
         }
 
@@ -3048,10 +3048,22 @@
                         </svg>
                     </a>
 
-                    <!-- Portfolio -->
-                    <a class="cv-portfolio-button" href="/portfolio/dist/" aria-label="Portfolio">
+                    <!-- Portfolio button - otwiera oba portfolio -->
+                    <button class="cv-portfolio-button" id="cvPortfolioButton" type="button" aria-label="Portfolio">
                         <span>Portfolio</span>
-                    </a>
+                    </button>
+
+                    <!-- Portfolio popup -->
+                    <div class="cv-portfolio-popup" id="cvPortfolioPopup">
+                        <div class="cv-portfolio-popup-content">
+                            <button class="cv-portfolio-option" data-link="https://armitiel.blogspot.com/p/illustration.html">
+                                <span>Illustration</span>
+                            </button>
+                            <button class="cv-portfolio-option" data-link="https://armitiel.blogspot.com/p/graphic-design.html">
+                                <span>Graphic Design</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Lottie Animation Example -->
@@ -3627,6 +3639,43 @@
                     } catch (e) {
                         console.warn('Nie udało się uruchomić eksportu do PDF.', e);
                     }
+                });
+            }
+
+            // Portfolio button - shows popup with options
+            const portfolioBtn = document.getElementById('cvPortfolioButton');
+            const portfolioPopup = document.getElementById('cvPortfolioPopup');
+            const portfolioOptions = document.querySelectorAll('.cv-portfolio-option');
+            
+            if (portfolioBtn && portfolioPopup) {
+                portfolioBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    portfolioPopup.classList.toggle('is-visible');
+                });
+
+                // Close popup when clicking outside
+                document.addEventListener('click', function (e) {
+                    if (portfolioPopup.classList.contains('is-visible')) {
+                        if (!portfolioPopup.contains(e.target) && !portfolioBtn.contains(e.target)) {
+                            portfolioPopup.classList.remove('is-visible');
+                        }
+                    }
+                });
+
+                // Handle option clicks
+                portfolioOptions.forEach(function(option) {
+                    option.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        const link = this.getAttribute('data-link');
+                        if (link) {
+                            try {
+                                window.open(link, '_blank', 'noopener,noreferrer');
+                                portfolioPopup.classList.remove('is-visible');
+                            } catch (err) {
+                                console.warn('Nie udało się otworzyć portfolio.', err);
+                            }
+                        }
+                    });
                 });
             }
 
