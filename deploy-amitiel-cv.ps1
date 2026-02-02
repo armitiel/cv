@@ -13,7 +13,11 @@ param(
   # Repozytorium CV (parent repo) do zaciągania na serwerze (build portfolio na OVH)
   [string]$RepoUrl = '',
   # Katalog roboczy na serwerze (źródła pod git pull + submodule)
-  [string]$RemoteBuildDir = ''
+  [string]$RemoteBuildDir = '',
+  # Repozytorium portfolio (submodule) do zaciągania na serwerze (publiczne HTTPS lub SSH)
+  [string]$PortfolioRepoUrl = '',
+  # Katalog roboczy na serwerze dla portfolio
+  [string]$RemotePortfolioBuildDir = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -22,6 +26,15 @@ function Assert-Exists($Path) {
   if (-not (Test-Path -LiteralPath $Path)) {
     throw "Brak pliku/katalogu: $Path"
   }
+}
+
+function Convert-GithubHttpsToSsh([string]$Url) {
+  if (-not $Url) { return $Url }
+  $u = $Url.Trim()
+  if ($u -match '^https://github\.com/([^/]+)/([^/]+?)(\.git)?$') {
+    return "git@github.com:$($Matches[1])/$($Matches[2]).git"
+  }
+  return $u
 }
 
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -40,8 +53,29 @@ if (-not $RepoUrl) {
   }
 }
 
+# Na OVH mamy skonfigurowany klucz SSH do GitHuba (BatchMode).
+# Preferuj SSH zamiast HTTPS (HTTPS bez tokena kończy się prośbą o username).
+$RepoUrl = Convert-GithubHttpsToSsh $RepoUrl
+
 if (-not $RemoteBuildDir) {
   $RemoteBuildDir = "/home/$User/amitiel.cv-src"
+}
+
+$portfolioRepoUrlFromGitmodules = $null
+try {
+  $portfolioRepoUrlFromGitmodules = (git config --file .gitmodules --get submodule.portfolio.url).Trim()
+} catch {
+  $portfolioRepoUrlFromGitmodules = $null
+}
+
+if (-not $PortfolioRepoUrl) {
+  $PortfolioRepoUrl = if ($portfolioRepoUrlFromGitmodules) { $portfolioRepoUrlFromGitmodules } else { 'https://github.com/armitiel/creative-showcase.git' }
+}
+
+$PortfolioRepoUrl = Convert-GithubHttpsToSsh $PortfolioRepoUrl
+
+if (-not $RemotePortfolioBuildDir) {
+  $RemotePortfolioBuildDir = "/home/$User/amitiel.portfolio-src"
 }
 
 $remote = "$User@$HostName"
@@ -80,71 +114,84 @@ if (-not $SkipPortfolio) {
 
   $portfolioPullLatestFlag = if ($PortfolioPullLatest) { "1" } else { "0" }
 
-  $remoteScript = @"
+  $remoteScriptTemplate = @'
 set -euo pipefail
 
-BUILD_DIR='$RemoteBuildDir'
-REPO_URL='$RepoUrl'
-WEBROOT='$RemoteWebRoot'
-OUT_DIR='$remotePortfolioRoot'
-BASE_URL='$portfolioBase'
-PULL_LATEST_PORTFOLIO='$portfolioPullLatestFlag'
+BUILD_DIR="__BUILD_DIR__"
+REPO_URL="__REPO_URL__"
+WEBROOT="__WEBROOT__"
+OUT_DIR="__OUT_DIR__"
+BASE_URL="__BASE_URL__"
+PULL_LATEST_PORTFOLIO="__PULL_LATEST_PORTFOLIO__"
 
-echo "[portfolio] build dir: \$BUILD_DIR"
-echo "[portfolio] repo:      \$REPO_URL"
-echo "[portfolio] out:       \$OUT_DIR"
-echo "[portfolio] base:      \$BASE_URL"
+echo "[portfolio] build dir: $BUILD_DIR"
+echo "[portfolio] repo:      $REPO_URL"
+echo "[portfolio] out:       $OUT_DIR"
+echo "[portfolio] base:      $BASE_URL"
 
 command -v git >/dev/null 2>&1 || { echo "[portfolio] Brak 'git' na serwerze."; exit 2; }
 command -v node >/dev/null 2>&1 || { echo "[portfolio] Brak 'node' na serwerze."; exit 2; }
 command -v npm >/dev/null 2>&1 || { echo "[portfolio] Brak 'npm' na serwerze."; exit 2; }
 
-if [ ! -d "\$BUILD_DIR/.git" ]; then
+if [ ! -d "$BUILD_DIR/.git" ]; then
   echo "[portfolio] Klonuję repo..."
-  rm -rf "\$BUILD_DIR"
-  git clone "\$REPO_URL" "\$BUILD_DIR"
+  rm -rf "$BUILD_DIR"
+  git clone "$REPO_URL" "$BUILD_DIR"
 fi
 
-cd "\$BUILD_DIR"
-echo "[portfolio] Aktualizuję repo (master)..."
+cd "$BUILD_DIR"
+echo "[portfolio] Aktualizuję repo (main)..."
 git fetch origin
-git checkout master
-git pull --ff-only origin master
-
-echo "[portfolio] Aktualizuję submoduły..."
-git submodule sync --recursive
-git submodule update --init --recursive
-
-if [ "\$PULL_LATEST_PORTFOLIO" = "1" ]; then
-  echo "[portfolio] PortfolioPullLatest=1 -> git pull w submodule (main)"
-  cd portfolio
-  git fetch origin
-  git checkout main || true
-  git pull --ff-only origin main
-  cd ..
+git checkout main || true
+if [ "$PULL_LATEST_PORTFOLIO" = "1" ]; then
+  git pull --ff-only origin main || true
 fi
 
 echo "[portfolio] Instaluję zależności i buduję..."
-cd portfolio
 export NODE_ENV=development
 export NPM_CONFIG_PRODUCTION=false
 npm ci
-npm run build -- --base="\$BASE_URL"
+npm run build -- --base="$BASE_URL"
 
-echo "[portfolio] Publikuję do \$OUT_DIR"
-mkdir -p "\$OUT_DIR"
+echo "[portfolio] Publikuję do $OUT_DIR"
+mkdir -p "$OUT_DIR"
 if command -v rsync >/dev/null 2>&1; then
-  rsync -a --delete dist/ "\$OUT_DIR"/
+  rsync -a --delete dist/ "$OUT_DIR"/
 else
-  rm -rf "\$OUT_DIR"/*
-  cp -r dist/* "\$OUT_DIR"/
+  rm -rf "$OUT_DIR"/*
+  cp -r dist/* "$OUT_DIR"/
 fi
 
 echo "[portfolio] OK"
-"@
+'@
 
-  # Puść skrypt bash przez stdin (działa w PowerShell na Windows)
-  $remoteScript | ssh @sshOpts $remote "bash -s"
+  $remoteScript = $remoteScriptTemplate.
+    Replace('__BUILD_DIR__', $RemotePortfolioBuildDir).
+    Replace('__REPO_URL__', $PortfolioRepoUrl).
+    Replace('__WEBROOT__', $RemoteWebRoot).
+    Replace('__OUT_DIR__', $remotePortfolioRoot).
+    Replace('__BASE_URL__', $portfolioBase).
+    Replace('__PULL_LATEST_PORTFOLIO__', $portfolioPullLatestFlag)
+
+  # PowerShell potrafi wysyłać do native apps w złym kodowaniu (np. UTF-16),
+  # więc zamiast pipe -> ssh, wysyłamy plik .sh przez scp i uruchamiamy na serwerze.
+  $tmp = New-TemporaryFile
+  try {
+    # Zapisz jako UTF-8 BEZ BOM i z LF (bash-friendly)
+    $scriptText = $remoteScript -replace "`r`n", "`n"
+    [System.IO.File]::WriteAllText(
+      $tmp.FullName,
+      $scriptText,
+      (New-Object System.Text.UTF8Encoding($false))
+    )
+    $remoteTmp = "/tmp/amitiel-portfolio-deploy-$ts.sh"
+    scp @sshOpts $tmp.FullName "${remote}:$remoteTmp"
+    # Uwaga: nie usuwaj pliku, jeśli bash się wywali — ułatwia debug na serwerze
+    $remoteRunCmd = ('bash ''{0}''; rc=$?; if [ $rc -eq 0 ]; then rm -f ''{0}''; fi; exit $rc' -f $remoteTmp)
+    ssh @sshOpts $remote $remoteRunCmd
+  } finally {
+    Remove-Item -LiteralPath $tmp.FullName -Force -ErrorAction SilentlyContinue
+  }
 } else {
   Write-Host "Portfolio: pomijam (SkipPortfolio)"
 }
