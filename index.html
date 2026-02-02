@@ -2801,14 +2801,14 @@
             }
         }
 
-        /* Wszystkie linki na czarne */
-        a {
+        /* Wszystkie linki na czarne (bez przycisku Portfolio w hero) */
+        a:not(.cv-portfolio-button) {
             color: #0f0e0e !important;
         }
 
-        a:hover,
-        a:focus,
-        a:active {
+        a:not(.cv-portfolio-button):hover,
+        a:not(.cv-portfolio-button):focus,
+        a:not(.cv-portfolio-button):active {
             color: #0f0e0e !important;
         }
 
@@ -2877,8 +2877,8 @@
                         </svg>
                     </a>
 
-                    <!-- Portfolio button - otwiera oba portfolio -->
-                    <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://armitiel.blogspot.com/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
+                    <!-- Portfolio -->
+                    <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
                         <span>Portfolio</span>
                     </a>
                 </div>
