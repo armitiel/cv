@@ -108,6 +108,22 @@ if (-not $PortfolioOnly) {
   scp @sshOpts ".\cv.html" "${remote}:$RemoteWebRoot/index.html"
 }
 
+# 2b) Wgraj kluczowe assety CV (żeby stopka/branding był zgodny z lokalnym)
+try {
+  if (Test-Path -LiteralPath ".\assets\footer.png") {
+    Write-Host "Wgrywam assets/footer.png"
+    ssh @sshOpts $remote "mkdir -p '$RemoteWebRoot/assets'"
+    scp @sshOpts ".\assets\footer.png" "${remote}:$RemoteWebRoot/assets/footer.png"
+  }
+  if (Test-Path -LiteralPath ".\assets\v17_logo.svg") {
+    Write-Host "Wgrywam assets/v17_logo.svg"
+    ssh @sshOpts $remote "mkdir -p '$RemoteWebRoot/assets'"
+    scp @sshOpts ".\assets\v17_logo.svg" "${remote}:$RemoteWebRoot/assets/v17_logo.svg"
+  }
+} catch {
+  Write-Warning "Nie udało się wgrać assetów stopki. Sprawdź połączenie SCP/SSH."
+}
+
 # 3) Portfolio: build + publikacja na OVH (git pull + submodule + npm ci + vite build)
 if (-not $SkipPortfolio) {
   Write-Host "Portfolio: buduję na OVH z Gita i publikuję do $remotePortfolioRoot (base: $portfolioBase)"
