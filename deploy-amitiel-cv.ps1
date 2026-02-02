@@ -22,6 +22,7 @@ Assert-Exists ".\images"
 Assert-Exists ".\assets"
 # js/ — opcjonalny (jeśli nie ma, pomijamy)
 $hasJs = Test-Path -LiteralPath ".\js"
+$hasPortfolioDist = Test-Path -LiteralPath ".\portfolio\dist"
 
 $remote = "$User@$HostName"
 $ts = (Get-Date).ToString('yyyyMMdd-HHmmss')
@@ -65,8 +66,10 @@ function Remove-RemoteFile([string]$repoPath, [string]$remoteRoot) {
 # 3) Wgraj zasoby (domyślnie: przyrostowo — tylko zmienione pliki)
 $deployRoots = @('css/', 'images/', 'assets/')
 if ($hasJs) { $deployRoots += 'js/' }
+$deployRoots += 'portfolio/dist/'
 $uploadDirs = @('.\css', '.\images', '.\assets')
 if ($hasJs) { $uploadDirs += '.\js' }
+if ($hasPortfolioDist) { $uploadDirs += '.\portfolio\dist' }
 
 if ($Full) {
   Write-Host "Wgrywam pełne katalogi: $($uploadDirs -join ', ') (tryb -Full)"

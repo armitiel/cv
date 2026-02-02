@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, maximum-scale=5.0, minimum-scale=1.0">
+    <title>V17 — Selected Project | Amitiel</title>
+    <meta name="description" content="V17 — Selected Project by Amitiel.">
+    <meta name="robots" content="index, follow">
+
+    <script>
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2026-01-29-green">
+    <link rel="mask-icon" href="/favicon.svg?v=2026-01-29-green" color="#00c853">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2026-01-29-green">
+    <link rel="manifest" href="/site.webmanifest?v=2026-01-29-green">
+
+    <style>
+        /* Minimal layout for project subpage */
+        .v17-wrap {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+            color: #fff;
+        }
+        .v17-header {
+            padding: 2.4rem 0;
+        }
+        .v17-header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.6rem;
+        }
+        .v17-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: #fff;
+        }
+        .v17-brand img {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+        .v17-main {
+            flex: 1;
+            padding: 6rem 0 8rem;
+        }
+        .v17-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            padding: 3.2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .v17-title {
+            margin: 0 0 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        .v17-subtitle {
+            margin: 0 0 2.4rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 70ch;
+        }
+        .v17-actions {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .v17-actions .btn {
+            margin: 0;
+        }
+        .v17-footer {
+            padding: 2.4rem 0;
+            color: rgba(255,255,255,0.35);
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="v17-wrap">
+        <header class="v17-header">
+            <div class="row">
+                <div class="column xl-12 v17-header__inner">
+                    <a class="v17-brand" href="/" aria-label="Back to homepage">
+                        <img src="assets/v17_logo.svg" alt="V17 logo">
+                        <span>V17</span>
+                    </a>
+
+                    <a class="btn btn--stroke" href="/" aria-label="Back to homepage">Back</a>
+                </div>
+            </div>
+        </header>
+
+        <main class="v17-main" aria-label="V17 project content">
+            <div class="row">
+                <div class="column xl-10 lg-12">
+                    <div class="v17-card">
+                        <h1 class="v17-title">V17</h1>
+                        <p class="v17-subtitle">
+                            Selected Project. This page is reserved for the dedicated V17 presentation.
+                        </p>
+
+                        <div class="v17-actions">
+                            <a class="btn btn--primary" href="/">Back to CV</a>
+                            <a class="btn btn--stroke" href="mailto:armitiel@gmail.com">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="v17-footer" aria-label="Footer">
+            <div class="row">
+                <div class="column xl-12">
+                    <span>© 2025 All rights reserved by Armitiel.</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Vercel Web Analytics -->
+    <script src="https://cdn.vercel.com/insights/script.js" defer></script>
+</body>
+</html>
+

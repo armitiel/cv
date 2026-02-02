@@ -1,0 +1,14 @@
+﻿Pakiet: strona CV (cv.html) â€” pliki potrzebne do instalacji/deployu
+Wygenerowano: 2026-02-01 16:55
+Katalog zrodlowy: C:\Armitiel
+
+Zawartosc:
+- index.html, cv.html  (strona glowna = cv.html)
+- css/                 (vendor.css, styles.css)
+- js/                  (main.js, plugins.js, translations.js)
+- images/              (obrazy uzywane przez CV m.in. hero.png, tools.png)
+- assets/              (footer.png, avatar.mp4, vendor, loadery itd.)
+- favicon*, apple-touch-icon*, android-chrome-*, site.webmanifest (jezeli byly w repo)
+
+Deploy na OVH: uzyj deploy-amitiel-cv.ps1 z glownego repo lub wgraj zawartosc tego folderu
+na serwer do /var/www/amitiel.cv/ (cv.html jako index.html).

@@ -1,0 +1,40 @@
+{
+  "name": "armitiel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "echo 'CSS build completed'",
+    "build": "echo 'Build completed successfully'",
+    "dev": "npx --yes serve . -p 3000",
+    "frontend": "npx --yes serve . -p 3000",
+    "start": "npm run dev",
+    "start:windows": "start-dev.bat",
+    "start:unix": "./start-dev.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armitiel/armitiel_interior.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/armitiel/armitiel_interior/issues"
+  },
+  "homepage": "https://github.com/armitiel/armitiel_interior#readme",
+  "description": "",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "serve": "^14.2.5",
+    "tailwindcss": "^4.1.14"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1",
+    "flowbite": "^3.1.2"
+  }
+}
