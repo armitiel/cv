@@ -156,7 +156,7 @@
         /* Hero buttons container */
         .cv-hero-buttons {
             position: absolute;
-            bottom: 140px; /* Podniesione jeszcze wyżej, bliżej tekstów */
+            bottom: var(--cv-hero-buttons-bottom, 140px); /* desktop: wyrównanie do dołu tekstu po prawej (JS ustawia zmienną) */
             left: calc(50px + 20px); /* Padding content (50px) + padding title (20px) - wyrównanie z tytułem */
             z-index: 6;
             display: flex;
@@ -401,7 +401,7 @@
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, 0.72);
             background: rgba(0, 0, 0, 0.22);
-            color: #3b82f6;
+            color: #ffffff;
             cursor: pointer;
             text-decoration: none;
             -webkit-backdrop-filter: blur(10px);
@@ -412,12 +412,12 @@
         }
 
         .cv-portfolio-button:visited {
-            color: #3b82f6;
+            color: #ffffff;
         }
 
         .cv-portfolio-button:hover {
             background: #ffffff;
-            color: #3b82f6;
+            color: #000000;
             border-color: #ffffff;
         }
 
@@ -437,6 +437,31 @@
             letter-spacing: 0.6px;
             text-transform: uppercase;
             display: block;
+        }
+
+        /* Subtle float animation for Portfolio button (Hero) */
+        .cv-portfolio-float {
+            display: inline-flex;
+            will-change: transform;
+        }
+
+        .cv-main-container.loaded .cv-portfolio-float {
+            animation: cvPortfolioFloat 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.25s infinite alternate;
+        }
+
+        @keyframes cvPortfolioFloat {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-7px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cv-main-container.loaded .cv-portfolio-float {
+                animation: none !important;
+            }
         }
 
         /* Portfolio popup */
@@ -841,7 +866,7 @@
         /* Portfolio section: tighter spacing before footer */
         .cv-content-section--portfolio {
             gap: 40px;
-            padding: 50px 50px 0 50px;
+            padding: 50px 50px 72px 50px; /* większy odstęp nad stopką (desktop) */
         }
 
         /* Portfolio headline: reduce gap between title and subtitle */
@@ -1531,7 +1556,7 @@
         .cv-subscribe-panel {
             width: 100%;
             /* Reduce visual gap above footer image (desktop) */
-            padding: 12px 50px 50px 50px;
+            padding: 0 50px 50px 50px;
             box-sizing: border-box;
             transform: translateY(110%);
             will-change: transform;
@@ -1575,14 +1600,10 @@
             border-radius: 8px;
         }
 
-        .cv-footer-email {
-            position: absolute;
-            left: 50px;
-            bottom: 22px;
-            z-index: 2;
+        .cv-portfolio-works {
             display: inline-flex;
             align-items: center;
-            padding: 10px 12px;
+            padding: 14px 20px;
             border-radius: 999px;
             border: 1px solid rgba(0, 0, 0, 0.3);
             background: rgba(255, 255, 255, 0.95);
@@ -1592,7 +1613,7 @@
             cursor: pointer;
             font-family: 'Geist', sans-serif;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 16px;
             letter-spacing: 0.6px;
             text-transform: uppercase;
             line-height: 1;
@@ -1600,17 +1621,18 @@
             backdrop-filter: blur(10px);
             text-shadow: none;
             transition: background 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+            align-self: flex-start; /* tuż pod "Portfolio" wyrównaj do lewej */
         }
 
-        .cv-footer-email:link,
-        .cv-footer-email:visited,
-        .cv-footer-email:active {
+        .cv-portfolio-works:link,
+        .cv-portfolio-works:visited,
+        .cv-portfolio-works:active {
             color: #000000;
             -webkit-text-fill-color: #000000;
         }
 
-        .cv-footer-email:hover,
-        .cv-footer-email:focus-visible {
+        .cv-portfolio-works:hover,
+        .cv-portfolio-works:focus-visible {
             background: rgba(255, 255, 255, 1);
             border-color: rgba(0, 0, 0, 0.5);
             transform: translateY(-1px);
@@ -1693,17 +1715,18 @@
 
         @media screen and (max-width: 576px) {
             .cv-subscribe-section {
-                min-height: 100svh;
+                min-height: auto;
+                margin-top: 0;
             }
 
             .cv-footer-image {
                 height: 100%;
-                min-height: 100svh;
+                min-height: 0;
             }
 
             .cv-subscribe-panel {
-                /* Mobile: stopka na pełną wysokość ekranu */
-                min-height: 100svh;
+                /* Mobile: stopka wyraźnie niższa (nie fullscreen) */
+                min-height: auto;
                 padding: 0;
                 border-radius: 0;
             }
@@ -1714,14 +1737,12 @@
             }
 
             .cv-footer-media {
-                height: 100svh;
+                height: clamp(260px, 55svh, 420px);
             }
 
-            .cv-footer-email {
-                left: 20px;
-                bottom: 16px;
-                padding: 9px 10px;
-                font-size: 11px;
+            .cv-portfolio-works {
+                padding: 12px 16px;
+                font-size: 13px;
             }
 
             .cv-footer-projects {
@@ -3054,9 +3075,11 @@
                     </a>
 
                     <!-- Portfolio -->
-                    <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
-                        <span>Portfolio</span>
-                    </a>
+                    <span class="cv-portfolio-float">
+                        <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
+                            <span>Portfolio</span>
+                        </a>
+                    </span>
                 </div>
                 
                 <!-- Lottie Animation Example -->
@@ -3081,7 +3104,7 @@
                         <p class="cv-hero-subtitle-text-bold">Creative Designer</p>
                     </div>
                     <div class="cv-hero-subtitle-item">
-                        <p class="cv-hero-subtitle-text-light">A versatile designer with over 15 years of experience in the creative industry. Specialized in delivering comprehensive visual solutions, ranging from UI/UX design and digital product development to animation and 3D modeling. I seamlessly combine traditional artistic techniques with cutting-edge digital design tools, including AI solutions for programming.</p>
+                        <p class="cv-hero-subtitle-text-light">A versatile designer with over 15 years of experience in the creative industry, including work on game development and interactive entertainment. Specialized in delivering comprehensive visual solutions across UI/UX design, game interfaces, digital product development, animation, and 3D modeling. I seamlessly combine traditional artistic techniques with modern digital workflows, using advanced tools - including AI-assisted solutions for programming and asset production - to support scalable, production-ready game and product pipelines.</p>
                     </div>
                 </div>
             </div>
@@ -3113,7 +3136,7 @@
                             </div>
                         </div>
                         <div class="cv-table-row-content">
-                            <p class="cv-table-cell cv-table-cell-description">I have been delivering digital products built from the ground up. Since expanding into AI-assisted development and programming, I have been able to create fully functional, end-to-end applications, taking full responsibility for both the technical and creative sides of the product.</p>
+                            <p class="cv-table-cell cv-table-cell-description">I have worked as a self-employed creative professional for many years, delivering a wide range of digital and interactive projects across different industries and specifications. This path allowed me to develop strong adaptability and the ability to move seamlessly between visual design, 3D and 2D graphics, animation, game assets, and functional digital products such as applications and websites.<br><br>By combining design expertise with AI-assisted development and programming, I create complete, end-to-end solutions and take responsibility for both the creative and technical aspects of a project.</p>
                         </div>
                         <div class="cv-table-row-details">
                             <p class="cv-table-cell cv-table-cell-details">
@@ -3139,7 +3162,7 @@
                             </div>
                         </div>
                         <div class="cv-table-row-content">
-                            <p class="cv-table-cell cv-table-cell-description">In this role, I focused on UI design and animation work, actively participating in constructive critique sessions and performance reviews to ensure high-quality deliverables. I collaborated closely with top-tier industry professionals, giving me direct exposure to high-level artistic and production standards. I also developed custom AI-assisted tools to support the asset production pipeline, which were adopted and are still in use today.</p>
+                            <p class="cv-table-cell cv-table-cell-description">In this role, I focused on UI design and animation, actively participating in constructive critique sessions, performance reviews, and iterative feedback cycles to ensure high-quality deliverables. I worked within a SCRUM-based development process, collaborating closely with cross-functional teams during sprint planning, reviews, and daily syncs to align design, implementation, and production goals.<br><br>I collaborated with top-tier industry professionals, gaining direct exposure to high-level artistic and production standards. Alongside my design responsibilities, I developed custom AI-assisted tools to support and optimize the UI asset production pipeline - solutions that were adopted by the team and remain in active use today.</p>
                         </div>
                         <div class="cv-table-row-details">
                             <p class="cv-table-cell cv-table-cell-details">
@@ -3169,7 +3192,7 @@
                             </div>
                         </div>
                         <div class="cv-table-row-content">
-                            <p class="cv-table-cell cv-table-cell-description">In this project, I took full responsibility for the complete visual and interactive layer of a tower defense game. I covered nearly all aspects of art production — from concept and asset creation to UI, UX, animations, and VFX — continuously learning new tools and workflows along the way. The role required independent decision-making, creative problem-solving, and maintaining consistency across all game systems, with results delivered through hands-on execution.</p>
+                            <p class="cv-table-cell cv-table-cell-description">I took full responsibility for the complete visual and interactive layer of a tower defense game. I covered nearly all aspects of art production — from concept and asset creation to UI, UX, animations, and VFX — continuously learning new tools and workflows along the way. The role required independent decision-making, creative problem-solving, and maintaining consistency across all game systems, with results delivered through hands-on execution.</p>
                         </div>
                         <div class="cv-table-row-details">
                             <p class="cv-table-cell cv-table-cell-details">
@@ -3520,22 +3543,16 @@
         <!-- Portfolio headline (above footer) -->
         <section class="cv-content-section cv-content-section--portfolio" aria-label="Portfolio">
             <div class="cv-section-header">
-                <h2 class="cv-section-title">Portfolio</h2>
-                <div class="cv-section-subtitle">Selected works</div>
+                <h2 class="cv-section-title"><a href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">Portfolio</a></h2>
+                <a class="cv-portfolio-works" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Selected Works — Portfolio">Selected Works:</a>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="cv-subscribe-section" aria-label="Stopka">
             <div class="cv-subscribe-panel" aria-hidden="true">
-                <div class="cv-footer-media">
+                    <div class="cv-footer-media">
                     <img class="cv-footer-image" src="assets/footer.png" alt="">
-                    <div class="cv-footer-projects" aria-label="Selected Projects">
-                        <a class="cv-footer-project-link" href="/v17" aria-label="V17 - project page">
-                            <img class="cv-footer-project-logo" src="assets/v17_logo.svg" alt="V17 logo" loading="lazy" decoding="async">
-                        </a>
-                    </div>
-                    <a class="cv-footer-email" href="mailto:armitiel@gmail.com" aria-label="Wyślij e-mail do armitiel@gmail.com">armitiel@gmail.com</a>
                 </div>
             </div>
         </footer>
@@ -3689,11 +3706,50 @@
                 // Hero scroll scene (pin section + reveal subtitle texts with scroll)
                 const heroSection = document.querySelector('.cv-hero-section');
                 const heroPin = heroSection ? heroSection.querySelector('.cv-hero-pin') : null;
+                const heroContent = heroSection ? heroSection.querySelector('.cv-hero-content') : null;
+                const heroButtons = heroSection ? heroSection.querySelector('.cv-hero-buttons') : null;
+                const heroSubtitle = heroSection ? heroSection.querySelector('.cv-hero-subtitle') : null;
                 const heroSubtitleItems = heroSection
                     ? heroSection.querySelectorAll('.cv-hero-subtitle-item:not(.cv-hero-subtitle-item--static)')
                     : [];
                 const heroTitle = heroSection ? heroSection.querySelector('.cv-hero-title') : null;
                 const heroScrollIndicator = heroSection ? heroSection.querySelector('#cvHeroScroll') : null;
+
+                // Desktop: align Hero buttons bottom edge to the bottom edge
+                // of the right-side subtitle text block.
+                (function setupHeroButtonsAlignToSubtitleBottom() {
+                    if (!heroContent || !heroButtons || !heroSubtitle) return;
+                    if (!window.matchMedia) return;
+
+                    const mqDesktop = window.matchMedia('(min-width: 1201px)');
+                    let raf = 0;
+
+                    function apply() {
+                        if (!mqDesktop.matches) {
+                            heroContent.style.removeProperty('--cv-hero-buttons-bottom');
+                            return;
+                        }
+                        const contentRect = heroContent.getBoundingClientRect();
+                        const subtitleRect = heroSubtitle.getBoundingClientRect();
+                        const bottomOffset = Math.max(0, Math.round(contentRect.bottom - subtitleRect.bottom));
+                        heroContent.style.setProperty('--cv-hero-buttons-bottom', `${bottomOffset}px`);
+                    }
+
+                    function request() {
+                        if (raf) window.cancelAnimationFrame(raf);
+                        raf = window.requestAnimationFrame(apply);
+                    }
+
+                    // Initial + on resize + after fonts load
+                    request();
+                    window.addEventListener('resize', request, { passive: true });
+                    if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', request);
+                    else if (mqDesktop.addListener) mqDesktop.addListener(request);
+                    if (document.fonts && document.fonts.ready) {
+                        document.fonts.ready.then(request).catch(() => {});
+                    }
+                    window.setTimeout(request, 0);
+                })();
 
                 // Hero scroll indicator loops until the user actually scrolls.
                 // On first real scroll -> fade away, then hide.

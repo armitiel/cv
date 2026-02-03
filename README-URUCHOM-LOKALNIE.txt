@@ -9,6 +9,7 @@ Uruchomienie strony CV lokalnie
    npm run dev
 
 3. Przegladarka:
-   http://localhost:3000/cv.html   (CV)
+   http://localhost:3000/         (CV)
+   http://localhost:3000/cv.html  (alternatywnie)
 
 Bez package.json: npx --yes serve . -p 3000

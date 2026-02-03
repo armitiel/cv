@@ -7,6 +7,12 @@ param(
   [switch]$PortfolioOnly,
   # Jeśli ustawione: pomija build/publikację portfolio na OVH
   [switch]$SkipPortfolio,
+  # Jeśli ustawione: wgrywa pełny zestaw statycznych plików (css/js/images/assets + favikony/manifest)
+  [switch]$UploadAllStatic,
+  # Jeśli ustawione: publikuje portfolio z lokalnego builda (portfolio/dist) zamiast budować na OVH
+  [switch]$PortfolioFromLocalDist,
+  # Jeśli ustawione: upload katalogów przez tar.gz (szybciej i bez "zwiech" scp -r)
+  [switch]$FastUpload,
   # Jeśli ustawione: w submodule portfolio robi dodatkowo git pull na gałęzi (np. main),
   # zamiast budować dokładnie wersję "przypiętą" w parent repo.
   [switch]$PortfolioPullLatest,
@@ -26,6 +32,11 @@ function Assert-Exists($Path) {
   if (-not (Test-Path -LiteralPath $Path)) {
     throw "Brak pliku/katalogu: $Path"
   }
+}
+
+function Assert-Command($Cmd) {
+  $c = Get-Command $Cmd -ErrorAction SilentlyContinue
+  if (-not $c) { throw "Brak komendy '$Cmd' w PATH." }
 }
 
 function Convert-GithubHttpsToSsh([string]$Url) {
@@ -49,7 +60,7 @@ if (-not $RepoUrl) {
   try {
     $RepoUrl = (git remote get-url origin).Trim()
   } catch {
-    $RepoUrl = 'https://github.com/armitiel/armitiel_interior.git'
+    $RepoUrl = 'https://github.com/armitiel/cv.git'
   }
 }
 
@@ -99,6 +110,9 @@ $sshOpts = @(
   "-o", "ServerAliveCountMax=3"
 )
 
+# Szybki test łączności zanim zaczniemy upload (czytelniejszy błąd niż timeout w środku scp)
+ssh @sshOpts $remote "echo ok >/dev/null"
+
 # 1) Backup + przygotowanie katalogu docelowego (wymaga, żeby user miał sudo bez hasła lub już miał prawa do katalogu)
 ssh @sshOpts $remote "sudo mkdir -p /var/backups/amitiel.cv; if [ -f '$RemoteWebRoot/index.html' ]; then sudo cp '$RemoteWebRoot/index.html' '/var/backups/amitiel.cv/index-$ts.html'; fi; sudo mkdir -p '$RemoteWebRoot' '$remotePortfolioRoot'; sudo chown -R ${User}:${User} '$RemoteWebRoot'"
 
@@ -106,6 +120,54 @@ ssh @sshOpts $remote "sudo mkdir -p /var/backups/amitiel.cv; if [ -f '$RemoteWeb
 if (-not $PortfolioOnly) {
   Write-Host "Wgrywam cv.html -> index.html"
   scp @sshOpts ".\cv.html" "${remote}:$RemoteWebRoot/index.html"
+}
+
+# 2a) Pełny upload statycznych katalogów (opcjonalnie)
+if ($UploadAllStatic) {
+  Write-Host "Wgrywam statyczne katalogi: css/, js/, images/, assets/ + opcjonalne favikony/manifest"
+  Assert-Exists ".\css"
+  Assert-Exists ".\js"
+  Assert-Exists ".\images"
+  Assert-Exists ".\assets"
+
+  # Wyczyść katalogi na serwerze, żeby nie zostawały stare pliki
+  ssh @sshOpts $remote "rm -rf '$RemoteWebRoot/css' '$RemoteWebRoot/js' '$RemoteWebRoot/images' '$RemoteWebRoot/assets'; mkdir -p '$RemoteWebRoot/css' '$RemoteWebRoot/js' '$RemoteWebRoot/images' '$RemoteWebRoot/assets'"
+
+  if ($FastUpload) {
+    Assert-Command "tar"
+    $tmp = New-TemporaryFile
+    $archive = "$($tmp.FullName).tar.gz"
+    Remove-Item -LiteralPath $tmp.FullName -Force -ErrorAction SilentlyContinue
+    try {
+      Write-Host "FastUpload: pakuję css/js/images/assets do tar.gz"
+      & tar -czf $archive -C $projectRoot css js images assets | Out-Null
+      $remoteTmp = "/tmp/amitiel-static-$ts.tar.gz"
+      scp @sshOpts $archive "${remote}:$remoteTmp"
+      ssh @sshOpts $remote "tar -xzf '$remoteTmp' -C '$RemoteWebRoot' && rm -f '$remoteTmp'"
+    } finally {
+      Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue
+    }
+  } else {
+    scp @sshOpts -r ".\css" ".\js" ".\images" ".\assets" "${remote}:$RemoteWebRoot/"
+  }
+
+  $optionalFiles = @(
+    "favicon.svg",
+    "favicon.ico",
+    "favicon-16x16.png",
+    "favicon-32x32.png",
+    "apple-touch-icon.png",
+    "android-chrome-192x192.png",
+    "android-chrome-512x512.png",
+    "site.webmanifest"
+  )
+  $existing = @()
+  foreach ($f in $optionalFiles) {
+    if (Test-Path -LiteralPath ".\$f") { $existing += ".\$f" }
+  }
+  if ($existing.Count -gt 0) {
+    scp @sshOpts @existing "${remote}:$RemoteWebRoot/"
+  }
 }
 
 # 2b) Wgraj kluczowe assety CV (żeby stopka/branding był zgodny z lokalnym)
@@ -124,8 +186,32 @@ try {
   Write-Warning "Nie udało się wgrać assetów stopki. Sprawdź połączenie SCP/SSH."
 }
 
+# 2c) Portfolio z lokalnego dist (opcjonalnie, zamiast budowy na OVH)
+if ($PortfolioFromLocalDist) {
+  Assert-Exists ".\portfolio\dist"
+  Write-Host "Portfolio: publikuję z lokalnego portfolio/dist -> $remotePortfolioRoot"
+  ssh @sshOpts $remote "mkdir -p '$remotePortfolioRoot'; rm -rf '$remotePortfolioRoot'/*"
+  if ($FastUpload) {
+    Assert-Command "tar"
+    $tmp = New-TemporaryFile
+    $archive = "$($tmp.FullName).tar.gz"
+    Remove-Item -LiteralPath $tmp.FullName -Force -ErrorAction SilentlyContinue
+    try {
+      Write-Host "FastUpload: pakuję portfolio/dist do tar.gz"
+      & tar -czf $archive -C "$projectRoot\portfolio\dist" . | Out-Null
+      $remoteTmp = "/tmp/amitiel-portfolio-dist-$ts.tar.gz"
+      scp @sshOpts $archive "${remote}:$remoteTmp"
+      ssh @sshOpts $remote "tar -xzf '$remoteTmp' -C '$remotePortfolioRoot' && rm -f '$remoteTmp'"
+    } finally {
+      Remove-Item -LiteralPath $archive -Force -ErrorAction SilentlyContinue
+    }
+  } else {
+    scp @sshOpts -r ".\portfolio\dist\." "${remote}:$remotePortfolioRoot/"
+  }
+}
+
 # 3) Portfolio: build + publikacja na OVH (git pull + submodule + npm ci + vite build)
-if (-not $SkipPortfolio) {
+if (-not $SkipPortfolio -and -not $PortfolioFromLocalDist) {
   Write-Host "Portfolio: buduję na OVH z Gita i publikuję do $remotePortfolioRoot (base: $portfolioBase)"
 
   $portfolioPullLatestFlag = if ($PortfolioPullLatest) { "1" } else { "0" }
@@ -160,14 +246,19 @@ echo "[portfolio] Aktualizuję repo (main)..."
 git fetch origin
 git checkout main || true
 if [ "$PULL_LATEST_PORTFOLIO" = "1" ]; then
-  git pull --ff-only origin main || true
+  # npm install może modyfikować package-lock.json; to blokuje git pull.
+  # Czyścimy working tree, żeby zawsze móc zrobić fast-forward do origin/main.
+  git reset --hard HEAD || true
+  git clean -fd || true
+  git pull --ff-only origin main
 fi
+echo "[portfolio] HEAD:      $(git rev-parse --short HEAD)"
 
 echo "[portfolio] Instaluję zależności i buduję..."
 export NODE_ENV=development
 export NPM_CONFIG_PRODUCTION=false
-npm ci
-npm run build -- --base="$BASE_URL"
+npm ci 2>/dev/null || npm install
+npx vite build --base="$BASE_URL"
 
 echo "[portfolio] Publikuję do $OUT_DIR"
 mkdir -p "$OUT_DIR"

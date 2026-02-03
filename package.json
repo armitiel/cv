@@ -5,8 +5,8 @@
   "scripts": {
     "build-css": "echo 'CSS build completed'",
     "build": "echo 'Build completed successfully'",
-    "dev": "npx --yes serve . -p 3000",
-    "frontend": "npx --yes serve . -p 3000",
+    "dev": "npx --yes serve . -l tcp://0.0.0.0:3000 -c serve.json --no-port-switching",
+    "frontend": "npx --yes serve . -l tcp://0.0.0.0:3000 -c serve.json --no-port-switching",
     "start": "npm run dev",
     "start:windows": "start-dev.bat",
     "start:unix": "./start-dev.sh",
