@@ -1,0 +1,8 @@
+{
+  "installCommand": "git submodule update --init --recursive && npm install",
+  "buildCommand": "npm run build",
+  "rewrites": [
+    { "source": "/", "destination": "/cv.html" },
+    { "source": "/index.html", "destination": "/cv.html" }
+  ]
+}

@@ -14,16 +14,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/armitiel/armitiel_interior.git"
+    "url": "git+https://github.com/armitiel/cv.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/armitiel/armitiel_interior/issues"
+    "url": "https://github.com/armitiel/cv/issues"
   },
-  "homepage": "https://github.com/armitiel/armitiel_interior#readme",
+  "homepage": "https://github.com/armitiel/cv#readme",
   "description": "",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
