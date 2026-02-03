@@ -7,8 +7,19 @@ Dokument opisuje, jak wdrożyć stronę CV na serwerze OVH (domena **amitiel.cv*
 ## 0. Repozytorium i flow deployu
 
 - **Repozytorium CV:** [https://github.com/armitiel/cv](https://github.com/armitiel/cv) — tu trzymana jest całość plików (cv.html, css, js, images, assets, portfolio jako submoduł).
-- **Hosting:** OVH (VPS), domena amitiel.cv.
-- **Sposób deployu:** zmiany wrzucasz na Git (`git push origin main` do `armitiel/cv`), potem uruchamiasz skrypt `deploy-amitiel-cv.ps1`. Skrypt łączy się z OVH i wgrywa pliki z lokalnego katalogu (który powinien być zsynchronizowany z repo, np. po `git pull`). Na OVH portfolio jest budowane z repo (clone/pull z Gita).
+- **Hosting:** **Vercel** (domena amitiel.cv); opcjonalnie OVH (skrypt `deploy-amitiel-cv.ps1`).
+- **Sposób deployu (Vercel):** `git push origin main` → Vercel automatycznie buduje i wdraża. Build: instalacja z submodułem portfolio (`scripts/vercel-install.sh` + GITHUB_TOKEN), potem `npm run build` (buduje portfolio Vite pod `/portfolio/` i serwuje z `portfolio/dist/`).
+
+### Build na Vercel (obecny sposób)
+
+| Etap | Opis |
+|------|------|
+| **installCommand** | `sh scripts/vercel-install.sh` — konfiguruje git z GITHUB_TOKEN, `git submodule update --init --recursive` (pobiera portfolio z repo creative-showcase), `npm install` w root. |
+| **buildCommand** | `npm run build` — wchodzi do `portfolio/`, `npm ci` + `npx vite build --base=/portfolio/`, tworzy `portfolio/dist/`. |
+| **outputDirectory** | `.` — serwowane są pliki z katalogu głównego (cv.html, css, js, images, portfolio/dist/). |
+| **rewrites** | `/` → cv.html; `/portfolio`, `/portfolio/`, `/portfolio/*` → `portfolio/dist/` (zbudowana aplikacja React). |
+
+W Vercel → Environment Variables musi być **GITHUB_TOKEN** (token GitHub z uprawnieniem `repo`), żeby sklonować prywatny submoduł portfolio.
 
 ---
 
