@@ -109,7 +109,21 @@ Jeśli chcesz wymusić wgranie całych katalogów (np. po dużej zmianie lub gdy
 .\deploy-amitiel-cv.ps1 -Full
 ```
 
-### 4.6 Własny serwer / użytkownik / ścieżka
+### 4.6 Pobieranie wersji z Vercel na OVH (OVH jako mirror)
+
+Jeśli deploy robisz na **Vercel** (np. po `git push` Vercel automatycznie buduje stronę), możesz **pobierać tę wersję na OVH**, żeby amitiel.cv na OVH pokazywał to samo co na Vercel:
+
+```powershell
+.\sync-from-vercel-to-ovh.ps1 -VercelUrl "https://twoj-projekt.vercel.app"
+```
+
+Skrypt łączy się z OVH przez SSH i na serwerze uruchamia pobieranie (curl + wget) z podanego URL Vercel do `/var/www/amitiel.cv`. Na serwerze OVH musi być zainstalowany `wget` (np. `sudo apt-get install -y wget`). Opcjonalnie z portfolio:
+
+```powershell
+.\sync-from-vercel-to-ovh.ps1 -VercelUrl "https://twoj-projekt.vercel.app" -IncludePortfolio
+```
+
+### 4.7 Własny serwer / użytkownik / ścieżka
 
 ```powershell
 .\deploy-amitiel-cv.ps1 -HostName "twoj-server.ovh.net" -User "ubuntu" -RemoteWebRoot "/var/www/amitiel.cv"
@@ -145,6 +159,7 @@ Zmienne środowiskowe (opcjonalnie):
 | ------ | ------ |
 | `cv.html` | Strona CV — jedyny plik HTML deployowany jako strona główna amitiel.cv. |
 | `deploy-amitiel-cv.ps1` | **Główny skrypt deployu** CV na OVH (SSH + SCP). |
+| `sync-from-vercel-to-ovh.ps1` | Pobiera wersję z Vercel na OVH (OVH jako mirror). |
 | `connect-ovh.ps1` | Tylko połączenie SSH z serwerem OVH (bez deployu). |
 | `ovh-quick-connect.md` | Szybka instrukcja SSH/SCP i panel OVH. |
 | `telegram-bot/deployment-guide-ovh.md` | Deploy bota Telegram na OVH (osobny flow). |
