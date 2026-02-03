@@ -1,6 +1,7 @@
 {
   "installCommand": "sh scripts/vercel-install.sh",
   "buildCommand": "npm run build",
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/", "destination": "/cv.html" },
     { "source": "/index.html", "destination": "/cv.html" }
