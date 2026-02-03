@@ -9,6 +9,12 @@ dist/
 ovh-backup-*/
 *.bak
 
+# Debug / ad-hoc artifacts (nie commitujemy)
+_*.html
+_*.js
+_*.css
+analyze_*.js
+
 # Logs
 logs/
 *.log
