@@ -1761,6 +1761,12 @@
                 border-radius: 0;
                 padding: 10px 14px 12px 18px;
             }
+
+            .cv-visit-counter {
+                width: 100%;
+                text-align: right;
+                padding-right: 2px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -3847,7 +3853,7 @@
                     <div class="cv-footer-media">
                     <img class="cv-footer-image" src="assets/footer.png" alt="">
                     <div class="cv-footer-presence-bar" aria-hidden="true">
-                        <p class="cv-visit-counter" id="cvVisitCounter">Odwiedziny: —</p>
+                        <p class="cv-visit-counter" id="cvVisitCounter">Visits: —</p>
                     </div>
                 </div>
             </div>
@@ -3942,9 +3948,9 @@
                     .then((data) => {
                         if (!data || typeof data.count !== 'number') return;
                         try {
-                            visitCounterEl.textContent = `Odwiedziny: ${data.count.toLocaleString('pl-PL')}`;
+                            visitCounterEl.textContent = `Visits: ${data.count.toLocaleString('en-US')}`;
                         } catch {
-                            visitCounterEl.textContent = `Odwiedziny: ${data.count}`;
+                            visitCounterEl.textContent = `Visits: ${data.count}`;
                         }
                     })
                     .catch(() => {});
