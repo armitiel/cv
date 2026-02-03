@@ -51,6 +51,11 @@
             line-height: 1.4;
         }
 
+        :root {
+            /* Shared accent color (music widget + footer line) */
+            --cv-music-yellow: #ffd800;
+        }
+
         /* Reset all list and paragraph styles */
         .cv-table-row-details ul,
         .cv-table-row-details li,
@@ -1701,6 +1706,71 @@
             border-radius: 8px;
         }
 
+        /* Footer: presence line on black bottom bar (slides in on footer reveal) */
+        .cv-footer-presence-bar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2; /* above overlay */
+            background: rgba(0, 0, 0, 0.88);
+            border-radius: 0 0 8px 8px;
+            /* More left inset + more bottom padding */
+            padding: 10px clamp(14px, 3vw, 22px) 12px clamp(26px, 4.6vw, 64px);
+
+            opacity: 0;
+            transform: translateY(100%);
+            will-change: transform, opacity;
+            transition:
+                transform 1150ms cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 650ms ease;
+            /* Extra delay so user sees the slide-in clearly */
+            transition-delay: 950ms;
+        }
+
+        .cv-footer-presence {
+            margin: 0;
+            font-family: 'Geist', sans-serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(13px, 1.35vw, 16px);
+            line-height: 1.15;
+            letter-spacing: 0.15px;
+            color: var(--cv-music-yellow);
+            text-shadow: none;
+        }
+
+        .cv-visit-counter {
+            margin: 6px 0 0;
+            font-family: 'Geist', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 1.2;
+            letter-spacing: 0.12px;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .js .cv-subscribe-section.is-visible .cv-footer-presence-bar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media screen and (max-width: 576px) {
+            .cv-footer-presence-bar {
+                border-radius: 0;
+                padding: 10px 14px 12px 18px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cv-footer-presence-bar {
+                transition: none;
+                transform: none;
+                opacity: 1;
+            }
+        }
+
         .cv-portfolio-works {
             display: inline-flex;
             align-items: center;
@@ -2530,7 +2600,8 @@
             .cv-portfolio-button,
             .cv-portfolio-popup,
             .cv-contact-fab,
-            .cv-contact-pop {
+            .cv-contact-pop,
+            .cv-music-fab {
                 display: none !important;
             }
 
@@ -3099,6 +3170,123 @@
             }
         }
 
+        /* =========================================================
+           Floating Music Widget (bottom-left, YouTube audio)
+           ========================================================= */
+        .cv-music-fab {
+            position: fixed;
+            left: max(22px, calc((100vw - 1920px) / 2 + 22px));
+            bottom: calc(22px + (var(--cv-music-fab-size) * 0.15)); /* +15% w górę */
+            --cv-music-fab-size: 50px;
+            width: var(--cv-music-fab-size) !important;
+            height: var(--cv-music-fab-size) !important;
+            min-width: var(--cv-music-fab-size) !important;
+            max-width: var(--cv-music-fab-size) !important;
+            min-height: var(--cv-music-fab-size) !important;
+            max-height: var(--cv-music-fab-size) !important;
+            aspect-ratio: 1 / 1 !important;
+            border-radius: 50%;
+            padding: 0 !important;
+            margin: 0 !important;
+            line-height: 0 !important;
+            letter-spacing: 0 !important;
+            text-transform: none !important;
+            font-size: 0 !important;
+            border: 4px solid #ffffff; /* biały ring */
+            background: var(--cv-music-yellow);
+            color: #0f0e0e;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow:
+                0 16px 34px rgba(0, 0, 0, 0.28),
+                0 6px 14px rgba(0, 0, 0, 0.20);
+            transform: translateZ(0);
+            transition:
+                opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 160ms ease,
+                filter 160ms ease;
+            -webkit-tap-highlight-color: transparent;
+            appearance: none;
+            -webkit-appearance: none;
+            will-change: opacity, transform;
+        }
+
+        .cv-music-fab svg {
+            width: 22px;
+            height: 22px;
+            display: block;
+            fill: currentColor;
+        }
+
+        .cv-music-fab:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.03);
+            box-shadow:
+                0 22px 50px rgba(0, 0, 0, 0.26),
+                0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        .cv-music-fab.is-hidden {
+            opacity: 0 !important;
+            transform: translateY(10px) !important;
+            pointer-events: none !important;
+        }
+
+        .cv-music-fab:active {
+            transform: translateY(0px) scale(0.98);
+        }
+
+        .cv-music-fab:focus-visible {
+            outline: 3px solid rgba(255, 255, 255, 0.65);
+            outline-offset: 3px;
+        }
+
+        .cv-music-fab.is-playing {
+            background: var(--cv-music-yellow);
+            box-shadow:
+                0 18px 48px rgba(255, 138, 0, 0.26),
+                0 16px 34px rgba(0, 0, 0, 0.24),
+                0 6px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .cv-music-player-host {
+            position: fixed;
+            width: 1px;
+            height: 1px;
+            left: 0;
+            bottom: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media screen and (max-width: 576px) {
+            .cv-music-fab {
+                left: 16px;
+                bottom: calc(16px + (var(--cv-music-fab-size) * 0.15));
+                --cv-music-fab-size: 46px;
+                border-width: 3px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cv-music-fab,
+            .cv-music-player-host {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        @media print {
+            .cv-music-fab,
+            .cv-music-player-host {
+                display: none !important;
+            }
+        }
+
         /* Wszystkie linki na czarne (bez przycisku Portfolio w hero) */
         a:not(.cv-portfolio-button) {
             color: #0f0e0e !important;
@@ -3658,6 +3846,10 @@
             <div class="cv-subscribe-panel" aria-hidden="true">
                     <div class="cv-footer-media">
                     <img class="cv-footer-image" src="assets/footer.png" alt="">
+                    <div class="cv-footer-presence-bar" aria-hidden="true">
+                        <p class="cv-footer-presence">Presence that brings harmony</p>
+                        <p class="cv-visit-counter" id="cvVisitCounter">Odwiedziny: —</p>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -3742,6 +3934,22 @@
             const preloaderText = document.getElementById('cvPreloaderText');
             const mainContainer = document.querySelector('.cv-main-container');
             const pdfBtn = document.getElementById('cvPdfDownload');
+            const visitCounterEl = document.getElementById('cvVisitCounter');
+
+            // Visitor counter (Vercel /api/visits). Fail silently if unavailable.
+            if (visitCounterEl) {
+                fetch('/api/visits', { cache: 'no-store' })
+                    .then((r) => (r && r.ok ? r.json() : null))
+                    .then((data) => {
+                        if (!data || typeof data.count !== 'number') return;
+                        try {
+                            visitCounterEl.textContent = `Odwiedziny: ${data.count.toLocaleString('pl-PL')}`;
+                        } catch {
+                            visitCounterEl.textContent = `Odwiedziny: ${data.count}`;
+                        }
+                    })
+                    .catch(() => {});
+            }
 
             // Export to PDF: trigger browser print dialog (user chooses "Save as PDF")
             // IMPORTANT: In the print dialog, uncheck "Headers and footers" option to remove date/time/title
@@ -4280,6 +4488,7 @@
                 const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 if (prefersReducedMotion || !('IntersectionObserver' in window)) {
                     rows.forEach(r => r.classList.add('is-visible'));
+                    if (footerSection) footerSection.classList.add('is-visible');
                     return;
                 }
 
@@ -4500,6 +4709,15 @@
             </svg>
         </div>
     </div>
+
+    <!-- Floating Music Widget (bottom-left) -->
+    <button class="cv-music-fab" id="cvMusicFab" type="button" aria-label="Muzyka">
+        <!-- nutka -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 3v12.55A4 4 0 1 1 17 12V6.26l-8 2.29V17.55A4 4 0 1 1 7 14V5l12-2Z"/>
+        </svg>
+    </button>
+    <div class="cv-music-player-host" id="cvMusicPlayerHost" aria-hidden="true"></div>
 
     <script>
         // Konfiguracja (możesz ustawić wcześniej w <head> jako window.CV_CONTACT = {...})
@@ -4862,6 +5080,180 @@
                 window.addEventListener('scroll', onScroll, { passive: true });
                 window.addEventListener('resize', onScroll);
             })();
+        })();
+    </script>
+
+    <script>
+        (function () {
+            const VIDEO_ID = 'IVoPTK7f2D4';
+
+            const fab = document.getElementById('cvMusicFab');
+            const playerHost = document.getElementById('cvMusicPlayerHost');
+            const heroSection = document.querySelector('.cv-hero-section');
+
+            if (!fab || !playerHost) return;
+
+            let player = null;
+            let isPlaying = false;
+            let apiRequested = false;
+
+            function render() {
+                fab.classList.toggle('is-playing', isPlaying);
+                const label = isPlaying
+                    ? 'Muzyka: włączona (kliknij, aby zatrzymać)'
+                    : 'Muzyka: wyłączona (kliknij, aby odtworzyć)';
+                fab.setAttribute('aria-label', label);
+                fab.title = label;
+            }
+
+            function waitForYouTubeApiReady(timeoutMs) {
+                const start = Date.now();
+                return new Promise((resolve, reject) => {
+                    (function tick() {
+                        if (window.YT && window.YT.Player) return resolve();
+                        if (Date.now() - start > timeoutMs) return reject(new Error('YT API timeout'));
+                        window.setTimeout(tick, 50);
+                    })();
+                });
+            }
+
+            function loadYouTubeApi() {
+                if (window.YT && window.YT.Player) return Promise.resolve();
+                if (apiRequested) return waitForYouTubeApiReady(9000);
+                apiRequested = true;
+
+                return new Promise((resolve, reject) => {
+                    const prev = window.onYouTubeIframeAPIReady;
+                    window.onYouTubeIframeAPIReady = function () {
+                        try { if (typeof prev === 'function') prev(); } catch (e) {}
+                        resolve();
+                    };
+
+                    const s = document.createElement('script');
+                    s.src = 'https://www.youtube.com/iframe_api';
+                    s.async = true;
+                    s.defer = true;
+                    s.onerror = function () { reject(new Error('YT API load error')); };
+                    document.head.appendChild(s);
+                });
+            }
+
+            async function ensurePlayer() {
+                if (player) return player;
+
+                await loadYouTubeApi();
+                // jeśli callback z jakiegoś powodu nie odpalił, dopolluj
+                if (!(window.YT && window.YT.Player)) {
+                    await waitForYouTubeApiReady(9000);
+                }
+
+                return await new Promise((resolve) => {
+                    player = new window.YT.Player('cvMusicPlayerHost', {
+                        width: '1',
+                        height: '1',
+                        videoId: VIDEO_ID,
+                        playerVars: {
+                            autoplay: 0,
+                            controls: 0,
+                            disablekb: 1,
+                            fs: 0,
+                            modestbranding: 1,
+                            playsinline: 1,
+                            rel: 0,
+                            loop: 1,
+                            playlist: VIDEO_ID
+                        },
+                        events: {
+                            onReady: function () {
+                                resolve(player);
+                            },
+                            onStateChange: function (e) {
+                                const st = e && typeof e.data === 'number' ? e.data : null;
+                                // 1=PLAYING, 2=PAUSED, 0=ENDED
+                                if (st === 1) {
+                                    isPlaying = true;
+                                    render();
+                                } else if (st === 2) {
+                                    isPlaying = false;
+                                    render();
+                                } else if (st === 0) {
+                                    // fallback loop (na wypadek gdyby playerVars loop nie zadziałał)
+                                    try { player.playVideo(); } catch (err) {}
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+
+            async function play() {
+                render();
+
+                try {
+                    const p = await ensurePlayer();
+                    try {
+                        p.unMute();
+                        p.setVolume(70);
+                    } catch (e) {}
+                    p.playVideo();
+                    // optymistycznie ustaw stan (YT i tak skoryguje w onStateChange)
+                    isPlaying = true;
+                    render();
+                } catch (e) {
+                    isPlaying = false;
+                    render();
+                }
+            }
+
+            function pause() {
+                try { if (player) player.pauseVideo(); } catch (e) {}
+                isPlaying = false;
+                render();
+            }
+
+            function toggle() {
+                if (isPlaying) pause();
+                else void play();
+            }
+
+            // Klik w nutkę: play/pause
+            fab.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggle();
+            });
+
+            // Domyślnie: pływająca nutka widoczna (ale chowamy ją w HERO tak samo jak kopertę)
+            fab.classList.remove('is-hidden');
+
+            (function setupHideMusicFabInHero() {
+                if (!fab || !heroSection) return;
+                let ticking = false;
+
+                function inHeroNow() {
+                    const r = heroSection.getBoundingClientRect();
+                    const vh = window.innerHeight || 0;
+                    // Hide whenever hero intersects viewport at all (consistent with contact widget)
+                    return r.bottom > 0 && r.top < vh;
+                }
+
+                function apply() {
+                    ticking = false;
+                    fab.classList.toggle('is-hidden', inHeroNow());
+                }
+
+                function request() {
+                    if (ticking) return;
+                    ticking = true;
+                    window.requestAnimationFrame(apply);
+                }
+
+                apply();
+                window.addEventListener('scroll', request, { passive: true });
+                window.addEventListener('resize', request);
+            })();
+
+            // start state
+            render();
         })();
     </script>
     
