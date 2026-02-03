@@ -4,6 +4,9 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/", "destination": "/cv.html" },
-    { "source": "/index.html", "destination": "/cv.html" }
+    { "source": "/index.html", "destination": "/cv.html" },
+    { "source": "/portfolio", "destination": "/portfolio/dist/index.html" },
+    { "source": "/portfolio/", "destination": "/portfolio/dist/index.html" },
+    { "source": "/portfolio/:path*", "destination": "/portfolio/dist/:path*" }
   ]
 }
