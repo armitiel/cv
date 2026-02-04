@@ -45,7 +45,7 @@ done
 # Portfolio (Vite build -> ./public/portfolio)
 if [ -d "$ROOT_DIR/portfolio" ]; then
   cd "$ROOT_DIR/portfolio"
-  npm install
+  npm ci --include=dev 2>/dev/null || npm install --include=dev
   npx vite build --base=/portfolio/ --outDir "../public/portfolio"
   cd "$ROOT_DIR"
 

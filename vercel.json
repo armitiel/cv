@@ -1,5 +1,9 @@
 {
   "installCommand": "sh scripts/vercel-install.sh",
   "buildCommand": "sh scripts/vercel-build.sh",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/portfolio", "destination": "/portfolio/index.html" },
+    { "source": "/portfolio/(.*)", "destination": "/portfolio/index.html" }
+  ]
 }
