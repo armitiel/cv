@@ -2257,6 +2257,24 @@
             }
         }
 
+        /*
+         * Tablet: keep the buttons column under H1, but reserve that area
+         * so the right-side description never overlaps the buttons.
+         * Applies only above mobile (>= 577px).
+         */
+        @media screen and (max-width: 1200px) and (min-width: 577px) {
+            .cv-hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cv-hero-subtitle {
+                /* Reserve the horizontal space occupied by the buttons (set by JS) */
+                padding-right: 30px;
+                padding-left: clamp(30px, calc(var(--cv-hero-buttons-safe-right, 180px) + 20px), 520px);
+            }
+        }
+
         @media screen and (max-width: 576px) {
             .cv-section-title,
             .cv-tools-title {
@@ -4075,6 +4093,41 @@
                     window.addEventListener('resize', request, { passive: true });
                     if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', request);
                     else if (mqDesktop.addListener) mqDesktop.addListener(request);
+                    if (document.fonts && document.fonts.ready) {
+                        document.fonts.ready.then(request).catch(() => {});
+                    }
+                    window.setTimeout(request, 0);
+                })();
+
+                // Tablet: reserve the buttons area so the subtitle never overlaps it.
+                (function setupHeroSubtitleReserveButtonsArea() {
+                    if (!heroContent || !heroButtons || !heroSubtitle) return;
+                    if (!window.matchMedia) return;
+
+                    const mqTablet = window.matchMedia('(max-width: 1200px)');
+                    let raf = 0;
+
+                    function apply() {
+                        if (!mqTablet.matches) {
+                            heroContent.style.removeProperty('--cv-hero-buttons-safe-right');
+                            return;
+                        }
+                        const contentRect = heroContent.getBoundingClientRect();
+                        const buttonsRect = heroButtons.getBoundingClientRect();
+                        // Right edge of the buttons block relative to hero content left edge.
+                        const safeRight = Math.max(0, Math.round(buttonsRect.right - contentRect.left));
+                        heroContent.style.setProperty('--cv-hero-buttons-safe-right', `${safeRight}px`);
+                    }
+
+                    function request() {
+                        if (raf) window.cancelAnimationFrame(raf);
+                        raf = window.requestAnimationFrame(apply);
+                    }
+
+                    request();
+                    window.addEventListener('resize', request, { passive: true });
+                    if (mqTablet.addEventListener) mqTablet.addEventListener('change', request);
+                    else if (mqTablet.addListener) mqTablet.addListener(request);
                     if (document.fonts && document.fonts.ready) {
                         document.fonts.ready.then(request).catch(() => {});
                     }
