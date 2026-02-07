@@ -3910,6 +3910,7 @@
                     <img class="cv-footer-image" src="assets/footer.png" alt="">
                     <div class="cv-footer-presence-bar" aria-hidden="true">
                         <p class="cv-visit-counter" id="cvVisitCounter">Visits: —</p>
+                        <p class="cv-visit-counter cv-update-date" id="cvUpdateDate"></p>
                     </div>
                 </div>
             </div>
@@ -4012,6 +4013,20 @@
                         } catch {
                             visitCounterEl.textContent = `Visits: ${data.count}`;
                         }
+                    })
+                    .catch(() => {});
+            }
+
+            // Last deploy date from GitHub (last commit on main). Fail silently.
+            const updateDateEl = document.getElementById('cvUpdateDate');
+            if (updateDateEl) {
+                fetch('https://api.github.com/repos/armitiel/cv/commits/main', { cache: 'no-store' })
+                    .then((r) => (r && r.ok ? r.json() : null))
+                    .then((data) => {
+                        if (!data || !data.commit || !data.commit.committer || !data.commit.committer.date) return;
+                        const d = new Date(data.commit.committer.date);
+                        const formatted = d.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                        updateDateEl.textContent = `Updated: ${formatted}`;
                     })
                     .catch(() => {});
             }
