@@ -30,8 +30,8 @@
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
     
-    <!-- Lottie Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <!-- Lottie Animation Library (kept for potential future use) -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script> -->
     
     <style>
         /* Import Tilt Warp font - using similar display font as fallback */
@@ -100,37 +100,58 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 22px;
+            gap: 0;
             padding: 24px;
             text-align: center;
         }
 
-        .cv-preloader-text {
-            font-family: 'Geist', sans-serif;
-            color: #ffffff;
-            font-size: 18px;
-            font-style: italic;
-            line-height: 1.35;
-            max-width: 680px;
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 260ms ease, transform 260ms ease;
-            will-change: opacity, transform;
+        .cv-preloader-logo {
+            width: 56px;
+            height: auto;
+            object-fit: contain;
+            filter: invert(1);
+            margin-bottom: 48px;
         }
 
-        .cv-preloader-dot {
-            color: #2f7dff;
-            font-weight: 700;
+        @media (min-width: 768px) {
+            .cv-preloader-logo {
+                width: 80px;
+            }
         }
 
-        .cv-preloader-text.cv-preloader-text--out {
-            opacity: 0;
-            transform: translateY(6px);
+        .cv-preloader-bar-wrap {
+            width: 256px;
         }
 
-        .cv-preloader-lottie {
-            width: 200px;
-            height: 200px;
+        @media (min-width: 768px) {
+            .cv-preloader-bar-wrap {
+                width: 320px;
+            }
+        }
+
+        .cv-preloader-bar-track {
+            height: 2px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .cv-preloader-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #2f7dff;
+            border-radius: 9999px;
+            transition: width 300ms ease-out;
+        }
+
+        .cv-preloader-pct {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            text-align: center;
+            margin-top: 12px;
+            font-family: monospace;
+            font-variant-numeric: tabular-nums;
         }
 
         .cv-main-container {
@@ -3356,8 +3377,13 @@
     <!-- Preloader -->
     <div class="cv-preloader" id="cvPreloader">
         <div class="cv-preloader-inner">
-            <div class="cv-preloader-lottie" id="cvPreloaderLottie"></div>
-            <div class="cv-preloader-text" id="cvPreloaderText">Loading...</div>
+            <img src="images/logo.svg" alt="Logo" class="cv-preloader-logo">
+            <div class="cv-preloader-bar-wrap">
+                <div class="cv-preloader-bar-track">
+                    <div class="cv-preloader-bar-fill" id="cvPreloaderBar"></div>
+                </div>
+                <p class="cv-preloader-pct" id="cvPreloaderPct">0%</p>
+            </div>
         </div>
     </div>
 
@@ -3892,9 +3918,17 @@
 
     <!-- JavaScript for image preloading, expand/collapse functionality and parallax -->
     <script>
-        // Image preloading function (z limitem czasu, żeby preloader nigdy nie wisiał)
-        function preloadImages(imageUrls, timeoutMs) {
+        // Image preloading function with progress callback
+        function preloadImagesWithProgress(imageUrls, onProgress, timeoutMs) {
             const maxWait = typeof timeoutMs === 'number' && timeoutMs > 0 ? timeoutMs : 3500;
+            const total = imageUrls.length;
+            let loaded = 0;
+
+            if (total === 0) {
+                onProgress(100);
+                return Promise.resolve();
+            }
+
             return Promise.all(
                 imageUrls.map((url) => {
                     return new Promise((resolve) => {
@@ -3904,6 +3938,8 @@
                         const finish = () => {
                             if (done) return;
                             done = true;
+                            loaded++;
+                            onProgress(Math.round((loaded / total) * 100));
                             resolve();
                         };
 
@@ -3925,7 +3961,7 @@
             );
         }
 
-        // Load Lottie animation data using XMLHttpRequest (works better with local files)
+        // Kept for backwards compat – not currently called
         function loadLottieData() {
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
@@ -3951,12 +3987,6 @@
 
         // Wait for all images to load before showing content
         document.addEventListener('DOMContentLoaded', function() {
-            const preloaderStartTs = Date.now();
-            const MIN_PRELOADER_VISIBLE_MS = 700; // keeps loader visible long enough to be noticed
-            const MAX_PRELOADER_VISIBLE_MS = 4500; // twardy limit, żeby nie było "zwiechy"
-            const PRELOADER_LINE_FADE_MS = 260; // matches .cv-preloader-text transition
-            const PRELOADER_LINE_INTERVAL_MS = 4800; // wolniejsze przełączanie tekstów (mniej "migania")
-            const PRELOADER_LAST_LINE_HOLD_MS = 2400; // dodatkowy czas na spokojne przeczytanie 3. zdania
             const IMAGE_PRELOAD_TIMEOUT_MS = 3500; // maks. czas na 1 obrazek
             const imageUrls = [
                 'images/hero.png',
@@ -3965,8 +3995,8 @@
             ];
 
             const preloader = document.getElementById('cvPreloader');
-            const preloaderLottie = document.getElementById('cvPreloaderLottie');
-            const preloaderText = document.getElementById('cvPreloaderText');
+            const preloaderBar = document.getElementById('cvPreloaderBar');
+            const preloaderPct = document.getElementById('cvPreloaderPct');
             const mainContainer = document.querySelector('.cv-main-container');
             const pdfBtn = document.getElementById('cvPdfDownload');
             const visitCounterEl = document.getElementById('cvVisitCounter');
@@ -4002,46 +4032,11 @@
 
             // Portfolio: zwykły link (bez popupu)
 
-            // Preloader "about me" lines (edit freely)
-            const preloaderLines = [
-                "...that's why my background in animation directly shapes how I design interactions and user experiences<span class=\"cv-preloader-dot\">.</span>",
-                "No challenge is too complex—there's always a solution<span class=\"cv-preloader-dot\">.</span>",
-                "When creativity meets technology, limitations simply disappear<span class=\"cv-preloader-dot\">.</span>"
-            ];
-            // Ensure all lines have time to appear at least once before we hide the preloader.
-            // Line 0 shows immediately; line 1 after 1 interval; line 2 after 2 intervals; add fade-in time + extra hold for the last line.
-            const MIN_PRELOADER_LINES_ONCE_MS = preloaderLines.length
-                ? ((preloaderLines.length - 1) * PRELOADER_LINE_INTERVAL_MS + PRELOADER_LINE_FADE_MS + PRELOADER_LAST_LINE_HOLD_MS + 80)
-                : 0;
-
-            // Rotate preloader text lines
-            let preloaderTextTimer = null;
-            let preloaderTextIndex = 0;
-            function setPreloaderLine(nextIndex) {
-                if (!preloaderText) return;
-                const line = preloaderLines[nextIndex] || 'Loading...';
-                preloaderText.classList.add('cv-preloader-text--out');
-                window.setTimeout(() => {
-                    preloaderText.innerHTML = line;
-                    preloaderText.classList.remove('cv-preloader-text--out');
-                }, PRELOADER_LINE_FADE_MS);
+            // Update progress bar UI
+            function updatePreloaderProgress(pct) {
+                if (preloaderBar) preloaderBar.style.width = pct + '%';
+                if (preloaderPct) preloaderPct.textContent = pct + '%';
             }
-
-            function startPreloaderTextRotation() {
-                if (!preloaderText || !preloaderLines.length) return;
-                setPreloaderLine(0);
-                preloaderTextTimer = window.setInterval(() => {
-                    if (!preloader || preloader.classList.contains('hidden')) {
-                        window.clearInterval(preloaderTextTimer);
-                        preloaderTextTimer = null;
-                        return;
-                    }
-                    preloaderTextIndex = (preloaderTextIndex + 1) % preloaderLines.length;
-                    setPreloaderLine(preloaderTextIndex);
-                }, PRELOADER_LINE_INTERVAL_MS);
-            }
-
-            startPreloaderTextRotation();
 
             // Reveal cards only when they are visible in viewport (after preloader hides)
             let revealInitialized = false;
@@ -4627,81 +4622,31 @@
                 });
             }
 
-            // Load Lottie animation
-            if (preloaderLottie && typeof lottie !== 'undefined') {
-                loadLottieData()
-                    .then(animationData => {
-                        // Success - load animation
-                        lottie.loadAnimation({
-                            container: preloaderLottie,
-                            renderer: 'svg',
-                            loop: true,
-                            autoplay: true,
-                            animationData: animationData
-                        });
-                    })
-                    .catch(error => {
-                        // Try using path directly (works on HTTP server)
-                        try {
-                            lottie.loadAnimation({
-                                container: preloaderLottie,
-                                renderer: 'svg',
-                                loop: true,
-                                autoplay: true,
-                                path: 'assets/loader2.json'
-                            });
-                        } catch (e) {
-                            // If all fails, show simple loading text
-                            console.warn('Animacja Lottie nie może być załadowana lokalnie. Użyj serwera HTTP (np. Live Server w VS Code) lub wdróż na Vercel.');
-                            if (preloaderText) preloaderText.textContent = 'Loading...';
-                        }
-                    });
-            } else if (preloaderText) {
-                // Fallback if lottie library not loaded
-                preloaderText.textContent = 'Loading...';
-            }
-
-            function showContentWithMinDelay(baseDelayMs) {
-                const elapsed = Date.now() - preloaderStartTs;
-                const minVisible = Math.min(
-                    MAX_PRELOADER_VISIBLE_MS,
-                    Math.max(MIN_PRELOADER_VISIBLE_MS, MIN_PRELOADER_LINES_ONCE_MS)
-                );
-                const remaining = Math.max(0, minVisible - elapsed);
-                const delay = Math.max(baseDelayMs, remaining);
-
+            function hidePreloaderAndShow() {
+                // 300ms delay before fade-out (matches portfolio)
                 setTimeout(() => {
-                    if (preloaderTextTimer) {
-                        window.clearInterval(preloaderTextTimer);
-                        preloaderTextTimer = null;
-                    }
                     if (preloader) {
                         preloader.classList.add('hidden');
                     }
-                    if (mainContainer) {
-                        mainContainer.classList.add('loaded');
-                        // Initialize reveal after preloader is gone so animations are visible
-                        // Small delay to ensure DOM is ready
-                        setTimeout(() => {
-                            setupCardRevealOnView();
-                        }, 50);
-                    }
-                }, delay);
+                    // After fade-out (500ms CSS transition), show content
+                    setTimeout(() => {
+                        if (mainContainer) {
+                            mainContainer.classList.add('loaded');
+                            setTimeout(() => {
+                                setupCardRevealOnView();
+                            }, 50);
+                        }
+                    }, 500);
+                }, 300);
             }
 
-            // Preload all images
-            preloadImages(imageUrls, IMAGE_PRELOAD_TIMEOUT_MS).then(() => {
-                // Hide preloader and show content
-                showContentWithMinDelay(300);
+            // Preload all images with progress
+            preloadImagesWithProgress(imageUrls, updatePreloaderProgress, IMAGE_PRELOAD_TIMEOUT_MS).then(() => {
+                hidePreloaderAndShow();
             }).catch(() => {
-                // Even if images fail, show content after timeout
-                showContentWithMinDelay(1000);
+                updatePreloaderProgress(100);
+                hidePreloaderAndShow();
             });
-
-            // Ostateczny bezpiecznik: nawet gdyby coś poszło nie tak, po limicie chowamy preloader.
-            window.setTimeout(() => {
-                showContentWithMinDelay(0);
-            }, MAX_PRELOADER_VISIBLE_MS + 250);
 
             // Expand/collapse functionality
             const tableRows = document.querySelectorAll('.cv-table-row');
