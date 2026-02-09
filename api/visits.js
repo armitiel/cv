@@ -74,6 +74,12 @@ module.exports = async (req, res) => {
     const wantsOptOut = String(query.optout || query.nocount || '') === '1';
     const isOptedOut = wantsOptOut || cookies.cv_nocount === '1';
 
+    // Wykluczenie po IP (w kodzie): ustaw CV_SKIP_IPS w Vercel (np. "1.2.3.4" lub "1.2.3.4,5.6.7.8").
+    const skipIpsRaw = process.env.CV_SKIP_IPS || '';
+    const skipIps = skipIpsRaw.split(',').map((s) => s.trim()).filter(Boolean);
+    const clientIp = (req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || '').toString().split(',')[0].trim() || '';
+    const isOwnerIp = skipIps.length > 0 && clientIp && skipIps.includes(clientIp);
+
     // Uniqueness: count at most once per visitor per time window (default 24h).
     // This prevents refreshes from incrementing the counter.
     const ttlSeconds = Number(process.env.CV_VISIT_TTL_SECONDS || 60 * 60 * 24);
@@ -97,7 +103,7 @@ module.exports = async (req, res) => {
     }
 
     let count;
-    const shouldCount = !isLikelyBot && !isOptedOut;
+    const shouldCount = !isLikelyBot && !isOptedOut && !isOwnerIp;
     if (!shouldCount) {
       count = await r.get(counterKey);
     } else {
