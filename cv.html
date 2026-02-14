@@ -185,7 +185,7 @@
         .cv-hero-buttons {
             position: absolute;
             bottom: var(--cv-hero-buttons-bottom, 140px); /* desktop: wyrównanie do dołu tekstu po prawej (JS ustawia zmienną) */
-            left: calc(50px + 20px); /* Padding content (50px) + padding title (20px) - wyrównanie z tytułem */
+            left: calc(32px + 20px); /* Padding content (32px) + padding title (20px) - wyrównanie z tytułem */
             z-index: 6;
             display: flex;
             align-items: center;
@@ -195,7 +195,7 @@
         /* Hero "SCROLL" indicator (animates once, then hides) */
         .cv-hero-scroll {
             position: absolute;
-            right: 50px; /* align to hero card edge (content padding) */
+            right: 32px; /* align to hero card edge (content padding) */
             left: auto;
             bottom: 210px; /* above buttons (140px + ~42px + gap) */
             z-index: 6;
@@ -671,7 +671,7 @@
             height: 100svh;
             display: flex;
             align-items: center;
-            padding: 50px;
+            padding: 50px 32px;
             box-sizing: border-box;
         }
 
@@ -680,7 +680,7 @@
             display: flex;
             flex-direction: column;
             gap: 56px;
-            padding: 118px 50px 60px;
+            padding: 118px 32px 60px;
             position: relative;
             border-radius: var(--cv-card-radius);
             height: 100%;
@@ -951,14 +951,14 @@
             display: flex;
             flex-direction: column;
             gap: 80px;
-            padding: 50px 50px 120px 50px;
+            padding: 50px 32px 120px 32px;
             width: 100%;
         }
 
         /* Portfolio section: tighter spacing before footer */
         .cv-content-section--portfolio {
             gap: 40px;
-            padding: 50px 50px 72px 50px; /* większy odstęp nad stopką (desktop) */
+            padding: 50px 32px 72px 32px; /* większy odstęp nad stopką (desktop) */
         }
 
         /* Portfolio headline: reduce gap between title and subtitle */
@@ -970,7 +970,7 @@
             display: flex;
             flex-direction: column;
             gap: 80px;
-            padding: 0 50px;
+            padding: 0 32px;
             width: 100%;
         }
 
@@ -1317,7 +1317,7 @@
             height: 100svh;
             display: flex;
             align-items: stretch;
-            padding: 50px;
+            padding: 50px 32px;
             box-sizing: border-box;
         }
 
@@ -1326,7 +1326,7 @@
             display: flex;
             flex-direction: column;
             gap: 56px;
-            padding: 118px 50px 60px;
+            padding: 118px 32px 60px;
             position: relative;
             border-radius: var(--cv-card-radius);
             height: 100%;
@@ -1495,8 +1495,8 @@
             margin-top: 80px;
             align-items: flex-start;
             width: 100%;
-            /* Padding równy sekcji EDU+ - ustawiony na kontenerze, aby kolumny pasowały do elementów poniżej */
-            padding: 0 50px;
+            /* Match Portfolio horizontal padding */
+            padding: 0 32px;
         }
 
         .cv-tools-column {
@@ -1608,8 +1608,8 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            /* Padding równy sekcji EDU+ */
-            padding: 0 50px;
+            /* Match Portfolio horizontal padding */
+            padding: 0 32px;
         }
 
         .cv-tools-footer-text p {
@@ -1683,7 +1683,7 @@
         .cv-subscribe-panel {
             width: 100%;
             /* Reduce visual gap above footer image (desktop) */
-            padding: 0 50px 50px 50px;
+            padding: 0 32px 50px 32px;
             box-sizing: border-box;
             transform: translateY(110%);
             will-change: transform;
@@ -1842,7 +1842,7 @@
         .cv-footer-projects {
             position: absolute;
             top: 50%;
-            left: 50px;
+            left: 32px;
             z-index: 2;
             display: flex;
             align-items: center;
@@ -1945,7 +1945,7 @@
 
             .cv-footer-projects {
                 top: calc(env(safe-area-inset-top, 0px) + 16px);
-                left: 20px;
+                left: 16px;
                 transform: none;
                 gap: 0;
                 padding: 0;
@@ -2040,7 +2040,7 @@
         @media screen and (min-width: 1201px) {
             .cv-hero-content {
                 /* Keep Hero padding the same as Tools card */
-                padding: 118px 50px 60px;
+                padding: 118px 32px 60px;
             }
 
             .cv-hero-title {
@@ -2052,7 +2052,7 @@
                  * Shift right-aligned subtitle column to the left:
                  * larger right padding moves the "flex-end" alignment inward.
                  */
-                padding: 0 240px 0 50px;
+                padding: 0 240px 0 32px;
             }
 
             .cv-hero-buttons {
@@ -2081,8 +2081,8 @@
             }
 
             .cv-hero-content {
-                /* Match Tools card spacing on tablet */
-                padding: 118px 30px 60px;
+                /* Match Portfolio padding on tablet */
+                padding: 118px 32px 60px;
             }
 
             .cv-hero-subtitle-text-bold {
@@ -2099,11 +2099,11 @@
             }
 
             .cv-tools-pin {
-                padding: 50px;
+                padding: 50px 32px;
             }
 
             .cv-tools-card {
-                padding: 118px 40px 60px;
+                padding: 118px 32px 60px;
             }
 
             .cv-tools-title {
@@ -2112,7 +2112,7 @@
 
             .cv-tools-links {
                 gap: 15px;
-                padding: 0 20px; /* Padding równy sekcji EDU+ na tablet */
+                padding: 0 32px; /* Match Portfolio padding on tablet */
             }
 
             .cv-tools-column {
@@ -2121,17 +2121,17 @@
             }
 
             .cv-tools-footer-text {
-                padding: 0 20px; /* Padding równy sekcji EDU+ na tablet */
+                padding: 0 32px; /* Match Portfolio padding on tablet */
             }
 
             /* Hero buttons container on tablet */
             .cv-hero-buttons {
                 bottom: 120px; /* Podniesione jeszcze wyżej, bliżej tekstów na tablet */
-                left: calc(30px + 20px); /* Padding content (30px) + padding title (20px) */
+                left: calc(32px + 20px); /* Padding content (32px) + padding title (20px) */
             }
 
             .cv-hero-scroll {
-                right: 30px; /* align to hero card edge on tablet */
+                right: 32px; /* align to hero card edge on tablet */
                 left: auto;
                 bottom: 182px; /* 120px + ~42px + gap */
             }
@@ -2291,8 +2291,8 @@
 
             .cv-hero-subtitle {
                 /* Reserve the horizontal space occupied by the buttons (set by JS) */
-                padding-right: 30px;
-                padding-left: clamp(30px, calc(var(--cv-hero-buttons-safe-right, 180px) + 20px), 520px);
+                padding-right: 32px;
+                padding-left: clamp(32px, calc(var(--cv-hero-buttons-safe-right, 180px) + 20px), 520px);
             }
         }
 
@@ -2339,11 +2339,11 @@
             }
 
             .cv-content-section {
-                padding: 30px 8px 80px 8px;
+                padding: 30px 16px 80px 16px;
             }
 
             .cv-section-header {
-                padding: 0 8px;
+                padding: 0 16px;
             }
 
             .cv-hero-bg-layer2 {
@@ -2356,13 +2356,13 @@
             }
 
             .cv-hero-pin {
-                /* Match Tools spacing on small mobile */
-                padding: 20px;
+                /* Match Portfolio spacing on mobile (px-4 = 16px) */
+                padding: 20px 16px;
             }
 
             .cv-hero-content {
-                /* Match Tools card spacing on small mobile */
-                padding: 50px 20px 30px;
+                /* Match Portfolio spacing on mobile */
+                padding: 50px 16px 30px;
             }
 
             .cv-hero-subtitle {
@@ -2370,11 +2370,11 @@
             }
 
             .cv-tools-pin {
-                padding: 20px;
+                padding: 20px 16px;
             }
 
             .cv-tools-card {
-                padding: 50px 20px 30px;
+                padding: 50px 16px 30px;
             }
 
             .cv-tools-footer {
@@ -2390,7 +2390,7 @@
             .cv-tools-footer-text {
                 /* Odstęp kontrolujemy przez gap w .cv-tools-content */
                 margin-top: 0;
-                padding: 0 8px; /* Padding równy sekcji EDU+ na mobile */
+                padding: 0 16px; /* Match Portfolio px-4 on mobile */
             }
 
             .cv-tools-links {
@@ -2403,7 +2403,7 @@
                 margin-top: 0;
                 /* Fallback: wymuś widoczny odstęp do cytatu + paska (na wypadek braku wsparcia flex-gap / nadpisań) */
                 margin-bottom: 48px !important;
-                padding: 0 8px; /* Padding równy sekcji EDU+ na mobile */
+                padding: 0 16px; /* Match Portfolio px-4 on mobile */
             }
 
             .cv-tools-column {
@@ -3454,10 +3454,10 @@
                 
                 <div class="cv-hero-subtitle">
                     <div class="cv-hero-subtitle-item cv-hero-subtitle-item--static">
-                        <p class="cv-hero-subtitle-text-bold">Creative Designer</p>
+                        <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer | Art &amp; UI Specialist</p>
                     </div>
                     <div class="cv-hero-subtitle-item">
-                        <p class="cv-hero-subtitle-text-light">I am an interdisciplinary designer. I create branding and visual identities, programming solutions, 3D graphics, and illustrations and art for design applications. I combine these areas into cohesive, comprehensive solutions, integrating various tools and perspectives into one creative process.</p>
+                        <p class="cv-hero-subtitle-text-light">I am passionate about creating compelling visual narratives that connect with audiences. With expertise in UI design, animation, and branding, I have successfully collaborated with businesses to bring their visions to life. I am looking for opportunities to further enhance my skills in a dynamic and creative environment.</p>
                     </div>
                 </div>
             </div>
@@ -3480,7 +3480,7 @@
                     <div class="cv-table-row">
                         <div class="cv-table-row-header">
                             <p class="cv-table-cell cv-table-cell-company">Self-employed</p>
-                            <p class="cv-table-cell cv-table-cell-job">Product Designer</p>
+                            <p class="cv-table-cell cv-table-cell-job">Senior Graphic Designer</p>
                             <p class="cv-table-cell cv-table-cell-year">Jan 2018 – Present</p>
                             <div class="cv-table-expand-icon">
                                 <svg viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3654,7 +3654,7 @@
                     <div class="cv-table-row">
                         <div class="cv-table-row-header">
                             <p class="cv-table-cell cv-table-cell-company">AT - Advertising Agency</p>
-                            <p class="cv-table-cell cv-table-cell-job">Creative Designer</p>
+                            <p class="cv-table-cell cv-table-cell-job">Senior Graphic Designer | Art &amp; UI Specialist</p>
                             <p class="cv-table-cell cv-table-cell-year">Oct 2014 – Dec 2015</p>
                             <div class="cv-table-expand-icon">
                                 <svg viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
