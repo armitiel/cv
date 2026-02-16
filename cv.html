@@ -321,6 +321,7 @@
             border: 1px solid rgba(255, 255, 255, 0.72);
             background: rgba(0, 0, 0, 0.22);
             color: #ffffff;
+            text-decoration: none;
             cursor: pointer;
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
@@ -349,7 +350,14 @@
             width: 22px;
             height: 22px;
             flex: 0 0 auto;
-            display: block; /* usuń baseline/line-box artefakty */
+            display: block;
+            color: #ffffff;
+            stroke: #ffffff;
+        }
+
+        .cv-pdf-download:hover svg {
+            color: #000000;
+            stroke: #000000;
         }
 
         .cv-pdf-download span {
@@ -358,7 +366,13 @@
             font-size: 12px;
             letter-spacing: 0.6px;
             text-transform: uppercase;
-            display: block; /* stabilniejsze centrowanie w flex */
+            display: block;
+            color: #ffffff;
+        }
+
+        .cv-pdf-download:link,
+        .cv-pdf-download:visited {
+            color: #ffffff;
         }
 
         /* LinkedIn link button (Hero) */
@@ -3408,8 +3422,8 @@
 
                 <!-- Buttons container -->
                 <div class="cv-hero-buttons">
-                    <!-- PDF export (drukuj do PDF) -->
-                    <button class="cv-pdf-download" id="cvPdfDownload" type="button" aria-label="Pobierz PDF">
+                    <!-- PDF download -->
+                    <a class="cv-pdf-download" href="assets/CV%20-%20Amitiel%20Angelisme.pdf" target="_blank" rel="noopener noreferrer" aria-label="Pobierz PDF">
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 3.5h7.2L19.5 8.8V19a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
                             <path d="M14.2 3.5V8.2c0 .33.27.6.6.6h4.7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
@@ -3418,7 +3432,7 @@
                             <path d="M7.7 11.6h5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
                         </svg>
                         <span>PDF</span>
-                    </button>
+                    </a>
 
                     <!-- LinkedIn link button -->
                     <a href="https://www.linkedin.com/in/amitiel/" target="_blank" rel="noopener noreferrer" class="cv-linkedin-link" aria-label="LinkedIn Profile">
@@ -3979,7 +3993,6 @@
             const preloaderBar = document.getElementById('cvPreloaderBar');
             const preloaderPct = document.getElementById('cvPreloaderPct');
             const mainContainer = document.querySelector('.cv-main-container');
-            const pdfBtn = document.getElementById('cvPdfDownload');
             const visitCounterEl = document.getElementById('cvVisitCounter');
 
             // Visitor counter (Vercel /api/visits). Fail silently if unavailable.
@@ -4013,17 +4026,6 @@
 
             // Export to PDF: trigger browser print dialog (user chooses "Save as PDF")
             // IMPORTANT: In the print dialog, uncheck "Headers and footers" option to remove date/time/title
-            if (pdfBtn) {
-                pdfBtn.addEventListener('click', function () {
-                    try {
-                        // Show alert with instructions (optional - can be removed)
-                        // alert('W oknie drukowania odznacz opcję "Nagłówki i stopki" (Headers and footers)');
-                        window.print();
-                    } catch (e) {
-                        console.warn('Nie udało się uruchomić eksportu do PDF.', e);
-                    }
-                });
-            }
 
             // Portfolio: zwykły link (bez popupu)
 
