@@ -183,21 +183,20 @@
 
         /* Hero buttons container */
         .cv-hero-buttons {
-            position: absolute;
-            bottom: var(--cv-hero-buttons-bottom, 140px); /* desktop: wyrównanie do dołu tekstu po prawej (JS ustawia zmienną) */
-            left: calc(32px + 20px); /* Padding content (32px) + padding title (20px) - wyrównanie z tytułem */
+            position: relative;
             z-index: 6;
             display: flex;
             align-items: center;
-            gap: 12px; /* Odstęp między przyciskami */
+            justify-content: center;
+            gap: 12px;
         }
 
         /* Hero "SCROLL" indicator (animates once, then hides) */
         .cv-hero-scroll {
             position: absolute;
-            right: 32px; /* align to hero card edge (content padding) */
+            right: 32px;
             left: auto;
-            bottom: 210px; /* above buttons (140px + ~42px + gap) */
+            bottom: 60px;
             z-index: 6;
             display: flex;
             flex-direction: column;
@@ -693,12 +692,14 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 56px;
+            gap: 28px;
             padding: 118px 32px 60px;
             position: relative;
             border-radius: var(--cv-card-radius);
             height: 100%;
             overflow: hidden;
+            align-items: center;
+            justify-content: center;
         }
 
         .cv-hero-bg {
@@ -838,12 +839,10 @@
             font-size: 152px;
             font-weight: 400;
             line-height: 0.86;
-            letter-spacing: -3px; /* mniej ciasno, żeby litery się nie zlewały (ważne też w PDF) */
+            letter-spacing: -3px;
             color: #ffffff !important;
             margin: 0;
-            width: 100%;
-            max-width: 100%;
-            padding-left: 20px;
+            text-align: center;
             white-space: pre-wrap;
             position: relative;
             z-index: 2;
@@ -859,8 +858,8 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            align-items: flex-end;
-            padding: 0 126px;
+            align-items: center;
+            max-width: 640px;
             width: 100%;
             position: relative;
             z-index: 2;
@@ -869,7 +868,7 @@
         .cv-hero-subtitle-item {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             max-width: 640px;
             width: 100%;
         }
@@ -888,7 +887,7 @@
             font-size: 24px;
             line-height: 1.4;
             color: #ffffff !important;
-            text-align: left;
+            text-align: center;
             letter-spacing: -0.48px;
             margin: 0;
             position: relative;
@@ -937,7 +936,7 @@
             font-size: 20px;
             line-height: 1.4;
             color: #ffffff !important;
-            text-align: left;
+            text-align: center;
             letter-spacing: -0.4px;
             white-space: pre-wrap;
             flex: 1;
@@ -2062,16 +2061,7 @@
             }
 
             .cv-hero-subtitle {
-                /*
-                 * Shift right-aligned subtitle column to the left:
-                 * larger right padding moves the "flex-end" alignment inward.
-                 */
-                padding: 0 240px 0 32px;
-            }
-
-            .cv-hero-buttons {
-                /* Align buttons with hero title */
-                left: 50px;
+                padding: 0;
             }
         }
 
@@ -2138,16 +2128,10 @@
                 padding: 0 32px; /* Match Portfolio padding on tablet */
             }
 
-            /* Hero buttons container on tablet */
-            .cv-hero-buttons {
-                bottom: 120px; /* Podniesione jeszcze wyżej, bliżej tekstów na tablet */
-                left: calc(32px + 20px); /* Padding content (32px) + padding title (20px) */
-            }
-
             .cv-hero-scroll {
-                right: 32px; /* align to hero card edge on tablet */
+                right: 32px;
                 left: auto;
-                bottom: 182px; /* 120px + ~42px + gap */
+                bottom: 60px;
             }
 
             .cv-pdf-download {
@@ -2297,18 +2281,7 @@
          * so the right-side description never overlaps the buttons.
          * Applies only above mobile (>= 577px).
          */
-        @media screen and (max-width: 1200px) and (min-width: 577px) {
-            .cv-hero-buttons {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .cv-hero-subtitle {
-                /* Reserve the horizontal space occupied by the buttons (set by JS) */
-                padding-right: 32px;
-                padding-left: clamp(32px, calc(var(--cv-hero-buttons-safe-right, 180px) + 20px), 520px);
-            }
-        }
+        /* (Tablet button reservation removed — buttons now in centered flow) */
 
         @media screen and (max-width: 576px) {
             .cv-section-title,
@@ -3421,34 +3394,7 @@
                     <span class="cv-hero-scroll-line"></span>
                 </div>
 
-                <!-- Buttons container -->
-                <div class="cv-hero-buttons">
-                    <!-- PDF download -->
-                    <a class="cv-pdf-download" href="assets/CV%20-%20Amitiel%20Angelisme.pdf" target="_blank" rel="noopener noreferrer" aria-label="Pobierz PDF">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 3.5h7.2L19.5 8.8V19a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                            <path d="M14.2 3.5V8.2c0 .33.27.6.6.6h4.7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                            <path d="M7.7 16.8h8.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                            <path d="M7.7 14.2h8.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                            <path d="M7.7 11.6h5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                        </svg>
-                        <span>PDF</span>
-                    </a>
-
-                    <!-- LinkedIn link button -->
-                    <a href="https://www.linkedin.com/in/amitiel/" target="_blank" rel="noopener noreferrer" class="cv-linkedin-link" aria-label="LinkedIn Profile">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="#ffffff"/>
-                        </svg>
-                    </a>
-
-                    <!-- Portfolio -->
-                    <span class="cv-portfolio-float">
-                        <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
-                            <span>Portfolio</span>
-                        </a>
-                    </span>
-                </div>
+                <!-- Buttons container (moved into flow after subtitle) -->
                 
                 <!-- Lottie Animation Example -->
                 <!-- Uncomment and add your Lottie JSON file URL -->
@@ -3474,6 +3420,31 @@
                     <div class="cv-hero-subtitle-item">
                         <p class="cv-hero-subtitle-text-light">Senior Visual Designer &amp; Game Artist operating at the intersection of visuals, systems, and business. Defines visual direction while building production structures and AI-driven workflows that support product strategy, team efficiency, and long-term scalability.</p>
                     </div>
+                </div>
+
+                <div class="cv-hero-buttons">
+                    <a class="cv-pdf-download" href="assets/CV%20-%20Amitiel%20Angelisme.pdf" target="_blank" rel="noopener noreferrer" aria-label="Pobierz PDF">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 3.5h7.2L19.5 8.8V19a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                            <path d="M14.2 3.5V8.2c0 .33.27.6.6.6h4.7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                            <path d="M7.7 16.8h8.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M7.7 14.2h8.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M7.7 11.6h5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        </svg>
+                        <span>PDF</span>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/amitiel/" target="_blank" rel="noopener noreferrer" class="cv-linkedin-link" aria-label="LinkedIn Profile">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" fill="#ffffff"/>
+                        </svg>
+                    </a>
+
+                    <span class="cv-portfolio-float">
+                        <a class="cv-portfolio-button" id="cvPortfolioButton" href="https://amitiel.cv/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
+                            <span>Portfolio</span>
+                        </a>
+                    </span>
                 </div>
             </div>
             </div>
@@ -4056,76 +4027,7 @@
                 const heroTitle = heroSection ? heroSection.querySelector('.cv-hero-title') : null;
                 const heroScrollIndicator = heroSection ? heroSection.querySelector('#cvHeroScroll') : null;
 
-                // Desktop: align Hero buttons bottom edge to the bottom edge
-                // of the right-side subtitle text block.
-                (function setupHeroButtonsAlignToSubtitleBottom() {
-                    if (!heroContent || !heroButtons || !heroSubtitle) return;
-                    if (!window.matchMedia) return;
-
-                    const mqDesktop = window.matchMedia('(min-width: 1201px)');
-                    let raf = 0;
-
-                    function apply() {
-                        if (!mqDesktop.matches) {
-                            heroContent.style.removeProperty('--cv-hero-buttons-bottom');
-                            return;
-                        }
-                        const contentRect = heroContent.getBoundingClientRect();
-                        const subtitleRect = heroSubtitle.getBoundingClientRect();
-                        const bottomOffset = Math.max(0, Math.round(contentRect.bottom - subtitleRect.bottom));
-                        heroContent.style.setProperty('--cv-hero-buttons-bottom', `${bottomOffset}px`);
-                    }
-
-                    function request() {
-                        if (raf) window.cancelAnimationFrame(raf);
-                        raf = window.requestAnimationFrame(apply);
-                    }
-
-                    // Initial + on resize + after fonts load
-                    request();
-                    window.addEventListener('resize', request, { passive: true });
-                    if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', request);
-                    else if (mqDesktop.addListener) mqDesktop.addListener(request);
-                    if (document.fonts && document.fonts.ready) {
-                        document.fonts.ready.then(request).catch(() => {});
-                    }
-                    window.setTimeout(request, 0);
-                })();
-
-                // Tablet: reserve the buttons area so the subtitle never overlaps it.
-                (function setupHeroSubtitleReserveButtonsArea() {
-                    if (!heroContent || !heroButtons || !heroSubtitle) return;
-                    if (!window.matchMedia) return;
-
-                    const mqTablet = window.matchMedia('(max-width: 1200px)');
-                    let raf = 0;
-
-                    function apply() {
-                        if (!mqTablet.matches) {
-                            heroContent.style.removeProperty('--cv-hero-buttons-safe-right');
-                            return;
-                        }
-                        const contentRect = heroContent.getBoundingClientRect();
-                        const buttonsRect = heroButtons.getBoundingClientRect();
-                        // Right edge of the buttons block relative to hero content left edge.
-                        const safeRight = Math.max(0, Math.round(buttonsRect.right - contentRect.left));
-                        heroContent.style.setProperty('--cv-hero-buttons-safe-right', `${safeRight}px`);
-                    }
-
-                    function request() {
-                        if (raf) window.cancelAnimationFrame(raf);
-                        raf = window.requestAnimationFrame(apply);
-                    }
-
-                    request();
-                    window.addEventListener('resize', request, { passive: true });
-                    if (mqTablet.addEventListener) mqTablet.addEventListener('change', request);
-                    else if (mqTablet.addListener) mqTablet.addListener(request);
-                    if (document.fonts && document.fonts.ready) {
-                        document.fonts.ready.then(request).catch(() => {});
-                    }
-                    window.setTimeout(request, 0);
-                })();
+                // (Buttons are now in flow layout — no absolute positioning needed)
 
                 // Hero scroll indicator loops until the user actually scrolls.
                 // On first real scroll -> fade away, then hide.
