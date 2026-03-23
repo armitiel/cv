@@ -928,11 +928,17 @@
             transform: translateX(calc((1 - var(--reveal)) * 100px));
         }
         
-        /* Keep the first hero subtitle line always visible (outside scroll animation) */
-        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item.cv-hero-subtitle-item--static {
-            opacity: 1 !important;
-            transform: none !important;
-            transition: none !important;
+        /* Scroll-reveal for hero buttons */
+        .js .cv-hero-section.is-scrollscene .cv-hero-buttons {
+            --reveal: clamp(0, calc((var(--hero-progress) - (var(--i) * 0.5)) / 0.5), 1);
+            opacity: 0;
+            transform: translateX(100px);
+            will-change: opacity, transform;
+        }
+
+        .js .cv-hero-section.is-scrollscene .cv-hero-buttons[style*="--i"] {
+            opacity: var(--reveal);
+            transform: translateX(calc((1 - var(--reveal)) * 100px));
         }
 
         .cv-triangle-bullet {
@@ -2747,7 +2753,8 @@
                 letter-spacing: -1px !important;
             }
 
-            .cv-hero-subtitle-item {
+            .cv-hero-subtitle-item,
+            .cv-hero-buttons {
                 opacity: 1 !important;
                 transform: none !important;
             }
@@ -3411,7 +3418,7 @@
                 <h1 class="cv-hero-title">Amitiel<br>Angelisme</h1>
 
                 <div class="cv-hero-subtitle">
-                    <div class="cv-hero-subtitle-item cv-hero-subtitle-item--static">
+                    <div class="cv-hero-subtitle-item">
                         <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer | Art &amp; UI Specialist</p>
                     </div>
                     <div class="cv-hero-subtitle-item">
@@ -4020,7 +4027,7 @@
                 const heroButtons = heroSection ? heroSection.querySelector('.cv-hero-buttons') : null;
                 const heroSubtitle = heroSection ? heroSection.querySelector('.cv-hero-subtitle') : null;
                 const heroSubtitleItems = heroSection
-                    ? heroSection.querySelectorAll('.cv-hero-subtitle-item:not(.cv-hero-subtitle-item--static)')
+                    ? heroSection.querySelectorAll('.cv-hero-subtitle-item')
                     : [];
                 const heroTitle = heroSection ? heroSection.querySelector('.cv-hero-title') : null;
                 const heroScrollIndicator = heroSection ? heroSection.querySelector('#cvHeroScroll') : null;
@@ -4149,23 +4156,31 @@
                         heroSection.classList.remove('is-scrollscene');
                         heroSection.style.removeProperty('height');
                         heroSection.style.setProperty('--hero-progress', '1');
-                        // Make subtitle items visible immediately if scroll scene is disabled
+                        // Make subtitle items + buttons visible immediately if scroll scene is disabled
                         heroSubtitleItems.forEach(item => {
                             item.style.setProperty('--reveal', '1');
                             item.style.opacity = '1';
                             item.style.transform = 'translateX(0)';
                         });
+                        if (heroButtons) {
+                            heroButtons.style.opacity = '1';
+                            heroButtons.style.transform = 'translateX(0)';
+                        }
                         return;
                     }
 
                     heroSection.classList.add('is-scrollscene');
 
-                    // index each subtitle item for CSS math (must be set before scroll starts)
+                    // index each subtitle item + buttons for CSS math (must be set before scroll starts)
                     heroSubtitleItems.forEach((item, idx) => {
                         item.style.setProperty('--i', String(idx));
                     });
+                    // Buttons come after all subtitle items
+                    if (heroButtons) {
+                        heroButtons.style.setProperty('--i', String(heroSubtitleItems.length));
+                    }
 
-                    const count = heroSubtitleItems.length;
+                    const count = heroSubtitleItems.length + (heroButtons ? 1 : 0);
                     const step = 1 / Math.max(1, count);
                     heroSection.style.setProperty('--hero-step', String(step));
 
