@@ -187,8 +187,10 @@
             z-index: 6;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             gap: 12px;
+            width: 100%;
+            flex-shrink: 0;
         }
 
         /* Hero "SCROLL" indicator (animates once, then hides) */
@@ -692,13 +694,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 24px;
             padding: 118px 32px 60px;
             position: relative;
             border-radius: var(--cv-card-radius);
             height: 100%;
             overflow: hidden;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
         }
 
@@ -842,7 +844,7 @@
             letter-spacing: -3px;
             color: #ffffff !important;
             margin: 0;
-            text-align: center;
+            text-align: left;
             white-space: pre-wrap;
             position: relative;
             z-index: 2;
@@ -858,7 +860,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            align-items: center;
+            align-items: flex-start;
             max-width: 640px;
             width: 100%;
             position: relative;
@@ -868,7 +870,7 @@
         .cv-hero-subtitle-item {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             max-width: 640px;
             width: 100%;
         }
@@ -887,7 +889,7 @@
             font-size: 24px;
             line-height: 1.4;
             color: #ffffff !important;
-            text-align: center;
+            text-align: left;
             letter-spacing: -0.48px;
             margin: 0;
             position: relative;
@@ -936,7 +938,7 @@
             font-size: 20px;
             line-height: 1.4;
             color: #ffffff !important;
-            text-align: center;
+            text-align: left;
             letter-spacing: -0.4px;
             white-space: pre-wrap;
             flex: 1;
