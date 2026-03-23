@@ -694,14 +694,24 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 24px;
             padding: 118px 32px 60px;
             position: relative;
             border-radius: var(--cv-card-radius);
             height: 100%;
             overflow: hidden;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
+        }
+
+        .cv-hero-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            max-width: 780px;
+            align-items: flex-start;
+            position: relative;
+            z-index: 2;
         }
 
         .cv-hero-bg {
@@ -3396,25 +3406,9 @@
                     <span class="cv-hero-scroll-line"></span>
                 </div>
 
-                <!-- Buttons container (moved into flow after subtitle) -->
-                
-                <!-- Lottie Animation Example -->
-                <!-- Uncomment and add your Lottie JSON file URL -->
-                <!--
-                <div class="cv-lottie-container cv-lottie-hero">
-                    <lottie-player
-                        src="https://assets5.lottiefiles.com/packages/lf20_xyz.json"
-                        background="transparent"
-                        speed="1"
-                        loop
-                        autoplay
-                        style="width: 100%; height: 100%;">
-                    </lottie-player>
-                </div>
-                -->
-                
+                <div class="cv-hero-inner">
                 <h1 class="cv-hero-title">Amitiel<br>Angelisme</h1>
-                
+
                 <div class="cv-hero-subtitle">
                     <div class="cv-hero-subtitle-item cv-hero-subtitle-item--static">
                         <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer | Art &amp; UI Specialist</p>
@@ -3448,6 +3442,7 @@
                         </a>
                     </span>
                 </div>
+                </div><!-- /.cv-hero-inner -->
             </div>
             </div>
         </section>
