@@ -854,7 +854,7 @@
             line-height: 0.86;
             letter-spacing: -3px;
             color: #ffffff !important;
-            margin: 0;
+            margin: 0 0 32px 0;
             text-align: left;
             white-space: pre-wrap;
             position: relative;
@@ -907,35 +907,17 @@
             z-index: 2;
         }
 
-        /* Hero scroll-linked reveal: subtitle texts slide in from right */
-        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item {
-            --reveal: clamp(0, calc((var(--hero-progress) - (var(--i) * 0.5)) / 0.5), 1);
-            opacity: var(--reveal);
-            transform: translateX(calc((1 - var(--reveal)) * 100px));
-            transition: opacity 120ms linear, transform 120ms linear;
-            will-change: opacity, transform;
-        }
-
-        /* Ensure subtitle items start hidden when scroll scene is active */
-        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item {
-            opacity: 0;
-            transform: translateX(100px);
-        }
-
-        /* Once --i is set, use CSS calc for reveal */
-        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item[style*="--i"] {
-            opacity: var(--reveal);
-            transform: translateX(calc((1 - var(--reveal)) * 100px));
-        }
-        
-        /* Scroll-reveal for hero buttons */
+        /* Hero scroll-linked reveal: subtitle texts + buttons slide in from right */
+        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item,
         .js .cv-hero-section.is-scrollscene .cv-hero-buttons {
-            --reveal: clamp(0, calc((var(--hero-progress) - (var(--i) * 0.5)) / 0.5), 1);
+            --_start: calc(var(--i, 0) * var(--hero-step, 0.33));
+            --reveal: clamp(0, calc((var(--hero-progress) - var(--_start)) / var(--hero-step, 0.33)), 1);
             opacity: 0;
             transform: translateX(100px);
             will-change: opacity, transform;
         }
 
+        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item[style*="--i"],
         .js .cv-hero-section.is-scrollscene .cv-hero-buttons[style*="--i"] {
             opacity: var(--reveal);
             transform: translateX(calc((1 - var(--reveal)) * 100px));
