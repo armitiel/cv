@@ -907,20 +907,20 @@
             z-index: 2;
         }
 
-        /* Hero scroll-linked reveal: subtitle texts + buttons slide in from right */
+        /* Hero scroll-triggered reveal: elements start hidden, animate in on scroll with staggered delays */
         .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item,
         .js .cv-hero-section.is-scrollscene .cv-hero-buttons {
-            --_start: calc(var(--i, 0) * var(--hero-step, 0.33));
-            --reveal: clamp(0, calc((var(--hero-progress) - var(--_start)) / var(--hero-step, 0.33)), 1);
             opacity: 0;
-            transform: translateX(100px);
-            will-change: opacity, transform;
+            transform: translateX(80px);
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: calc(var(--i, 0) * 0.25s);
         }
 
-        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item[style*="--i"],
-        .js .cv-hero-section.is-scrollscene .cv-hero-buttons[style*="--i"] {
-            opacity: var(--reveal);
-            transform: translateX(calc((1 - var(--reveal)) * 100px));
+        .js .cv-hero-section.is-scrollscene.is-hero-revealed .cv-hero-subtitle-item,
+        .js .cv-hero-section.is-scrollscene.is-hero-revealed .cv-hero-buttons {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         .cv-triangle-bullet {
@@ -4134,117 +4134,35 @@
                     }
 
                     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-                        heroSection.classList.remove('is-scrollscene');
-                        heroSection.style.removeProperty('height');
-                        heroSection.style.setProperty('--hero-progress', '1');
-                        // Make subtitle items + buttons visible immediately if scroll scene is disabled
-                        heroSubtitleItems.forEach(item => {
-                            item.style.setProperty('--reveal', '1');
-                            item.style.opacity = '1';
-                            item.style.transform = 'translateX(0)';
-                        });
-                        if (heroButtons) {
-                            heroButtons.style.opacity = '1';
-                            heroButtons.style.transform = 'translateX(0)';
-                        }
+                    if (prefersReducedMotion) {
+                        heroSection.classList.add('is-hero-revealed');
                         return;
                     }
 
                     heroSection.classList.add('is-scrollscene');
 
-                    // index each subtitle item + buttons for CSS math (must be set before scroll starts)
+                    // Index each element for staggered CSS delay
                     heroSubtitleItems.forEach((item, idx) => {
                         item.style.setProperty('--i', String(idx));
                     });
-                    // Buttons come after all subtitle items
                     if (heroButtons) {
                         heroButtons.style.setProperty('--i', String(heroSubtitleItems.length));
                     }
 
-                    const count = heroSubtitleItems.length + (heroButtons ? 1 : 0);
-                    const step = 1 / Math.max(1, count);
-                    heroSection.style.setProperty('--hero-step', String(step));
-
-                    // Extra scroll at the start and end (similar to Tools)
-                    let startHoldPx = 0;
-                    let endHoldPx = 0;
-
-                    // Na mobile (Safari/Chrome) "resize" potrafi odpalać się przy pokazaniu paska adresu,
-                    // co powoduje duży reflow i widoczne "snapnięcie" scrolla. Dlatego:
-                    // - bazujemy na wysokości "pinu" (100svh), gdy dostępna
-                    // - ignorujemy małe zmiany wysokości (UI chrome), a reagujemy na duże (np. orientacja)
-                    // - nie przebudowujemy sceny, gdy sekcja jest daleko poza viewportem
-                    const HERO_RESIZE_IGNORE_PX = 96;
-                    let lastHeroVh = 0;
-                    function getHeroVh() {
-                        // Prefer wysokość pinu (100svh) zamiast window.innerHeight (skacze z paskiem adresu)
-                        try {
-                            const h = heroPin.getBoundingClientRect().height;
-                            if (h && h > 0) return h;
-                        } catch (e) {}
-                        return window.innerHeight || 0;
+                    // Trigger reveal on first scroll
+                    let revealed = false;
+                    function onFirstScroll() {
+                        if (revealed) return;
+                        revealed = true;
+                        heroSection.classList.add('is-hero-revealed');
+                        window.removeEventListener('scroll', onFirstScroll);
+                        window.removeEventListener('wheel', onFirstScroll);
+                        window.removeEventListener('touchmove', onFirstScroll);
                     }
 
-                    function resizeScene(force = false) {
-                        const vh = getHeroVh();
-                        if (!force && lastHeroVh) {
-                            const delta = Math.abs(vh - lastHeroVh);
-                            if (delta < HERO_RESIZE_IGNORE_PX) return;
-                        }
-                        // Jeśli hero jest całkowicie poza viewportem, nie zmieniaj jego wysokości (unikamy skoku scrolla)
-                        if (!force) {
-                            const r = heroSection.getBoundingClientRect();
-                            if (r.bottom < 0 || r.top > (window.innerHeight || 0)) {
-                                lastHeroVh = vh;
-                                return;
-                            }
-                        }
-                        lastHeroVh = vh;
-                        // Total scroll distance for full reveal (tuneable)
-                        const perItem = 0.40; // 40% viewport per item
-                        const totalScroll = vh * (perItem * count);
-                        // Additional hold before reveal starts (tuneable)
-                        const startHoldVh = 0.35; // 35% viewport extra at the start
-                        startHoldPx = vh * startHoldVh;
-                        // Additional hold after full reveal (tuneable) - increased buffer for exit delay
-                        const endHoldVh = 0.75; // 75% viewport extra at the end (increased from 0.55 for better exit delay)
-                        endHoldPx = vh * endHoldVh;
-                        const sceneHeight = vh + startHoldPx + totalScroll + endHoldPx;
-                        heroSection.style.height = `${sceneHeight}px`;
-                    }
-
-                    let ticking = false;
-                    function updateProgress() {
-                        ticking = false;
-                        const rect = heroSection.getBoundingClientRect();
-                        const start = window.scrollY + rect.top;
-                        // Exclude end-hold distance from progress mapping so progress hits 1 before section ends
-                        const effectiveStart = start + startHoldPx;
-                        const end = start + heroSection.offsetHeight - window.innerHeight - endHoldPx;
-                        const denom = Math.max(1, end - effectiveStart);
-                        const raw = (window.scrollY - effectiveStart) / denom;
-                        const progress = Math.max(0, Math.min(1, raw));
-                        heroSection.style.setProperty('--hero-progress', String(progress));
-                    }
-
-                    function requestTick() {
-                        if (ticking) return;
-                        ticking = true;
-                        window.requestAnimationFrame(updateProgress);
-                    }
-
-                    resizeScene(true);
-                    // Initial update to set progress
-                    updateProgress();
-                    // Force a reflow to ensure CSS variables are applied
-                    void heroSection.offsetHeight;
-                    
-                    window.addEventListener('scroll', requestTick, { passive: true });
-                    window.addEventListener('resize', () => {
-                        resizeScene(false);
-                        requestTick();
-                    });
+                    window.addEventListener('scroll', onFirstScroll, { passive: true });
+                    window.addEventListener('wheel', onFirstScroll, { passive: true });
+                    window.addEventListener('touchmove', onFirstScroll, { passive: true });
                 }
 
                 setupHeroScrollScene();
