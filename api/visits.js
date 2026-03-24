@@ -85,6 +85,7 @@ module.exports = async (req, res) => {
     const ttlSeconds = Number(process.env.CV_VISIT_TTL_SECONDS || 60 * 60 * 24);
 
     const counterKey = 'cv:visits';
+    const OFFSET = 230; // odzyskanie licznika po migracji bazy
     const r = getRedis();
 
     // Ensure visitor id cookie exists (stable per browser).
@@ -117,7 +118,7 @@ module.exports = async (req, res) => {
       }
     }
 
-    return res.json({ count: Number(count || 0) });
+    return res.json({ count: Number(count || 0) + OFFSET });
   } catch (e) {
     // If Redis is not configured yet, fail gracefully
     return res.json({ count: null, error: 'Counter backend not configured' });
