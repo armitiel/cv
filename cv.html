@@ -907,20 +907,32 @@
             z-index: 2;
         }
 
-        /* Hero scroll-triggered reveal: elements start hidden, animate in on scroll with staggered delays */
+        /* Hero scroll-linked reveal: elements appear as you scroll through the pinned hero */
+        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item,
+        .js .cv-hero-section.is-scrollscene .cv-hero-buttons {
+            --reveal: clamp(
+                0,
+                calc((var(--hero-progress, 0) - (var(--i, 0) * var(--hero-step, 0.33))) / var(--hero-step, 0.33)),
+                1
+            );
+            opacity: var(--reveal);
+            transform: translateX(calc((1 - var(--reveal)) * 80px));
+            transition: opacity 120ms linear, transform 120ms linear;
+            will-change: opacity, transform;
+        }
+
+        /* Start hidden before JS sets --i */
         .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item,
         .js .cv-hero-section.is-scrollscene .cv-hero-buttons {
             opacity: 0;
             transform: translateX(80px);
-            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-                        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            transition-delay: calc(var(--i, 0) * 0.25s);
         }
 
-        .js .cv-hero-section.is-scrollscene.is-hero-revealed .cv-hero-subtitle-item,
-        .js .cv-hero-section.is-scrollscene.is-hero-revealed .cv-hero-buttons {
-            opacity: 1;
-            transform: translateX(0);
+        /* Once --i is set, use CSS calc for reveal */
+        .js .cv-hero-section.is-scrollscene .cv-hero-subtitle-item[style*="--i"],
+        .js .cv-hero-section.is-scrollscene .cv-hero-buttons[style*="--i"] {
+            opacity: var(--reveal);
+            transform: translateX(calc((1 - var(--reveal)) * 80px));
         }
 
         .cv-triangle-bullet {
@@ -2290,13 +2302,22 @@
             }
 
             .cv-hero-content {
-                justify-content: flex-end;
+                justify-content: flex-start;
+                padding-top: 80px;
+            }
+
+            .cv-hero-separator {
+                display: none;
+            }
+
+            .cv-hero-subtitle-line2 {
+                display: block;
             }
 
             .cv-section-title,
             .cv-tools-title {
                 /* Mobile: make section titles (Exp+/Education/Tools) as large as possible while fitting width */
-                font-size: clamp(64px, 20vw, 124px);
+                font-size: clamp(48px, 16vw, 124px);
                 letter-spacing: clamp(-6px, -1.25vw, -3px);
                 width: 100%;
                 max-width: 100%;
@@ -2501,8 +2522,12 @@
 
             /* Hero buttons container on mobile */
             .cv-hero-buttons {
-                bottom: 50px; /* Większy odstęp od treści na mobile */
-                left: 20px; /* wyrównaj do Tools */
+                bottom: 50px;
+                left: 20px;
+                margin-top: 64px;
+                justify-content: flex-start;
+                padding-left: 0;
+                margin-left: -13px; /* kompensacja padding 12px + border 1px pierwszego przycisku */
             }
 
             .cv-hero-scroll {
@@ -3409,10 +3434,10 @@
 
                 <div class="cv-hero-subtitle">
                     <div class="cv-hero-subtitle-item">
-                        <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer | Art &amp; UI Specialist</p>
+                        <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer <span class="cv-hero-separator">| </span><span class="cv-hero-subtitle-line2">Game Artist</span></p>
                     </div>
                     <div class="cv-hero-subtitle-item">
-                        <p class="cv-hero-subtitle-text-light">Senior Visual Designer &amp; Game Artist operating at the intersection of visuals, systems, and business. Defines visual direction while building production structures and AI-driven workflows that support product strategy, team efficiency, and long-term scalability.</p>
+                        <p class="cv-hero-subtitle-text-light">Multidisciplinary creative with a fresh, hands-on approach. Creating interactive projects with a strong understanding of production, from idea to final implementation. Combining art with functional thinking, while using new technologies to work faster and more efficiently.</p>
                     </div>
                 </div>
 
@@ -4148,29 +4173,69 @@
                     }
 
                     heroSection.classList.add('is-scrollscene');
+                    heroSection.style.setProperty('--hero-progress', '0');
 
-                    // Index each element for staggered CSS delay
-                    heroSubtitleItems.forEach((item, idx) => {
+                    // Index each element for staggered scroll-linked reveal
+                    const heroItems = Array.from(heroSubtitleItems);
+                    heroItems.forEach((item, idx) => {
                         item.style.setProperty('--i', String(idx));
                     });
                     if (heroButtons) {
-                        heroButtons.style.setProperty('--i', String(heroSubtitleItems.length));
+                        heroButtons.style.setProperty('--i', String(heroItems.length));
+                    }
+                    const heroCount = heroItems.length + (heroButtons ? 1 : 0);
+                    const heroStep = 1 / Math.max(1, heroCount);
+                    heroSection.style.setProperty('--hero-step', String(heroStep));
+
+                    // Extra scroll holds (similar to Tools)
+                    let heroStartHoldPx = 0;
+                    let heroEndHoldPx = 0;
+
+                    function getHeroVh() {
+                        try {
+                            var h = heroPin.getBoundingClientRect().height;
+                            if (h && h > 0) return h;
+                        } catch (e) {}
+                        return window.innerHeight || 0;
                     }
 
-                    // Trigger reveal on first scroll
-                    let revealed = false;
-                    function onFirstScroll() {
-                        if (revealed) return;
-                        revealed = true;
-                        heroSection.classList.add('is-hero-revealed');
-                        window.removeEventListener('scroll', onFirstScroll);
-                        window.removeEventListener('wheel', onFirstScroll);
-                        window.removeEventListener('touchmove', onFirstScroll);
+                    function resizeHeroScene() {
+                        var vh = getHeroVh();
+                        var perItem = 0.45; // 45% viewport per item
+                        var totalScroll = vh * (perItem * heroCount);
+                        heroStartHoldPx = vh * 0.25; // 25% hold before reveal
+                        heroEndHoldPx = vh * 0.3; // 30% hold after last reveal
+                        var sceneHeight = vh + heroStartHoldPx + totalScroll + heroEndHoldPx;
+                        heroSection.style.height = sceneHeight + 'px';
                     }
 
-                    window.addEventListener('scroll', onFirstScroll, { passive: true });
-                    window.addEventListener('wheel', onFirstScroll, { passive: true });
-                    window.addEventListener('touchmove', onFirstScroll, { passive: true });
+                    function updateHeroProgress() {
+                        var rect = heroSection.getBoundingClientRect();
+                        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+                        var start = y + rect.top;
+                        var effectiveStart = start + heroStartHoldPx;
+                        var end = start + heroSection.offsetHeight - (window.innerHeight || 0) - heroEndHoldPx;
+                        var denom = Math.max(1, end - effectiveStart);
+                        var raw = (y - effectiveStart) / denom;
+                        var progress = Math.max(0, Math.min(1, raw));
+                        heroSection.style.setProperty('--hero-progress', String(progress));
+                    }
+
+                    resizeHeroScene();
+                    updateHeroProgress();
+
+                    // rAF loop for smooth progress updates
+                    var heroRafId = 0;
+                    function heroLoop() {
+                        updateHeroProgress();
+                        heroRafId = window.requestAnimationFrame(heroLoop);
+                    }
+                    heroLoop();
+
+                    window.addEventListener('resize', function () {
+                        resizeHeroScene();
+                        updateHeroProgress();
+                    }, { passive: true });
                 }
 
                 setupHeroScrollScene();
