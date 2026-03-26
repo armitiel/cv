@@ -84,17 +84,19 @@ module.exports = async (req, res) => {
     // This prevents refreshes from incrementing the counter.
     const ttlSeconds = Number(process.env.CV_VISIT_TTL_SECONDS || 60 * 60 * 24);
 
-    const counterKey = 'cv:visits';
-    const OFFSET = 230; // odzyskanie licznika po migracji bazy
+    const site = String(query.site || 'cv');
+    const counterKey = site === 'portfolio' ? 'portfolio:visits' : 'cv:visits';
+    const OFFSET = site === 'portfolio' ? 0 : 230; // odzyskanie licznika po migracji bazy
     const r = getRedis();
 
     // Ensure visitor id cookie exists (stable per browser).
-    let vid = cookies.cv_vid;
+    const vidKey = site === 'portfolio' ? 'pf_vid' : 'cv_vid';
+    let vid = cookies[vidKey];
     const setCookies = [];
     if (!vid) {
       vid = crypto.randomBytes(16).toString('hex');
       // keep for 1 year
-      setCookies.push(makeCookie('cv_vid', vid, { maxAge: 60 * 60 * 24 * 365, httpOnly: true }));
+      setCookies.push(makeCookie(vidKey, vid, { maxAge: 60 * 60 * 24 * 365, httpOnly: true }));
     }
     if (wantsOptOut) {
       setCookies.push(makeCookie('cv_nocount', '1', { maxAge: 60 * 60 * 24 * 365, httpOnly: false }));
@@ -108,7 +110,7 @@ module.exports = async (req, res) => {
     if (!shouldCount) {
       count = await r.get(counterKey);
     } else {
-      const seenKey = `cv:visits:seen:${vid}`;
+      const seenKey = `${counterKey}:seen:${vid}`;
       // SET seenKey NX EX ttlSeconds
       const firstInWindow = await r.set(seenKey, 1, { nx: true, ex: ttlSeconds });
       if (firstInWindow) {
