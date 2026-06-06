@@ -814,6 +814,140 @@
             border-radius: var(--cv-card-radius);
         }
 
+        /* =========================================================
+           Alternatywne tło HERO: "Aurora" (niebiesko-czarne + fiolet)
+           Domyślnie ukryte; aktywowane klasą .is-aurora na sekcji.
+           ========================================================= */
+        .cv-hero-bg-aurora {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--cv-card-radius);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+            pointer-events: none;
+            /* Głęboka czerń-granat jako baza aurory */
+            background: radial-gradient(125% 95% at 50% 6%, #0b1538 0%, #070c20 46%, #03050e 100%);
+        }
+
+        /* Świetliste smugi aurory (dwie warstwy dryfujących blobów) */
+        .cv-hero-bg-aurora::before,
+        .cv-hero-bg-aurora::after {
+            content: '';
+            position: absolute;
+            inset: -25%;
+            filter: blur(64px);
+            will-change: transform, opacity;
+        }
+        .cv-hero-bg-aurora::before {
+            background:
+                radial-gradient(42% 55% at 30% 32%, rgba(59, 130, 246, 0.55) 0%, rgba(59, 130, 246, 0) 70%),
+                radial-gradient(46% 50% at 72% 28%, rgba(124, 58, 237, 0.50) 0%, rgba(124, 58, 237, 0) 70%);
+        }
+        .cv-hero-bg-aurora::after {
+            background:
+                radial-gradient(46% 52% at 62% 72%, rgba(168, 85, 247, 0.45) 0%, rgba(168, 85, 247, 0) 70%),
+                radial-gradient(42% 48% at 24% 76%, rgba(30, 58, 138, 0.60) 0%, rgba(30, 58, 138, 0) 70%);
+        }
+
+        /* Stan aktywny: pokaż aurorę, schowaj obrazek, zestrój nakładki */
+        .cv-hero-section.is-aurora .cv-hero-bg-aurora { opacity: 1; }
+        .cv-hero-section.is-aurora .cv-hero-bg-layer1 { background-color: #03050e; }
+        .cv-hero-section.is-aurora .cv-hero-bg-layer2 { opacity: 0; }
+        .cv-hero-section.is-aurora .cv-hero-bg-layer3 {
+            background: linear-gradient(-87.69deg, rgba(0, 0, 0, 0) 18.945%, rgba(8, 13, 32, 0.62) 56.124%);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .cv-hero-section.is-aurora .cv-hero-bg-aurora {
+                animation: cvAuroraBase 24s ease-in-out infinite;
+            }
+            .cv-hero-section.is-aurora .cv-hero-bg-aurora::before {
+                animation: cvAurora1 16s ease-in-out infinite;
+            }
+            .cv-hero-section.is-aurora .cv-hero-bg-aurora::after {
+                animation: cvAurora2 20s ease-in-out infinite;
+            }
+        }
+
+        /* Baza: powolny dryf całego pola kolorów + delikatne pulsowanie jasności */
+        @keyframes cvAuroraBase {
+            0%, 100% { background-position: 50% 6%; filter: brightness(1); }
+            50% { background-position: 50% 14%; filter: brightness(1.12); }
+        }
+
+        /* Smuga 1: szeroki ruch po przekątnej + zmiana skali i przejrzystości */
+        @keyframes cvAurora1 {
+            0%, 100% { transform: translate(-4%, -2%) scale(1.0) rotate(0deg); opacity: 0.85; }
+            25% { transform: translate(8%, 5%) scale(1.18) rotate(4deg); opacity: 1; }
+            50% { transform: translate(3%, 9%) scale(1.08) rotate(-3deg); opacity: 0.9; }
+            75% { transform: translate(-7%, -4%) scale(1.14) rotate(2deg); opacity: 1; }
+        }
+
+        /* Smuga 2: przeciwbieżny ruch, żeby kolory się przenikały */
+        @keyframes cvAurora2 {
+            0%, 100% { transform: translate(5%, 4%) scale(1.1) rotate(0deg); opacity: 0.9; }
+            25% { transform: translate(-8%, -6%) scale(1.2) rotate(-5deg); opacity: 1; }
+            50% { transform: translate(-3%, 6%) scale(1.05) rotate(3deg); opacity: 0.8; }
+            75% { transform: translate(7%, -5%) scale(1.16) rotate(-2deg); opacity: 1; }
+        }
+
+        /* Przełącznik tła Aurora (pigułka w rogu hero) */
+        .cv-hero-bg-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 16px 9px 13px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: rgba(8, 12, 30, 0.75);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(124, 58, 237, 0.25);
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        .cv-hero-bg-toggle:hover {
+            background: rgba(12, 18, 44, 0.9);
+            border-color: rgba(168, 85, 247, 0.85);
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5), 0 0 18px 2px rgba(124, 58, 237, 0.45);
+            transform: translateY(-1px);
+        }
+        .cv-hero-bg-toggle:focus-visible {
+            outline: 2px solid rgba(96, 165, 250, 0.8);
+            outline-offset: 2px;
+        }
+        .cv-hero-bg-toggle-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #6b7280;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cv-hero-section.is-aurora .cv-hero-bg-toggle {
+            border-color: rgba(96, 165, 250, 0.50);
+            background: rgba(10, 19, 48, 0.55);
+            color: #fff;
+        }
+        .cv-hero-section.is-aurora .cv-hero-bg-toggle-dot {
+            background: linear-gradient(135deg, #3b82f6, #a855f7);
+            box-shadow: 0 0 10px 1px rgba(124, 58, 237, 0.7);
+        }
+
+        @media print {
+            .cv-hero-bg-toggle { display: none !important; }
+        }
+
         /* (removed) Cursor spotlight effect */
 
         /* Lottie Animation Container */
@@ -3422,8 +3556,15 @@
                     <div class="cv-hero-bg-layer2"></div>
                     <div class="cv-hero-bg-layer2b"></div>
                     <div class="cv-hero-bg-shimmer" aria-hidden="true"></div>
+                    <div class="cv-hero-bg-aurora" aria-hidden="true"></div>
                     <div class="cv-hero-bg-layer3"></div>
                 </div>
+
+                <!-- Przełącznik tła Aurora -->
+                <button type="button" class="cv-hero-bg-toggle" id="cvHeroBgToggle" aria-pressed="false" aria-label="Przełącz tło Aurora" title="Przełącz tło Aurora">
+                    <span class="cv-hero-bg-toggle-dot" aria-hidden="true"></span>
+                    <span class="cv-hero-bg-toggle-label">Aurora</span>
+                </button>
 
                 <!-- Scroll indicator -->
                 <div class="cv-hero-scroll" id="cvHeroScroll" aria-hidden="true">
@@ -3436,7 +3577,7 @@
 
                 <div class="cv-hero-subtitle">
                     <div class="cv-hero-subtitle-item">
-                        <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer <span class="cv-hero-separator">| </span><span class="cv-hero-subtitle-line2">Game Artist</span></p>
+                        <p class="cv-hero-subtitle-text-bold">Senior Graphic Designer</p>
                     </div>
                     <div class="cv-hero-subtitle-item">
                         <p class="cv-hero-subtitle-text-light">Multidisciplinary creative with a fresh, hands-on approach. Creating interactive projects with a strong understanding of production, from idea to final implementation. Combining art with functional thinking, while using new technologies to work faster and more efficiently.</p>
@@ -4241,6 +4382,26 @@
                 }
 
                 setupHeroScrollScene();
+
+                // Przełącznik alternatywnego tła Aurora (zapamiętywany w localStorage)
+                (function setupHeroAuroraToggle() {
+                    const toggle = document.getElementById('cvHeroBgToggle');
+                    const section = document.querySelector('.cv-hero-section');
+                    if (!toggle || !section) return;
+                    const KEY = 'cv-hero-aurora';
+                    function apply(on) {
+                        section.classList.toggle('is-aurora', on);
+                        toggle.setAttribute('aria-pressed', on ? 'true' : 'false');
+                    }
+                    let saved = false;
+                    try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
+                    apply(saved);
+                    toggle.addEventListener('click', function () {
+                        const on = !section.classList.contains('is-aurora');
+                        apply(on);
+                        try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
+                    });
+                })();
 
                 // Tools title typing (triggered when section is visible)
                 const toolsSection = document.querySelector('.cv-tools-section');
