@@ -42,22 +42,18 @@ for f in favicon.svg favicon.ico favicon-16x16.png favicon-32x32.png apple-touch
   fi
 done
 
-# Portfolio (Vite build -> ./public/portfolio)
-if [ -d "$ROOT_DIR/portfolio" ]; then
-  cd "$ROOT_DIR/portfolio"
-  npm ci --include=dev 2>/dev/null || npm install --include=dev
-  npx vite build --base=/portfolio/ --outDir "../public/portfolio"
-  cd "$ROOT_DIR"
-
-  # build-info także dla portfolio (łatwe sprawdzenie pod /portfolio/build-info.json)
-  if (cd "$ROOT_DIR/portfolio" >/dev/null 2>&1 && git rev-parse --short HEAD >/dev/null 2>&1); then
-    PORTFOLIO_SHA="$(cd "$ROOT_DIR/portfolio" && git rev-parse --short HEAD)"
-  fi
-  if [ -d "$OUT_DIR/portfolio" ]; then
-    cat > "$OUT_DIR/portfolio/build-info.json" <<EOF
-{"cv":"$CV_SHA","portfolio":"$PORTFOLIO_SHA","builtAt":"$BUILD_TIME_UTC"}
-EOF
-  fi
+# Portfolio (statyczne portfolio-v2 -> ./public/portfolio)
+# 1) assety projektów/ilustracji/fontów ze submodułu portfolio/public (jeśli dostępny)
+# 2) statyczne pliki portfolio-v2 na wierzch (index.html, projekt.html, ilustracje.html, data.js, obrazy)
+mkdir -p "$OUT_DIR/portfolio"
+if [ -d "$ROOT_DIR/portfolio/public" ]; then
+  cp -R "$ROOT_DIR/portfolio/public/." "$OUT_DIR/portfolio/"
 fi
+if [ -d "$ROOT_DIR/portfolio-v2" ]; then
+  cp -R "$ROOT_DIR/portfolio-v2/." "$OUT_DIR/portfolio/"
+fi
+cat > "$OUT_DIR/portfolio/build-info.json" <<EOF
+{"cv":"$CV_SHA","portfolio":"portfolio-v2","builtAt":"$BUILD_TIME_UTC"}
+EOF
 
 echo "Vercel build OK (public/)."
