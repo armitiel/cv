@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilustracje — Amitiel Angelisme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#C26A32;--bg:#f6f1e8;--ink:#1c1813;--cream:#f6f1e8;--line:rgba(28,24,19,.15);--soft:rgba(28,24,19,.72)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif}
+a{color:inherit;text-decoration:none;transition:color .25s}
+a:hover{color:var(--accent)}
+img{display:block;max-width:100%}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.fu1{animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both}
+.fu2{animation:fadeUp .8s .1s cubic-bezier(.2,.7,.2,1) both}
+.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px clamp(24px,7vw,110px);background:rgba(246,241,232,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(28,24,19,.1)}
+.back{display:flex;align-items:center;gap:12px;font:700 14px 'Archivo',sans-serif}
+.brand{background:var(--ink);color:var(--cream);padding:6px 14px;border-radius:99px;font:700 13px 'Archivo',sans-serif}
+.brand:hover{background:var(--accent);color:var(--cream)}
+.head{padding:64px clamp(24px,7vw,110px) 24px;max-width:1540px;margin:0 auto}
+.pnum{font:500 13px 'IBM Plex Mono',monospace;color:var(--accent);letter-spacing:.1em}
+.head h1{font:900 clamp(46px,8vw,110px)/0.95 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.04em;margin:14px 0 0}
+.head h1 .ac{color:var(--accent)}
+.head .desc{font:400 18px/1.6 'Archivo',sans-serif;color:var(--soft);max-width:640px;margin-top:20px}
+.tools{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.tools span{font:500 11.5px 'IBM Plex Mono',monospace;border:1px solid var(--line);border-radius:99px;padding:5px 12px;color:var(--soft)}
+.grid{padding:32px clamp(24px,7vw,110px) 64px;columns:3;column-gap:20px;max-width:1540px;margin:0 auto}
+.item{break-inside:avoid;margin-bottom:20px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .35s,box-shadow .35s}
+.item:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(28,24,19,.16)}
+.item .capt{padding:10px 14px;font:400 13px/1.5 'Archivo',sans-serif;color:var(--soft);font-style:italic}
+.next{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--cream);padding:56px clamp(24px,7vw,110px);transition:background .3s}
+.next:hover{background:var(--accent);color:var(--cream)}
+.next .lbl{font:500 12px 'IBM Plex Mono',monospace;opacity:.6;letter-spacing:.1em;margin-bottom:10px}
+.next .t{font:900 clamp(30px,5vw,54px) 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.03em}
+[data-reveal]{will-change:opacity,transform}
+@media(max-width:900px){.nav{padding:16px 20px}.head{padding:48px 20px 16px}.grid{padding:24px 20px 48px;columns:2}.next{padding:40px 20px}}
+@media(max-width:560px){.grid{columns:1}}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="index.html#projekty" class="back"><span style="font-size:18px">←</span> <span id="backLbl">Wróć do portfolio</span></a>
+  <a href="index.html" class="brand">AMITIEL®</a>
+</div>
+
+<div class="head">
+  <div class="pnum fu1" id="knum"></div>
+  <h1 class="fu2" id="ktitle"></h1>
+  <div class="desc fu2" id="kdesc"></div>
+  <div class="tools fu2" id="ktools"></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<a href="index.html#projekty" class="next">
+  <div>
+    <div class="lbl" id="nextLbl">WSZYSTKIE PROJEKTY</div>
+    <div class="t" id="nextT">Portfolio</div>
+  </div>
+  <div style="font-size:44px">→</div>
+</a>
+
+<script src="data.js"></script>
+<script>
+const IMG = p => '../portfolio/public' + p;   // przy wdrożeniu zmień na ''
+const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
+const en = (localStorage.getItem('aa_lang')||'pl')==='en';
+
+document.getElementById('backLbl').textContent = en?'Back to portfolio':'Wróć do portfolio';
+document.getElementById('nextLbl').textContent = en?'ALL PROJECTS':'WSZYSTKIE PROJEKTY';
+
+let grid = '';
+window.ILLUSTRATIONS.forEach((cat,ci)=>{
+  if(ci===0){
+    document.getElementById('knum').textContent = (en?'GALLERY':'GALERIA');
+    document.getElementById('ktitle').innerHTML = (en?cat.titleEn:cat.titlePl)+'<span class="ac">.</span>';
+    document.getElementById('kdesc').textContent = en?cat.descriptionEn:cat.descriptionPl;
+    document.getElementById('ktools').innerHTML = cat.tools.map(t=>`<span>${t}</span>`).join('');
+  }
+  cat.items.forEach(it=>{
+    const c = en?(it.captionEn||it.caption):(it.captionPl||it.caption);
+    grid += `<div class="item" data-reveal><img src="${IMG(it.src)}" alt="${(it.alt||'').replace(/</g,'&lt;')}" loading="lazy">${c?`<div class="capt">${c}</div>`:''}</div>`;
+  });
+});
+document.getElementById('grid').innerHTML = grid;
+
+const io=new IntersectionObserver(es=>{
+  es.filter(e=>e.isIntersecting).forEach((e,j)=>{
+    io.unobserve(e.target); e.target.style.opacity='';
+    e.target.animate([{opacity:0,transform:'translateY(34px)'},{opacity:1,transform:'none'}],
+      {duration:800,delay:j*90,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+  });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>{
+  if(el.getBoundingClientRect().top > innerHeight*.9){ el.style.opacity='0'; io.observe(el); }
+});
+</script>
+</body>
+</html>
