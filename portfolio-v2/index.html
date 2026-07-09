@@ -123,8 +123,9 @@ img{display:block}
 /* O MNIE */
 .about{position:relative;padding:clamp(28px,4vw,48px) var(--gut) clamp(20px,3vw,32px);display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,5vw,84px) clamp(40px,5vw,84px);align-items:start}
 .about>*{max-width:100%}
-.about-photo{width:clamp(280px,32vw,430px)}
-.about-photo img{width:100%;height:auto}
+.about-photo{width:clamp(280px,32vw,430px);overflow:hidden}
+.about-photo img,.about-photo video{width:100%;height:auto;display:block}
+.about-photo video{width:calc(100% + 10px);margin-left:-5px}
 .polaroid{width:clamp(220px,22vw,300px);height:clamp(280px,28vw,380px);transform:rotate(-3deg);background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(28,24,19,.12);padding:10px 10px 34px}
 .polaroid img{width:100%;height:100%;object-fit:cover}
 .about h2{font:700 clamp(15px,1.6vw,21px) 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.18em;margin:0 0 22px}
@@ -217,7 +218,7 @@ img{display:block}
 
 <!-- NAV -->
 <div class="nav">
-  <a href="#omnie" class="brand"><img src="logo-a.png" alt="Amitiel" class="brand-logo"></a>
+  <a href="/portfolio/" class="brand"><img src="logo-a.png" alt="Amitiel" class="brand-logo"></a>
   <div class="nav-r">
     <a href="#projekty" data-i18n="nav_projects">Projekty</a>
     <a href="#omnie" data-i18n="nav_about">O mnie</a>
@@ -235,7 +236,7 @@ img{display:block}
 <!-- O MNIE -->
 <div id="omnie" class="about">
   <div class="sec-vlabel">01 / <span data-i18n="sec_about">O mnie</span></div>
-  <div class="about-photo fu1"><img src="me.png" alt="Amitiel Angelisme" onerror="this.onerror=null;this.src='ja.png'"></div>
+  <div class="about-photo fu1"><video src="me-video.mp4" poster="me.png" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="about-body">
     <h2 class="sec-title-u fu2" data-i18n="sec_about">O mnie</h2>
     <div class="about-lead fu3">
