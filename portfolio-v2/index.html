@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Amitiel Angelisme · Twórca cyfrowy i wizualny storyteller</title>
 <meta name="description" content="Amitiel Angelisme · twórca cyfrowy i wizualny storyteller. Selektywnie dobiera narzędzia (branding, 3D, UI, ilustracja, motion), by osiągnąć estetyczny i funkcjonalny obraz w danej interaktywności. Warszawa.">
+<link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -68,8 +74,8 @@ img{display:block}
 .mq-t .s{display:inline-block;font-size:.7em;opacity:.55}
 
 /* PROJEKTY — widok kart ze starej strony, przeskinowany */
-.sec{padding:clamp(8px,1.2vw,16px) var(--gut) clamp(80px,10vw,150px)}
-#projekty{position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.sec{position:relative;padding:clamp(8px,1.2vw,16px) var(--gut) clamp(80px,10vw,150px)}
+#projekty{position:relative;border-top:1px solid var(--line)}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
 #projekty>*{position:relative;z-index:1}
 .sec-head{display:flex;align-items:center;gap:22px;margin-bottom:30px}
@@ -264,6 +270,7 @@ img{display:block}
 
 <!-- PROJEKTY -->
 <div id="projekty" class="sec">
+  <div class="sec-vlabel">02 / <span data-i18n="nav_projects">Projekty</span></div>
   <div class="proj-head" data-reveal>
     <span class="sec-eyebrow" data-i18n="sec_projects">Wybrane projekty</span>
   </div>
@@ -273,7 +280,7 @@ img{display:block}
 
 <!-- KONTAKT -->
 <div id="kontakt" class="contact">
-  <div class="sec-vlabel">02 / <span data-i18n="nav_contact">Kontakt</span></div>
+  <div class="sec-vlabel">03 / <span data-i18n="nav_contact">Kontakt</span></div>
   <div class="contact-grid">
     <div class="c-left" data-reveal>
       <h2 class="sec-title-u"><span data-i18n="cta_1">Zacznijmy od</span><br><span class="ac" data-i18n="cta_2">koncepcji</span><span class="ac">.</span></h2>
