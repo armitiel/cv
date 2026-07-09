@@ -75,9 +75,10 @@ img{display:block}
 
 /* PROJEKTY — widok kart ze starej strony, przeskinowany */
 .sec{position:relative;padding:clamp(8px,1.2vw,16px) var(--gut) clamp(80px,10vw,150px)}
-#projekty{position:relative;border-top:1px solid var(--line)}
+#projekty{position:relative;overflow:hidden;border-top:1px solid var(--line)}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
 #projekty>*{position:relative;z-index:1}
+#projekty>.sec-vlabel{position:absolute;z-index:2}
 .sec-head{display:flex;align-items:center;gap:22px;margin-bottom:30px}
 .sec-eyebrow{font:700 clamp(15px,1.5vw,20px) 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap}
 .sec-rule{flex:1;height:1px;background:var(--line)}
@@ -127,7 +128,7 @@ img{display:block}
 .polaroid{width:clamp(220px,22vw,300px);height:clamp(280px,28vw,380px);transform:rotate(-3deg);background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(28,24,19,.12);padding:10px 10px 34px}
 .polaroid img{width:100%;height:100%;object-fit:cover}
 .about h2{font:700 clamp(15px,1.6vw,21px) 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.18em;margin:0 0 22px}
-.about-p{font:500 clamp(14px,1.2vw,17px)/1.6 'Archivo',sans-serif;max-width:62ch;margin:0}
+.about-p{font:500 clamp(14px,1.2vw,17px)/1.6 'Archivo',sans-serif;max-width:none;margin:0}
 .about-p+.about-p{margin-top:18px}
 .about-p.ac,.about-p .ac{color:var(--accent)}
 .about-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
