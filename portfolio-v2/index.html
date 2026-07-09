@@ -68,7 +68,7 @@ img{display:block}
 .mq-t .s{display:inline-block;font-size:.7em;opacity:.55}
 
 /* PROJEKTY — widok kart ze starej strony, przeskinowany */
-.sec{padding:clamp(6px,1vw,14px) var(--gut) clamp(48px,6vw,80px)}
+.sec{padding:clamp(8px,1.2vw,16px) var(--gut) clamp(80px,10vw,150px)}
 #projekty{position:relative;overflow:hidden;border-top:1px solid var(--line)}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
 #projekty>*{position:relative;z-index:1}
@@ -101,22 +101,17 @@ img{display:block}
 .proj-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:clamp(26px,3vw,42px)}
 .proj-hint{display:flex;align-items:center;gap:9px;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
 .proj-hint i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-.proj-row{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(14px,1.6vw,26px)}
+.proj-row{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(18px,2vw,30px) clamp(14px,1.6vw,26px)}
 @media(max-width:900px){ .proj-row{grid-template-columns:repeat(4,1fr)} }
 @media(max-width:560px){ .proj-row{grid-template-columns:repeat(3,1fr)} }
-.proj-ico{display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--ink);padding:10px 4px;border-radius:12px;transition:background .25s}
-.proj-ico:hover{background:rgba(28,24,19,.04)}
-.pi-icon{color:var(--ink);transition:color .25s,transform .25s}
-.pi-icon svg{width:clamp(42px,3.6vw,56px);height:clamp(42px,3.6vw,56px);display:block}
-.pi-icon .pi-dot{fill:var(--accent)}
-.pi-icon .pi-arc{stroke:var(--accent)}
-.proj-ico:hover .pi-icon{color:var(--accent);transform:translateY(-3px)}
-.pi-name{font:600 13px 'Archivo',sans-serif;margin-top:14px;line-height:1.2}
-.pi-mini{display:flex;gap:5px;margin-top:11px;color:var(--accent);opacity:.5;transition:opacity .25s}
-.proj-ico:hover .pi-mini{opacity:1}
-.pi-mini svg{width:13px;height:13px;display:block}
-.pi-tags{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin-top:7px;line-height:1.3}
-.proj-more .pi-icon,.proj-more .pi-name{color:var(--accent)}
+.proj-ico{display:flex;flex-direction:column;align-items:stretch;text-align:left;color:var(--ink)}
+.pi-icon{display:grid;place-items:center;width:100%;aspect-ratio:1;background:rgba(28,24,19,.035);border:1px solid rgba(28,24,19,.08);border-radius:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.pi-icon svg{width:44%;height:44%;display:block}
+.proj-ico:hover .pi-icon{transform:translateY(-4px);box-shadow:0 14px 30px rgba(28,24,19,.12);border-color:rgba(28,24,19,.28)}
+.pi-name{font:700 14px 'Archivo',sans-serif;margin-top:13px;line-height:1.15}
+.pi-mini{display:flex;gap:6px;margin-top:10px;color:var(--accent)}
+.pi-mini svg{width:14px;height:14px;display:block}
+.pi-tags{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin-top:6px;line-height:1.3}
 
 /* O MNIE */
 .about{position:relative;padding:clamp(28px,4vw,48px) var(--gut) clamp(20px,3vw,32px);display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,5vw,84px) clamp(40px,5vw,84px);align-items:start}
@@ -125,7 +120,7 @@ img{display:block}
 .about-photo img{width:100%;height:auto}
 .polaroid{width:clamp(220px,22vw,300px);height:clamp(280px,28vw,380px);transform:rotate(-3deg);background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(28,24,19,.12);padding:10px 10px 34px}
 .polaroid img{width:100%;height:100%;object-fit:cover}
-.about h2{font:900 clamp(30px,3vw,40px) 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 22px}
+.about h2{font:700 clamp(15px,1.6vw,21px) 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.18em;margin:0 0 22px}
 .about-p{font:500 clamp(14px,1.2vw,17px)/1.6 'Archivo',sans-serif;max-width:62ch;margin:0}
 .about-p+.about-p{margin-top:18px}
 .about-p.ac,.about-p .ac{color:var(--accent)}
@@ -155,7 +150,7 @@ img{display:block}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:rgba(246,241,232,.07)}
 .c-send{background:var(--accent);color:var(--cream);border:none;border-radius:8px;padding:15px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform .2s,filter .2s}
 .c-send:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.foot{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(48px,6vw,80px);padding-top:24px;border-top:1px solid rgba(246,241,232,.15);font:400 12px 'IBM Plex Mono',monospace;color:rgba(246,241,232,.6);gap:14px;flex-wrap:wrap}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(48px,6vw,80px);padding-top:24px;border-top:1px solid rgba(246,241,232,.15);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,241,232,.6);gap:14px;flex-wrap:wrap}
 .foot-social{display:flex;gap:22px}
 .foot-social a{color:rgba(246,241,232,.85);font-weight:500}
 .foot-social a:hover{color:var(--accent)}
@@ -220,6 +215,7 @@ img{display:block}
     <a href="#projekty" data-i18n="nav_projects">Projekty</a>
     <a href="#omnie" data-i18n="nav_about">O mnie</a>
     <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
+    <a href="/cv.html" data-i18n="nav_cv">CV</a>
     <button id="langBtn">EN</button>
   </div>
 </div>
@@ -232,16 +228,16 @@ img{display:block}
 <!-- O MNIE -->
 <div id="omnie" class="about">
   <div class="sec-vlabel">01 / <span data-i18n="sec_about">O mnie</span></div>
-  <div class="about-photo" data-reveal><img src="me.png" alt="Amitiel Angelisme" onerror="this.onerror=null;this.src='ja.png'"></div>
+  <div class="about-photo fu1"><img src="me.png" alt="Amitiel Angelisme" onerror="this.onerror=null;this.src='ja.png'"></div>
   <div class="about-body">
-    <h2 class="sec-title-u" data-reveal data-i18n="sec_about">O mnie</h2>
-    <div class="about-lead" data-reveal>
+    <h2 class="sec-title-u fu2" data-i18n="sec_about">O mnie</h2>
+    <div class="about-lead fu3">
       <p class="about-p"><span class="lead" data-i18n="about_lead">Cześć, jestem Amitiel,</span> <span data-i18n="about_p">designer i visual storyteller z Warszawy.</span></p>
       <p class="about-p" data-i18n="about_p2">Łączę projektowanie, sztukę i technologię, tworząc obrazy, interfejsy oraz doświadczenia wizualne o wyraźnym charakterze. Interesują mnie pomysły nieszablonowe: takie, które mają własny język, emocję i zapadają w pamięć.</p>
       <p class="about-p" data-i18n="about_p3">Moja przewaga leży w szerokim spojrzeniu na kreację. Swobodnie poruszam się między UI/UX, brandingiem, ilustracją, grafiką 2D i 3D, motion designem oraz kierunkiem artystycznym, dzięki czemu buduję spójne światy wizualne zamiast pojedynczych elementów.</p>
       <p class="about-p ac" data-i18n="about_p4">Najbliżej mi do projektów, w których design staje się nośnikiem idei: czytelnej, estetycznej i angażującej.</p>
     </div>
-    <div class="about-cols" data-reveal>
+    <div class="about-cols fu4">
       <div>
         <span class="col-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 21 11l-9 11L3 11z"/><path d="M12 2v20M3 11h18"/></svg></span>
         <div class="lbl" data-i18n="lbl_skills">UMIEJĘTNOŚCI</div>
@@ -295,14 +291,10 @@ img{display:block}
           <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12M7 11l5 4 5-4M4 20h16"/></svg></span>
           <span class="cl"><b data-i18n="cv_l">CV / PDF</b><em data-i18n="cv_v">Pobierz ↗</em></span>
         </a>
-        <a href="#" class="c-link">
-          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
-          <span class="cl"><b data-i18n="cal_l">Kalendarz</b><em data-i18n="cal_v">Umów rozmowę ↗</em></span>
-        </a>
       </div>
     </div>
-    <form class="c-form" data-reveal onsubmit="return sendContact(event)">
-      <div class="c-row">
+    <form class="c-form" onsubmit="return sendContact(event)">
+      <div class="c-row" data-reveal>
         <div class="field">
           <label data-i18n="f_name">Imię / Firma</label>
           <input id="cf-name" type="text" data-i18n-ph="ph_name" placeholder="Jan Kowalski" required>
@@ -312,11 +304,11 @@ img{display:block}
           <input id="cf-email" type="email" data-i18n-ph="ph_email" placeholder="jan@firma.pl" required>
         </div>
       </div>
-      <div class="field">
+      <div class="field" data-reveal>
         <label data-i18n="f_msg">Wiadomość</label>
         <textarea id="cf-msg" data-i18n-ph="ph_msg" placeholder="Cześć Amitiel, chcielibyśmy..." required></textarea>
       </div>
-      <button type="submit" class="c-send"><span data-i18n="f_send">Wyślij wiadomość</span> ↗</button>
+      <button type="submit" class="c-send" data-reveal><span data-i18n="f_send">Wyślij wiadomość</span> ↗</button>
     </form>
   </div>
   <div class="foot">
@@ -332,11 +324,12 @@ img{display:block}
 
 <script src="data.js"></script>
 <script>
-const IMG = p => '/portfolio' + p;   // wdrożenie: assety kopiowane do /portfolio/
+const _localAssets = location.pathname.includes('/portfolio-v2') || location.protocol === 'file:';
+const IMG = p => (_localAssets ? '../portfolio/public' : '/portfolio') + p;   // lokalnie: ../portfolio/public, prod: /portfolio
 
 /* ---- i18n ---- */
 const DICT = {
-  nav_projects:['Projekty','Work'], nav_about:['O mnie','About'], nav_contact:['Kontakt','Contact'],
+  nav_projects:['Projekty','Work'], nav_about:['O mnie','About'], nav_contact:['Kontakt','Contact'], nav_cv:['CV','CV'],
   hero_hi:['CZEŚĆ, JESTEM AMITIEL',"HI, I'M AMITIEL"],
   hero_1:['Koncepcja,','Concept,'], hero_2:['obraz,','image,'], hero_3:['opowieść','story'],
   hero_sub:['Tworzę koncepcje i opowiadam je obrazem. Selektywnie dobieram narzędzia (branding, 3D, UI, ilustracja, motion), by osiągnąć jeden zamierzony efekt: estetyczny i funkcjonalny, dopasowany do danej interaktywności.','I build concepts and tell them through image. I deliberately pick the right tools (branding, 3D, UI, illustration, motion) to reach one intended result: aesthetic and functional, shaped to each interaction.'],
@@ -428,11 +421,11 @@ const FILTERS = [
 /* line-ikony filtrów (styl editorial) */
 const FILTER_ICONS = {
   'all':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
-  'branding':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v10l9 5 9-5V7z"/></svg>',
+  'branding':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 22 12 12 22 2 12z"/></svg>',
   'ui/ux':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>',
-  '3d':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg>',
+  '3d':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/></svg>',
   'game':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 12h3M8.5 10.5v3"/><circle cx="16.5" cy="11" r=".7" fill="currentColor" stroke="none"/><circle cx="18" cy="13" r=".7" fill="currentColor" stroke="none"/></svg>',
-  'art':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.6 0-1 .8-1.6 1.8-1.6H18a3 3 0 0 0 3-3 8 8 0 0 0-9-8.8z"/><circle cx="8" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="10.5" r="1" fill="currentColor" stroke="none"/></svg>',
+  'art':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l4 4L8 20l-5 1 1-5z"/><path d="M14 6l4 4"/></svg>',
   'motion':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>'
 };
 /* tagi kart (do 3 na kartę) */
@@ -509,13 +502,14 @@ function buildFilters(){
   f.querySelectorAll('button').forEach(b=>b.onclick=()=>{ filter=b.dataset.f; buildFilters(); buildGrid(); });
 }
 
+const DOC = '<svg viewBox="0 0 48 48" fill="none" stroke="rgba(28,24,19,.4)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path d="M13 5h15l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#f1ead9"/><path d="M28 5v8h8"/></svg>';
 const shortName = t => t.split(/\s[–-]\s/)[0];
 function buildGrid(){
   let html = '';
   visible().forEach(p=>{
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
     html += `<a href="projekt.html?p=${p.slug}" class="proj-ico" data-reveal>
-      <span class="pi-icon">${PROJ_ICONS[p.slug]||''}</span>
+      <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
       <span class="pi-tags">${tagList(p).join(', ')}</span>
@@ -523,7 +517,7 @@ function buildGrid(){
   });
   if(filter==='all' || filter==='art'){
     html += `<a href="ilustracje.html" class="proj-ico" data-reveal>
-      <span class="pi-icon">${PROJ_ICONS['illustrations']}</span>
+      <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${isEn()?'Illustrations':'Ilustracje'}</span>
       <span class="pi-mini">${ICONS['art']||''}</span>
       <span class="pi-tags">${isEn()?'Art':'Sztuka'}</span>

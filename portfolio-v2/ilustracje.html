@@ -67,7 +67,8 @@ img{display:block;max-width:100%}
 
 <script src="data.js"></script>
 <script>
-const IMG = p => '/portfolio' + p;   // wdrożenie: assety kopiowane do /portfolio/
+const _localAssets = location.pathname.includes('/portfolio-v2') || location.protocol === 'file:';
+const IMG = p => (_localAssets ? '../portfolio/public' : '/portfolio') + p;   // lokalnie: ../portfolio/public, prod: /portfolio
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
 const en = (localStorage.getItem('aa_lang')||'pl')==='en';
 

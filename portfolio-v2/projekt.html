@@ -177,7 +177,10 @@ img{display:block;max-width:100%}
 
 <script src="data.js"></script>
 <script>
-const IMG = p => '/portfolio' + p;   // wdrożenie: assety kopiowane do /portfolio/
+const _localAssets = location.pathname.includes('/portfolio-v2') || location.protocol === 'file:';
+const IMG = p => (_localAssets ? '../portfolio/public' : '/portfolio') + p;   // lokalnie: ../portfolio/public, prod: /portfolio
+/* fonty Gotham z właściwej bazy (działa lokalnie i na prod) */
+document.head.insertAdjacentHTML('beforeend','<style>'+['Gotham-Light.otf:300','Gotham-Medium.otf:500','Gotham-Black.otf:900'].map(x=>{const[f,w]=x.split(':');return "@font-face{font-family:'Gotham';src:url('"+IMG('/fonts/'+f)+"') format('opentype');font-weight:"+w+";font-display:swap}";}).join('')+'</style>');
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
 const en = (localStorage.getItem('aa_lang')||'pl')==='en';
 const T = (pl,e)=>en?e:pl;
