@@ -37,6 +37,12 @@ a:hover{color:var(--accent)}
 .nav-pdf:hover{background:var(--accent);color:var(--cream)}
 #langBtn{border:1px solid var(--ink);background:transparent;color:var(--accent);border-radius:8px;padding:5px 14px;font:700 12px 'Archivo',sans-serif;cursor:pointer;transition:all .25s}
 #langBtn:hover{background:var(--ink);color:var(--cream)}
+.nav-links{display:flex;gap:26px;align-items:center}
+.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:34px;height:34px;padding:0;background:transparent;border:none;cursor:pointer}
+.ham span{display:block;height:2px;width:22px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .2s}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* HERO */
 .hero{position:relative;background:var(--cream);color:var(--ink);padding:clamp(48px,6vw,68px) var(--gut) clamp(44px,5vw,60px);border-bottom:2px solid var(--ink);overflow:hidden}
@@ -116,9 +122,14 @@ a:hover{color:var(--accent)}
 .foot-b{margin-top:36px;padding-top:24px;border-top:1px solid rgba(246,241,232,.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,241,232,.6)}
 
 @media(max-width:820px){
-  .nav{padding:13px 18px;flex-wrap:wrap;gap:8px 12px}
-  .nav-r{gap:clamp(9px,2.4vw,16px);font-size:13px;flex-wrap:wrap;justify-content:flex-end}
+  .nav{padding:13px 18px}
+  .nav-r{gap:14px}
   .brand-logo{height:32px}
+  .ham{display:flex}
+  .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--cream);border-bottom:1px solid rgba(28,24,19,.1);box-shadow:0 14px 28px rgba(28,24,19,.1);padding:6px 20px 14px;display:none}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:13px 0;font-size:16px;border-top:1px solid rgba(28,24,19,.07)}
+  .nav-links a:first-child{border-top:none}
   .vlabel{display:none}
   .hero-right{width:100%}
   .hero-video{width:100%}
@@ -126,10 +137,6 @@ a:hover{color:var(--accent)}
   .job .yr{padding-top:0}
   .sk-grid{grid-template-columns:1fr;gap:36px}
   .edu-grid{grid-template-columns:1fr}
-}
-@media(max-width:440px){
-  .nav-r{gap:8px 10px;font-size:12px}
-  #langBtn{padding:4px 9px}
 }
 </style>
 </head>
@@ -139,11 +146,14 @@ a:hover{color:var(--accent)}
 <div class="nav">
   <a href="/portfolio/" class="brand"><img src="images/logo-a.png" alt="Amitiel" class="brand-logo"></a>
   <div class="nav-r">
-    <a href="#doswiadczenie" data-i18n="nav_exp">Doświadczenie</a>
-    <a href="#umiejetnosci" data-i18n="nav_skills">Umiejętności</a>
-    <a href="#edukacja" data-i18n="nav_edu">Edukacja</a>
-    <a href="/portfolio/" data-i18n="back">Portfolio</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#doswiadczenie" data-i18n="nav_exp">Doświadczenie</a>
+      <a href="#umiejetnosci" data-i18n="nav_skills">Umiejętności</a>
+      <a href="#edukacja" data-i18n="nav_edu">Edukacja</a>
+      <a href="/portfolio/" data-i18n="back">Portfolio</a>
+    </div>
     <button id="langBtn">EN</button>
+    <button class="ham" id="hamBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </div>
 
@@ -214,7 +224,7 @@ a:hover{color:var(--accent)}
       <div class="foot-h"><span data-i18n="foot_head">Porozmawiajmy</span><span class="ac">.</span></div>
     </div>
     <div class="foot-btns">
-      <a href="/portfolio/" class="fb main"><span data-i18n="foot_portfolio">Zobacz portfolio</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a href="/portfolio/" class="fb main"><span data-i18n="foot_portfolio">Portfolio</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
       <a href="mailto:armitiel@gmail.com" class="fb ghost"><span data-i18n="foot_cta">Kontakt</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </div>
   </div>
@@ -237,7 +247,7 @@ const DICT = {
   lang_pl:['Polski, ojczysty','Polish, native'], lang_en:['Angielski, biegły','English, fluent'],
   k_status:['DOSTĘPNA DO WSPÓŁPRACY','AVAILABLE FOR WORK'],
   foot_head:['Porozmawiajmy',"Let's talk"],
-  foot_cta:['Kontakt','Contact'], foot_portfolio:['Zobacz portfolio','View portfolio'],
+  foot_cta:['Kontakt','Contact'], foot_portfolio:['Portfolio','Portfolio'],
 };
 const JOBS = {
   pl:[
@@ -313,6 +323,15 @@ function applyLang(){
   revealInit();
 }
 document.getElementById('langBtn').onclick = ()=>{ lang = isEn()?'pl':'en'; localStorage.setItem('aa_lang',lang); applyLang(); };
+
+/* menu hamburger (mobile) */
+(function(){
+  const ham = document.getElementById('hamBtn'), nl = document.getElementById('navLinks');
+  if(!ham||!nl) return;
+  const setOpen = o => { nl.classList.toggle('open',o); ham.classList.toggle('open',o); ham.setAttribute('aria-expanded',o); };
+  ham.onclick = () => setOpen(!nl.classList.contains('open'));
+  nl.querySelectorAll('a').forEach(a => a.addEventListener('click',()=>setOpen(false)));
+})();
 
 /* akcent współdzielony z portfolio */
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
