@@ -523,7 +523,7 @@ function buildGrid(){
   let html = '';
   visible().forEach(p=>{
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
-    html += `<a href="projekt.html?p=${p.slug}" class="proj-ico" data-reveal>
+    html += `<a href="${p.slug==='hubble-rx'?'hubble.html':'projekt.html?p='+p.slug}" class="proj-ico" data-reveal>
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
