@@ -370,6 +370,15 @@ const ioV = new IntersectionObserver(es=>{
   });
 },{threshold:0,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.vlabel').forEach(el=>{ el.style.opacity='0'; ioV.observe(el); });
+
+/* ---- force autoplay videos on mobile ---- */
+document.querySelectorAll('video[autoplay]').forEach(v=>{
+  const ioVid=new IntersectionObserver(([e])=>{
+    if(e.isIntersecting) v.play().catch(()=>{});
+  },{threshold:.25});
+  ioVid.observe(v);
+  v.play().catch(()=>{});
+});
 </script>
 </body>
 </html>
