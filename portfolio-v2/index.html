@@ -151,7 +151,7 @@ img{display:block}
 .c-avail .dot{width:8px;height:8px;border-radius:50%;background:#4C9A5B;animation:pulse 2.2s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(76,154,91,.55)}70%{box-shadow:0 0 0 8px rgba(76,154,91,0)}100%{box-shadow:0 0 0 0 rgba(76,154,91,0)}}
 @media(prefers-reduced-motion:reduce){.c-avail .dot{animation:none}}
-.contact h2{font:900 clamp(42px,6.2vw,90px)/0.95 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.035em;margin:0}
+.contact h2{font:900 clamp(30px,4.2vw,54px)/1.0 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.035em;margin:0}
 .contact h2 .ac{color:var(--accent)}
 .c-sub{font:400 16px/1.6 'Archivo',sans-serif;color:rgba(246,241,232,.7);max-width:560px;margin-top:22px}
 .c-mail{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 clamp(18px,1.8vw,24px) 'Archivo',sans-serif;color:var(--cream);border-bottom:2px solid var(--accent);padding-bottom:4px}
@@ -172,7 +172,8 @@ img{display:block}
 .foot-social a:hover{color:var(--accent)}
 
 /* --- redesign wg makiety (O mnie + Kontakt) --- */
-.sec-vlabel{position:absolute;left:20px;top:70px;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;z-index:2}
+.sec-vlabel{position:absolute;left:20px;top:70px;font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;z-index:2;display:flex;align-items:center;gap:16px}
+.sec-vlabel .vbar{width:2px;height:40px;background:var(--accent);flex:none}
 .contact .sec-vlabel{color:rgba(246,241,232,.5)}
 .sec-title-u::after{content:'';display:block;width:56px;height:3px;background:var(--accent);border-radius:2px;margin-top:14px}
 .about-p .lead{color:var(--accent);font-weight:700}
@@ -243,7 +244,7 @@ img{display:block}
 
 <!-- O MNIE -->
 <div id="omnie" class="about">
-  <div class="sec-vlabel">01 / <span data-i18n="sec_about">O mnie</span></div>
+  <div class="sec-vlabel"><span class="vtxt">01 / <span data-i18n="sec_about">O mnie</span></span><span class="vbar"></span></div>
   <div class="about-photo fu1"><video src="me-video.mp4" poster="me.png" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="about-body">
     <h2 class="sec-title-u fu2" data-i18n="sec_about">O mnie</h2>
@@ -280,7 +281,7 @@ img{display:block}
 
 <!-- PROJEKTY -->
 <div id="projekty" class="sec">
-  <div class="sec-vlabel">02 / <span data-i18n="nav_projects">Projekty</span></div>
+  <div class="sec-vlabel"><span class="vtxt">02 / <span data-i18n="nav_projects">Projekty</span></span><span class="vbar"></span></div>
   <div class="proj-head" data-reveal>
     <span class="sec-eyebrow" data-i18n="sec_projects">Wybrane projekty</span>
   </div>
@@ -290,10 +291,10 @@ img{display:block}
 
 <!-- KONTAKT -->
 <div id="kontakt" class="contact">
-  <div class="sec-vlabel">03 / <span data-i18n="nav_contact">Kontakt</span></div>
+  <div class="sec-vlabel"><span class="vtxt">03 / <span data-i18n="nav_contact">Kontakt</span></span><span class="vbar"></span></div>
   <div class="contact-grid">
     <div class="c-left" data-reveal>
-      <h2 class="sec-title-u"><span data-i18n="cta_1">Zacznijmy od</span><br><span class="ac" data-i18n="cta_2">koncepcji</span><span class="ac">.</span></h2>
+      <h2 class="sec-title-u"><span data-i18n="cta_1">Porozmawiajmy</span><span class="ac">.</span></h2>
       <p class="c-sub" data-i18n="c_sub">Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.</p>
       <div class="c-links">
         <a href="mailto:armitiel@gmail.com" class="c-link">
@@ -369,8 +370,8 @@ const DICT = {
   sk_5:['Animacja i motion','Animation & motion'],
   cta:['Porozmawiajmy',"Let's talk"], foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
   c_avail:['Dostępna do współpracy','Available for work'],
-  cta_1:['Zacznijmy od','Let’s start with'],
-  cta_2:['koncepcji','the concept'],
+  cta_1:['Porozmawiajmy','Let’s talk'],
+  cta_2:['',''],
   c_sub:['Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.','Have a project or a role to fill? Tell me what you’re after.'],
   f_name:['Imię / Firma','Name / Company'], f_email:['E-mail','E-mail'],
   f_msg:['Wiadomość','Message'], f_send:['Wyślij wiadomość','Send message'],
