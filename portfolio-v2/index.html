@@ -235,8 +235,9 @@ img{display:block}
   .c-row{grid-template-columns:1fr}
   .c-links{gap:20px 0}
   .c-link{flex:1 1 45%;border-left:none;padding:0}
-  .foot{justify-content:space-between;text-align:left;flex-direction:row;align-items:flex-start}
-  .foot span{display:block;line-height:1.6}
+  .foot{justify-content:space-between;text-align:left;flex-direction:row;flex-wrap:nowrap;align-items:flex-start;gap:16px}
+  .foot span{flex:1 1 0;min-width:0;display:block;line-height:1.6}
+  .foot span:first-child{text-align:left}
   .foot span:last-child{text-align:right}
 }
 </style>

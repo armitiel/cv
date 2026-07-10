@@ -141,8 +141,10 @@ a:hover{color:var(--accent)}
   .job .yr{padding-top:0}
   .sk-grid{grid-template-columns:1fr;gap:36px}
   .edu-grid{grid-template-columns:1fr}
-  .foot-b{flex-direction:row;justify-content:space-between;align-items:flex-start;gap:8px}
-  .foot-b span{display:block;line-height:1.6}
+  .foot-b{flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:flex-start;gap:16px}
+  .foot-b span{flex:1 1 0;min-width:0;display:block;line-height:1.6}
+  .foot-b span:first-child{text-align:left}
+  .foot-b span:last-child{text-align:right}
 }
 </style>
 </head>
