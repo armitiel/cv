@@ -143,12 +143,29 @@ img{display:block;max-width:100%}
 .results h3{font:900 20px 'Archivo',sans-serif;text-transform:uppercase;margin:0 0 12px;color:var(--accent)}
 .results p{font:400 17px/1.65 'Archivo',sans-serif;color:var(--soft);margin:0}
 
-/* next */
-.next{display:flex;justify-content:space-between;align-items:center;background:#1c1813;color:#f6f1e8;padding:56px clamp(24px,7vw,110px);margin-top:56px;transition:background .3s}
-.next:hover{background:var(--accent);color:#f6f1e8}
-.next .lbl{font:500 12px 'IBM Plex Mono',monospace;opacity:.6;letter-spacing:.1em;margin-bottom:10px}
-.next .t{font:900 clamp(30px,5vw,54px) 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.03em}
-.next .a{font-size:44px}
+/* PROJECT FOOTER */
+.proj-footer{background:#1c1813;color:#f6f1e8;padding:clamp(48px,6vw,80px) 0 40px;margin-top:56px}
+.pf-back{display:inline-flex;align-items:center;gap:10px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,241,232,.6);transition:color .25s;margin-bottom:clamp(28px,4vw,44px)}
+.pf-back:hover{color:var(--accent)}
+.pf-title{font:900 clamp(26px,3.4vw,38px) 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 24px}
+.pf-title .ac{color:var(--accent)}
+.pf-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.pf-fbtn{display:inline-flex;align-items:center;gap:6px;font:500 12px 'Archivo',sans-serif;border:1px solid rgba(246,241,232,.2);background:transparent;color:rgba(246,241,232,.7);border-radius:8px;padding:7px 13px;cursor:pointer;transition:all .2s}
+.pf-fbtn:hover{border-color:rgba(246,241,232,.45);color:#f6f1e8}
+.pf-fbtn.active{background:var(--accent);border-color:var(--accent);color:#f6f1e8}
+.pf-fbtn svg{width:13px;height:13px;display:block}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:clamp(40px,5vw,64px)}
+.pf-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(246,241,232,.06);border:1px solid rgba(246,241,232,.1);border-radius:12px;color:#f6f1e8;transition:all .25s}
+.pf-card:hover{background:rgba(246,241,232,.1);border-color:rgba(246,241,232,.22);transform:translateY(-2px);color:#f6f1e8}
+.pf-card.current{border-color:var(--accent);background:rgba(194,106,50,.12)}
+.pf-card .pf-ico{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;background:rgba(246,241,232,.08);border-radius:10px}
+.pf-card .pf-ico svg{width:20px;height:20px;color:var(--accent)}
+.pf-card .pf-info{flex:1;min-width:0}
+.pf-card .pf-name{font:700 13px 'Archivo',sans-serif;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-card .pf-tags{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:rgba(246,241,232,.45);margin-top:4px}
+.pf-foot{display:flex;justify-content:space-between;align-items:flex-start;padding-top:24px;border-top:1px solid rgba(246,241,232,.15);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,241,232,.6);gap:14px}
+.pf-foot span{display:block;line-height:1.6}
+.pf-foot span:last-child{text-align:right}
 
 [data-reveal]{will-change:opacity,transform}
 @media(max-width:820px){
@@ -156,7 +173,7 @@ img{display:block;max-width:100%}
   .cs2,.grid2,.grid2x2{grid-template-columns:1fr}
   .info .in{grid-template-columns:1fr}
   .grid5{grid-template-columns:repeat(3,1fr)}
-  .next{padding:40px 20px}
+  .pf-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -169,13 +186,18 @@ img{display:block;max-width:100%}
 
 <div id="app"></div>
 
-<a href="#" class="next" id="next">
-  <div>
-    <div class="lbl" id="nextLbl">NASTĘPNY PROJEKT</div>
-    <div class="t" id="nextT"></div>
+<div class="proj-footer">
+  <div class="wrap">
+    <a href="index.html#projekty" class="pf-back" id="pfBack">← <span id="pfBackLbl">Wróć do portfolio</span></a>
+    <h2 class="pf-title" id="pfTitle">Inne projekty<span class="ac">.</span></h2>
+    <div class="pf-filters" id="pfFilters"></div>
+    <div class="pf-grid" id="pfGrid"></div>
+    <div class="pf-foot">
+      <span>© 2026<br>Amitiel Angelisme</span>
+      <span id="pfCity" style="text-align:right">Warszawa, Polska<br>GMT+1</span>
+    </div>
   </div>
-  <div class="a">→</div>
-</a>
+</div>
 
 <script src="data.js"></script>
 <script>
@@ -394,13 +416,54 @@ if(p.realPhotos){
 
 document.getElementById('app').innerHTML = H;
 
-/* ---------- następny projekt (pomija ukryte) ---------- */
-const vis = P.filter(x=>!x.hidden || x.slug===slug);
-const vi = vis.findIndex(x=>x.slug===slug);
-const nx = vis[(vi+1)%vis.length];
-document.getElementById('nextLbl').textContent = T('NASTĘPNY PROJEKT','NEXT PROJECT');
-document.getElementById('nextT').textContent = nx.title.split(' - ')[0].split(' – ')[0];
-document.getElementById('next').href = 'projekt.html?p='+nx.slug;
+/* ---------- stopka: inne projekty z filtrami ---------- */
+document.getElementById('pfBackLbl').textContent = T('Wróć do portfolio','Back to portfolio');
+document.getElementById('pfTitle').innerHTML = T('Inne projekty','Other projects')+'<span class="ac">.</span>';
+document.getElementById('pfCity').innerHTML = T('Warszawa, Polska','Warsaw, Poland')+'<br>GMT+1';
+
+const FICONS = {
+  'all':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  'branding':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 22 12 12 22 2 12z"/></svg>',
+  'ui/ux':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>',
+  '3d':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/></svg>',
+  'game':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 12h3M8.5 10.5v3"/></svg>',
+  'art':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l4 4L8 20l-5 1 1-5z"/><path d="M14 6l4 4"/></svg>',
+  'motion':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>'
+};
+const FTAGS = {
+  'hubble-rx':['UI/UX','Branding'],'olympus-defence':['3D','Game','Art'],'selva-rape':['Branding','UI'],
+  'portal-smart-checkout':['AI','UI/UX'],'v17-vision-branding':['Branding','3D'],'aloha-centrum-desk':['3D','Product'],
+  'shadow-tagger':['Game','Art','Motion'],'nft-generative-system':['AI','Art'],'atomic-cherry':['Game','Art'],
+  'nfc-card':['Motion','Branding'],'graffiti':['Art','Mural']
+};
+const FFILTERS = [['all',T('Wszystko','All')],['branding','Branding'],['ui/ux','UI/UX'],['3d','3D'],['game',T('Gry','Games')],['art',T('Sztuka','Art')],['motion','Motion']];
+const otherP = P.filter(x=>!x.hidden && x.slug!==slug);
+let pfFilter = 'all';
+
+function buildPfFilters(){
+  document.getElementById('pfFilters').innerHTML = FFILTERS.map(([k,l])=>
+    `<button class="pf-fbtn ${pfFilter===k?'active':''}" data-f="${k}">${FICONS[k]||''} ${l}</button>`
+  ).join('');
+  document.querySelectorAll('.pf-fbtn').forEach(b=>{
+    b.onclick=()=>{ pfFilter=b.dataset.f; buildPfFilters(); buildPfGrid(); };
+  });
+}
+function buildPfGrid(){
+  const list = pfFilter==='all' ? otherP : otherP.filter(x=>x.category.toLowerCase().includes(pfFilter));
+  document.getElementById('pfGrid').innerHTML = list.map(x=>{
+    const tags = FTAGS[x.slug] || x.category.split(',').map(s=>s.trim());
+    const href = x.slug==='hubble-rx' ? 'hubble.html' : 'projekt.html?p='+x.slug;
+    return `<a href="${href}" class="pf-card">
+      <span class="pf-ico">${FICONS[tags[0]?.toLowerCase()]||FICONS['all']}</span>
+      <span class="pf-info">
+        <span class="pf-name">${esc(x.title.split(' - ')[0].split(' – ')[0])}</span>
+        <span class="pf-tags">${tags.join(' · ')}</span>
+      </span>
+    </a>`;
+  }).join('') || `<div style="color:rgba(246,241,232,.4);font:500 13px 'IBM Plex Mono',monospace;padding:20px 0">${T('Brak projektów w tej kategorii','No projects in this category')}</div>`;
+}
+buildPfFilters();
+buildPfGrid();
 
 /* ---------- reveal ---------- */
 const io=new IntersectionObserver(entries=>{
