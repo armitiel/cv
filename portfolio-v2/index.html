@@ -36,15 +36,30 @@ img{display:block}
 .brand-logo{height:40px;width:auto;display:block;mix-blend-mode:multiply;transition:opacity .25s}
 .brand:hover .brand-logo{opacity:.65}
 .nav-r{display:flex;gap:26px;align-items:center;font:500 14px 'Archivo',sans-serif}
+.nav-links{display:flex;gap:26px;align-items:center}
 #langBtn{border:1px solid var(--ink);background:transparent;color:var(--accent);border-radius:8px;padding:5px 14px;font:700 12px 'Archivo',sans-serif;cursor:pointer;transition:all .25s}
 #langBtn:hover{background:var(--ink);color:var(--cream)}
+.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:34px;height:34px;padding:0;background:transparent;border:none;cursor:pointer}
+.ham span{display:block;height:2px;width:22px;background:var(--ink);border-radius:2px;transition:transform .25s,opacity .2s}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .nav .brand{animation:fadeUp .7s .05s cubic-bezier(.2,.7,.2,1) both}
-.nav-r>*{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) both}
-.nav-r>*:nth-child(1){animation-delay:.14s}
-.nav-r>*:nth-child(2){animation-delay:.2s}
-.nav-r>*:nth-child(3){animation-delay:.26s}
-.nav-r>*:nth-child(4){animation-delay:.32s}
-.nav-r>*:nth-child(5){animation-delay:.38s}
+.nav-links a{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) both}
+.nav-links a:nth-child(1){animation-delay:.14s}
+.nav-links a:nth-child(2){animation-delay:.2s}
+.nav-links a:nth-child(3){animation-delay:.26s}
+.nav-links a:nth-child(4){animation-delay:.32s}
+#langBtn{animation:fadeUp .6s .38s cubic-bezier(.2,.7,.2,1) both}
+@media(max-width:720px){
+  .nav{padding:14px var(--gut)}
+  .nav-r{gap:14px}
+  .ham{display:flex}
+  .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--cream);border-bottom:1px solid rgba(28,24,19,.1);box-shadow:0 14px 28px rgba(28,24,19,.1);padding:6px var(--gut) 14px;display:none}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:13px 0;font-size:16px;border-top:1px solid rgba(28,24,19,.07);animation:none}
+  .nav-links a:first-child{border-top:none}
+}
 
 /* HERO */
 .hero{min-height:84vh;display:flex;flex-direction:column;justify-content:center;padding:clamp(64px,7vw,112px) var(--gut) clamp(48px,5vw,76px);border-bottom:2px solid var(--ink)}
@@ -82,7 +97,7 @@ img{display:block}
 
 /* PROJEKTY — widok kart ze starej strony, przeskinowany */
 .sec{position:relative;padding:clamp(8px,1.2vw,16px) var(--gut) clamp(80px,10vw,150px)}
-#projekty{position:relative;overflow:hidden;border-top:1px solid var(--line)}
+#projekty{position:relative;overflow:hidden;border-top:2px solid var(--ink)}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
 #projekty>*{position:relative;z-index:1}
 #projekty>.sec-vlabel{position:absolute;z-index:2}
@@ -229,11 +244,14 @@ img{display:block}
 <div class="nav">
   <a href="/portfolio/" class="brand"><img src="logo-a.png" alt="Amitiel" class="brand-logo"></a>
   <div class="nav-r">
-    <a href="#projekty" data-i18n="nav_projects">Projekty</a>
-    <a href="#omnie" data-i18n="nav_about">O mnie</a>
-    <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
-    <a href="/cv.html" data-i18n="nav_cv">CV</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#projekty" data-i18n="nav_projects">Projekty</a>
+      <a href="#omnie" data-i18n="nav_about">O mnie</a>
+      <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
+      <a href="/cv.html" data-i18n="nav_cv">CV</a>
+    </div>
     <button id="langBtn">EN</button>
+    <button class="ham" id="hamBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </div>
 
@@ -392,6 +410,15 @@ function applyLang(){
   buildMq(); buildFilters(); buildGrid();
 }
 document.getElementById('langBtn').onclick = ()=>{ lang = isEn()?'pl':'en'; localStorage.setItem('aa_lang',lang); applyLang(); };
+
+/* menu hamburger (mobile) */
+(function(){
+  const ham = document.getElementById('hamBtn'), nl = document.getElementById('navLinks');
+  if(!ham||!nl) return;
+  const setOpen = o => { nl.classList.toggle('open',o); ham.classList.toggle('open',o); ham.setAttribute('aria-expanded',o); };
+  ham.onclick = () => setOpen(!nl.classList.contains('open'));
+  nl.querySelectorAll('a').forEach(a => a.addEventListener('click',()=>setOpen(false)));
+})();
 
 /* ---- marquee: napędzany scrollem ---- */
 function buildMq(){
