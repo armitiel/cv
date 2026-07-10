@@ -38,6 +38,13 @@ img{display:block}
 .nav-r{display:flex;gap:26px;align-items:center;font:500 14px 'Archivo',sans-serif}
 #langBtn{border:1px solid var(--ink);background:transparent;color:var(--accent);border-radius:8px;padding:5px 14px;font:700 12px 'Archivo',sans-serif;cursor:pointer;transition:all .25s}
 #langBtn:hover{background:var(--ink);color:var(--cream)}
+.nav .brand{animation:fadeUp .7s .05s cubic-bezier(.2,.7,.2,1) both}
+.nav-r>*{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) both}
+.nav-r>*:nth-child(1){animation-delay:.14s}
+.nav-r>*:nth-child(2){animation-delay:.2s}
+.nav-r>*:nth-child(3){animation-delay:.26s}
+.nav-r>*:nth-child(4){animation-delay:.32s}
+.nav-r>*:nth-child(5){animation-delay:.38s}
 
 /* HERO */
 .hero{min-height:84vh;display:flex;flex-direction:column;justify-content:center;padding:clamp(64px,7vw,112px) var(--gut) clamp(48px,5vw,76px);border-bottom:2px solid var(--ink)}
@@ -110,7 +117,7 @@ img{display:block}
 .proj-hint i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .proj-row{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(18px,2vw,30px) clamp(14px,1.6vw,26px)}
 @media(max-width:900px){ .proj-row{grid-template-columns:repeat(4,1fr)} }
-@media(max-width:560px){ .proj-row{grid-template-columns:repeat(3,1fr)} }
+@media(max-width:560px){ .proj-row{grid-template-columns:repeat(3,1fr)} .nav-r{gap:9px;font-size:12px} .brand-logo{height:32px} #langBtn{padding:4px 9px} }
 .proj-ico{display:flex;flex-direction:column;align-items:stretch;text-align:left;color:var(--ink)}
 .pi-icon{display:grid;place-items:center;width:100%;aspect-ratio:1;background:rgba(28,24,19,.035);border:1px solid rgba(28,24,19,.08);border-radius:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .pi-icon svg{width:44%;height:44%;display:block}
@@ -194,8 +201,8 @@ img{display:block}
 @media(max-width:1000px){ .card{grid-column:span 6} }
 @media(max-width:620px){ .card{grid-column:span 12} }
 @media(max-width:900px){
-  .nav{padding:16px 20px}
-  .nav-r a{display:none}
+  .nav{padding:14px 18px}
+  .nav-r{gap:clamp(10px,2.6vw,18px);font-size:13px}
   .hero{padding:40px 20px}
   .hero-top{grid-template-columns:1fr;gap:26px;align-items:start}
   .sec{padding:48px 20px 16px}
@@ -318,7 +325,7 @@ img{display:block}
   </div>
   <div class="foot">
     <span>© 2026 Amitiel Angelisme</span>
-    <span data-i18n="foot_city">Warszawa, Polska</span>
+    <span data-i18n="foot_city">Warszawa, Polska · GMT+1</span>
   </div>
 </div>
 
@@ -359,7 +366,7 @@ const DICT = {
   sk_1:['Identyfikacja wizualna','Visual identity'], sk_2:['Wizualizacje 3D','3D visualisation'],
   sk_3:['Projektowanie UI','UI design'], sk_4:['Ilustracja i game art','Illustration & game art'],
   sk_5:['Animacja i motion','Animation & motion'],
-  cta:['Porozmawiajmy',"Let's talk"], foot_city:['Warszawa, Polska','Warsaw, Poland'],
+  cta:['Porozmawiajmy',"Let's talk"], foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
   c_avail:['Dostępna do współpracy','Available for work'],
   cta_1:['Zacznijmy od','Let’s start with'],
   cta_2:['koncepcji','the concept'],
@@ -499,7 +506,14 @@ const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function buildFilters(){
   const f = document.getElementById('filters');
   f.innerHTML = FILTERS.map(([k,l])=>`<button class="filter-btn ${filter===k?'active':''}" data-f="${k}"><span class="fi">${FILTER_ICONS[k]||''}</span>${isEn()?l[1]:l[0]}</button>`).join('');
-  f.querySelectorAll('button').forEach(b=>b.onclick=()=>{ filter=b.dataset.f; buildFilters(); buildGrid(); });
+  f.querySelectorAll('button').forEach((b,i)=>{
+    b.onclick=()=>{ filter=b.dataset.f; buildFilters(); buildGrid(); };
+    if(!window._filtersAnimated){
+      b.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],
+        {duration:600,delay:i*70,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+    }
+  });
+  window._filtersAnimated=true;
 }
 
 const DOC = '<svg viewBox="0 0 48 48" fill="none" stroke="rgba(28,24,19,.4)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path d="M13 5h15l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#f1ead9"/><path d="M28 5v8h8"/></svg>';
@@ -561,6 +575,18 @@ function revealInit(scope){
 }
 applyLang();
 revealInit();
+
+/* ---- reveal bocznych etykiet sekcji (zachowuje rotate) ---- */
+const ioV=new IntersectionObserver(es=>{
+  es.filter(e=>e.isIntersecting).forEach(e=>{
+    ioV.unobserve(e.target); e.target.style.opacity='';
+    e.target.animate(
+      [{opacity:0,transform:'rotate(180deg) translateY(32px)'},{opacity:1,transform:'rotate(180deg) translateY(0)'}],
+      {duration:850,delay:220,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+    );
+  });
+},{threshold:0,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.sec-vlabel').forEach(el=>{ el.style.opacity='0'; ioV.observe(el); });
 </script>
 </body>
 </html>
