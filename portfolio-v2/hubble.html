@@ -18,9 +18,28 @@
 .foundation>div{grid-column:span 6}.foundation h2{max-width:11ch}.chips{display:grid;grid-template-columns:repeat(5,1fr);max-width:440px;height:88px;margin:30px 0 15px}.chips i:nth-child(1){background:#0aaea3}.chips i:nth-child(2){background:#0e1922}.chips i:nth-child(3){background:#687278}.chips i:nth-child(4){background:#e9edf0}.chips i:nth-child(5){background:#def2ef}.foundation small{color:var(--muted);font:10px 'IBM Plex Mono',monospace}.type strong{display:block;font-size:clamp(100px,12vw,180px);line-height:.7}.type p{font-size:13px;line-height:1.4}
 .pack .copy{grid-column:span 4}.packshot{grid-column:5/span 8}.packshot img{width:100%;mix-blend-mode:multiply}.experience .copy{max-width:560px;margin-bottom:clamp(32px,5vw,72px)}.experience .copy h2{max-width:15ch}.wide{padding:clamp(16px,3vw,44px);background:#f3f5f5}.wide img{width:100%}.wide+.wide{margin-top:var(--gap)}.wide.ui{background:#e8f5f3}
 .mobile{padding-block:clamp(70px,10vw,150px);overflow:hidden;background:linear-gradient(110deg,#edf8f7,#dff1ef)}.mobile .copy{grid-column:1/span 4}.phone{grid-column:5/span 8;align-self:center}.phone img{width:100%;filter:drop-shadow(0 30px 30px rgba(10,70,67,.12))}.illustrations{display:grid;grid-template-columns:minmax(240px,.45fr) 1fr;align-items:end;gap:clamp(32px,5vw,72px);overflow:hidden}.illustrations .copy{grid-column:auto}.illustration img{width:120%;max-width:none}
-.result{padding-block:clamp(60px,8vw,110px);color:#fff;background:var(--teal)}.result .label{color:rgba(255,255,255,.7)}.result h2{max-width:24ch}.result ul{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);padding:28px 0 0;margin:50px 0 0;border-top:1px solid rgba(255,255,255,.35);list-style:none}.result li{font-size:14px;color:rgba(255,255,255,.9)}.next{display:flex;align-items:center;justify-content:space-between;padding-block:clamp(60px,8vw,110px)}.next h2{margin:10px 0 0;font-size:clamp(38px,6vw,88px)}.next b{width:60px;height:60px;display:grid;place-items:center;border:1px solid;border-radius:50%;font-size:28px}.next:hover h2{color:var(--teal)}
+.result{padding-block:clamp(60px,8vw,110px);color:#fff;background:var(--teal)}.result .label{color:rgba(255,255,255,.7)}.result h2{max-width:24ch}.result ul{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);padding:28px 0 0;margin:50px 0 0;border-top:1px solid rgba(255,255,255,.35);list-style:none}.result li{font-size:14px;color:rgba(255,255,255,.9)}.proj-footer{background:#101a22;color:#f2f5f5;padding:clamp(48px,6vw,80px) 0 40px}
+.pf-back{display:inline-flex;align-items:center;gap:10px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:rgba(242,245,245,.5);transition:color .25s;margin-bottom:clamp(28px,4vw,44px)}
+.pf-back:hover{color:var(--teal)}
+.pf-title{font:900 clamp(26px,3.4vw,38px) 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 24px}.pf-title .ac{color:var(--teal)}
+.pf-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.pf-fbtn{display:inline-flex;align-items:center;gap:6px;font:500 12px 'Archivo',sans-serif;border:1px solid rgba(242,245,245,.18);background:transparent;color:rgba(242,245,245,.65);border-radius:8px;padding:7px 13px;cursor:pointer;transition:all .2s}
+.pf-fbtn:hover{border-color:rgba(242,245,245,.4);color:#f2f5f5}
+.pf-fbtn.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.pf-fbtn svg{width:13px;height:13px;display:block}
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:clamp(40px,5vw,64px)}
+.pf-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:rgba(242,245,245,.05);border:1px solid rgba(242,245,245,.1);border-radius:12px;color:#f2f5f5;transition:all .25s}
+.pf-card:hover{background:rgba(242,245,245,.09);border-color:rgba(242,245,245,.2);transform:translateY(-2px);color:#f2f5f5}
+.pf-card .pf-ico{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;background:rgba(242,245,245,.07);border-radius:10px}
+.pf-card .pf-ico svg{width:20px;height:20px;color:var(--teal)}
+.pf-card .pf-info{flex:1;min-width:0}
+.pf-card .pf-name{font:700 13px 'Archivo',sans-serif;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-card .pf-tags{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:rgba(242,245,245,.4);margin-top:4px}
+.pf-foot{display:flex;justify-content:space-between;align-items:flex-start;padding-top:24px;border-top:1px solid rgba(242,245,245,.15);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(242,245,245,.5);gap:14px}
+.pf-foot span{display:block;line-height:1.6}.pf-foot span:last-child{text-align:right}
 [data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}[data-reveal].on{opacity:1;transform:none}
 @media(max-width:900px){.hero-grid{position:relative;min-height:auto;grid-template-columns:1fr}.hero-art{position:relative;right:auto;bottom:auto;width:calc(100% + 2*var(--pad));margin-inline:calc(-1 * var(--pad));justify-self:center;pointer-events:auto}.copy,.stage,.pack .copy,.packshot,.mobile .copy,.phone{grid-column:1/-1}.stage,.packshot,.phone{margin-top:32px}.illustrations{grid-template-columns:1fr}.illustration img{width:100%}}
+@media(max-width:820px){.pf-grid{grid-template-columns:1fr}}
 @media(max-width:620px){:root{--section:clamp(64px,18vw,96px)}.hero h1{font-size:clamp(42px,13vw,64px)}.meta{grid-template-columns:1fr;gap:16px}.summary{grid-template-columns:1fr;gap:44px}.summary>div+div{padding:40px 0 0;border:0;border-top:1px solid #dce1e2}.foundation>div{grid-column:1/-1}.foundation>div+div{margin-top:28px}.result ul{grid-template-columns:1fr 1fr;row-gap:24px}.nav .brand{display:none}}
 </style>
 </head>
@@ -36,14 +55,77 @@
 <section class="mobile"><div class="container grid"><div class="copy" data-reveal><span class="label">Mobile experience</span><h2>Członkostwo zawsze pod ręką</h2><p>Mobilny interfejs pozwala szybko porównać plany i wrócić do najważniejszych informacji.</p></div><div class="phone" data-reveal><img class="asset" data-src="/projects/hubble/mobile-mockup.gif" alt="Animowany interfejs HubbleRx w dłoni"></div></div></section>
 <section class="container section illustrations"><div class="copy" data-reveal><span class="label">Illustration system</span><h2>Świat, który buduje zaufanie</h2><p>Autorskie ilustracje nadają poważnej kategorii lekki, przyjazny i rozpoznawalny charakter.</p></div><div class="illustration" data-reveal><img class="asset" data-src="/projects/hubble/hero-illustration.webp" alt="Ilustracje HubbleRx"></div></section>
 <section class="result"><div class="container" data-reveal><span class="label">Rezultat</span><h2>Spójna marka i doświadczenie, które upraszczają farmację.</h2><ul><li>Większa wiarygodność</li><li>Czytelniejsza komunikacja</li><li>Spójne punkty styku</li><li>Przyjazny charakter</li></ul></div></section>
-<a class="container next" href="projekt.html?p=olympus-defence"><div><span class="label">Następny projekt</span><h2>Olympus Defence</h2></div><b>↗</b></a>
 </main>
+<div class="proj-footer">
+  <div class="container">
+    <a href="index.html#projekty" class="pf-back" id="pfBack">← <span id="pfBackLbl">Wróć do portfolio</span></a>
+    <h2 class="pf-title" id="pfTitle">Inne projekty<span class="ac">.</span></h2>
+    <div class="pf-filters" id="pfFilters"></div>
+    <div class="pf-grid" id="pfGrid"></div>
+    <div class="pf-foot">
+      <span>© 2026<br>Amitiel Angelisme</span>
+      <span id="pfCity" style="text-align:right">Warszawa, Polska<br>GMT+1</span>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
 <script>
 const local=location.protocol==='file:'||location.pathname.includes('/portfolio-v2');
 const base=local?'../portfolio/public':'/portfolio';
 document.querySelectorAll('.asset').forEach(el=>el.src=base+el.dataset.src);
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');observer.unobserve(e.target)}}),{threshold:.08});
 document.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));
+
+/* ---------- stopka: inne projekty ---------- */
+const en=(localStorage.getItem('aa_lang')||'pl')==='en';
+const T=(pl,e)=>en?e:pl;
+const esc=s=>(s||'').replace(/</g,'&lt;');
+document.getElementById('pfBackLbl').textContent=T('Wróć do portfolio','Back to portfolio');
+document.getElementById('pfTitle').innerHTML=T('Inne projekty','Other projects')+'<span class="ac">.</span>';
+document.getElementById('pfCity').innerHTML=T('Warszawa, Polska','Warsaw, Poland')+'<br>GMT+1';
+
+const FICONS={
+  'all':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  'branding':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 22 12 12 22 2 12z"/></svg>',
+  'ui/ux':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>',
+  '3d':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/></svg>',
+  'game':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 12h3M8.5 10.5v3"/></svg>',
+  'art':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l4 4L8 20l-5 1 1-5z"/><path d="M14 6l4 4"/></svg>',
+  'motion':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>'
+};
+const FTAGS={
+  'hubble-rx':['UI/UX','Branding'],'olympus-defence':['3D','Game','Art'],'selva-rape':['Branding','UI'],
+  'portal-smart-checkout':['AI','UI/UX'],'v17-vision-branding':['Branding','3D'],'aloha-centrum-desk':['3D','Product'],
+  'shadow-tagger':['Game','Art','Motion'],'nft-generative-system':['AI','Art'],'atomic-cherry':['Game','Art'],
+  'nfc-card':['Motion','Branding'],'graffiti':['Art','Mural']
+};
+const FFILTERS=[['all',T('Wszystko','All')],['branding','Branding'],['ui/ux','UI/UX'],['3d','3D'],['game',T('Gry','Games')],['art',T('Sztuka','Art')],['motion','Motion']];
+const otherP=window.PROJECTS.filter(x=>!x.hidden&&x.slug!=='hubble-rx');
+let pfFilter='all';
+
+function buildPfFilters(){
+  document.getElementById('pfFilters').innerHTML=FFILTERS.map(([k,l])=>
+    `<button class="pf-fbtn ${pfFilter===k?'active':''}" data-f="${k}">${FICONS[k]||''} ${l}</button>`
+  ).join('');
+  document.querySelectorAll('.pf-fbtn').forEach(b=>{
+    b.onclick=()=>{pfFilter=b.dataset.f;buildPfFilters();buildPfGrid();};
+  });
+}
+function buildPfGrid(){
+  const list=pfFilter==='all'?otherP:otherP.filter(x=>x.category.toLowerCase().includes(pfFilter));
+  document.getElementById('pfGrid').innerHTML=list.map(x=>{
+    const tags=FTAGS[x.slug]||x.category.split(',').map(s=>s.trim());
+    return `<a href="projekt.html?p=${x.slug}" class="pf-card">
+      <span class="pf-ico">${FICONS[tags[0]?.toLowerCase()]||FICONS['all']}</span>
+      <span class="pf-info">
+        <span class="pf-name">${esc(x.title.split(' - ')[0].split(' – ')[0])}</span>
+        <span class="pf-tags">${tags.join(' · ')}</span>
+      </span>
+    </a>`;
+  }).join('')||`<div style="color:rgba(242,245,245,.35);font:500 13px 'IBM Plex Mono',monospace;padding:20px 0">${T('Brak projektów w tej kategorii','No projects in this category')}</div>`;
+}
+buildPfFilters();
+buildPfGrid();
 </script>
 </body>
 </html>
