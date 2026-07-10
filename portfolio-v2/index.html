@@ -235,7 +235,9 @@ img{display:block}
   .c-row{grid-template-columns:1fr}
   .c-links{gap:20px 0}
   .c-link{flex:1 1 45%;border-left:none;padding:0}
-  .foot{justify-content:center;text-align:center}
+  .foot{justify-content:space-between;text-align:left;flex-direction:row;align-items:flex-start}
+  .foot span{display:block;line-height:1.6}
+  .foot span:last-child{text-align:right}
 }
 </style>
 </head>
@@ -345,8 +347,8 @@ img{display:block}
     </form>
   </div>
   <div class="foot">
-    <span>© 2026 Amitiel Angelisme</span>
-    <span data-i18n="foot_city">Warszawa, Polska · GMT+1</span>
+    <span>© 2026<br>Amitiel Angelisme</span>
+    <span data-i18n="foot_city" style="text-align:right">Warszawa, Polska<br>GMT+1</span>
   </div>
 </div>
 
