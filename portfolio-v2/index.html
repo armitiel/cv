@@ -214,6 +214,10 @@ img{display:block}
 .c-link .cl em{font:600 13px 'Archivo',sans-serif;font-style:normal;transition:color .2s}
 .c-link:hover .cl em{color:var(--accent)}
 
+/* WIP NOTICE */
+.wip-notice{display:flex;align-items:center;gap:12px;margin-top:40px;padding:20px 24px;background:rgba(28,24,19,.04);border:1px dashed rgba(28,24,19,.2);border-radius:12px;font:500 14px/1.5 'Archivo',sans-serif;color:var(--soft)}
+.wip-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2.2s infinite}
+
 [data-reveal]{will-change:opacity,transform}
 
 @media(max-width:1000px){ .card{grid-column:span 6} }
@@ -309,6 +313,10 @@ img{display:block}
   </div>
   <div class="filters" id="filters"></div>
   <div class="proj-row" id="grid"></div>
+  <div class="wip-notice" id="wipNotice" data-reveal>
+    <span class="wip-dot"></span>
+    <span class="wip-txt" data-i18n="wip_notice">Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu.</span>
+  </div>
 </div>
 
 <!-- KONTAKT -->
@@ -390,7 +398,9 @@ const DICT = {
   sk_1:['Identyfikacja wizualna','Visual identity'], sk_2:['Wizualizacje 3D','3D visualisation'],
   sk_3:['Projektowanie UI','UI design'], sk_4:['Ilustracja i game art','Illustration & game art'],
   sk_5:['Animacja i motion','Animation & motion'],
-  cta:['Porozmawiajmy',"Let's talk"], foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
+  cta:['Porozmawiajmy',"Let's talk"],
+  wip_notice:['Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu.','The remaining projects are currently being reorganized into a new layout and will be updated here.'],
+  foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
   c_avail:['Dostępna do współpracy','Available for work'],
   cta_1:['Porozmawiajmy','Let’s talk'],
   cta_2:['',''],
@@ -538,6 +548,8 @@ const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 
 function buildFilters(){
   const f = document.getElementById('filters');
+  if(visible().length <= 1){ f.style.display='none'; return; }
+  f.style.display='';
   f.innerHTML = FILTERS.map(([k,l])=>`<button class="filter-btn ${filter===k?'active':''}" data-f="${k}"><span class="fi">${FILTER_ICONS[k]||''}</span>${isEn()?l[1]:l[0]}</button>`).join('');
   f.querySelectorAll('button').forEach((b,i)=>{
     b.onclick=()=>{ filter=b.dataset.f; buildFilters(); buildGrid(); };
@@ -562,7 +574,7 @@ function buildGrid(){
       <span class="pi-tags">${tagList(p).join(', ')}</span>
     </a>`;
   });
-  if(filter==='all' || filter==='art'){
+  if(visible().length > 1 && (filter==='all' || filter==='art')){
     html += `<a href="ilustracje.html" class="proj-ico" data-reveal>
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${isEn()?'Illustrations':'Ilustracje'}</span>
