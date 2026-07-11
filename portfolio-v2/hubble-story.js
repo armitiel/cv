@@ -25,7 +25,7 @@
     </div>`;
 
   summary.insertAdjacentHTML('afterend', `
-    <section class="future">
+    <section class="future" id="idea">
       <div class="container grid">
         <div class="future-copy" data-story-reveal>
           <span class="label">Punkt wyjścia</span>
@@ -36,7 +36,7 @@
         <div class="future-art" data-story-reveal><img data-story-src="/projects/hubble/story/world-lineart.jpg" alt="Retrofuturystyczny świat HubbleRx"></div>
       </div>
     </section>
-    <section class="container section">
+    <section class="container section process">
       <div class="process-head" data-story-reveal><div><span class="label">${T('Proces ilustracyjny','Illustration process')}</span><h2>${T('Od pierwszego szkicu do systemu','From first sketch to system')}</h2></div><p>${T('Pomysł zaczynał się od szybkich rysunków postaci i architektury. Następnie porządkowałem perspektywę, rytm i język form w Illustratorze, aż pojedyncza scena zaczęła działać jako skalowalny system.','It began with quick drawings of characters and architecture. Then I worked the perspective, rhythm and form language in Illustrator, until a single scene started working as a scalable system.')}</p></div>
       <div class="process-grid">
         <article class="process-card" data-story-reveal><div class="process-media"><img data-story-src="/projects/hubble/story/sketch-world.png" alt="Szkic świata HubbleRx"></div><div class="process-meta"><div class="process-n">${T('Szkic','Sketch')}</div><p>${T('Luźna eksploracja świata, postaci i tonu opowieści.','Loose exploration of the world, characters and tone.')}</p></div></article>
@@ -66,7 +66,7 @@
 
   const worldSection = document.querySelector('.world');
   worldSection.insertAdjacentHTML('afterend', `
-    <section class="scene-build" aria-label="${T('Scena HubbleRx składająca się z fragmentów podczas przewijania','HubbleRx scene assembling from fragments on scroll')}">
+    <section class="scene-build" id="ilustracja" aria-label="${T('Scena HubbleRx składająca się z fragmentów podczas przewijania','HubbleRx scene assembling from fragments on scroll')}">
       <div class="scene-stage">
         <div class="scene-head">
           <div class="scene-copy"><span class="label">${T('System ilustracji','Illustration system')}</span><h2>${T('Świat gotowy na każdy format','A world ready for every format')}</h2><p>${T('Scena powstała jako kompozycja modularna. Ten sam świat obsługiwał szeroki banner, wąski slot mobile i tło kampanii — wystarczyło przesunąć kadr.','The scene was built as a modular composition. The same world served a wide banner, a narrow mobile slot and a campaign backdrop — reframing was enough.')}</p></div>
@@ -95,7 +95,7 @@
 
   const adaptSection = document.querySelector('.adapt');
   adaptSection.insertAdjacentHTML('afterend', `
-    <section class="membership-system"><div class="container">
+    <section class="membership-system" id="produkt"><div class="container">
       <div class="membership-head" data-story-reveal><span class="label">System korzyści</span><h2>Oferta zamieniona w język wizualny</h2><p>Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.</p></div>
       <div class="membership-cards" data-story-reveal>
         ${[
@@ -124,14 +124,15 @@
     </div></section>
     <section class="tools-story"><div class="container tools-grid">
       <div class="tools-copy" data-story-reveal><span class="label">Warsztat</span><h2>Od Illustratora do Blendera</h2><p>Płaskie formy wektorowe zapewniały spójność i skalowalność. After Effects dodawał tempo i narrację, a pierwsze eksperymenty w Blenderze pozwalały osadzić markę w bardziej przestrzennym świecie.</p><div class="tool-list"><span>Illustrator</span><span>After Effects</span><span>Blender</span></div></div>
-      <div class="tools-visual" data-story-reveal><img class="vector" data-story-src="/projects/hubble/hero-hubble.png" alt="Wektorowy świat HubbleRx"><img data-story-src="/projects/hubble/story/mobile2.png" alt="Eksperyment 3D HubbleRx"></div>
+      <div class="tools-visual" data-story-reveal><img class="vector" data-story-src="/projects/hubble/hero-hubble.png" alt="Wektorowy świat HubbleRx"><img class="phones" data-story-src="/projects/hubble/story/mobile2.png" alt="Eksperyment 3D HubbleRx"></div>
     </div></section>`);
 
   result.classList.add('result-honest');
   result.id = 'wnioski';
+  result.id = 'wnioski';
   futureSection.id = 'idea';
   document.querySelector('.membership-system').id = 'produkt';
-  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">Wnioski</span><h2>Wartość była w eksploracji.</h2><p>HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.</p><ul><li>Silniejszy warsztat ilustracyjny</li><li>Adaptacja stylu do kanału</li><li>Pierwsze komercyjne eksperymenty 3D</li><li>Proces oparty na prototypowaniu</li></ul></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div></div>`;
+  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">Wnioski</span><h2>Wartość była w eksploracji.</h2><p>HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>Silniejszy warsztat ilustracyjny</li><li>Adaptacja stylu do kanału</li><li>Pierwsze komercyjne eksperymenty 3D</li><li>Proces oparty na prototypowaniu</li></ul></div>`;
 
   document.querySelectorAll('[data-story-src]').forEach(el => { el.src = storyBase + el.dataset.storySrc; });
   document.querySelectorAll('[data-story-video]').forEach(el => { el.src = storyBase + el.dataset.storyVideo; });
