@@ -117,7 +117,6 @@ body { margin:0; font-family:'Liberation Sans',Arial,sans-serif; color:%(INK)s; 
 .contacts .muted { color:%(MUTED)s; }
 .sec { margin-top:22pt; }
 .sech { width:100%%; border-collapse:collapse; }
-.secno { width:26pt; font-size:7pt; font-weight:bold; color:%(ACCENT)s; vertical-align:bottom; padding-bottom:3pt; }
 .sect { font-size:19pt; font-weight:bold; letter-spacing:-.3pt; }
 .secrule { height:1.4pt; background:%(ACCENT)s; margin-top:7pt; }
 .job { width:100%%; border-collapse:collapse; border-bottom:.6pt solid #e3dccf; }
@@ -176,14 +175,14 @@ html = (
        '<br><span class="muted">' + CONTACTS[3] + '</span></div>'
      '</td>'
    '</tr></table>'
-   '<div class="sec"><table class="sech"><tr><td class="secno">01</td>'
-   '<td class="sect">SELECTED EXPERIENCE</td></tr></table><div class="secrule"></div></div>'
+   '<div class="sec"><div class="sect">SELECTED EXPERIENCE</div>'
+   '<div class="secrule"></div></div>'
    + jobs_html(RECENT) +
  '</div>'
  '<div class="band">EXPERIENCE &amp; CAPABILITIES<span class="bdot"></span></div>'
  '<div class="pad">'
-   '<div class="sec" style="margin-top:20pt"><table class="sech"><tr><td class="secno">02</td>'
-   '<td class="sect">EARLIER EXPERIENCE</td></tr></table><div class="secrule"></div></div>'
+   '<div class="sec" style="margin-top:20pt"><div class="sect">EARLIER EXPERIENCE</div>'
+   '<div class="secrule"></div></div>'
    + jobs_html(EARLIER) +
    '<table class="cols"><tr>'
      '<td class="cleft">' + minihead("CORE CAPABILITIES") + '<div class="caps">' + caps_html + '</div></td>'
