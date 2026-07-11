@@ -81,6 +81,10 @@
           <div class="scene-copy"><span class="label">${T('System ilustracji','Illustration system')}</span><h2>${T('Świat gotowy na każdy format','A world ready for every format')}</h2><p>${T('Scena powstała jako kompozycja modularna. Ten sam świat obsługiwał szeroki banner, wąski slot mobile i tło kampanii — wystarczyło przesunąć kadr.','The scene was built as a modular composition. The same world served a wide banner, a narrow mobile slot and a campaign backdrop — reframing was enough.')}</p></div>
         </div>
         <div class="scene-canvas">${['illustration-01','illustration-02'].map(n=>`<img class="scene-layer" data-story-src="/projects/hubble/story/product-system/${n}.svg" alt="" aria-hidden="true">`).join('')}</div>
+        <figure class="scene-3d" data-story-reveal>
+          <img data-story-src="/projects/hubble/story/3d-underlay.png" alt="${T('Render architektury HubbleRx wyrzeźbionej w 3D','HubbleRx architecture sculpted in 3D')}">
+          <figcaption><b>${T('Architektura rzeźbiona w 3D','Architecture sculpted in 3D')}</b><span>${T('Wieże, budynki i pojazdy powstawały najpierw jako bryły. Wektor był obrysem gotowej geometrii — stąd spójna perspektywa.','Towers, buildings and vehicles were built as solids first. The vector traced finished geometry — hence the consistent perspective.')}</span></figcaption>
+        </figure>
         <div class="scene-progress" aria-hidden="true"><i></i></div>
       </div>
     </section>`);
@@ -310,6 +314,25 @@
   addEventListener('scroll', requestToolsUpdate, { passive: true });
   addEventListener('resize', requestToolsUpdate, { passive: true });
   updateTools();
+
+  // NAV SCROLL-SPY — the .is-active style already existed in CSS, but nothing ever applied it,
+  // so the current stage was never highlighted. This wires it up.
+  const navTargets = Array.from(document.querySelectorAll('.case-nav a[href^="#"]'))
+    .map(link => ({ link, section: document.getElementById(link.getAttribute('href').slice(1)) }))
+    .filter(t => t.section);
+  let navTicking = false;
+  const updateNav = () => {
+    navTicking = false;
+    if (!navTargets.length) return;
+    const line = innerHeight * .34;
+    let current = null;
+    navTargets.forEach(t => { if (t.section.getBoundingClientRect().top <= line) current = t; });
+    navTargets.forEach(t => t.link.classList.toggle('is-active', t === current));
+  };
+  const requestNavUpdate = () => { if (!navTicking) { navTicking = true; requestAnimationFrame(updateNav); } };
+  addEventListener('scroll', requestNavUpdate, { passive: true });
+  addEventListener('resize', requestNavUpdate, { passive: true });
+  updateNav();
 
   const storyObserver = new IntersectionObserver(entries => entries.forEach(entry => {
     if (!entry.isIntersecting) return;
