@@ -83,8 +83,8 @@ a:hover{color:var(--accent)}
 .sec{position:relative;overflow:hidden;padding:clamp(44px,5vw,64px) var(--gut) clamp(44px,5vw,60px)}
 .sec.alt{border-top:2px solid var(--ink);background:var(--paper2)}
 .sec.paper{border-top:2px solid var(--ink);background:var(--paper)}
-.vlabel{position:absolute;left:20px;top:70px;writing-mode:vertical-rl;transform:rotate(180deg);font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:var(--mut);display:flex;align-items:center;gap:16px}
-.vlabel span{width:2px;height:40px;background:var(--accent)}
+.vlabel{position:absolute;left:20px;top:70px;writing-mode:vertical-rl;transform:rotate(180deg);font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.24em;text-transform:uppercase;white-space:nowrap;color:var(--mut);display:flex;align-items:center;gap:16px}
+.vlabel .vbar{width:2px;height:40px;background:var(--accent);flex:none}
 .sec-h{font:900 clamp(34px,4.6vw,64px)/0.98 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.03em}
 .sec-u{width:64px;height:3px;background:var(--accent);margin:16px 0 40px}
 
@@ -196,7 +196,7 @@ a:hover{color:var(--accent)}
 
 <!-- DOŚWIADCZENIE -->
 <div id="doswiadczenie" class="sec">
-  <div class="vlabel">01 / DOŚWIADCZENIE<span></span></div>
+  <div class="vlabel"><span class="vtxt">01 / <span data-i18n="nav_exp">Doświadczenie</span></span><span class="vbar"></span></div>
   <div class="wrap">
     <div data-reveal class="sec-h" data-i18n="h_exp">Doświadczenie</div>
     <div data-reveal class="sec-u"></div>
@@ -206,7 +206,7 @@ a:hover{color:var(--accent)}
 
 <!-- UMIEJĘTNOŚCI -->
 <div id="umiejetnosci" class="sec alt">
-  <div class="vlabel">02 / UMIEJĘTNOŚCI<span></span></div>
+  <div class="vlabel"><span class="vtxt">02 / <span data-i18n="nav_skills">Umiejętności</span></span><span class="vbar"></span></div>
   <div class="wrap">
     <div data-reveal class="sec-h" data-i18n="h_skills_big">Umiejętności</div>
     <div data-reveal class="sec-u"></div>
@@ -224,7 +224,7 @@ a:hover{color:var(--accent)}
 
 <!-- EDUKACJA -->
 <div id="edukacja" class="sec paper">
-  <div class="vlabel">03 / EDUKACJA<span></span></div>
+  <div class="vlabel"><span class="vtxt">03 / <span data-i18n="nav_edu">Edukacja</span></span><span class="vbar"></span></div>
   <div class="wrap">
     <div data-reveal class="sec-h" data-i18n="h_edu_big">Edukacja</div>
     <div data-reveal class="sec-u"></div>
@@ -234,7 +234,7 @@ a:hover{color:var(--accent)}
 
 <!-- FOOTER -->
 <div class="foot">
-  <div class="vlabel">04 / KONTAKT<span></span></div>
+  <div class="vlabel"><span class="vtxt">04 / <span data-i18n="foot_cta">Kontakt</span></span><span class="vbar"></span></div>
   <div class="foot-top wrap">
     <div>
       <div class="foot-status"><i></i><span data-i18n="k_status">DOSTĘPNA DO WSPÓŁPRACY</span></div>
