@@ -312,8 +312,8 @@ const isEn = () => lang === 'en';
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
 function buildJobs(){
-  document.getElementById('jobs').innerHTML = JOBS[lang].map(j=>`
-    <div data-reveal class="job">
+  document.getElementById('jobs').innerHTML = JOBS[lang].map((j,i)=>`
+    <div data-reveal data-rd="${i*90}" class="job">
       <span class="dot" style="background:${j.dot}"></span>
       <div class="yr">${esc(j.years)}</div>
       <div>
@@ -364,9 +364,12 @@ const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.docume
 const io = new IntersectionObserver(entries=>{
   entries.filter(e=>e.isIntersecting).forEach((e,i)=>{
     io.unobserve(e.target); e.target.style.opacity='';
+    /* data-rd = wlasne opoznienie wg kolejnosci na liscie (kaskada);
+       bez niego stagger liczy sie z indeksu w paczce obserwatora */
+    const rd = e.target.dataset.rd;
     e.target.animate(
       [{opacity:0,transform:'translateY(28px)'},{opacity:1,transform:'none'}],
-      {duration:800,delay:i*110,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+      {duration:800,delay:rd!==undefined?+rd:i*110,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
     );
   });
 },{threshold:.12,rootMargin:'0px 0px -30px 0px'});
