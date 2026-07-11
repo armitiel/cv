@@ -190,6 +190,10 @@ img{display:block}
 .c-send{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--accent);color:var(--cream);border:none;border-radius:8px;padding:15px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform .2s,filter .2s}
 .ico{width:16px;height:16px;display:block;flex:none}
 .c-send:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.c-send:disabled{cursor:wait;opacity:.72;transform:none;filter:none}
+.c-status{min-height:20px;margin:0;color:rgba(246,241,232,.72);font:500 12px/1.5 'IBM Plex Mono',monospace}
+.c-status.ok{color:#68d8a7}.c-status.err{color:#ff9b8f}
+.hp-field{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 .foot{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(48px,6vw,80px);padding-top:24px;border-top:1px solid rgba(246,241,232,.15);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,241,232,.6);gap:14px;flex-wrap:wrap}
 .foot-social{display:flex;gap:22px}
 .foot-social a{color:rgba(246,241,232,.85);font-weight:500}
@@ -344,18 +348,20 @@ img{display:block}
       <div class="c-row" data-reveal>
         <div class="field">
           <label data-i18n="f_name">Imię / Firma</label>
-          <input id="cf-name" type="text" data-i18n-ph="ph_name" placeholder="Jan Kowalski" required>
+          <input id="cf-name" name="name" type="text" autocomplete="name" data-i18n-ph="ph_name" placeholder="Jan Kowalski" required>
         </div>
         <div class="field">
           <label data-i18n="f_email">E-mail</label>
-          <input id="cf-email" type="email" data-i18n-ph="ph_email" placeholder="jan@firma.pl" required>
+          <input id="cf-email" name="email" type="email" autocomplete="email" data-i18n-ph="ph_email" placeholder="jan@firma.pl" required>
         </div>
       </div>
       <div class="field" data-reveal>
         <label data-i18n="f_msg">Wiadomość</label>
-        <textarea id="cf-msg" data-i18n-ph="ph_msg" placeholder="Cześć Amitiel, chcielibyśmy..." required></textarea>
+        <textarea id="cf-msg" name="message" data-i18n-ph="ph_msg" placeholder="Cześć Amitiel, chcielibyśmy..." required></textarea>
       </div>
+      <div class="hp-field" aria-hidden="true"><label>Website<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
       <button type="submit" class="c-send" data-reveal><span data-i18n="f_send">Wyślij wiadomość</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></button>
+      <p class="c-status" id="cf-status" role="status" aria-live="polite"></p>
     </form>
   </div>
   <div class="foot">
@@ -592,15 +598,43 @@ function buildGrid(){
 function setAccent(c){ document.documentElement.style.setProperty('--accent',c); localStorage.setItem('aa_accent',c); }
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) setAccent(savedAcc);
 
-/* ---- formularz kontaktowy (mailto, bez backendu) ---- */
-function sendContact(e){
+/* ---- formularz kontaktowy (Vercel Function + Resend) ---- */
+async function sendContact(e){
   e.preventDefault();
+  const form = e.currentTarget;
+  const button = form.querySelector('.c-send');
+  const buttonLabel = button.querySelector('span');
+  const status = document.getElementById('cf-status');
   const name = document.getElementById('cf-name').value.trim();
   const email = document.getElementById('cf-email').value.trim();
-  const msg = document.getElementById('cf-msg').value.trim();
-  const subject = encodeURIComponent('Portfolio: wiadomość od ' + (name || email));
-  const body = encodeURIComponent(msg + '\n\n' + name + '\n' + email);
-  window.location.href = 'mailto:armitiel@gmail.com?subject=' + subject + '&body=' + body;
+  const message = document.getElementById('cf-msg').value.trim();
+  const website = document.getElementById('cf-website').value;
+  const idleLabel = isEn() ? 'Send message' : 'Wyślij wiadomość';
+  button.disabled = true;
+  buttonLabel.textContent = isEn() ? 'Sending…' : 'Wysyłanie…';
+  status.className = 'c-status';
+  status.textContent = '';
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name,email,message,website})
+    });
+    const result = await response.json().catch(()=>({}));
+    if(!response.ok || !result.ok) throw new Error(result.error || 'Send failed');
+    form.reset();
+    status.className = 'c-status ok';
+    status.textContent = isEn() ? 'Thank you — your message has been sent.' : 'Dziękuję — wiadomość została wysłana.';
+  } catch(err) {
+    console.error('[contact] send failed', err);
+    status.className = 'c-status err';
+    status.innerHTML = isEn()
+      ? 'The message could not be sent. Write directly to <a href="mailto:armitiel@gmail.com">armitiel@gmail.com</a>.'
+      : 'Nie udało się wysłać wiadomości. Napisz bezpośrednio na <a href="mailto:armitiel@gmail.com">armitiel@gmail.com</a>.';
+  } finally {
+    button.disabled = false;
+    buttonLabel.textContent = idleLabel;
+  }
   return false;
 }
 
