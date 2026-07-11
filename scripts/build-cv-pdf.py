@@ -15,10 +15,10 @@ ACCENT, INK, BG = "#C96318", "#1C1813", "#F4EFE7"
 
 NAME = "AMITIEL ANGELISME"
 ROLE = "SENIOR GRAPHIC DESIGNER"
-SUMMARY = ("Senior Graphic Designer and multidisciplinary UI Artist with 12+ years of experience. "
-           "My work spans game interfaces, branding, illustration, 2D/3D, motion and visual systems — from "
-           "concept and art direction to production and implementation. I have contributed to globally "
-           "shipped products with 50M+ downloads.")
+SUMMARY = ("Multidisciplinary designer with 12+ years of experience across branding, illustration, "
+           "2D/3D, motion, game interfaces and visual systems. I take projects from concept and art "
+           "direction through to production and implementation — for products shipped globally with "
+           "50M+ downloads.")
 CONTACTS = ["armitiel@gmail.com", "linkedin.com/in/amitiel", "amitiel.cv/portfolio", "Warsaw, Poland | GMT+1"]
 
 RECENT = [
