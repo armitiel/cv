@@ -12,13 +12,13 @@
   summary.classList.remove('section');
   summary.innerHTML = `
     <div data-story-reveal>
-      <span class="label">Kontekst</span>
+      <span class="label">${T('Kontekst','Context')}</span>
       <h2>System marki dla startupu farmaceutycznego z Teksasu</h2>
       <p>HubbleRx powstał w 2022 roku podczas mojej pierwszej współpracy z Decom Studios. Celem było stworzenie przyjaznej marki dla internetowej subskrypcji leków — prostszej, bardziej ludzkiej i gotowej do działania w wielu kanałach.</p>
       <div class="story-note">Klient: Decom Studios · Texas · 2022</div>
     </div>
     <div data-story-reveal>
-      <span class="label">Zakres eksperymentu</span>
+      <span class="label">${T('Zakres eksperymentu','Scope of the experiment')}</span>
       <h2>Jedna idea rozwinięta w pełny system</h2>
       <p>Produkt nie został ostatecznie wprowadzony na rynek, ale proces objął ilustracje, layouty, animacje, prototypy i pierwsze eksperymenty 3D. To zapis projektu, w którym jedna idea stopniowo adaptowała się do kolejnych potrzeb.</p>
       <div class="story-note">Zakres: Branding · Illustration · UI · Motion · 3D</div>
@@ -28,7 +28,7 @@
     <section class="future" id="idea">
       <div class="container grid">
         <div class="future-copy" data-story-reveal>
-          <span class="label">Punkt wyjścia</span>
+          <span class="label">${T('Punkt wyjścia','Starting point')}</span>
           <h2>Przyjazna wizja przyszłości</h2>
           <blockquote class="future-quote">„Co, jeśli dostęp do leków byłby równie prosty jak codzienne usługi online?”</blockquote>
           <p>Inspiracją był optymistyczny retrofuturyzm: świat rodzinny, ciepły i technologiczny. Medycyna miała wyglądać jak naturalna część codzienności, a nie chłodny system pełen barier.</p>
@@ -60,8 +60,8 @@
   const futureSection = document.querySelector('.future');
   futureSection.insertAdjacentHTML('afterend', `
     <section class="rejected"><div class="container rejected-grid">
-      <div class="rejected-copy" data-story-reveal><span class="label">Odrzucony kierunek</span><h2>„The Netflix for Medications”</h2><p>Jedna z pierwszych metafor przedstawiała HubbleRx jako prostą usługę subskrypcyjną dostępną z domowego ekranu. Futurystyczny salon, telewizor i mały robot natychmiast tłumaczyły ideę stałego dostępu.</p><div class="decision"><b>Dlaczego odrzuciliśmy ten kierunek?</b><span>Metafora była czytelna, ale zbyt mocno przesuwała komunikację w stronę rozrywki. W produkcie zdrowotnym ważniejsze okazały się zaufanie, rodzina i klarowność.</span></div></div>
-      <div class="rejected-visual" data-story-reveal><span class="rejected-stamp">Exploration / not selected</span><img class="rejected-phone" data-story-src="/projects/hubble/story/product-system/robot-concept.png" alt="Odrzucony kierunek Netflix for Medications"><img class="rejected-ghost" data-story-src="/projects/hubble/story/product-system/robot-room.png" alt="Robot w futurystycznym salonie"></div>
+      <div class="rejected-copy" data-story-reveal><span class="label">${T('Odrzucony kierunek','Rejected direction')}</span><h2>„The Netflix for Medications”</h2><p>Jedna z pierwszych metafor przedstawiała HubbleRx jako prostą usługę subskrypcyjną dostępną z domowego ekranu. Futurystyczny salon, telewizor i mały robot natychmiast tłumaczyły ideę stałego dostępu.</p><div class="decision"><b>Dlaczego odrzuciliśmy ten kierunek?</b><span>Metafora była czytelna, ale zbyt mocno przesuwała komunikację w stronę rozrywki. W produkcie zdrowotnym ważniejsze okazały się zaufanie, rodzina i klarowność.</span></div></div>
+      <div class="rejected-visual" data-story-reveal><span class="rejected-stamp">${T('Eksploracja / niewybrany','Exploration / not selected')}</span><img class="rejected-phone" data-story-src="/projects/hubble/story/product-system/robot-concept.png" alt="Odrzucony kierunek Netflix for Medications"><img class="rejected-ghost" data-story-src="/projects/hubble/story/product-system/robot-room.png" alt="Robot w futurystycznym salonie"></div>
     </div></section>`);
 
   const worldSection = document.querySelector('.world');
@@ -96,18 +96,18 @@
   const adaptSection = document.querySelector('.adapt');
   adaptSection.insertAdjacentHTML('afterend', `
     <section class="membership-system" id="produkt"><div class="container">
-      <div class="membership-head" data-story-reveal><span class="label">System korzyści</span><h2>Oferta zamieniona w język wizualny</h2><p>Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.</p></div>
+      <div class="membership-head" data-story-reveal><span class="label">${T('System korzyści','Benefit system')}</span><h2>Oferta zamieniona w język wizualny</h2><p>Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.</p></div>
       <div class="membership-cards" data-story-reveal>
         ${[
-          ['Acute medications','Immediate need',['Fast access to essential medications','Clear membership pricing','Local pharmacy pickup']],
-          ['Chronic medications','Maintenance need',['Long-term condition support','480+ included medications','Up to 21-day supply','Local pharmacy pickup']],
-          ['OTC medications','Everyday need',['Non-prescription medications','Savings up to 50%','Popular everyday products','Home delivery']],
-          ['Pharmacy coaching','Helpline',['Direct pharmacy support','Medication guidance','Long-term condition support','Local pharmacy pickup']],
-          ['Diabetes supplies','Care essentials',['Glucose monitor','Test strips','Lancet supplies','Device and control solution','Home delivery']]
+          [T('Leki doraźne','Acute medications'),T('Potrzeba natychmiastowa','Immediate need'),[T('Szybki dostęp do leków podstawowych','Fast access to essential medications'),T('Przejrzysta cena w abonamencie','Clear membership pricing'),T('Odbiór w lokalnej aptece','Local pharmacy pickup')]],
+          [T('Leki przewlekłe','Chronic medications'),T('Terapia ciągła','Maintenance need'),[T('Wsparcie w chorobach przewlekłych','Long-term condition support'),T('Ponad 480 leków w pakiecie','480+ included medications'),T('Zapas do 21 dni','Up to 21-day supply'),T('Odbiór w lokalnej aptece','Local pharmacy pickup')]],
+          [T('Leki bez recepty','OTC medications'),T('Potrzeba codzienna','Everyday need'),[T('Produkty bez recepty','Non-prescription medications'),T('Oszczędność do 50%','Savings up to 50%'),T('Popularne produkty codzienne','Popular everyday products'),T('Dostawa do domu','Home delivery')]],
+          [T('Konsultacje farmaceuty','Pharmacy coaching'),T('Infolinia','Helpline'),[T('Bezpośrednie wsparcie farmaceuty','Direct pharmacy support'),T('Pomoc w doborze leków','Medication guidance'),T('Wsparcie w chorobach przewlekłych','Long-term condition support'),T('Odbiór w lokalnej aptece','Local pharmacy pickup')]],
+          [T('Zaopatrzenie diabetyczne','Diabetes supplies'),T('Podstawy opieki','Care essentials'),[T('Glukometr','Glucose monitor'),T('Paski testowe','Test strips'),T('Nakłuwacze i lancety','Lancet supplies'),T('Urządzenie i płyn kontrolny','Device and control solution'),T('Dostawa do domu','Home delivery')]]
         ].map((card,i)=>`<article class="membership-card${i===1?' is-open':''}">
           <div class="membership-card-main"><img data-story-src="/projects/hubble/story/product-system/benefit-0${i+1}.svg" alt=""><h3>${card[0]}</h3><p>${card[1]}</p></div>
           <div class="membership-card-details" id="membership-details-${i}" ${i===1?'':'hidden'}><ul>${card[2].map(item=>`<li>${item}</li>`).join('')}</ul></div>
-          <button class="membership-toggle" type="button" aria-expanded="${i===1?'true':'false'}" aria-controls="membership-details-${i}"><span>${i===1?'Zwiń':'Szczegóły'}</span><i aria-hidden="true">${i===1?'−':'+'}</i></button>
+          <button class="membership-toggle" type="button" aria-expanded="${i===1?'true':'false'}" aria-controls="membership-details-${i}"><span>${i===1?T('Zwiń','Close'):T('Zobacz więcej','Learn more')}</span><i aria-hidden="true">${i===1?'−':'+'}</i></button>
         </article>`).join('')}
       </div>
     </div></section>`);
@@ -117,13 +117,13 @@
       <div class="container" data-story-reveal><span class="bridge-n">02</span><p>Po uporządkowaniu doświadczenia produktu sprawdziłem, jak ten sam świat zachowuje się w ruchu, reklamie i przestrzeni 3D.</p></div>
     </section>
     <section class="motion" id="motion"><div class="container motion-layout">
-      <div class="motion-copy" data-story-reveal><span class="label">Eksperymenty w ruchu</span><h2>Pomysły testowane w ruchu</h2><p>Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.</p></div>
+      <div class="motion-copy" data-story-reveal><span class="label">${T('Eksperymenty w ruchu','Motion experiments')}</span><h2>Pomysły testowane w ruchu</h2><p>Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.</p></div>
       <div class="motion-grid">
         ${[['motion-2d.mp4','2D Motion'],['motion-social.mp4','Social Ads'],['motion-3d.mp4','3D Experiments'],['motion-prototype.mp4','UI Prototyping']].map(([src,label])=>`<figure class="motion-card" data-story-reveal><video data-story-video="/projects/hubble/story/${src}" muted loop playsinline preload="metadata"></video><span>${label}</span><i class="play-dot">▶</i></figure>`).join('')}
       </div>
     </div></section>
     <section class="tools-story"><div class="container tools-grid">
-      <div class="tools-copy" data-story-reveal><span class="label">Warsztat</span><h2>Od Illustratora do Blendera</h2><p>Płaskie formy wektorowe zapewniały spójność i skalowalność. After Effects dodawał tempo i narrację, a pierwsze eksperymenty w Blenderze pozwalały osadzić markę w bardziej przestrzennym świecie.</p><div class="tool-list"><span>Illustrator</span><span>After Effects</span><span>Blender</span></div></div>
+      <div class="tools-copy" data-story-reveal><span class="label">${T('Warsztat','Craft')}</span><h2>Od Illustratora do Blendera</h2><p>Płaskie formy wektorowe zapewniały spójność i skalowalność. After Effects dodawał tempo i narrację, a pierwsze eksperymenty w Blenderze pozwalały osadzić markę w bardziej przestrzennym świecie.</p><div class="tool-list"><span>Illustrator</span><span>After Effects</span><span>Blender</span></div></div>
       <div class="tools-visual" data-story-reveal><img class="vector" data-story-src="/projects/hubble/hero-hubble.png" alt="Wektorowy świat HubbleRx"><img class="phones" data-story-src="/projects/hubble/story/mobile2.png" alt="Eksperyment 3D HubbleRx"></div>
     </div></section>`);
 
@@ -132,7 +132,7 @@
   result.id = 'wnioski';
   futureSection.id = 'idea';
   document.querySelector('.membership-system').id = 'produkt';
-  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">Wnioski</span><h2>Wartość była w eksploracji.</h2><p>HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>Silniejszy warsztat ilustracyjny</li><li>Adaptacja stylu do kanału</li><li>Pierwsze komercyjne eksperymenty 3D</li><li>Proces oparty na prototypowaniu</li></ul></div>`;
+  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">${T('Wnioski','Takeaways')}</span><h2>Wartość była w eksploracji.</h2><p>HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>Silniejszy warsztat ilustracyjny</li><li>Adaptacja stylu do kanału</li><li>Pierwsze komercyjne eksperymenty 3D</li><li>Proces oparty na prototypowaniu</li></ul></div>`;
 
   document.querySelectorAll('[data-story-src]').forEach(el => { el.src = storyBase + el.dataset.storySrc; });
   document.querySelectorAll('[data-story-video]').forEach(el => { el.src = storyBase + el.dataset.storyVideo; });
