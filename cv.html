@@ -211,12 +211,12 @@ a:hover{color:var(--accent)}
     <div data-reveal class="sec-h" data-i18n="h_skills_big">Umiejętności</div>
     <div data-reveal class="sec-u"></div>
     <div class="sk-grid">
-      <div data-reveal class="sk-list" id="skills"></div>
-      <div data-reveal>
-        <div class="lbl" data-i18n="h_tools">NARZĘDZIA</div>
+      <div class="sk-list" id="skills"></div>
+      <div>
+        <div class="lbl" data-reveal data-i18n="h_tools">NARZĘDZIA</div>
         <div class="tools" id="tools"></div>
-        <div class="lbl" style="margin-top:30px" data-i18n="h_lang">JĘZYKI</div>
-        <div class="langs"><span data-i18n="lang_pl">Polski, ojczysty</span><br><span data-i18n="lang_en">Angielski, biegły</span></div>
+        <div class="lbl" style="margin-top:30px" data-reveal data-i18n="h_lang">JĘZYKI</div>
+        <div class="langs" data-reveal><span data-i18n="lang_pl">Polski, ojczysty</span><br><span data-i18n="lang_en">Angielski, biegły</span></div>
       </div>
     </div>
   </div>
@@ -324,10 +324,10 @@ function buildJobs(){
     </div>`).join('');
 }
 function buildSkills(){
-  document.getElementById('skills').innerHTML = SKILLS[lang].map(s=>`<div class="sk"><i></i>${esc(s)}</div>`).join('');
+  document.getElementById('skills').innerHTML = SKILLS[lang].map((s,i)=>`<div class="sk" data-reveal data-rd="${i*70}"><i></i>${esc(s)}</div>`).join('');
 }
 function buildTools(){
-  document.getElementById('tools').innerHTML = TOOLS.map(t=>`<span>${esc(t)}</span>`).join('');
+  document.getElementById('tools').innerHTML = TOOLS.map((t,i)=>`<span data-reveal data-rd="${i*45}">${esc(t)}</span>`).join('');
 }
 function buildEdu(){
   document.getElementById('edu').innerHTML = EDU[lang].map(e=>`
