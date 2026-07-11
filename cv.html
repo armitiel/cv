@@ -28,12 +28,17 @@ a:hover{color:var(--accent)}
 @keyframes slideFromRight{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
 ::view-transition-group(portrait),::view-transition-group(heroText){animation-duration:.75s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
 ::view-transition-old(heroText),::view-transition-new(heroText){animation-duration:.45s}
+/* reszta strony: miekkie przenikanie z lekkim dryfem zamiast twardego cross-fade */
+@keyframes vtOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-10px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+::view-transition-old(root){animation:vtOut .35s cubic-bezier(.2,.7,.2,1) both}
+::view-transition-new(root){animation:vtIn .55s .05s cubic-bezier(.2,.7,.2,1) both}
 @media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
 .wrap{max-width:var(--maxw);margin:0 auto}
 [data-reveal]{will-change:opacity,transform}
 
 /* NAV */
-.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px var(--gut);background:rgba(246,241,232,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(28,24,19,.1)}
+.nav{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px var(--gut);background:rgba(246,241,232,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(28,24,19,.1);view-transition-name:navbar}
 .nav .brand{display:inline-flex;align-items:center}
 .nav .brand-logo{height:40px;width:auto;display:block;mix-blend-mode:multiply;transition:opacity .25s}
 .nav .brand:hover .brand-logo{opacity:.65}
