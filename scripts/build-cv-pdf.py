@@ -16,7 +16,7 @@ ACCENT, INK, BG = "#C96318", "#1C1813", "#F4EFE7"
 NAME = "AMITIEL ANGELISME"
 ROLE = "SENIOR GRAPHIC DESIGNER"
 SUMMARY = ("Senior Graphic Designer and multidisciplinary UI Artist with 12+ years of experience. "
-           "My work spans game UI, branding, illustration, 2D/3D, motion and visual systems — from "
+           "My work spans game interfaces, branding, illustration, 2D/3D, motion and visual systems — from "
            "concept and art direction to production and implementation. I have contributed to globally "
            "shipped products with 50M+ downloads.")
 CONTACTS = ["armitiel@gmail.com", "linkedin.com/in/amitiel", "amitiel.cv/portfolio", "Warsaw, Poland | GMT+1"]
