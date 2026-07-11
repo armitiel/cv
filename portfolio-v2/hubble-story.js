@@ -80,7 +80,7 @@
   processSection.id = 'ilustracja';
   document.querySelector('.scene-build').insertAdjacentHTML('afterend', `
     <section class="story-bridge" aria-label="Przejście od ilustracji do identyfikacji">
-      <div class="container" data-story-reveal><span class="bridge-n">01</span><p>Kiedy język ilustracji nabrał kształtu, mogłem przełożyć jego rytm na znak, kolor i typografię.</p></div>
+      <div class="container" data-story-reveal><span class="bridge-n">01</span><p>Ilustracyjny język marki stał się podstawą znaku, koloru i typografii.</p><span class="bridge-label">Od ilustracji do identyfikacji</span></div>
     </section>`);
 
   foundation.insertAdjacentHTML('afterend', `
@@ -114,7 +114,7 @@
 
   mobile.insertAdjacentHTML('afterend', `
     <section class="story-bridge" aria-label="Przejście od produktu do ruchu">
-      <div class="container" data-story-reveal><span class="bridge-n">02</span><p>Po uporządkowaniu doświadczenia produktu sprawdziłem, jak ten sam świat zachowuje się w ruchu, reklamie i przestrzeni 3D.</p></div>
+      <div class="container" data-story-reveal><span class="bridge-n">02</span><p>Gotowy język produktu pozwolił sprawdzić markę w ruchu, reklamie i przestrzeni 3D.</p><span class="bridge-label">Od produktu do motion</span></div>
     </section>
     <section class="motion" id="motion"><div class="container motion-layout">
       <div class="motion-copy" data-story-reveal><span class="label">${T('Eksperymenty w ruchu','Motion experiments')}</span><h2>Pomysły testowane w ruchu</h2><p>Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.</p></div>
