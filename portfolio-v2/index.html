@@ -281,7 +281,7 @@ img{display:block}
       <p class="about-p"><span class="lead" data-i18n="about_lead">Cześć, jestem Amitiel.</span></p>
       <p class="about-p" data-i18n="about_p2">Praca graficzna jest dla mnie sztuką użytkową — łączę ją z nowymi technologiami, tworząc obrazy, interfejsy i doświadczenia wizualne o wyraźnym charakterze. Interesują mnie pomysły nieszablonowe: takie, które mają własny język, emocję i zapadają w pamięć.</p>
       <p class="about-p" data-i18n="about_p3">Moja przewaga leży w szerokim spojrzeniu na kreację. Swobodnie poruszam się między UI/UX, brandingiem, ilustracją, grafiką 2D i 3D, motion designem oraz kierunkiem artystycznym, dzięki czemu buduję spójne światy wizualne zamiast pojedynczych elementów.</p>
-      <p class="about-p ac" data-i18n="about_p4">Najbliżej mi do projektów, w których design staje się nośnikiem idei: czytelnej, estetycznej i angażującej.</p>
+      <p class="about-p ac" data-i18n="about_p4">Moją pasją jest tworzenie kompletnych produktów i narzędzi — od idei i języka wizualnego po działający rezultat. Nowe technologie znacząco poszerzyły mój zakres produkcyjny oraz zrozumienie systemów, zależności i procesów stojących za ich powstawaniem.</p>
     </div>
     <div class="about-cols fu4">
       <div>
@@ -366,15 +366,14 @@ img{display:block}
 
 <script src="data.js"></script>
 <script>
-const _localAssets = location.pathname.includes('/portfolio-v2') || location.protocol === 'file:';
-const IMG = p => (_localAssets ? '../portfolio/public' : '/portfolio') + p;   // lokalnie: ../portfolio/public, prod: /portfolio
+const IMG = p => '.' + p;   // assety leza obok stron (portfolio-v2/) - sciezka wzgledna dziala lokalnie i na prod
 
 /* ---- i18n ---- */
 const DICT = {
   nav_projects:['Projekty','Work'], nav_about:['O mnie','About'], nav_contact:['Kontakt','Contact'], nav_cv:['CV','CV'],
   hero_hi:['CZEŚĆ, JESTEM AMITIEL',"HI, I'M AMITIEL"],
   hero_1:['Koncepcja,','Concept,'], hero_2:['obraz,','image,'], hero_3:['opowieść','story'],
-  hero_sub:['Tworzę koncepcje i opowiadam je obrazem. Selektywnie dobieram narzędzia (branding, 3D, UI, ilustracja, motion), by osiągnąć jeden zamierzony efekt: estetyczny i funkcjonalny, dopasowany do danej interaktywności.','I build concepts and tell them through image. I deliberately pick the right tools (branding, 3D, UI, illustration, motion) to reach one intended result: aesthetic and functional, shaped to each interaction.'],
+  hero_sub:['Łączę obraz, funkcję i nowe technologie, tworząc produkty i doświadczenia wizualne, które mają własny język, budzą emocje i zostają w pamięci.','I combine image, function and new technologies to create products and visual experiences with their own language, emotion and a character that stays with people.'],
   btn_projects:['Zobacz projekty','See my work'], btn_about:['O mnie','About me'],
   lbl_spec:['NARZĘDZIA W SŁUŻBIE KONCEPCJI','TOOLS IN SERVICE OF THE CONCEPT'], spec_il:['Ilustracja','Illustration'],
   st_1:['LAT OPOWIADANIA OBRAZEM','YEARS TELLING STORIES IN IMAGES'],
@@ -392,7 +391,7 @@ const DICT = {
   cal_l:['Kalendarz','Calendar'], cal_v:['Umów rozmowę ↗','Book a call ↗'],
   about_p2:['Praca graficzna jest dla mnie sztuką użytkową — łączę ją z nowymi technologiami, tworząc obrazy, interfejsy i doświadczenia wizualne o wyraźnym charakterze. Interesują mnie pomysły nieszablonowe: takie, które mają własny język, emocję i zapadają w pamięć.',"For me, graphic design is an applied art — I combine it with new technology to create images, interfaces and visual experiences with a distinct character. I’m drawn to unconventional ideas: ones with their own language and emotion that stay in memory."],
   about_p3:['Moja przewaga leży w szerokim spojrzeniu na kreację. Swobodnie poruszam się między UI/UX, brandingiem, ilustracją, grafiką 2D i 3D, motion designem oraz kierunkiem artystycznym, dzięki czemu buduję spójne światy wizualne zamiast pojedynczych elementów.',"My strength lies in a broad view of creative work. I move freely between UI/UX, branding, illustration, 2D and 3D graphics, motion design and art direction, which lets me build coherent visual worlds instead of single elements."],
-  about_p4:['Najbliżej mi do projektów, w których design staje się nośnikiem idei: czytelnej, estetycznej i angażującej.',"I’m closest to projects where design becomes a vehicle for an idea: clear, aesthetic and engaging."],
+  about_p4:['Moją pasją jest tworzenie kompletnych produktów i narzędzi — od idei i języka wizualnego po działający rezultat. Nowe technologie znacząco poszerzyły mój zakres produkcyjny oraz zrozumienie systemów, zależności i procesów stojących za ich powstawaniem.',"My passion is creating complete products and tools — from the initial idea and visual language to a working result. New technologies have significantly expanded my production range and my understanding of the systems, dependencies and processes behind how products are made."],
   lbl_skills:['UMIEJĘTNOŚCI','SKILLS'], lbl_tools:['NARZĘDZIA','TOOLS'],
   lbl_edu:['EDUKACJA','EDUCATION'], lbl_loc:['LOKALIZACJA','LOCATION'],
   loc_v:['Warszawa, Polska','Warsaw, Poland'],
@@ -439,8 +438,8 @@ document.getElementById('langBtn').onclick = ()=>{ lang = isEn()?'pl':'en'; loca
 /* ---- marquee: napędzany scrollem ---- */
 function buildMq(){
   const words = isEn()
-    ? ['Digital Creator','Visual Storyteller','From Concept to Image','The Right Tool for the Story','Aesthetics & Function','Branding · 3D · UI · Motion','Warsaw · Remote']
-    : ['Twórca cyfrowy','Wizualny storyteller','Od koncepcji po obraz','Narzędzie dobrane do opowieści','Estetyka i funkcja','Branding · 3D · UI · Motion','Warszawa · Remote'];
+    ? ['Senior Graphic Designer','Applied Art & Technology','From Idea to Working Product','Complete Visual Worlds','Aesthetics & Function','Branding · 3D · UI · Motion','Warsaw · Remote']
+    : ['Senior Graphic Designer','Sztuka użytkowa i technologia','Od idei po działający produkt','Kompletne światy wizualne','Estetyka i funkcja','Branding · 3D · UI · Motion','Warszawa · Remote'];
   let seq = '';
   words.forEach((w,i)=>{ seq += `<span class="w ${i%2?'alt':''}">${w}</span><span class="s">•</span>`; });
   document.getElementById('mqt').innerHTML = seq.repeat(4);

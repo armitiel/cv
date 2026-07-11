@@ -1,5 +1,16 @@
 # Dependencies
 node_modules/
+.pnpm-store/
+
+# Narzedzia lokalne / artefakty robocze
+.claude/
+output/
+cv.old.html
+
+# Stary projekt z Lovable (creative-showcase) - byl submodulem, teraz odpiety.
+# Zostaje lokalnie jako niezalezne repo (ma wlasne origin + niewypchnieta prace).
+# Assety, ktorych uzywa portfolio, sa juz w portfolio-v2/.
+/portfolio/
 
 # Build / cache
 dist/

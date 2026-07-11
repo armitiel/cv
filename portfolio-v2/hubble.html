@@ -177,8 +177,7 @@
 </div>
 <script src="data.js"></script>
 <script>
-const local=location.protocol==='file:'||location.pathname.includes('/portfolio-v2');
-const base=local?'../portfolio/public':'/portfolio';
+const base='.';   // assety leza obok stron (portfolio-v2/) - sciezka wzgledna dziala lokalnie i na prod
 document.querySelectorAll('.asset').forEach(el=>el.src=base+el.dataset.src);
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');observer.unobserve(e.target)}}),{threshold:.08});
 document.querySelectorAll('[data-reveal]').forEach(el=>observer.observe(el));

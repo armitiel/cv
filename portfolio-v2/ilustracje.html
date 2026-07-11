@@ -69,8 +69,7 @@ img{display:block;max-width:100%}
 
 <script src="data.js"></script>
 <script>
-const _localAssets = location.pathname.includes('/portfolio-v2') || location.protocol === 'file:';
-const IMG = p => (_localAssets ? '../portfolio/public' : '/portfolio') + p;   // lokalnie: ../portfolio/public, prod: /portfolio
+const IMG = p => '.' + p;   // assety leza obok stron (portfolio-v2/) - sciezka wzgledna dziala lokalnie i na prod
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
 const en = (localStorage.getItem('aa_lang')||'pl')==='en';
 
