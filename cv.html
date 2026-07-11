@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CV — Amitiel Angelisme</title>
 <meta name="description" content="CV — Amitiel Angelisme. Senior Graphic Designer, UI/UX & multidisciplinary designer. Warszawa.">
-<meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -23,6 +22,13 @@ a{color:inherit;text-decoration:none;transition:color .25s}
 a:hover{color:var(--accent)}
 ::selection{background:var(--accent);color:#fbfaf7}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+/* przejscie miedzy stronami: portret i tekst "zamieniaja sie miejscami" */
+@view-transition{navigation:auto}
+@keyframes slideFromLeft{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
+@keyframes slideFromRight{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+::view-transition-group(portrait),::view-transition-group(heroText){animation-duration:.75s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(heroText),::view-transition-new(heroText){animation-duration:.45s}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
 .wrap{max-width:var(--maxw);margin:0 auto}
 [data-reveal]{will-change:opacity,transform}
 
@@ -50,9 +56,9 @@ a:hover{color:var(--accent)}
 /* HERO */
 .hero{position:relative;background:var(--cream);color:var(--ink);padding:clamp(48px,6vw,68px) var(--gut) clamp(44px,5vw,60px);border-bottom:2px solid var(--ink);overflow:hidden}
 .hero-in{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:clamp(28px,4vw,64px);flex-wrap:wrap}
-.hero-l{flex:1;min-width:min(280px,100%);animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) both}
-.hero-right{flex:none;display:flex;flex-direction:column;gap:22px;align-items:flex-start;animation:fadeUp .9s .15s cubic-bezier(.2,.7,.2,1) both}
-.hero-video{width:clamp(260px,32vw,400px);overflow:hidden}
+.hero-l{flex:1;min-width:min(280px,100%);view-transition-name:heroText;animation:slideFromRight .85s cubic-bezier(.2,.7,.2,1) both}
+.hero-right{flex:none;display:flex;flex-direction:column;gap:22px;align-items:flex-start;animation:slideFromLeft .9s .1s cubic-bezier(.2,.7,.2,1) both}
+.hero-video{width:clamp(260px,32vw,400px);overflow:hidden;view-transition-name:portrait}
 .hero-video video{display:block;width:calc(100% + 10px);height:auto;margin-left:-5px}
 .eyebrow{font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:var(--accent)}
 .hero-h{font:900 clamp(46px,7vw,88px)/0.95 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.035em;margin-top:16px}
@@ -145,6 +151,8 @@ a:hover{color:var(--accent)}
   .foot-b span{flex:1 1 0;min-width:0;display:block;line-height:1.6}
   .foot-b span:first-child{text-align:left}
   .foot-b span:last-child{text-align:right}
+  .foot-btns{flex-wrap:wrap}
+  .nav-pdf{padding:7px 10px}
 }
 </style>
 </head>
@@ -155,6 +163,7 @@ a:hover{color:var(--accent)}
   <a href="/portfolio/" class="brand"><img src="images/logo-a.png" alt="Amitiel" class="brand-logo"></a>
   <div class="nav-r">
     <a href="/portfolio/" class="nav-link" data-i18n="back">Portfolio</a>
+    <a href="assets/Amitiel_CV.pdf" class="nav-pdf" target="_blank" rel="noopener"><span data-i18n="dl">Pobierz PDF</span> ↗</a>
     <button id="langBtn">EN</button>
   </div>
 </div>
@@ -165,8 +174,8 @@ a:hover{color:var(--accent)}
     <div class="hero-l">
       <div class="eyebrow">CURRICULUM VITAE</div>
       <div class="hero-h">Amitiel<br>Angelisme<span class="ac">.</span></div>
-      <div class="hero-role" data-i18n="role">Senior Graphic Designer</div>
-      <p class="hero-summary" data-i18n="summary">Multidyscyplinarny projektant ze świeżym, praktycznym podejściem. Tworzę interaktywne projekty z pełnym zrozumieniem produkcji, od pomysłu po finalne wdrożenie. Łączę sztukę z myśleniem funkcjonalnym, wykorzystując nowe technologie do szybszej i wydajniejszej pracy.</p>
+      <div class="hero-role" data-i18n="role">Senior UI & Visual Designer</div>
+      <p class="hero-summary" data-i18n="summary">Projektant z ponad 12-letnim doświadczeniem w game UI, systemach wizualnych i kompleksowej produkcji artystycznej. Tworzyłem rozwiązania dla globalnie wydanych produktów z ponad 50 mln pobrań — od koncepcji i art direction po implementację.</p>
     </div>
     <div class="hero-right">
       <div class="hero-video"><video src="images/Hero_vid.mp4" autoplay muted loop playsinline preload="auto"></video></div>
@@ -228,6 +237,7 @@ a:hover{color:var(--accent)}
     </div>
     <div class="foot-btns">
       <a href="/portfolio/" class="fb main"><span data-i18n="foot_portfolio">Portfolio</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a href="assets/Amitiel_CV.pdf" target="_blank" rel="noopener" class="fb ghost"><span data-i18n="dl">Pobierz PDF</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a>
       <a href="mailto:armitiel@gmail.com" class="fb ghost"><span data-i18n="foot_cta">Kontakt</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
     </div>
   </div>
@@ -242,9 +252,9 @@ const DICT = {
   back:['Portfolio','Portfolio'],
   nav_exp:['Doświadczenie','Experience'], nav_skills:['Umiejętności','Skills'], nav_edu:['Edukacja','Education'],
   dl:['Pobierz PDF','Download PDF'],
-  role:['Senior Graphic Designer','Senior Graphic Designer'],
+  role:['Senior UI & Visual Designer','Senior UI & Visual Designer'],
   loc:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
-  summary:['Multidyscyplinarny projektant ze świeżym, praktycznym podejściem. Tworzę interaktywne projekty z pełnym zrozumieniem produkcji, od pomysłu po finalne wdrożenie. Łączę sztukę z myśleniem funkcjonalnym, wykorzystując nowe technologie do szybszej i wydajniejszej pracy.','Multidisciplinary creative with a fresh, hands-on approach. I build interactive projects with a strong understanding of production, from idea to final implementation. I combine art with functional thinking, using new technologies to work faster and more efficiently.'],
+  summary:['Projektant z ponad 12-letnim doświadczeniem w game UI, systemach wizualnych i kompleksowej produkcji artystycznej. Tworzyłem rozwiązania dla globalnie wydanych produktów z ponad 50 mln pobrań — od koncepcji i art direction po implementację.','Senior UI & Visual Designer with 12+ years of experience in game UI, visual systems and end-to-end art production. I have contributed to globally shipped products with 50M+ downloads — from concept and art direction to implementation.'],
   h_exp:['Doświadczenie','Experience'], h_skills_big:['Umiejętności','Skills'], h_tools:['NARZĘDZIA','TOOLS'],
   h_edu_big:['Edukacja','Education'], h_lang:['JĘZYKI','LANGUAGES'],
   lang_pl:['Polski, ojczysty','Polish, native'], lang_en:['Angielski, biegły','English, fluent'],
@@ -254,29 +264,35 @@ const DICT = {
 };
 const JOBS = {
   pl:[
-    {company:'Self-employed',role:'Senior Graphic Designer',years:'2018 — obecnie',dot:'var(--accent)',desc:'UI, projektowanie wizualne i art direction dla web, mobile i produktów interaktywnych. Assety 2D/3D, animacje i spójne systemy wizualne, z workflow wspieranym AI.'},
-    {company:'Tactile Games',role:'UI Designer',years:'2024 — 2025',dot:'#1c1813',desc:'Autorskie narzędzie „Slicer" do cięcia assetów pod Unity, pierwsze w zespole workflow AI oraz skalowalne komponenty UI dla funkcji live.'},
-    {company:'Mobination Games',role:'Lead Artist',years:'2021 — 2023',dot:'#1c1813',desc:'Pełna wizja wizualna gry tower defense, od stylu i art direction po wdrożenie. Kompletny pakiet: UI/UX, gameplay, 2D/3D, animacja, VFX i promo.'},
-    {company:'Huuuge Games',role:'Graphic Designer / Animator',years:'2020 — 2021',dot:'#1c1813',desc:'Projekt i animacja 2D UI oraz assetów do gry slotowej w regulowanym środowisku social casino, z użyciem workflow 3D do optymalizacji grafiki 2D.'},
-    {company:'Den of Imagination',role:'3D Sculptor',years:'2020',dot:'#1c1813',desc:'Rzeźby postaci gotowe do produkcji figurek kolekcjonerskich, w pipeline druku 3D, przy wysokich standardach detalu i print-readiness.'},
-    {company:'SPI Global Play',role:'Mural Artist',years:'2015 — 2019',dot:'#1c1813',desc:'Projekt i wykonanie wielkoformatowych murali w atrakcjach indoor, praca on-site w międzynarodowych zespołach w różnych krajach.'},
-    {company:'Teyon · ComAngle · AT · GEERS',role:'Graphic Designer / Animator',years:'2011 — 2015',dot:'#1c1813',desc:'Animacja 2D cutscenek, UI i assety do gier arcade, projekty brandingowe i DTP oraz koordynacja kampanii reklamowych.'},
+    {company:'Self-employed',role:'Senior UI & Visual Designer',years:'2018 — obecnie',dot:'var(--accent)',desc:'UI, systemy wizualne i art direction dla web, mobile i produktów interaktywnych. Kompleksowa produkcja 2D/3D, motion i prototypowanie, wspierane automatyzacją oraz narzędziami AI.'},
+    {company:'Tactile Games',role:'UI Designer · kontrakt · remote',years:'sty 2024 — cze 2025',dot:'#1c1813',desc:'Zbudowałem narzędzie Unity „Slicer”, które skróciło przygotowanie zadania UI z około 15 minut do około 10 sekund i wyeliminowało ręczne cięcie assetów. Wprowadziłem pierwsze workflow AI w zespole oraz dostarczałem skalowalne komponenty bezpośrednio do live mobile game.'},
+    {company:'Mobination Games',role:'Lead Artist · freelance · remote',years:'lis 2021 — gru 2023',dot:'#1c1813',desc:'Odpowiadałem za kompletną wizję wizualną gry tower defense — od art direction i systemów UI po implementację. Dostarczyłem pełny pakiet produkcyjny: UI/UX, gameplay, 2D/3D, animację, VFX i materiały promocyjne.'},
+    {company:'Huuuge Games',role:'Graphic Designer / Animator · kontrakt',years:'lis 2020 — mar 2021',dot:'#1c1813',desc:'Projektowałem i animowałem UI oraz assety do gry slotowej w regulowanym środowisku social casino. Workflow 3D-to-2D poprawił spójność wizualną, wydajność produkcji i zgodność z ograniczeniami technicznymi.'},
+    {company:'Den of Imagination',role:'3D Sculptor · freelance · remote',years:'cze 2020 — sie 2020',dot:'#1c1813',desc:'Tworzyłem gotowe do druku rzeźby postaci kolekcjonerskich, spełniające wysokie wymagania formy, detalu i integralności konstrukcyjnej przy krótkich cyklach iteracji.'},
+    {company:'Global Attractions Ltd',role:'Mural Artist · kontrakt',years:'lis 2015 — maj 2019',dot:'#1c1813',desc:'Projektowałem i wykonywałem wielkoformatowe murale oraz grafiki ścienne bezpośrednio na miejscu, pracując w międzynarodowych zespołach przy atrakcjach indoor.'},
+    {company:'AT Advertising Agency',role:'Graphic Designer · kontrakt',years:'paź 2014 — lis 2015',dot:'#1c1813',desc:'Zdobyłem drugie miejsce w regionalnym przetargu dzięki autorskiej koncepcji i samodzielnie zrealizowałem projekt muralu wnętrza wzmacniającego identyfikację klienta.'},
+    {company:'European Commission',role:'Project Coordinator / Graphic Designer',years:'wrz 2013 — sie 2014',dot:'#1c1813',desc:'Prowadziłem i koordynowałem projekt zatrudnieniowy finansowany przez UE, tworząc dedykowane narzędzia oraz spójną identyfikację wizualną.'},
+    {company:'Teyon',role:'Graphic Designer / Animator · kontrakt',years:'sty 2012 — sty 2013',dot:'#1c1813',desc:'Projektowałem i animowałem cutscenki 2D do gry hidden-object, tworząc narracyjne sekwencje wizualne gotowe do produkcji.'},
+    {company:'ComAngle Entertainment',role:'Junior Game Artist / Animator · freelance',years:'sty 2011 — gru 2011',dot:'#1c1813',desc:'Stworzyłem kompletną produkcję wizualną dla 10 grywalnych minigier arcade: UI, postacie, tła, assety interaktywne i animacje.'},
   ],
   en:[
-    {company:'Self-employed',role:'Senior Graphic Designer',years:'2018 — present',dot:'var(--accent)',desc:'UI, visual design and art direction for web, mobile and interactive products. 2D/3D assets, animation and cohesive visual systems, with AI-assisted workflows.'},
-    {company:'Tactile Games',role:'UI Designer',years:'2024 — 2025',dot:'#1c1813',desc:'Internal "Slicer" tool for Unity asset slicing, the team’s first AI-assisted workflows and scalable UI components for live features.'},
-    {company:'Mobination Games',role:'Lead Artist',years:'2021 — 2023',dot:'#1c1813',desc:'Owned the full visual vision of a tower defense game, from style and art direction to in-game implementation. UI/UX, gameplay, 2D/3D, animation, VFX and promo.'},
-    {company:'Huuuge Games',role:'Graphic Designer / Animator',years:'2020 — 2021',dot:'#1c1813',desc:'Designed and animated 2D UI and assets for a slot game in a regulated social casino environment, using 3D workflows to optimise 2D output.'},
-    {company:'Den of Imagination',role:'3D Sculptor',years:'2020',dot:'#1c1813',desc:'Production-ready character sculpts for collectible figurines in a 3D-print pipeline, meeting strict detail and print-readiness standards.'},
-    {company:'SPI Global Play',role:'Mural Artist',years:'2015 — 2019',dot:'#1c1813',desc:'Designed and executed large-format murals for indoor attractions, working on-site with international teams across different countries.'},
-    {company:'Teyon · ComAngle · AT · GEERS',role:'Graphic Designer / Animator',years:'2011 — 2015',dot:'#1c1813',desc:'2D cutscene animation, UI and assets for arcade games, branding and DTP projects, and nationwide advertising campaign coordination.'},
+    {company:'Self-employed',role:'Senior UI & Visual Designer',years:'2018 — present',dot:'var(--accent)',desc:'UI, visual systems and art direction for web, mobile and interactive products. End-to-end 2D/3D production, motion and prototyping supported by automation and AI-assisted workflows.'},
+    {company:'Tactile Games',role:'UI Designer · contract · remote',years:'Jan 2024 — Jun 2025',dot:'#1c1813',desc:'Built a Unity “Slicer” tool that reduced UI preparation from about 15 minutes to about 10 seconds per task and eliminated manual asset slicing. Introduced the team’s first AI-assisted workflows and delivered scalable components directly into a live mobile game.'},
+    {company:'Mobination Games',role:'Lead Artist · freelance · remote',years:'Nov 2021 — Dec 2023',dot:'#1c1813',desc:'Owned the complete visual direction of a tower defense game, from art direction and UI systems to implementation. Delivered UI/UX, gameplay visuals, 2D/3D assets, animation, VFX and promotional materials.'},
+    {company:'Huuuge Games',role:'Graphic Designer / Animator · contract',years:'Nov 2020 — Mar 2021',dot:'#1c1813',desc:'Designed and animated UI and visual assets for a slot game in a regulated social casino environment. Applied 3D-to-2D workflows to improve consistency, production efficiency and compliance with technical constraints.'},
+    {company:'Den of Imagination',role:'3D Sculptor · freelance · remote',years:'Jun 2020 — Aug 2020',dot:'#1c1813',desc:'Delivered print-ready collectible character sculpts meeting strict standards for form, detail and structural integrity within rapid iteration cycles.'},
+    {company:'Global Attractions Ltd',role:'Mural Artist · contract',years:'Nov 2015 — May 2019',dot:'#1c1813',desc:'Designed and executed large-format murals and wall graphics on-site for indoor attractions, collaborating with international production teams.'},
+    {company:'AT Advertising Agency',role:'Graphic Designer · contract',years:'Oct 2014 — Nov 2015',dot:'#1c1813',desc:'Won second place in a regional client tender with an independently developed concept and delivered a corporate interior mural strengthening the client’s brand identity.'},
+    {company:'European Commission',role:'Project Coordinator / Graphic Designer',years:'Sep 2013 — Aug 2014',dot:'#1c1813',desc:'Led and coordinated an EU-funded employment project, developing custom tools and a cohesive visual identity.'},
+    {company:'Teyon',role:'Graphic Designer / Animator · contract',years:'Jan 2012 — Jan 2013',dot:'#1c1813',desc:'Produced and animated 2D cutscenes for a hidden-object game, delivering narrative-driven visual sequences.'},
+    {company:'ComAngle Entertainment',role:'Junior Game Artist / Animator · freelance',years:'Jan 2011 — Dec 2011',dot:'#1c1813',desc:'Delivered end-to-end visual production for 10 playable arcade mini-games, including UI, characters, backgrounds, interactive assets and animation.'},
   ]
 };
 const SKILLS = {
-  pl:['UI / UX Design','Grafika 2D i ilustracja','Modelowanie 3D','Animacja / motion','Branding / DTP','AI-assisted workflow'],
-  en:['UI / UX Design','2D graphics & illustration','3D modeling','Animation / motion','Branding / DTP','AI-assisted workflow']
+  pl:['Design Systems i architektura UI','Game UI i implementacja w Unity','Wydajność UI i ograniczenia mobile','Produkcja 2D / 3D i sculpting','Animacja, motion i mikrointerakcje','Live Ops i szybka iteracja','AI, automatyzacja i tooling'],
+  en:['Design Systems & UI architecture','Game UI & Unity implementation','UI performance & mobile constraints','2D / 3D production & sculpting','Animation, motion & micro-interactions','Live Ops & rapid iteration','AI, automation & tooling']
 };
-const TOOLS = ['Figma','Photoshop','Illustrator','ZBrush','Blender','Spine','After Effects','Unity','AI tools'];
+const TOOLS = ['Figma','Photoshop','Illustrator','ZBrush','Blender','Spine','After Effects','Unity','Cursor','Runway','Stable Diffusion'];
 const EDU = {
   pl:[
     {school:'Southampton Solent University',course:'Fine Arts (BA)',years:'2007 — 2009'},

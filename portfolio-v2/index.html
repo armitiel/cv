@@ -23,6 +23,13 @@ a{color:inherit;text-decoration:none;transition:color .25s}
 a:hover{color:var(--accent)}
 img{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+/* przejscie miedzy stronami: portret i tekst "zamieniaja sie miejscami" */
+@view-transition{navigation:auto}
+@keyframes slideFromLeft{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
+@keyframes slideFromRight{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+::view-transition-group(portrait),::view-transition-group(heroText){animation-duration:.75s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(heroText),::view-transition-new(heroText){animation-duration:.45s}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .fu1{animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both}
 .fu2{animation:fadeUp .8s .1s cubic-bezier(.2,.7,.2,1) both}
@@ -141,7 +148,8 @@ img{display:block}
 /* O MNIE */
 .about{position:relative;padding:clamp(44px,5vw,64px) var(--gut) clamp(44px,5vw,60px);display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,5vw,84px) clamp(40px,5vw,84px);align-items:start}
 .about>*{max-width:100%}
-.about-photo{width:clamp(280px,32vw,430px);overflow:hidden}
+.about-photo{width:clamp(280px,32vw,430px);overflow:hidden;view-transition-name:portrait;animation:slideFromRight .9s .1s cubic-bezier(.2,.7,.2,1) both}
+.about-body{view-transition-name:heroText;animation:slideFromLeft .85s cubic-bezier(.2,.7,.2,1) both}
 .about-photo img,.about-photo video{width:100%;height:auto;display:block}
 .about-photo video{width:calc(100% + 10px);margin-left:-5px}
 .polaroid{width:clamp(220px,22vw,300px);height:clamp(280px,28vw,380px);transform:rotate(-3deg);background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(28,24,19,.12);padding:10px 10px 34px}
