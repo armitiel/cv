@@ -45,12 +45,8 @@ img{display:block}
 .ham.open span:nth-child(2){opacity:0}
 .ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .nav .brand{animation:fadeUp .7s .05s cubic-bezier(.2,.7,.2,1) both}
-.nav-links a{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) both}
-.nav-links a:nth-child(1){animation-delay:.14s}
-.nav-links a:nth-child(2){animation-delay:.2s}
-.nav-links a:nth-child(3){animation-delay:.26s}
-.nav-links a:nth-child(4){animation-delay:.32s}
-#langBtn{animation:fadeUp .6s .38s cubic-bezier(.2,.7,.2,1) both}
+.nav-link{animation:fadeUp .6s .18s cubic-bezier(.2,.7,.2,1) both}
+#langBtn{animation:fadeUp .6s .26s cubic-bezier(.2,.7,.2,1) both}
 @media(max-width:720px){
   .nav{padding:14px var(--gut)}
   .nav-r{gap:14px}
@@ -252,14 +248,8 @@ img{display:block}
 <div class="nav">
   <a href="/portfolio/" class="brand"><img src="logo-a.png" alt="Amitiel" class="brand-logo"></a>
   <div class="nav-r">
-    <div class="nav-links" id="navLinks">
-      <a href="#projekty" data-i18n="nav_projects">Projekty</a>
-      <a href="#omnie" data-i18n="nav_about">O mnie</a>
-      <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
-      <a href="/cv.html" data-i18n="nav_cv">CV</a>
-    </div>
+    <a href="/cv.html" class="nav-link" data-i18n="nav_cv">CV</a>
     <button id="langBtn">EN</button>
-    <button class="ham" id="hamBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </div>
 
@@ -315,7 +305,7 @@ img{display:block}
   <div class="proj-row" id="grid"></div>
   <div class="wip-notice" id="wipNotice" data-reveal>
     <span class="wip-dot"></span>
-    <span class="wip-txt" data-i18n="wip_notice">Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu.</span>
+    <span class="wip-txt" data-i18n="wip_notice">Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.</span>
   </div>
 </div>
 
@@ -399,7 +389,7 @@ const DICT = {
   sk_3:['Projektowanie UI','UI design'], sk_4:['Ilustracja i game art','Illustration & game art'],
   sk_5:['Animacja i motion','Animation & motion'],
   cta:['Porozmawiajmy',"Let's talk"],
-  wip_notice:['Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu.','The remaining projects are currently being reorganized into a new layout and will be updated here.'],
+  wip_notice:['Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.','The remaining projects are currently being reorganized into a new layout and will be updated here. Further work samples are available on request.'],
   foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
   c_avail:['Dostępna do współpracy','Available for work'],
   cta_1:['Porozmawiajmy','Let’s talk'],
