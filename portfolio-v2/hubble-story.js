@@ -2,6 +2,15 @@
   const storyBase = (location.protocol === 'file:' || location.pathname.includes('/portfolio-v2')) ? '../portfolio/public' : '/portfolio';
   const isEN = (localStorage.getItem('aa_lang') || 'pl') === 'en';
   const T = (pl, en) => isEN ? en : pl;
+  // HERO — split the headline into words so it can cascade instead of landing as one slab.
+  // No opacity:0 fallback on the h1 itself: if this never runs, the headline still renders normally.
+  const heroH1 = document.querySelector('.hero h1');
+  if (heroH1 && !heroH1.dataset.split) {
+    heroH1.dataset.split = '1';
+    heroH1.innerHTML = heroH1.textContent.trim().split(/\s+/)
+      .map((w, i) => `<span class="w" style="--i:${i}">${w}</span>`).join(' ');
+  }
+
   const summary = document.querySelector('.summary');
   const foundation = document.querySelector('.foundation');
   const mobile = document.querySelector('.mobile');
@@ -76,11 +85,15 @@
       </div>
     </section>`);
 
-  const processSection = document.querySelector('.process-grid').closest('section');
-  processSection.id = 'ilustracja';
+  // bridge 01 — the rejected direction is a turning point, not a detour: say so before the scene lands
+  document.querySelector('.scene-build').insertAdjacentHTML('beforebegin', `
+    <section class="story-bridge" aria-label="${T('Przejście od odrzuconego kierunku do systemu','Transition from the rejected direction to the system')}">
+      <div class="container" data-story-reveal><span class="bridge-n">01</span><p>${T('Odrzucenie metafory odesłało projekt z powrotem do budowania świata.','Rejecting the metaphor sent the project back to building the world.')}</p><span class="bridge-label">${T('Od odrzucenia do systemu','From rejection to system')}</span></div>
+    </section>`);
+
   document.querySelector('.scene-build').insertAdjacentHTML('afterend', `
-    <section class="story-bridge" aria-label="Przejście od ilustracji do identyfikacji">
-      <div class="container" data-story-reveal><span class="bridge-n">01</span><p>Ilustracyjny język marki stał się podstawą znaku, koloru i typografii.</p><span class="bridge-label">Od ilustracji do identyfikacji</span></div>
+    <section class="story-bridge" aria-label="${T('Przejście od ilustracji do identyfikacji','Transition from illustration to identity')}">
+      <div class="container" data-story-reveal><span class="bridge-n">02</span><p>${T('Ilustracyjny język marki stał się podstawą znaku, koloru i typografii.','The illustrated language became the foundation for the mark, colour and typography.')}</p><span class="bridge-label">${T('Od ilustracji do identyfikacji','From illustration to identity')}</span></div>
     </section>`);
 
   foundation.insertAdjacentHTML('afterend', `
@@ -95,6 +108,9 @@
 
   const adaptSection = document.querySelector('.adapt');
   adaptSection.insertAdjacentHTML('afterend', `
+    <section class="story-bridge" aria-label="${T('Przejście od identyfikacji do produktu','Transition from identity to product')}">
+      <div class="container" data-story-reveal><span class="bridge-n">03</span><p>${T('Znak i kolor dały ramę, w której oferta mogła się ułożyć.','The mark and colour gave the frame in which the offer could settle.')}</p><span class="bridge-label">${T('Od identyfikacji do produktu','From identity to product')}</span></div>
+    </section>
     <section class="membership-system" id="produkt"><div class="container">
       <div class="membership-head" data-story-reveal><span class="label">${T('System korzyści','Benefit system')}</span><h2>Oferta zamieniona w język wizualny</h2><p>Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.</p></div>
       <div class="membership-cards" data-story-reveal>
@@ -113,13 +129,13 @@
     </div></section>`);
 
   mobile.insertAdjacentHTML('afterend', `
-    <section class="story-bridge" aria-label="Przejście od produktu do ruchu">
-      <div class="container" data-story-reveal><span class="bridge-n">02</span><p>Gotowy język produktu pozwolił sprawdzić markę w ruchu, reklamie i przestrzeni 3D.</p><span class="bridge-label">Od produktu do motion</span></div>
+    <section class="story-bridge" aria-label="${T('Przejście od produktu do ruchu','Transition from product to motion')}">
+      <div class="container" data-story-reveal><span class="bridge-n">04</span><p>${T('Gotowy język produktu pozwolił sprawdzić markę w ruchu, reklamie i przestrzeni 3D.','The finished product language let the brand be tested in motion, advertising and 3D.')}</p><span class="bridge-label">${T('Od produktu do motion','From product to motion')}</span></div>
     </section>
     <section class="motion" id="motion"><div class="container motion-layout">
       <div class="motion-copy" data-story-reveal><span class="label">${T('Eksperymenty w ruchu','Motion experiments')}</span><h2>Pomysły testowane w ruchu</h2><p>Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.</p></div>
       <div class="motion-grid">
-        ${[['motion-2d.mp4','2D Motion'],['motion-social.mp4','Social Ads'],['motion-3d.mp4','3D Experiments'],['motion-prototype.mp4','UI Prototyping']].map(([src,label])=>`<figure class="motion-card" data-story-reveal><video data-story-video="/projects/hubble/story/${src}" muted loop playsinline preload="metadata"></video><span>${label}</span><i class="play-dot">▶</i></figure>`).join('')}
+        ${[['motion-2d.mp4',T('Wizerunek marki','Brand imagery')],['motion-social.mp4',T('Animacja 2D','2D Animation')],['motion-3d.mp4',T('Kampania wizerunkowa','Brand campaign')],['motion-prototype.mp4',T('Eksperymenty 3D','3D Experiments')]].map(([src,label])=>`<figure class="motion-card" data-story-reveal><video data-story-video="/projects/hubble/story/${src}" muted loop playsinline preload="metadata"></video><span>${label}</span><i class="play-dot">▶</i></figure>`).join('')}
       </div>
     </div></section>
     <section class="tools-story"><div class="container tools-grid">
@@ -275,6 +291,26 @@
       }
     });
   });
+  // PARALLAX — phones drift vertically against the illustration as the Warsztat section passes.
+  // Only --py is written, so the base translateX/scale in CSS (and its breakpoints) stay intact.
+  const toolsSection = document.querySelector('.tools-story');
+  const phones = document.querySelector('.tools-visual .phones');
+  let toolsTicking = false;
+  const updateTools = () => {
+    toolsTicking = false;
+    if (!toolsSection || !phones) return;
+    if (reduceMotion || innerWidth <= 620) { phones.style.setProperty('--py', '0px'); return; }
+    const rect = toolsSection.getBoundingClientRect();
+    // 0 = section entering from below, 1 = fully left through the top
+    const raw = (innerHeight - rect.top) / (innerHeight + rect.height);
+    const p = Math.min(1, Math.max(0, raw));
+    phones.style.setProperty('--py', `${(0.5 - p) * 230}px`);
+  };
+  const requestToolsUpdate = () => { if (!toolsTicking) { toolsTicking = true; requestAnimationFrame(updateTools); } };
+  addEventListener('scroll', requestToolsUpdate, { passive: true });
+  addEventListener('resize', requestToolsUpdate, { passive: true });
+  updateTools();
+
   const storyObserver = new IntersectionObserver(entries => entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.classList.add('on');
