@@ -1,5 +1,5 @@
 (() => {
-  const storyBase = (location.protocol === 'file:' || location.pathname.includes('/portfolio-v2')) ? '../portfolio/public' : '/portfolio';
+  const storyBase = '.';   // assety leza obok stron (portfolio-v2/) - sciezka wzgledna dziala lokalnie i na prod
   const isEN = (localStorage.getItem('aa_lang') || 'pl') === 'en';
   const T = (pl, en) => isEN ? en : pl;
   // HERO — split the headline into words so it can cascade instead of landing as one slab.
