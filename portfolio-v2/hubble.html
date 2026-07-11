@@ -238,4 +238,11 @@ function buildPfGrid(){
         <span class="pf-tags">${tags.join(' · ')}</span>
       </span>
     </a>`;
-  }).join('')||`<div style="color:rgba(242,245,245,.35);font:500 13px 'IBM Plex Mono',monospace;padding:20px 0">${T('Brak projektów w tej kategorii','N
+  }).join('')||`<div style="color:rgba(242,245,245,.35);font:500 13px 'IBM Plex Mono',monospace;padding:20px 0">${T('Brak projektów w tej kategorii','No projects in this category')}</div>`;
+}
+buildPfFilters();
+buildPfGrid();
+</script>
+<script src="hubble-story.js"></script>
+</body>
+</html>
