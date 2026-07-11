@@ -22,15 +22,15 @@
   summary.innerHTML = `
     <div data-story-reveal>
       <span class="label">${T('Kontekst','Context')}</span>
-      <h2>System marki dla startupu farmaceutycznego z Teksasu</h2>
-      <p>HubbleRx powstał w 2022 roku podczas mojej pierwszej współpracy z Decom Studios. Celem było stworzenie przyjaznej marki dla internetowej subskrypcji leków — prostszej, bardziej ludzkiej i gotowej do działania w wielu kanałach.</p>
-      <div class="story-note">Klient: Decom Studios · Texas · 2022</div>
+      <h2>${T('System marki dla startupu farmaceutycznego z Teksasu','A brand system for a pharmaceutical startup from Texas')}</h2>
+      <p>${T('HubbleRx powstał w 2022 roku podczas mojej pierwszej współpracy z Decom Studios. Celem było stworzenie przyjaznej marki dla internetowej subskrypcji leków — prostszej, bardziej ludzkiej i gotowej do działania w wielu kanałach.','HubbleRx began in 2022, during my first collaboration with Decom Studios. The goal was a friendly brand for an online medication subscription — simpler, more human and ready to work across many channels.')}</p>
+      <div class="story-note">${T('Klient: Decom Studios · Texas · 2022','Client: Decom Studios · Texas · 2022')}</div>
     </div>
     <div data-story-reveal>
       <span class="label">${T('Zakres eksperymentu','Scope of the experiment')}</span>
-      <h2>Jedna idea rozwinięta w pełny system</h2>
-      <p>Produkt nie został ostatecznie wprowadzony na rynek, ale proces objął ilustracje, layouty, animacje, prototypy i pierwsze eksperymenty 3D. To zapis projektu, w którym jedna idea stopniowo adaptowała się do kolejnych potrzeb.</p>
-      <div class="story-note">Zakres: Branding · Illustration · UI · Motion · 3D</div>
+      <h2>${T('Jedna idea rozwinięta w pełny system','One idea grown into a full system')}</h2>
+      <p>${T('Produkt nie został ostatecznie wprowadzony na rynek, ale proces objął ilustracje, layouty, animacje, prototypy i pierwsze eksperymenty 3D. To zapis projektu, w którym jedna idea stopniowo adaptowała się do kolejnych potrzeb.','The product never reached the market, but the process produced illustration, layouts, animation, prototypes and first 3D experiments. It is the record of a project in which one idea kept adapting to new needs.')}</p>
+      <div class="story-note">${T('Zakres: Branding · Illustration · UI · Motion · 3D','Scope: Branding · Illustration · UI · Motion · 3D')}</div>
     </div>`;
 
   summary.insertAdjacentHTML('afterend', `
@@ -38,11 +38,11 @@
       <div class="container grid">
         <div class="future-copy" data-story-reveal>
           <span class="label">${T('Punkt wyjścia','Starting point')}</span>
-          <h2>Przyjazna wizja przyszłości</h2>
-          <blockquote class="future-quote">„Co, jeśli dostęp do leków byłby równie prosty jak codzienne usługi online?”</blockquote>
-          <p>Inspiracją był optymistyczny retrofuturyzm: świat rodzinny, ciepły i technologiczny. Medycyna miała wyglądać jak naturalna część codzienności, a nie chłodny system pełen barier.</p>
+          <h2>${T('Przyjazna wizja przyszłości','A friendly vision of the future')}</h2>
+          <blockquote class="future-quote">${T('„Co, jeśli dostęp do leków byłby równie prosty jak codzienne usługi online?”','“What if getting your medication were as simple as any everyday online service?”')}</blockquote>
+          <p>${T('Inspiracją był optymistyczny retrofuturyzm: świat rodzinny, ciepły i technologiczny. Medycyna miała wyglądać jak naturalna część codzienności, a nie chłodny system pełen barier.','The reference was optimistic retrofuturism: a world that is familial, warm and technological. Medicine was meant to look like a natural part of everyday life, not a cold system full of barriers.')}</p>
         </div>
-        <div class="future-art" data-story-reveal><img data-story-src="/projects/hubble/story/world-lineart.jpg" alt="Retrofuturystyczny świat HubbleRx"></div>
+        <div class="future-art" data-story-reveal><img data-story-src="/projects/hubble/story/world-lineart.png" alt="Retrofuturystyczny świat HubbleRx"></div>
       </div>
     </section>
     <section class="container section process">
@@ -69,7 +69,7 @@
   const futureSection = document.querySelector('.future');
   futureSection.insertAdjacentHTML('afterend', `
     <section class="rejected"><div class="container rejected-grid">
-      <div class="rejected-copy" data-story-reveal><span class="label">${T('Odrzucony kierunek','Rejected direction')}</span><h2>„The Netflix for Medications”</h2><p>Jedna z pierwszych metafor przedstawiała HubbleRx jako prostą usługę subskrypcyjną dostępną z domowego ekranu. Futurystyczny salon, telewizor i mały robot natychmiast tłumaczyły ideę stałego dostępu.</p><div class="decision"><b>Dlaczego odrzuciliśmy ten kierunek?</b><span>Metafora była czytelna, ale zbyt mocno przesuwała komunikację w stronę rozrywki. W produkcie zdrowotnym ważniejsze okazały się zaufanie, rodzina i klarowność.</span></div></div>
+      <div class="rejected-copy" data-story-reveal><span class="label">${T('Odrzucony kierunek','Rejected direction')}</span><h2>„The Netflix for Medications”</h2><p>${T('Jedna z pierwszych metafor przedstawiała HubbleRx jako prostą usługę subskrypcyjną dostępną z domowego ekranu. Futurystyczny salon, telewizor i mały robot natychmiast tłumaczyły ideę stałego dostępu.','One of the first metaphors framed HubbleRx as a simple subscription service reached from the living-room screen. A futuristic lounge, a TV and a small robot explained the idea of constant access at a glance.')}</p><div class="decision"><b>${T('Dlaczego odrzuciliśmy ten kierunek?','Why did we drop this direction?')}</b><span>${T('Metafora była czytelna, ale zbyt mocno przesuwała komunikację w stronę rozrywki. W produkcie zdrowotnym ważniejsze okazały się zaufanie, rodzina i klarowność.','The metaphor read clearly, but it pushed the message too far towards entertainment. In a health product, trust, family and clarity mattered more.')}</span></div></div>
       <div class="rejected-visual" data-story-reveal><span class="rejected-stamp">${T('Eksploracja / niewybrany','Exploration / not selected')}</span><img class="rejected-phone" data-story-src="/projects/hubble/story/product-system/robot-concept.png" alt="Odrzucony kierunek Netflix for Medications"><img class="rejected-ghost" data-story-src="/projects/hubble/story/product-system/robot-room.png" alt="Robot w futurystycznym salonie"></div>
     </div></section>`);
 
@@ -116,7 +116,7 @@
       <div class="container" data-story-reveal><span class="bridge-n">03</span><p>${T('Znak i kolor dały ramę, w której oferta mogła się ułożyć.','The mark and colour gave the frame in which the offer could settle.')}</p><span class="bridge-label">${T('Od identyfikacji do produktu','From identity to product')}</span></div>
     </section>
     <section class="membership-system" id="produkt"><div class="container">
-      <div class="membership-head" data-story-reveal><span class="label">${T('System korzyści','Benefit system')}</span><h2>Oferta zamieniona w język wizualny</h2><p>Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.</p></div>
+      <div class="membership-head" data-story-reveal><span class="label">${T('System korzyści','Benefit system')}</span><h2>${T('Oferta zamieniona w język wizualny','The offer turned into a visual language')}</h2><p>${T('Model subskrypcji obejmował kilka kategorii korzyści. Zaprojektowałem moduł kart, który pozwalał użytkownikowi stopniowo odkrywać szczegóły bez przeciążania pierwszego widoku.','The subscription model covered several categories of benefits. I designed a card module that let the user uncover detail gradually, without overloading the first view.')}</p></div>
       <div class="membership-cards" data-story-reveal>
         ${[
           [T('Leki doraźne','Acute medications'),T('Potrzeba natychmiastowa','Immediate need'),[T('Szybki dostęp do leków podstawowych','Fast access to essential medications'),T('Przejrzysta cena w abonamencie','Clear membership pricing'),T('Odbiór w lokalnej aptece','Local pharmacy pickup')]],
@@ -137,13 +137,13 @@
       <div class="container" data-story-reveal><span class="bridge-n">04</span><p>${T('Gotowy język produktu pozwolił sprawdzić markę w ruchu, reklamie i przestrzeni 3D.','The finished product language let the brand be tested in motion, advertising and 3D.')}</p><span class="bridge-label">${T('Od produktu do motion','From product to motion')}</span></div>
     </section>
     <section class="motion" id="motion"><div class="container motion-layout">
-      <div class="motion-copy" data-story-reveal><span class="label">${T('Eksperymenty w ruchu','Motion experiments')}</span><h2>Pomysły testowane w ruchu</h2><p>Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.</p></div>
+      <div class="motion-copy" data-story-reveal><span class="label">${T('Eksperymenty w ruchu','Motion experiments')}</span><h2>${T('Pomysły testowane w ruchu','Ideas tested in motion')}</h2><p>${T('Od krótkich reklam 2D po przestrzenne eksperymenty i prototypy interfejsu. Ruch pozwalał sprawdzić tempo, hierarchię i charakter marki przed finalnym użyciem.','From short 2D ads to spatial experiments and interface prototypes. Motion was how we checked the pace, hierarchy and character of the brand before committing to it.')}</p></div>
       <div class="motion-grid">
         ${[['motion-2d.mp4',T('Wizerunek marki','Brand imagery')],['motion-social.mp4',T('Animacja 2D','2D Animation')],['motion-3d.mp4',T('Kampania wizerunkowa','Brand campaign')],['motion-prototype.mp4',T('Eksperymenty 3D','3D Experiments')]].map(([src,label])=>`<figure class="motion-card" data-story-reveal><video data-story-video="/projects/hubble/story/${src}" muted loop playsinline preload="metadata"></video><span>${label}</span><i class="play-dot">▶</i></figure>`).join('')}
       </div>
     </div></section>
     <section class="tools-story"><div class="container tools-grid">
-      <div class="tools-copy" data-story-reveal><span class="label">${T('Warsztat','Craft')}</span><h2>Od Illustratora do Blendera</h2><p>Płaskie formy wektorowe zapewniały spójność i skalowalność. After Effects dodawał tempo i narrację, a pierwsze eksperymenty w Blenderze pozwalały osadzić markę w bardziej przestrzennym świecie.</p><div class="tool-list"><span>Illustrator</span><span>After Effects</span><span>Blender</span></div></div>
+      <div class="tools-copy" data-story-reveal><span class="label">${T('Warsztat','Craft')}</span><h2>${T('Od Illustratora do Blendera','From Illustrator to Blender')}</h2><p>${T('Płaskie formy wektorowe zapewniały spójność i skalowalność. After Effects dodawał tempo i narrację, a pierwsze eksperymenty w Blenderze pozwalały osadzić markę w bardziej przestrzennym świecie.','Flat vector forms gave consistency and scale. After Effects added pace and narrative, and the first Blender experiments let the brand sit in a more spatial world.')}</p><div class="tool-list"><span>Illustrator</span><span>After Effects</span><span>Blender</span></div></div>
       <div class="tools-visual" data-story-reveal><img class="vector" data-story-src="/projects/hubble/hero-hubble.png" alt="Wektorowy świat HubbleRx"><img class="phones" data-story-src="/projects/hubble/story/mobile2.png" alt="Eksperyment 3D HubbleRx"></div>
     </div></section>`);
 
@@ -152,7 +152,7 @@
   result.id = 'wnioski';
   futureSection.id = 'idea';
   document.querySelector('.membership-system').id = 'produkt';
-  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">${T('Wnioski','Takeaways')}</span><h2>Wartość była w eksploracji.</h2><p>HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>Silniejszy warsztat ilustracyjny</li><li>Adaptacja stylu do kanału</li><li>Pierwsze komercyjne eksperymenty 3D</li><li>Proces oparty na prototypowaniu</li></ul></div>`;
+  result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">${T('Wnioski','Takeaways')}</span><h2>${T('Wartość była w eksploracji.','The value was in the exploration.')}</h2><p>${T('HubbleRx nie został wdrożony, ale proces stworzył bogaty zestaw ilustracji, layoutów, animacji i eksperymentów 3D. Projekt stał się początkiem dłuższej współpracy z Decom Studios i ważnym etapem rozwoju mojego warsztatu — od jednej ilustracji do elastycznego języka marki.','HubbleRx never shipped, but the process produced a rich body of illustration, layouts, animation and 3D experiments. It began a longer collaboration with Decom Studios and marked a real step in my craft — from a single illustration to a flexible brand language.')}</p><p>${T('To był też moment gwałtownej adaptacji narzędziowej. W trakcie projektu wszedłem po raz pierwszy komercyjnie w 3D — architektura świata powstawała jako bryły w ZBrushu — i równolegle przesiadłem się na Figmę. Oba narzędzia zostały w moim warsztacie na stałe.','It was also a moment of rapid tool adaptation. During the project I moved into 3D commercially for the first time — the architecture of the world was sculpted as solids in ZBrush — and switched to Figma in parallel. Both stayed in my toolkit for good.')}</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>${T('Silniejszy warsztat ilustracyjny','Stronger illustration craft')}</li><li>${T('Adaptacja stylu do kanału','Style adapted per channel')}</li><li>${T('Pierwsze komercyjne eksperymenty 3D','First commercial 3D experiments')}</li><li>${T('Szybka przesiadka na Figmę','A fast switch to Figma')}</li></ul></div>`;
 
   document.querySelectorAll('[data-story-src]').forEach(el => { el.src = storyBase + el.dataset.storySrc; });
   document.querySelectorAll('[data-story-video]').forEach(el => { el.src = storyBase + el.dataset.storyVideo; });
