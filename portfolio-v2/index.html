@@ -255,6 +255,7 @@ img{display:block}
 .about-lead .about-p:nth-child(5){animation-delay:.92s}
 .about-cols{animation-delay:.98s}
 @media(prefers-reduced-motion:reduce){.about-lead .about-p{animation:none}}
+
 </style>
 </head>
 <body>
@@ -313,7 +314,7 @@ img{display:block}
 <!-- PROJEKTY -->
 <div id="projekty" class="sec">
   <div class="sec-vlabel"><span class="vtxt">02 / <span data-i18n="nav_projects">Projekty</span></span><span class="vbar"></span></div>
-  <div class="proj-head" data-reveal>
+  <div class="proj-head" id="projHead">
     <h2 class="sec-title-u" data-i18n="sec_projects">Wybrane projekty</h2>
   </div>
   <div class="filters" id="filters"></div>
@@ -603,29 +604,64 @@ function revealInit(scope){
 /* ---- karty projektow: wsuwaja sie po kolei, z opoznieniem ----
    Dziala i przy pierwszym wejsciu w kadr, i po kazdej zmianie filtra. */
 let cardsIO = null;
+/* Sekcja projektow rusza dopiero, gdy dogra sie wejscie sekcji "O mnie". */
+let heroDone = false;
+const heroWaiting = [];
+function heroReady(fn){ heroDone ? fn() : heroWaiting.push(fn); }
+(function watchHero(){
+  const last = document.querySelector('.about-cols');
+  const go = () => { if(heroDone) return; heroDone = true; heroWaiting.splice(0).forEach(f=>f()); };
+  if(last) last.addEventListener('animationend', () => setTimeout(go, 160), { once:true });
+  setTimeout(go, 2400);                       // bezpiecznik
+})();
+
+
 function staggerCards(grid){
+  const head = document.getElementById('projHead');
+  const filters = document.getElementById('filters');
   const wip = document.getElementById('wipNotice');
-  const cards = [...grid.querySelectorAll('.proj-ico')];
-  if(wip) cards.push(wip);            // notka wchodzi na koncu, tym samym rytmem
-  if(!cards.length) return;
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ cards.forEach(el=>el.style.opacity=''); return; }
-  const play = () => cards.forEach((el,i)=>{
+  const seq = [...grid.querySelectorAll('.proj-ico')];
+  // kolejnosc od gory: tytul -> filtry -> kafelki -> notka
+  if(filters && filters.offsetParent !== null) seq.unshift(filters);
+  if(head) seq.unshift(head);
+  if(wip) seq.push(wip);
+  if(!seq.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ seq.forEach(el=>el.style.opacity=''); return; }
+
+  if(cardsIO){ cardsIO.disconnect(); cardsIO=null; }
+  seq.forEach(el=>{ el.style.opacity='0'; });
+
+  const seen = new Array(seq.length).fill(false);
+  let cursor = 0, timer = null;
+
+  /* Gra sciśle po kolei. Element wchodzi dopiero, gdy: hero sie skonczyl,
+     jest w kadrze, a wszyscy przed nim juz weszli. Reszta czeka na swoja kolej. */
+  const pump = () => {
+    if(timer || !heroDone) return;
+    if(cursor >= seq.length){ cardsIO && cardsIO.disconnect(); cardsIO=null; return; }
+    if(!seen[cursor]) return;
+    const el = seq[cursor++];
     el.style.opacity='';
     el.animate(
       [{opacity:0,transform:'translateX(-56px)'},{opacity:1,transform:'none'}],
-      {duration:750,delay:120+i*190,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+      {duration:750,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
     );
-  });
-  if(cardsIO){ cardsIO.disconnect(); cardsIO=null; }
-  if(grid.getBoundingClientRect().top < innerHeight*.9){ play(); return; }
-  cards.forEach(el=>{ el.style.opacity='0'; });
-  cardsIO = new IntersectionObserver(es=>{
-    if(!es.some(e=>e.isIntersecting)) return;
-    cardsIO.disconnect(); cardsIO=null; play();
-  },{threshold:.08});
-  cardsIO.observe(grid);
-}
+    timer = setTimeout(()=>{ timer=null; pump(); }, 190);
+  };
 
+  cardsIO = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const idx = seq.indexOf(e.target);
+      if(idx > -1) seen[idx] = true;
+      cardsIO.unobserve(e.target);
+    });
+    pump();
+  },{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+
+  seq.forEach(el=>cardsIO.observe(el));
+  heroReady(pump);
+}
 applyLang();
 revealInit();
 
