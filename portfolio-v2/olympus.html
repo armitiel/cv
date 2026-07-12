@@ -173,5 +173,21 @@ media.forEach(el=>{
 paint();
 if(!media.length) revealCase();
 setTimeout(revealCase,12000);   // bezpiecznik: wadliwy plik nie zablokuje wejscia
-</script><script defer src="/_vercel/insights/script.js"></script>
+</script><script>
+/* Vercel Web Analytics — z wykluczeniem wlasnych wizyt.
+   Wejdz raz na ?noanalytics=1  -> ta przegladarka przestaje byc liczona (na stale).
+   Wejdz na ?analytics=1        -> zliczanie wraca. */
+(function(){
+  try{
+    var q = new URLSearchParams(location.search);
+    if(q.has('noanalytics')) localStorage.setItem('aa_noanalytics','1');
+    if(q.has('analytics'))   localStorage.removeItem('aa_noanalytics');
+    if(localStorage.getItem('aa_noanalytics')) return;
+  }catch(e){}
+  var s = document.createElement('script');
+  s.defer = true;
+  s.src = '/_vercel/insights/script.js';
+  document.head.appendChild(s);
+})();
+</script>
 </body></html>
