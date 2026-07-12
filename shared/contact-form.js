@@ -70,6 +70,11 @@
 
 .c-formwrap{position:relative}
 .c-formwrap .c-form{transform-style:preserve-3d}
+
+/* wejscie: pola wsuwaja sie po kolei, z lekkim opoznieniem */
+.c-formwrap [data-reveal]{opacity:0;transform:translateY(64px);transition:opacity .95s cubic-bezier(.2,.7,.2,1),transform .95s cubic-bezier(.2,.7,.2,1)}
+.c-formwrap.in [data-reveal]{opacity:1;transform:none}
+.c-formwrap.folding [data-reveal]{transition:none}
 .c-formwrap.folding .fold{transform-origin:top center;animation:cfFoldRow .5s cubic-bezier(.55,0,.85,.2) forwards}
 .c-formwrap.folding .fold:nth-child(2){animation-delay:.08s}
 .c-formwrap.folding .fold:nth-child(3){animation-delay:.16s}
@@ -106,6 +111,7 @@
   .c-formwrap.sent .env-flap,.c-formwrap.sent .env-seal,.c-formwrap.sent .c-sent-t,
   .c-formwrap.sent .c-sent-d,.c-formwrap.sent .c-again{animation:none}
   .c-formwrap.folding .c-form{opacity:0}
+  .c-formwrap [data-reveal]{opacity:1;transform:none;transition:none}
 }
 @media(max-width:820px){.c-form .c-row{grid-template-columns:1fr}}
 `;
@@ -267,8 +273,31 @@
       wrap.querySelector('.c-again').addEventListener('click', () => reset(wrap));
       host.appendChild(wrap);
       host.dataset.cfReady = '1';
+      revealOnScroll(wrap);
     });
     setLang(localStorage.getItem('aa_lang') || 'pl');
+  }
+
+  /** Wsuwa pola jedno po drugim, gdy formularz wejdzie w kadr. */
+  function revealOnScroll(wrap) {
+    const rows = wrap.querySelectorAll('[data-reveal]');
+    if (!rows.length) return;
+
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still || !('IntersectionObserver' in window)) { wrap.classList.add('in'); return; }
+
+    rows.forEach((el, i) => { el.style.transitionDelay = (220 + i * 220) + 'ms'; });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        wrap.classList.add('in');
+        io.unobserve(e.target);
+        // po wejsciu kasujemy opoznienia, zeby nie spowalnialy animacji skladania
+        setTimeout(() => rows.forEach(el => el.style.removeProperty('transition-delay')), 2200);
+      });
+    }, { threshold: .18 });
+    io.observe(wrap);
   }
 
   window.ContactForm = { mount, setLang, reset };

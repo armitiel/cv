@@ -245,6 +245,16 @@ img{display:block}
   .foot span:first-child{text-align:left}
   .foot span:last-child{text-align:right}
 }
+
+/* hero / O mnie: kazdy akapit wchodzi osobno, kaskadowo */
+.about-lead .about-p{animation:fadeUp .85s cubic-bezier(.2,.7,.2,1) both}
+.about-lead .about-p:nth-child(1){animation-delay:.2s}
+.about-lead .about-p:nth-child(2){animation-delay:.38s}
+.about-lead .about-p:nth-child(3){animation-delay:.56s}
+.about-lead .about-p:nth-child(4){animation-delay:.74s}
+.about-lead .about-p:nth-child(5){animation-delay:.92s}
+.about-cols{animation-delay:.98s}
+@media(prefers-reduced-motion:reduce){.about-lead .about-p{animation:none}}
 </style>
 </head>
 <body>
@@ -269,7 +279,7 @@ img{display:block}
   <div class="about-photo fu1"><video src="me-video.mp4" poster="me.png" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="about-body">
     <h2 class="sec-title-u fu2" data-i18n="sec_about">O mnie</h2>
-    <div class="about-lead fu3">
+    <div class="about-lead">
       <p class="about-p"><span class="lead" data-i18n="about_lead">Cześć, jestem Amitiel.</span></p>
       <p class="about-p" data-i18n="about_p2">Praca graficzna jest dla mnie sztuką użytkową — łączę ją z nowymi technologiami, tworząc obrazy, interfejsy i doświadczenia wizualne o wyraźnym charakterze. Interesują mnie pomysły nieszablonowe: takie, które mają własny język, emocję i zapadają w pamięć.</p>
       <p class="about-p" data-i18n="about_p3">Moja przewaga leży w szerokim spojrzeniu na kreację. Swobodnie poruszam się między UI/UX, brandingiem, ilustracją, grafiką 2D i 3D, motion designem oraz kierunkiem artystycznym, dzięki czemu buduję spójne światy wizualne zamiast pojedynczych elementów.</p>
@@ -308,7 +318,7 @@ img{display:block}
   </div>
   <div class="filters" id="filters"></div>
   <div class="proj-row" id="grid"></div>
-  <div class="wip-notice" id="wipNotice" data-reveal>
+  <div class="wip-notice" id="wipNotice">
     <span class="wip-dot"></span>
     <span class="wip-txt" data-i18n="wip_notice">Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.</span>
   </div>
@@ -548,7 +558,7 @@ function buildGrid(){
   visible().forEach(p=>{
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
     const href = p.slug==='hubble-rx' ? 'hubble.html' : p.slug==='olympus-defence' ? 'olympus.html' : 'projekt.html?p='+p.slug;
-    html += `<a href="${href}" class="proj-ico" data-reveal>
+    html += `<a href="${href}" class="proj-ico">
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
@@ -556,7 +566,7 @@ function buildGrid(){
     </a>`;
   });
   if(SHOW_ILLUSTRATIONS && visible().length > 1 && (filter==='all' || filter==='art')){
-    html += `<a href="ilustracje.html" class="proj-ico" data-reveal>
+    html += `<a href="ilustracje.html" class="proj-ico">
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${isEn()?'Illustrations':'Ilustracje'}</span>
       <span class="pi-mini">${ICONS['art']||''}</span>
@@ -565,7 +575,7 @@ function buildGrid(){
   }
   const grid = document.getElementById('grid');
   grid.innerHTML = html;
-  revealInit(grid);
+  staggerCards(grid);
 }
 
 /* ---- accent ---- */
@@ -589,6 +599,33 @@ function revealInit(scope){
     if(el.getBoundingClientRect().top > innerHeight*.9){ el.style.opacity='0'; io.observe(el); }
   });
 }
+
+/* ---- karty projektow: wsuwaja sie po kolei, z opoznieniem ----
+   Dziala i przy pierwszym wejsciu w kadr, i po kazdej zmianie filtra. */
+let cardsIO = null;
+function staggerCards(grid){
+  const wip = document.getElementById('wipNotice');
+  const cards = [...grid.querySelectorAll('.proj-ico')];
+  if(wip) cards.push(wip);            // notka wchodzi na koncu, tym samym rytmem
+  if(!cards.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ cards.forEach(el=>el.style.opacity=''); return; }
+  const play = () => cards.forEach((el,i)=>{
+    el.style.opacity='';
+    el.animate(
+      [{opacity:0,transform:'translateX(-56px)'},{opacity:1,transform:'none'}],
+      {duration:750,delay:120+i*190,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+    );
+  });
+  if(cardsIO){ cardsIO.disconnect(); cardsIO=null; }
+  if(grid.getBoundingClientRect().top < innerHeight*.9){ play(); return; }
+  cards.forEach(el=>{ el.style.opacity='0'; });
+  cardsIO = new IntersectionObserver(es=>{
+    if(!es.some(e=>e.isIntersecting)) return;
+    cardsIO.disconnect(); cardsIO=null; play();
+  },{threshold:.08});
+  cardsIO.observe(grid);
+}
+
 applyLang();
 revealInit();
 
