@@ -25,6 +25,15 @@ const T = {
     reply: 'Odpowiedz',
     foot: 'Wiadomość z formularza kontaktowego na amitiel.cv',
     locale: 'pl-PL',
+    /* autoodpowiedz do nadawcy */
+    ar_subject: 'Dziękuję za wiadomość — Amitiel Angelisme',
+    ar_eyebrow: 'AMITIEL ANGELISME',
+    ar_heading: 'Dziękuję',
+    ar_lead: (n) => `Cześć ${n}, Twoja wiadomość do mnie dotarła.`,
+    ar_body: 'Odezwę się najszybciej, jak się da — zwykle w ciągu 1–2 dni roboczych. Ten e-mail jest wysyłany automatycznie, ale możesz na niego spokojnie odpowiedzieć.',
+    ar_copy: 'Treść Twojej wiadomości',
+    ar_cta: 'Zobacz portfolio',
+    ar_foot: 'Amitiel Angelisme · amitiel.cv',
   },
   en: {
     subject: (n) => `Portfolio: message from ${n}`,
@@ -39,6 +48,15 @@ const T = {
     reply: 'Reply',
     foot: 'Message from the contact form at amitiel.cv',
     locale: 'en-GB',
+    /* autoodpowiedz do nadawcy */
+    ar_subject: 'Thank you for your message — Amitiel Angelisme',
+    ar_eyebrow: 'AMITIEL ANGELISME',
+    ar_heading: 'Thank you',
+    ar_lead: (n) => `Hi ${n}, your message has reached me.`,
+    ar_body: 'I’ll get back to you as soon as I can — usually within 1–2 working days. This e-mail was sent automatically, but you can simply reply to it.',
+    ar_copy: 'Your message',
+    ar_cta: 'View portfolio',
+    ar_foot: 'Amitiel Angelisme · amitiel.cv',
   },
 };
 
@@ -128,6 +146,50 @@ function buildHtml({ lang, name, email, message, sentAt }) {
 </html>`;
 }
 
+function buildAutoReplyHtml({ lang, name, message }) {
+  const t = T[lang];
+  return `<!doctype html>
+<html lang="${lang}">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(t.ar_heading)}</title></head>
+<body style="margin:0;padding:0;background:${BG};-webkit-font-smoothing:antialiased">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${escapeHtml(t.ar_body).slice(0, 110)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BG};padding:32px 16px">
+<tr><td align="center">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;background:${CARD};border:1px solid ${LINE};border-radius:14px;overflow:hidden">
+
+    <tr><td style="height:6px;background:${ACCENT};line-height:6px;font-size:0">&nbsp;</td></tr>
+
+    <tr><td style="padding:34px 36px 0">
+      <div style="font:400 11px/1.4 ${MONO};letter-spacing:.18em;text-transform:uppercase;color:${ACCENT}">${t.ar_eyebrow}</div>
+      <h1 style="margin:16px 0 0;font:700 34px/1.05 ${SANS};letter-spacing:-.02em;text-transform:uppercase;color:${INK}">${escapeHtml(t.ar_heading)}<span style="color:${ACCENT}">.</span></h1>
+    </td></tr>
+
+    <tr><td style="padding:20px 36px 0;font:400 17px/1.6 ${SANS};color:${INK}">${escapeHtml(t.ar_lead(name))}</td></tr>
+    <tr><td style="padding:12px 36px 0;font:400 15px/1.65 ${SANS};color:${SOFT}">${escapeHtml(t.ar_body)}</td></tr>
+
+    <tr><td style="padding:26px 36px 0">
+      <div style="font:400 11px/1.4 ${MONO};letter-spacing:.12em;text-transform:uppercase;color:${SOFT};margin-bottom:10px">${escapeHtml(t.ar_copy)}</div>
+      <div style="background:${BG};border-left:4px solid ${ACCENT};border-radius:0 10px 10px 0;padding:18px 20px;font:400 15px/1.65 ${SANS};color:${INK}">${escapeHtml(message).replace(/\n/g, '<br>')}</div>
+    </td></tr>
+
+    <tr><td style="padding:26px 36px 34px">
+      <a href="https://amitiel.cv/portfolio/" style="display:inline-block;background:${ACCENT};color:${BG};text-decoration:none;border-radius:8px;padding:13px 26px;font:700 13px/1 ${SANS};letter-spacing:.06em;text-transform:uppercase">${escapeHtml(t.ar_cta)}</a>
+    </td></tr>
+
+    <tr><td style="border-top:1px solid ${LINE};padding:18px 36px;font:400 11px/1.5 ${MONO};letter-spacing:.08em;text-transform:uppercase;color:${SOFT}">${escapeHtml(t.ar_foot)}</td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function buildAutoReplyText({ lang, name, message }) {
+  const t = T[lang];
+  return [t.ar_lead(name), '', t.ar_body, '', `${t.ar_copy}:`, message, '', t.ar_foot].join('\n');
+}
+
 function buildText({ lang, name, email, message }) {
   const t = T[lang];
   return [
@@ -203,6 +265,34 @@ module.exports = async function contact(req, res) {
     }
 
     console.log('[api/contact] message accepted', { id: result.id, lang });
+
+    /* Autoodpowiedz do nadawcy - w jezyku, w ktorym napisal.
+       Wymaga zweryfikowanej domeny. Blad NIE psuje wysylki glownej. */
+    if (/@amitiel\.cv>?\s*$/i.test(sender)) {
+      try {
+        const ar = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: sender,
+            to: [email],
+            reply_to: recipient,
+            subject: T[lang].ar_subject,
+            html: buildAutoReplyHtml(payload),
+            text: buildAutoReplyText(payload),
+          }),
+        });
+        if (!ar.ok) {
+          const arErr = await ar.json().catch(() => ({}));
+          console.error('[api/contact] auto-reply rejected', { status: ar.status, message: arErr.message });
+        } else {
+          console.log('[api/contact] auto-reply sent', { lang });
+        }
+      } catch (arError) {
+        console.error('[api/contact] auto-reply failed', { error: String(arError) });
+      }
+    }
+
     return json(res, 200, { ok: true });
   } catch (error) {
     console.error('[api/contact] request failed', { error: String(error) });
