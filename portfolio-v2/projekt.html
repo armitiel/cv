@@ -211,6 +211,7 @@ const T = (pl,e)=>en?e:pl;
 const P = window.PROJECTS;
 const slug = new URLSearchParams(location.search).get('p') || P[0].slug;
 if(slug === 'hubble-rx') location.replace('hubble.html');
+if(slug === 'olympus-defence') location.replace('olympus.html');
 const i = Math.max(0, P.findIndex(x=>x.slug===slug));
 const p = P[i];
 if(p.theme==='dark') document.body.classList.add('dark');

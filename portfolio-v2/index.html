@@ -521,7 +521,7 @@ const PROJ_ICONS = {
   'more':IC('<path d="M12 32h34M38 22 50 32 38 42"/>')
 };
 let filter = 'all';
-const visible = () => window.PROJECTS.filter(p=>!p.hidden);
+const visible = () => window.PROJECTS.filter(p=>!p.hidden || p.slug==='olympus-defence');
 const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
 
 function buildFilters(){
@@ -540,19 +540,22 @@ function buildFilters(){
 }
 
 const DOC = '<svg viewBox="0 0 48 48" fill="none" stroke="rgba(28,24,19,.4)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path d="M13 5h15l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#f1ead9"/><path d="M28 5v8h8"/></svg>';
+/* kafelek "Ilustracje" ukryty — ustaw na true, zeby go przywrocic */
+const SHOW_ILLUSTRATIONS = false;
 const shortName = t => t.split(/\s[–-]\s/)[0];
 function buildGrid(){
   let html = '';
   visible().forEach(p=>{
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
-    html += `<a href="${p.slug==='hubble-rx'?'hubble.html':'projekt.html?p='+p.slug}" class="proj-ico" data-reveal>
+    const href = p.slug==='hubble-rx' ? 'hubble.html' : p.slug==='olympus-defence' ? 'olympus.html' : 'projekt.html?p='+p.slug;
+    html += `<a href="${href}" class="proj-ico" data-reveal>
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
       <span class="pi-tags">${tagList(p).join(', ')}</span>
     </a>`;
   });
-  if(visible().length > 1 && (filter==='all' || filter==='art')){
+  if(SHOW_ILLUSTRATIONS && visible().length > 1 && (filter==='all' || filter==='art')){
     html += `<a href="ilustracje.html" class="proj-ico" data-reveal>
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${isEn()?'Illustrations':'Ilustracje'}</span>
