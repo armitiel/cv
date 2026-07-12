@@ -154,7 +154,64 @@
   result.innerHTML = `<div class="container result-honest-grid" data-story-reveal><div class="result-honest-copy"><span class="label">${T('Wnioski','Takeaways')}</span><h2>${T('Co zostało po projekcie','What remained after the project')}</h2><p>${T('HubbleRx ostatecznie nie trafił na rynek. Powstał jednak rozbudowany zestaw ilustracji, layoutów, animacji i prób 3D, a dla mnie był to początek dłuższej współpracy z Decom Studios.','HubbleRx did not ultimately reach the market. It did, however, produce an extensive body of illustrations, layouts, animation and 3D studies, and it became the start of a longer collaboration with Decom Studios.')}</p><p>${T('W trakcie pracy pojedyncza ilustracja rozrosła się w spójną markę, którą można było przenosić między stroną, reklamą i materiałami produktowymi. Projekt pokazał mi również, jak nowe narzędzia mogą poszerzać nie tylko możliwości wykonawcze, ale też sposób myślenia o całym produkcie.','During the work, a single illustration grew into a coherent brand that could move between the website, advertising and product materials. The project also showed me how new tools can expand not only production possibilities, but the way I think about an entire product.')}</p></div><div class="result-honest-badge"><img data-story-src="/projects/hubble/story/product-system/guarantee-30.svg" alt="30 days money back guarantee"></div><ul><li>${T('Rozwinięty system ilustracji','A developed illustration system')}</li><li>${T('Materiały webowe i reklamowe','Web and advertising materials')}</li><li>${T('Pierwsze komercyjne użycie 3D','First commercial use of 3D')}</li><li>${T('Początek pracy w Figmie','The start of working in Figma')}</li></ul></div>`;
 
   document.querySelectorAll('[data-story-src]').forEach(el => { el.src = storyBase + el.dataset.storySrc; });
-  document.querySelectorAll('[data-story-video]').forEach(el => { el.src = storyBase + el.dataset.storyVideo; });
+  document.querySelectorAll('[data-story-video]').forEach(el => {
+    el.preload = 'auto';
+    el.src = storyBase + el.dataset.storyVideo;
+    el.load();
+  });
+
+  /* Odsłoń case study dopiero, gdy obrazy są gotowe, a filmy mają pierwszy
+     odtwarzalny fragment. Limit czasu chroni wejście przed wadliwym plikiem. */
+  const loader = document.getElementById('caseLoader');
+  const loaderBar = document.getElementById('caseLoaderBar');
+  const loaderValue = document.getElementById('caseLoaderValue');
+  const media = [...document.querySelectorAll('main img[src], main video[src]')];
+  let completed = 0;
+  let revealed = false;
+
+  const updateLoader = () => {
+    const progress = media.length ? Math.round((completed / media.length) * 100) : 100;
+    if (loaderBar) loaderBar.style.width = `${progress}%`;
+    if (loaderValue) loaderValue.textContent = `${progress}%`;
+  };
+  const revealCase = () => {
+    if (revealed) return;
+    revealed = true;
+    if (loaderBar) loaderBar.style.width = '100%';
+    if (loaderValue) loaderValue.textContent = '100%';
+    document.body.classList.remove('case-loading');
+    document.body.classList.add('case-ready');
+    requestAnimationFrame(() => loader?.classList.add('is-done'));
+    window.setTimeout(() => loader?.remove(), 700);
+  };
+  const markReady = () => {
+    completed += 1;
+    updateLoader();
+    if (completed >= media.length) revealCase();
+  };
+
+  media.forEach(el => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      markReady();
+    };
+    if (el.tagName === 'VIDEO') {
+      if (el.readyState >= 3) finish();
+      else {
+        el.addEventListener('canplay', finish, { once: true });
+        el.addEventListener('error', finish, { once: true });
+      }
+    } else if (el.complete) finish();
+    else {
+      el.addEventListener('load', finish, { once: true });
+      el.addEventListener('error', finish, { once: true });
+    }
+  });
+  updateLoader();
+  if (!media.length) revealCase();
+  window.setTimeout(revealCase, 12000);
   const sceneSection = document.querySelector('.scene-build');
   const sceneCanvas = document.querySelector('.scene-canvas');
   const sceneLayers = Array.from(document.querySelectorAll('.scene-layer'));
