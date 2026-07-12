@@ -618,7 +618,7 @@ async function sendContact(e){
     const response = await fetch('/api/contact', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name,email,message,website})
+      body: JSON.stringify({name,email,message,website,lang: isEn()?'en':'pl'})
     });
     const result = await response.json().catch(()=>({}));
     if(!response.ok || !result.ok) throw new Error(result.error || 'Send failed');
