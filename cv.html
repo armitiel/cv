@@ -121,12 +121,12 @@ a:hover{color:var(--accent)}
 /* FOOTER */
 .foot{position:relative;background:var(--ink);color:var(--cream);padding:clamp(56px,7vw,96px) var(--gut) 40px;overflow:hidden}
 .foot .vlabel{color:rgba(246,241,232,.5)}
-.foot-top{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.foot-top{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,72px);align-items:start}
 .foot-status{display:flex;align-items:center;gap:10px;font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;color:var(--accent);margin-bottom:16px}
 .foot-status i{width:8px;height:8px;border-radius:50%;background:#4C7A54;box-shadow:0 0 0 4px rgba(76,122,84,.25)}
 .foot-h{font:900 clamp(30px,4vw,52px)/0.98 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.03em}
 .foot-h .ac{color:var(--accent)}
-.foot-btns{display:flex;gap:14px;flex-wrap:nowrap}
+.foot-btns{display:flex;gap:14px;flex-wrap:nowrap;margin-top:28px}
 .ico{width:16px;height:16px;display:block;flex:none}
 .fb{display:inline-flex;align-items:center;gap:9px;border-radius:8px;padding:13px 26px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:transform .25s,background .2s,color .2s}
 .fb:hover{transform:scale(1.04)}
@@ -236,15 +236,16 @@ a:hover{color:var(--accent)}
 <div class="foot">
   <div class="vlabel"><span class="vtxt">04 / <span data-i18n="foot_cta">Kontakt</span></span><span class="vbar"></span></div>
   <div class="foot-top wrap">
-    <div>
+    <div class="foot-l">
       <div class="foot-status"><i></i><span data-i18n="k_status">DOSTĘPNA DO WSPÓŁPRACY</span></div>
       <div class="foot-h"><span data-i18n="foot_head">Porozmawiajmy</span><span class="ac">.</span></div>
+      <div class="foot-btns">
+        <a href="/portfolio/" class="fb main"><span data-i18n="foot_portfolio">Portfolio</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+        <a href="assets/Amitiel_Angelisme_CV.pdf" target="_blank" rel="noopener" class="fb ghost"><span data-i18n="dl">Pobierz PDF</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a>
+      </div>
     </div>
-    <div class="foot-btns">
-      <a href="/portfolio/" class="fb main"><span data-i18n="foot_portfolio">Portfolio</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-      <a href="assets/Amitiel_Angelisme_CV.pdf" target="_blank" rel="noopener" class="fb ghost"><span data-i18n="dl">Pobierz PDF</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a>
-      <a href="mailto:armitiel@gmail.com" class="fb ghost"><span data-i18n="foot_cta">Kontakt</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
-    </div>
+    <!-- wspólny moduł: shared/contact-form.js -->
+    <div data-contact-form></div>
   </div>
   <div class="foot-b wrap">
     <span>© 2026<br>Amitiel Angelisme</span>
@@ -252,6 +253,8 @@ a:hover{color:var(--accent)}
   </div>
 </div>
 
+<!-- wspólny formularz kontaktowy (jeden moduł, używany też w portfolio) -->
+<script src="/shared/contact-form.js"></script>
 <script>
 const DICT = {
   back:['Portfolio','Portfolio'],
@@ -343,6 +346,7 @@ function applyLang(){
   });
   document.getElementById('langBtn').textContent = isEn()?'PL':'EN';
   document.documentElement.lang = lang;
+  if(window.ContactForm) window.ContactForm.setLang(lang);   // wspólny formularz
   buildJobs(); buildSkills(); buildEdu();
   revealInit();
 }

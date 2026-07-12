@@ -24,7 +24,7 @@ EOF
 cp "$ROOT_DIR/cv.html" "$OUT_DIR/index.html"
 cp "$ROOT_DIR/cv.html" "$OUT_DIR/cv.html"
 
-for d in css js images assets; do
+for d in css js images assets shared; do
   if [ -d "$ROOT_DIR/$d" ]; then
     cp -R "$ROOT_DIR/$d" "$OUT_DIR/"
   fi

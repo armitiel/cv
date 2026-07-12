@@ -180,68 +180,8 @@ img{display:block}
 .c-sub{font:400 16px/1.6 'Archivo',sans-serif;color:rgba(246,241,232,.7);max-width:560px;margin-top:22px}
 .c-mail{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 clamp(18px,1.8vw,24px) 'Archivo',sans-serif;color:var(--cream);border-bottom:2px solid var(--accent);padding-bottom:4px}
 .c-mail:hover{color:var(--accent)}
-.c-form{display:grid;gap:18px}
-.c-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.field label{display:block;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,232,.55);margin-bottom:8px}
-.field input,.field textarea{width:100%;background:rgba(246,241,232,.04);border:1px solid rgba(246,241,232,.18);border-radius:8px;padding:13px 15px;color:var(--cream);font:400 15px 'Archivo',sans-serif;transition:border-color .2s,background .2s}
-.field textarea{resize:vertical;min-height:120px}
-.field input::placeholder,.field textarea::placeholder{color:rgba(246,241,232,.4)}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:rgba(246,241,232,.07)}
-.c-send{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--accent);color:var(--cream);border:none;border-radius:8px;padding:15px;font:700 13px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform .2s,filter .2s}
+/* formularz kontaktowy: style w module /shared/contact-form.js */
 .ico{width:16px;height:16px;display:block;flex:none}
-.c-send:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.c-send:disabled{cursor:wait;opacity:.72;transform:none;filter:none}
-.c-status{min-height:20px;margin:0;color:rgba(246,241,232,.72);font:500 12px/1.5 'IBM Plex Mono',monospace}
-.c-status.ok{color:#68d8a7}.c-status.err{color:#ff9b8f}
-.hp-field{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
-
-/* --- walidacja przy polu --- */
-.f-err{display:block;color:#ff9b8f;font:500 11px/1.4 'IBM Plex Mono',monospace;margin-top:7px;opacity:0;max-height:0;transition:opacity .2s}
-.field.invalid .f-err{opacity:1;max-height:40px}
-.field.invalid input,.field.invalid textarea{border-color:#ff9b8f;background:rgba(255,155,143,.06)}
-.field.invalid input:focus,.field.invalid textarea:focus{border-color:#ff9b8f}
-.field.invalid{animation:nudge .4s cubic-bezier(.36,.07,.19,.97)}
-@keyframes nudge{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(3px)}50%{transform:translateX(-3px)}}
-
-/* --- skladanie formularza w koperte --- */
-.c-formwrap{position:relative}
-.c-formwrap .c-form{transform-style:preserve-3d}
-.c-formwrap.folding .fold{transform-origin:top center;animation:foldRow .5s cubic-bezier(.55,0,.85,.2) forwards}
-.c-formwrap.folding .fold:nth-child(2){animation-delay:.08s}
-.c-formwrap.folding .fold:nth-child(3){animation-delay:.16s}
-.c-formwrap.folding .fold:nth-child(4){animation-delay:.24s}
-@keyframes foldRow{from{transform:perspective(900px) rotateX(0);opacity:1}to{transform:perspective(900px) rotateX(-88deg) translateY(-8px);opacity:0}}
-.c-formwrap.folding .c-form{animation:formGone .4s .45s ease-in forwards;pointer-events:none}
-@keyframes formGone{to{opacity:0;transform:scale(.96)}}
-
-.c-sent{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
-.c-formwrap.sent .c-sent{opacity:1;visibility:visible}
-.env{width:132px;height:auto;display:block;overflow:visible}
-.c-formwrap.sent .env{animation:envRise .7s .1s cubic-bezier(.2,.7,.2,1) both}
-@keyframes envRise{from{transform:translateY(16px) scale(.92);opacity:0}to{transform:none;opacity:1}}
-.env-letter{transform-box:fill-box;transform-origin:center}
-.c-formwrap.sent .env-letter{animation:letterIn .5s .35s cubic-bezier(.4,0,.6,1) both}
-@keyframes letterIn{from{transform:translateY(-26px);opacity:0}to{transform:translateY(0);opacity:1}}
-.env-flap{transform-box:fill-box;transform-origin:top center}
-.c-formwrap.sent .env-flap{animation:flapShut .45s .8s cubic-bezier(.5,0,.3,1.2) both}
-@keyframes flapShut{from{transform:perspective(300px) rotateX(-165deg)}to{transform:perspective(300px) rotateX(0)}}
-.env-seal{transform-box:fill-box;transform-origin:center}
-.c-formwrap.sent .env-seal{animation:sealPop .4s 1.2s cubic-bezier(.2,1.3,.4,1) both}
-@keyframes sealPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.c-sent-t{font:900 clamp(24px,3vw,34px)/1.1 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.03em;color:var(--cream);margin-top:22px}
-.c-sent-t .ac{color:var(--accent)}
-.c-sent-d{font:400 14px/1.6 'Archivo',sans-serif;color:rgba(246,241,232,.66);max-width:340px}
-.c-formwrap.sent .c-sent-t{animation:fadeUp .5s 1.25s cubic-bezier(.2,.7,.2,1) both}
-.c-formwrap.sent .c-sent-d{animation:fadeUp .5s 1.35s cubic-bezier(.2,.7,.2,1) both}
-.c-formwrap.sent .c-again{animation:fadeUp .5s 1.45s cubic-bezier(.2,.7,.2,1) both}
-.c-again{margin-top:18px;background:transparent;border:1px solid rgba(246,241,232,.28);color:var(--cream);border-radius:8px;padding:11px 22px;font:700 12px 'Archivo',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .25s,border-color .25s}
-.c-again:hover{background:rgba(246,241,232,.08);border-color:var(--cream)}
-@media(prefers-reduced-motion:reduce){
-  .c-formwrap.folding .fold,.c-formwrap.folding .c-form,.c-formwrap.sent .env,.c-formwrap.sent .env-letter,
-  .c-formwrap.sent .env-flap,.c-formwrap.sent .env-seal,.c-formwrap.sent .c-sent-t,
-  .c-formwrap.sent .c-sent-d,.c-formwrap.sent .c-again{animation:none}
-  .c-formwrap.folding .c-form{opacity:0}
-}
 .foot{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(48px,6vw,80px);padding-top:24px;border-top:1px solid rgba(246,241,232,.15);font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(246,241,232,.6);gap:14px;flex-wrap:wrap}
 .foot-social{display:flex;gap:22px}
 .foot-social a{color:rgba(246,241,232,.85);font-weight:500}
@@ -392,45 +332,8 @@ img{display:block}
         </a>
       </div>
     </div>
-    <div class="c-formwrap" id="cf-wrap">
-    <form class="c-form" onsubmit="return sendContact(event)">
-      <div class="c-row fold" data-reveal>
-        <div class="field" id="fld-name">
-          <label data-i18n="f_name">Imię / Firma</label>
-          <input id="cf-name" name="name" type="text" autocomplete="name" data-i18n-ph="ph_name" placeholder="Jan Kowalski" required>
-          <small class="f-err" id="err-name"></small>
-        </div>
-        <div class="field" id="fld-email">
-          <label data-i18n="f_email">E-mail</label>
-          <input id="cf-email" name="email" type="email" autocomplete="email" data-i18n-ph="ph_email" placeholder="jan@firma.pl" required>
-          <small class="f-err" id="err-email"></small>
-        </div>
-      </div>
-      <div class="field fold" id="fld-msg" data-reveal>
-        <label data-i18n="f_msg">Wiadomość</label>
-        <textarea id="cf-msg" name="message" data-i18n-ph="ph_msg" placeholder="Cześć Amitiel, chcielibyśmy..." required></textarea>
-        <small class="f-err" id="err-msg"></small>
-      </div>
-      <div class="hp-field" aria-hidden="true"><label>Website<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
-      <button type="submit" class="c-send fold" data-reveal><span data-i18n="f_send">Wyślij wiadomość</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></button>
-      <p class="c-status" id="cf-status" role="status" aria-live="polite"></p>
-    </form>
-
-    <div class="c-sent" id="cf-sent" role="status" aria-live="polite">
-      <svg class="env" viewBox="0 0 132 92" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect class="env-letter" x="26" y="8" width="80" height="52" rx="4" fill="#f6f1e8"/>
-        <path class="env-letter" d="M36 22h60M36 32h60M36 42h38" stroke="rgba(28,24,19,.28)" stroke-width="3" stroke-linecap="round"/>
-        <path d="M4 34h124v50a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V34Z" fill="var(--accent)"/>
-        <path d="M4 34 66 74l62-40" stroke="rgba(28,24,19,.34)" stroke-width="3" stroke-linejoin="round" fill="none"/>
-        <path class="env-flap" d="M4 34 66 74l62-40v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2Z" fill="var(--accent)" stroke="rgba(28,24,19,.34)" stroke-width="3" stroke-linejoin="round"/>
-        <circle class="env-seal" cx="66" cy="62" r="10" fill="#f6f1e8"/>
-        <circle class="env-seal" cx="66" cy="62" r="4.5" fill="var(--accent)"/>
-      </svg>
-      <div class="c-sent-t" id="sent-t">Wiadomość wysłana<span class="ac">.</span></div>
-      <div class="c-sent-d" id="sent-d">Odezwę się najszybciej, jak się da — zwykle w ciągu 1–2 dni roboczych.</div>
-      <button type="button" class="c-again" id="sent-again" onclick="resetContact()">Wyślij kolejną</button>
-    </div>
-    </div>
+    <!-- wspólny moduł: /shared/contact-form.js (ten sam formularz co w stopce CV) -->
+    <div data-contact-form></div>
   </div>
   <div class="foot">
     <span>© 2026<br>Amitiel Angelisme</span>
@@ -439,6 +342,8 @@ img{display:block}
 </div>
 
 <script src="data.js"></script>
+<!-- wspólny formularz kontaktowy (jeden moduł, używany też w stopce CV) -->
+<script src="/shared/contact-form.js"></script>
 <script>
 const IMG = p => '.' + p;   // assety leza obok stron (portfolio-v2/) - sciezka wzgledna dziala lokalnie i na prod
 
@@ -480,10 +385,7 @@ const DICT = {
   cta_1:['Porozmawiajmy','Let’s talk'],
   cta_2:['',''],
   c_sub:['Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.','Have a project or a role to fill? Tell me what you’re after.'],
-  f_name:['Imię / Firma','Name / Company'], f_email:['E-mail','E-mail'],
-  f_msg:['Wiadomość','Message'], f_send:['Wyślij wiadomość','Send message'],
-  ph_name:['Jan Kowalski','Jane Doe'], ph_email:['jan@firma.pl','jane@company.com'],
-  ph_msg:['Cześć Amitiel, chcielibyśmy...',"Hi Amitiel, we'd love to..."]
+  /* etykiety i placeholdery formularza: w module /shared/contact-form.js */
 };
 let lang = localStorage.getItem('aa_lang') || 'pl';
 const isEn = ()=>lang==='en';
@@ -495,6 +397,7 @@ function applyLang(){
     const p = DICT[el.getAttribute('data-i18n-ph')]; if(p) el.placeholder = isEn()?p[1]:p[0];
   });
   document.getElementById('langBtn').textContent = isEn()?'PL':'EN';
+  if(window.ContactForm) window.ContactForm.setLang(lang);   // wspólny formularz
   document.documentElement.lang = lang;
   buildMq(); buildFilters(); buildGrid();
 }
@@ -666,116 +569,7 @@ function buildGrid(){
 function setAccent(c){ document.documentElement.style.setProperty('--accent',c); localStorage.setItem('aa_accent',c); }
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) setAccent(savedAcc);
 
-/* ---- formularz kontaktowy (Vercel Function + Resend) ---- */
-const CF_FIELDS = [
-  {fld:'fld-name',  inp:'cf-name',  err:'err-name'},
-  {fld:'fld-email', inp:'cf-email', err:'err-email'},
-  {fld:'fld-msg',   inp:'cf-msg',   err:'err-msg'},
-];
-
-function clearFieldErrors(){
-  CF_FIELDS.forEach(f=>{
-    document.getElementById(f.fld).classList.remove('invalid');
-    document.getElementById(f.err).textContent = '';
-  });
-}
-
-/* blad znika, gdy uzytkownik zaczyna poprawiac pole */
-CF_FIELDS.forEach(f=>{
-  const inp = document.getElementById(f.inp);
-  if(!inp) return;
-  inp.addEventListener('input', ()=>{
-    document.getElementById(f.fld).classList.remove('invalid');
-    document.getElementById(f.err).textContent = '';
-  });
-});
-
-function markInvalid(f, msg){
-  const field = document.getElementById(f.fld);
-  field.classList.remove('invalid');
-  void field.offsetWidth;            /* restart animacji nudge */
-  field.classList.add('invalid');
-  document.getElementById(f.err).textContent = msg;
-  document.getElementById(f.inp).focus();
-  return false;
-}
-
-function resetContact(){
-  const wrap = document.getElementById('cf-wrap');
-  const form = wrap.querySelector('.c-form');
-  form.reset();
-  clearFieldErrors();
-  document.getElementById('cf-status').textContent = '';
-  wrap.classList.remove('sent','folding');
-  form.style.removeProperty('opacity');
-  document.getElementById('cf-name').focus();
-}
-
-async function sendContact(e){
-  e.preventDefault();
-  const form = e.currentTarget;
-  const wrap = document.getElementById('cf-wrap');
-  const button = form.querySelector('.c-send');
-  const buttonLabel = button.querySelector('span');
-  const status = document.getElementById('cf-status');
-  const name = document.getElementById('cf-name').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
-  const message = document.getElementById('cf-msg').value.trim();
-  const website = document.getElementById('cf-website').value;
-  const idleLabel = isEn() ? 'Send message' : 'Wyślij wiadomość';
-  status.className = 'c-status';
-  status.textContent = '';
-  clearFieldErrors();
-
-  /* walidacja po stronie klienta - te same reguly co w /api/contact */
-  if (name.length < 2)
-    return markInvalid(CF_FIELDS[0], isEn() ? 'Enter your name or company.' : 'Podaj imię lub nazwę firmy.');
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-    return markInvalid(CF_FIELDS[1], isEn() ? 'This e-mail address looks incorrect.' : 'Ten adres e-mail wygląda niepoprawnie.');
-  if (message.length < 10)
-    return markInvalid(CF_FIELDS[2], isEn()
-      ? `Too short — at least 10 characters (currently ${message.length}).`
-      : `Za krótka — minimum 10 znaków (obecnie ${message.length}).`);
-
-  button.disabled = true;
-  buttonLabel.textContent = isEn() ? 'Sending…' : 'Wysyłanie…';
-  try {
-    const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name,email,message,website,lang: isEn()?'en':'pl'})
-    });
-    const result = await response.json().catch(()=>({}));
-    if(response.status === 400){
-      status.className = 'c-status err';
-      status.textContent = isEn()
-        ? 'Check the form — one of the fields is invalid.'
-        : 'Sprawdź formularz — któreś z pól jest niepoprawne.';
-      return false;
-    }
-    if(!response.ok || !result.ok) throw new Error(result.error || 'Send failed');
-
-    /* sukces: zwin pola i zamien je w koperte */
-    document.getElementById('sent-t').innerHTML = (isEn() ? 'Message sent' : 'Wiadomość wysłana') + '<span class="ac">.</span>';
-    document.getElementById('sent-d').textContent = isEn()
-      ? 'I’ll get back to you as soon as I can — usually within 1–2 working days.'
-      : 'Odezwę się najszybciej, jak się da — zwykle w ciągu 1–2 dni roboczych.';
-    document.getElementById('sent-again').textContent = isEn() ? 'Send another' : 'Wyślij kolejną';
-    wrap.classList.add('folding');
-    setTimeout(()=>{ wrap.classList.add('sent'); form.reset(); }, 620);
-    status.textContent = '';
-  } catch(err) {
-    console.error('[contact] send failed', err);
-    status.className = 'c-status err';
-    status.innerHTML = isEn()
-      ? 'The message could not be sent. Write directly to <a href="mailto:armitiel@gmail.com">armitiel@gmail.com</a>.'
-      : 'Nie udało się wysłać wiadomości. Napisz bezpośrednio na <a href="mailto:armitiel@gmail.com">armitiel@gmail.com</a>.';
-  } finally {
-    button.disabled = false;
-    buttonLabel.textContent = idleLabel;
-  }
-  return false;
-}
+/* ---- formularz kontaktowy: wspólny moduł /shared/contact-form.js (ten sam w CV) ---- */
 
 /* ---- reveal ---- */
 const io=new IntersectionObserver(entries=>{

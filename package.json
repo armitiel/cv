@@ -5,8 +5,9 @@
   "scripts": {
     "build-css": "echo 'CSS build completed'",
     "build": "sh scripts/vercel-build.sh",
-    "dev": "echo \"\n  Local:   http://localhost:3000\n  CV:      http://localhost:3000/\n  Portfolio: http://localhost:3000/portfolio/\n\" && npx --yes serve . -l tcp://0.0.0.0:3000 -c serve.json --no-port-switching",
-    "frontend": "echo \"\n  Local:   http://localhost:3000\n  CV:      http://localhost:3000/\n  Portfolio: http://localhost:3000/portfolio/\n\" && npx --yes serve . -l tcp://0.0.0.0:3000 -c serve.json --no-port-switching",
+    "dev": "node scripts/dev-server.js",
+    "frontend": "node scripts/dev-server.js",
+    "serve:legacy": "npx --yes serve . -l tcp://0.0.0.0:3000 -c serve.json --no-port-switching",
     "start": "npm run dev",
     "start:windows": "start-dev.bat",
     "start:unix": "./start-dev.sh",
