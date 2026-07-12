@@ -74,7 +74,8 @@ module.exports = async function contact(req, res) {
     const result = await response.json().catch(() => ({}));
     if (!response.ok) {
       console.error('[api/contact] Resend rejected request', { status: response.status, message: result.message });
-      return json(res, 502, { ok: false, error: 'Email delivery failed' });
+      // TYMCZASOWA DIAGNOSTYKA - do usuniecia po naprawie wysylki
+      return json(res, 502, { ok: false, error: 'Email delivery failed', _debug: { status: response.status, message: result.message, name: result.name, from: sender, to: recipient } });
     }
 
     console.log('[api/contact] message accepted', { id: result.id });
