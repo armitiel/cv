@@ -610,10 +610,28 @@ async function sendContact(e){
   const message = document.getElementById('cf-msg').value.trim();
   const website = document.getElementById('cf-website').value;
   const idleLabel = isEn() ? 'Send message' : 'Wyślij wiadomość';
-  button.disabled = true;
-  buttonLabel.textContent = isEn() ? 'Sending…' : 'Wysyłanie…';
   status.className = 'c-status';
   status.textContent = '';
+
+  /* walidacja po stronie klienta - te same reguly co w /api/contact */
+  const focusAnd = (id, msg) => {
+    status.className = 'c-status err';
+    status.textContent = msg;
+    const el = document.getElementById(id);
+    if (el) el.focus();
+    return false;
+  };
+  if (name.length < 2)
+    return focusAnd('cf-name', isEn() ? 'Please enter your name or company.' : 'Podaj imię lub nazwę firmy.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return focusAnd('cf-email', isEn() ? 'Please enter a valid e-mail address.' : 'Podaj poprawny adres e-mail.');
+  if (message.length < 10)
+    return focusAnd('cf-msg', isEn()
+      ? `The message is too short — at least 10 characters (currently ${message.length}).`
+      : `Wiadomość jest za krótka — minimum 10 znaków (obecnie ${message.length}).`);
+
+  button.disabled = true;
+  buttonLabel.textContent = isEn() ? 'Sending…' : 'Wysyłanie…';
   try {
     const response = await fetch('/api/contact', {
       method: 'POST',
@@ -621,6 +639,13 @@ async function sendContact(e){
       body: JSON.stringify({name,email,message,website,lang: isEn()?'en':'pl'})
     });
     const result = await response.json().catch(()=>({}));
+    if(response.status === 400){
+      status.className = 'c-status err';
+      status.textContent = isEn()
+        ? 'Please check the form — some fields are incomplete.'
+        : 'Sprawdź formularz — któreś z pól jest niepoprawne.';
+      return false;
+    }
     if(!response.ok || !result.ok) throw new Error(result.error || 'Send failed');
     form.reset();
     status.className = 'c-status ok';
