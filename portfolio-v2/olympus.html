@@ -12,6 +12,12 @@ p strong{font-weight:700;color:inherit}.label{color:#9b6b09}h1,h2,h3,p{margin-to
 .world:last-child img{animation:mapZoom 16s ease-in-out infinite;will-change:transform}
 @keyframes mapZoom{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
 .world:first-child:hover img,.world:last-child:hover img{animation-play-state:paused}
+.world.is-draggable{cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.world.is-dragging{cursor:grabbing}
+.world.is-draggable img{pointer-events:none;-webkit-user-drag:none}
+.world.is-draggable::after{content:attr(data-hint);position:absolute;right:16px;bottom:16px;padding:8px 11px;background:#fffdf8e8;font:600 11px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.08em;opacity:0;transition:opacity .3s;pointer-events:none}
+.world.is-draggable:hover::after{opacity:1}
+.world.is-dragging::after{opacity:0}
 @media(prefers-reduced-motion:reduce){.world:first-child img,.world:last-child img{animation:none}}.world span{position:absolute;left:16px;bottom:16px;padding:8px 11px;background:#fffdf8e8;font:600 9px 'IBM Plex Mono';text-transform:uppercase}.props{display:grid;grid-template-columns:.7fr 1.3fr;gap:clamp(32px,6vw,90px);align-items:center;margin-top:clamp(48px,7vw,90px);padding-top:clamp(40px,6vw,72px);border-top:1px solid var(--line)}.props-copy h3{max-width:11ch;margin:12px 0 20px;font-size:clamp(34px,4vw,58px);line-height:.96;letter-spacing:-.04em}.props-copy p{max-width:42ch}.props-stats{display:flex;gap:28px;margin-top:30px}.props-stats div{padding-right:28px;border-right:1px solid var(--line)}.props-stats b{display:block;color:#1764b5;font-size:21px}.props-stats span{color:var(--muted);font:500 8px 'IBM Plex Mono';letter-spacing:.08em;text-transform:uppercase}.prop-stage{display:grid;grid-template-columns:.8fr 1.3fr .72fr;gap:8px;align-items:end;min-height:420px;padding:30px 10px 0;background:radial-gradient(ellipse at 52% 80%,#d5cfc233,transparent 58%)}.prop-stage figure{position:relative;margin:0;text-align:center}.prop-stage figure:nth-child(2){z-index:2}.prop-stage img{width:100%;height:300px;object-fit:contain;filter:drop-shadow(0 24px 18px #655b4c35);transition:transform .4s}.prop-stage figure:nth-child(1) img{height:250px}.prop-stage figure:nth-child(2) img{height:390px}.prop-stage figure:nth-child(3) img{height:205px}.prop-stage figure:hover img{transform:translateY(-7px)}.prop-stage figcaption{margin-top:10px;color:#6d6d6d;font:500 8px 'IBM Plex Mono';letter-spacing:.08em;text-transform:uppercase}
 .ui{color:#fff;background:linear-gradient(128deg,#241546,var(--violet))}.ui-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:var(--gap)}.ui-main{display:flex;align-items:center;justify-content:center;padding:clamp(14px,2vw,28px);background:#ffffff14;border:1px solid #ffffff20}.ui-main img{width:100%;height:100%;max-height:100%;object-fit:contain}.ui-side{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ui-thumb{display:block;position:relative;overflow:hidden;background:#ffffff10;border:1px solid #ffffff1a}.ui-thumb img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:center;transition:transform .5s}.ui-thumb:hover img{transform:scale(1.13)}.ui-note{margin-top:32px;padding-top:24px;border-top:1px solid #ffffff2e;color:#ffffff85;font:500 10px 'IBM Plex Mono';text-transform:uppercase}.ui-icons{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:26px;max-width:460px}.ui-icons img{width:100%;aspect-ratio:1;object-fit:contain;padding:9px;background:#ffffff12;border:1px solid #ffffff24;border-radius:12px;transition:transform .25s,background .25s,border-color .25s}.ui-icons img:hover{transform:translateY(-3px);background:#ffffff1f;border-color:#ffffff40}
 .process h2{max-width:12ch}.flow{display:grid;grid-template-columns:repeat(6,1fr);margin-top:50px;border-block:1px solid var(--line)}.step{position:relative;padding:34px 18px;min-height:130px}.step+.step{border-left:1px solid var(--line)}.step b{display:block;margin-bottom:22px;color:#a16d08;font:600 12.5px 'IBM Plex Mono'}.step span{font-size:14px;font-weight:700}.step:not(:last-child):after{content:'→';position:absolute;right:-8px;top:55px;background:var(--paper);color:#a16d08}.game{color:#fff;background:#0b1427}.video{aspect-ratio:16/9;box-shadow:0 30px 90px #0006}.video iframe{width:100%;height:100%;border:0}.result{position:relative;overflow:hidden;padding-block:clamp(92px,11vw,160px);color:#fff;text-align:center;background:var(--navy);border-bottom:3px solid var(--gold)}.result-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}.result:after{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 50% 50%,#07152de6 0%,#07152d99 44%,#07152d33 78%)}.result .container{position:relative;z-index:2}.result h2{max-width:20ch;margin:14px auto 22px}.result p{max-width:58ch;margin:auto}
@@ -411,5 +417,59 @@ document.addEventListener('click', e => {
 document.getElementById('langBtn')?.addEventListener('click', function(){
   window.trk?.('lang_switch', { to: this.textContent.trim() });
 });
+
+/* ---- swobodne przesuwanie duzej mapy (mysz + dotyk) ---- */
+(function(){
+  const fig = document.querySelector('.world-grid .world:first-child');
+  if(!fig) return;
+  const img = fig.querySelector('img');
+  if(!img) return;
+
+  const SCALE = 1.18;
+  const LIMIT = 100 * (SCALE - 1) / 2 - 1;   /* ile mozna przesunac, zanim wyjrzy krawedz */
+  const clamp = v => Math.max(-LIMIT, Math.min(LIMIT, v));
+
+  let x = 0, y = 0, sx = 0, sy = 0, ox = 0, oy = 0, dragging = false, moved = false;
+
+  const apply = () => { img.style.transform = `scale(${SCALE}) translate(${x}%, ${y}%)`; };
+
+  fig.classList.add('is-draggable');
+  fig.dataset.hint = (localStorage.getItem('aa_lang') === 'en')
+    ? 'Drag to explore · double-click to reset'
+    : 'Przeciągnij, aby przesunąć · dwuklik = reset';
+
+  fig.addEventListener('pointerdown', e => {
+    dragging = true; moved = false;
+    sx = e.clientX; sy = e.clientY; ox = x; oy = y;
+    img.style.animation = 'none';            /* zatrzymaj auto-panoramowanie */
+    fig.classList.add('is-dragging');
+    fig.setPointerCapture(e.pointerId);
+  });
+
+  fig.addEventListener('pointermove', e => {
+    if(!dragging) return;
+    const w = fig.clientWidth || 1, h = fig.clientHeight || 1;
+    x = clamp(ox + (e.clientX - sx) / w * 100);
+    y = clamp(oy + (e.clientY - sy) / h * 100);
+    if(Math.abs(e.clientX - sx) > 3 || Math.abs(e.clientY - sy) > 3) moved = true;
+    apply();
+  });
+
+  const end = e => {
+    if(!dragging) return;
+    dragging = false;
+    fig.classList.remove('is-dragging');
+    try { fig.releasePointerCapture(e.pointerId); } catch(_){}
+  };
+  fig.addEventListener('pointerup', end);
+  fig.addEventListener('pointercancel', end);
+
+  /* dwuklik -> powrot do srodka i wznowienie animacji */
+  fig.addEventListener('dblclick', () => {
+    x = 0; y = 0;
+    img.style.transform = '';
+    img.style.animation = '';
+  });
+})();
 </script>
 </body></html>
