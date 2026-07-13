@@ -13,7 +13,7 @@ p strong{font-weight:700;color:inherit}.label{color:#9b6b09}h1,h2,h3,p{margin-to
 /* duza mapa: pelny obraz, swobodne przesuwanie - bez skalowania i bez CSS-owej animacji */
 .world.is-draggable{cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
 .world.is-dragging{cursor:grabbing}
-.world.is-draggable img{position:absolute;top:0;left:0;width:auto;height:100%;max-width:none;object-fit:none;transition:none;animation:none;transform:translate3d(0,0,0);will-change:transform;pointer-events:none;-webkit-user-drag:none}
+.world.is-draggable img{position:absolute;top:0;left:0;width:auto;height:auto;max-width:none;max-height:none;object-fit:none;transform-origin:0 0;transition:none;animation:none;transform:translate3d(0,0,0);will-change:transform;pointer-events:none;-webkit-user-drag:none}
 .world.is-draggable:hover img{transform:translate3d(0,0,0)}
 .world.is-draggable::after{content:attr(data-hint);position:absolute;right:16px;bottom:16px;padding:8px 11px;background:#fffdf8e8;font:600 11px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.08em;opacity:0;transition:opacity .3s;pointer-events:none;z-index:2}
 .world.is-draggable:hover::after{opacity:1}
@@ -432,16 +432,24 @@ document.getElementById('langBtn')?.addEventListener('click', function(){
 
   let x = 0, y = 0;                 /* aktualne przesuniecie w px */
   let minX = 0, minY = 0;           /* granice: obraz nie odslania tla */
+  let scale = 1;                    /* podskalowanie tylko gdy kadr wiekszy niz mapa */
   let sx = 0, sy = 0, ox = 0, oy = 0;
   let dragging = false, auto = true, t0 = 0, raf = 0;
 
   const clamp = (v, min) => Math.max(min, Math.min(0, v));
-  const apply = () => { img.style.transform = `translate3d(${x}px, ${y}px, 0)`; };
+  const apply = () => { img.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`; };
 
   function measure(){
-    /* obraz ma height:100%, wiec jest szerszy niz kadr -> mozna go przewinac w calosci */
-    minX = Math.min(0, fig.clientWidth  - img.offsetWidth);
-    minY = Math.min(0, fig.clientHeight - img.offsetHeight);
+    const nw = img.naturalWidth || img.offsetWidth;
+    const nh = img.naturalHeight || img.offsetHeight;
+    const fw = fig.clientWidth, fh = fig.clientHeight;
+    if(!nw || !nh || !fw || !fh) return;
+
+    /* mapa w rozmiarze natywnym; skalujemy w gore tylko, gdyby kadr byl od niej wiekszy */
+    scale = Math.max(1, fw / nw, fh / nh);
+    minX = Math.min(0, fw - nw * scale);
+    minY = Math.min(0, fh - nh * scale);
+
     x = clamp(x, minX); y = clamp(y, minY);
     apply();
   }
