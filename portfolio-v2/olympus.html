@@ -351,6 +351,11 @@ setTimeout(revealCase,12000);   // bezpiecznik: wadliwy plik nie zablokuje wejsc
     if(q.has('analytics'))   localStorage.removeItem('aa_noanalytics');
     if(localStorage.getItem('aa_noanalytics')) return;
   }catch(e){}
+  /* trk(nazwa, dane) — wysyla custom event do Vercel Analytics.
+     Gdy zliczanie jest wylaczone (?noanalytics=1), window.va nie istnieje i funkcja nic nie robi. */
+  window.trk = function(name, data){
+    try { if(window.va) window.va('event', data ? { name: name, data: data } : { name: name }); } catch(e){}
+  };
   var s = document.createElement('script');
   s.defer = true;
   s.src = '/_vercel/insights/script.js';
@@ -368,16 +373,36 @@ function startSack(){
   sack.dataset.armed = '1';
 
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const play = () => {
+  const t0 = Date.now();
+  const play = (source) => {
     if(sack.dataset.playing) return;
     sack.dataset.playing = '1';
     sack.src = sack.dataset.anim;          // podmiana nieruchomej klatki na sekwencje
     hud.classList.remove('is-hinting');
     hud.classList.add('is-played');
+    window.trk?.('hud_sack_play', { source: source || 'click', after_ms: Date.now() - t0 });
   };
 
-  if(still){ play(); return; }
-  if(btn) btn.addEventListener('click', play, { once:true });
-  setTimeout(() => { if(!sack.dataset.playing) hud.classList.add('is-hinting'); }, 1100);
+  window.trk?.('hud_assembled');           // HUD zlozyl sie w kadrze
+  if(still){ play('reduced_motion'); return; }
+  if(btn) btn.addEventListener('click', () => play('click'), { once:true });
+  setTimeout(() => {
+    if(sack.dataset.playing) return;
+    hud.classList.add('is-hinting');
+    window.trk?.('hud_hint_shown');        // spotlight z zacheta do kliknięcia
+  }, 1100);
 }
-</script></body></html>
+</script><script>
+/* --- zdarzenia (Vercel Analytics) --- */
+document.querySelector('.video-cover')?.addEventListener('click', () => window.trk?.('gameplay_play', { project: 'olympus-defence' }));
+document.addEventListener('click', e => {
+  const av = e.target.closest('.od-avatar-thumb');
+  if(av) window.trk?.('avatar_select', { unit: (av.getAttribute('aria-label') || '').slice(0,30) });
+  const a = e.target.closest('a');
+  if(a && (a.getAttribute('href') || '').includes('kontakt')) window.trk?.('case_to_contact', { project: 'olympus-defence' });
+});
+document.getElementById('langBtn')?.addEventListener('click', function(){
+  window.trk?.('lang_switch', { to: this.textContent.trim() });
+});
+</script>
+</body></html>

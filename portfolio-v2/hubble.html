@@ -263,6 +263,11 @@ buildPfGrid();
     if(q.has('analytics'))   localStorage.removeItem('aa_noanalytics');
     if(localStorage.getItem('aa_noanalytics')) return;
   }catch(e){}
+  /* trk(nazwa, dane) — wysyla custom event do Vercel Analytics.
+     Gdy zliczanie jest wylaczone (?noanalytics=1), window.va nie istnieje i funkcja nic nie robi. */
+  window.trk = function(name, data){
+    try { if(window.va) window.va('event', data ? { name: name, data: data } : { name: name }); } catch(e){}
+  };
   var s = document.createElement('script');
   s.defer = true;
   s.src = '/_vercel/insights/script.js';

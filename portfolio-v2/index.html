@@ -702,11 +702,41 @@ document.querySelectorAll('video[autoplay]').forEach(v=>{
     if(q.has('analytics'))   localStorage.removeItem('aa_noanalytics');
     if(localStorage.getItem('aa_noanalytics')) return;
   }catch(e){}
+  /* trk(nazwa, dane) — wysyla custom event do Vercel Analytics.
+     Gdy zliczanie jest wylaczone (?noanalytics=1), window.va nie istnieje i funkcja nic nie robi. */
+  window.trk = function(name, data){
+    try { if(window.va) window.va('event', data ? { name: name, data: data } : { name: name }); } catch(e){}
+  };
   var s = document.createElement('script');
   s.defer = true;
   s.src = '/_vercel/insights/script.js';
   document.head.appendChild(s);
 })();
+</script>
+<script>
+/* --- zdarzenia (Vercel Analytics) --- */
+document.addEventListener('click', e => {
+  const card = e.target.closest('.proj-ico');
+  if(card){
+    const h = card.getAttribute('href') || '';
+    const slug = h.includes('?p=') ? h.split('?p=')[1] : h.replace(/\.html$/, '');
+    window.trk?.('project_open', { project: slug });
+    return;
+  }
+  const a = e.target.closest('a');
+  if(!a) return;
+  const h = a.getAttribute('href') || '';
+  if(h.startsWith('mailto:'))       window.trk?.('contact_click', { channel: 'email' });
+  else if(h.includes('linkedin'))   window.trk?.('contact_click', { channel: 'linkedin' });
+  else if(h.includes('cv.html'))    window.trk?.('go_cv');
+});
+document.getElementById('langBtn')?.addEventListener('click', function(){
+  window.trk?.('lang_switch', { to: this.textContent.trim() });
+});
+document.addEventListener('click', e => {
+  const f = e.target.closest('#filters button, #filters a');
+  if(f) window.trk?.('filter_use', { filter: f.textContent.trim().slice(0,30) });
+});
 </script>
 </body>
 </html>

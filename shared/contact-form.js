@@ -169,6 +169,7 @@
   }
 
   function markInvalid(wrap, key, msg) {
+    window.trk?.('contact_invalid', { field: key });
     const f = field(wrap, key);
     f.classList.remove('invalid');
     void f.offsetWidth;                       // restart animacji
@@ -227,11 +228,13 @@
       $(wrap, '.c-sent-t').innerHTML = t('sent_t') + '<span class="ac">.</span>';
       $(wrap, '.c-sent-d').textContent = t('sent_d');
       $(wrap, '.c-again').textContent = t('again');
+      window.trk?.('contact_submit', { lang: en() ? 'en' : 'pl' });
       wrap.classList.add('folding');
       setTimeout(() => { wrap.classList.add('sent'); form.reset(); }, 620);
       status.textContent = '';
     } catch (err) {
       console.error('[contact] send failed', err);
+      window.trk?.('contact_error');
       status.className = 'c-status err';
       status.textContent = t('e_send');
     } finally {
