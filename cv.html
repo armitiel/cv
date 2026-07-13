@@ -26,8 +26,8 @@ a:hover{color:var(--accent)}
 @view-transition{navigation:auto}
 @keyframes slideFromLeft{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
 @keyframes slideFromRight{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
-::view-transition-group(portrait),::view-transition-group(heroText){animation-duration:.75s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
-::view-transition-old(heroText),::view-transition-new(heroText){animation-duration:.45s}
+
+
 /* reszta strony: miekkie przenikanie z lekkim dryfem zamiast twardego cross-fade */
 @keyframes vtOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-10px)}}
 @keyframes vtIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -61,9 +61,9 @@ a:hover{color:var(--accent)}
 /* HERO */
 .hero{position:relative;background:var(--cream);color:var(--ink);padding:clamp(48px,6vw,68px) var(--gut) clamp(44px,5vw,60px);border-bottom:2px solid var(--ink);overflow:hidden}
 .hero-in{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:clamp(28px,4vw,64px);flex-wrap:wrap}
-.hero-l{flex:1;min-width:min(280px,100%);view-transition-name:heroText;animation:slideFromRight .85s cubic-bezier(.2,.7,.2,1) both}
+.hero-l{flex:1;min-width:min(280px,100%);animation:slideFromLeft .85s cubic-bezier(.2,.7,.2,1) both}
 .hero-right{flex:none;display:flex;flex-direction:column;gap:22px;align-items:flex-start;animation:slideFromLeft .9s .1s cubic-bezier(.2,.7,.2,1) both}
-.hero-video{width:clamp(260px,32vw,400px);overflow:hidden;view-transition-name:portrait}
+.hero-video{width:clamp(260px,32vw,400px);overflow:hidden;animation:slideFromRight .9s .1s cubic-bezier(.2,.7,.2,1) both}
 .hero-video video{display:block;width:calc(100% + 10px);height:auto;margin-left:-5px}
 .eyebrow{font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:var(--accent)}
 .hero-h{font:900 clamp(46px,7vw,88px)/0.95 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.035em;margin-top:16px}
@@ -211,10 +211,10 @@ a:hover{color:var(--accent)}
     <div data-reveal class="sec-h" data-i18n="h_skills_big">Umiejętności</div>
     <div data-reveal class="sec-u"></div>
     <div class="sk-grid">
-      <div class="sk-list" id="skills"></div>
+      <div class="sk-list" id="skills" data-reveal></div>
       <div>
         <div class="lbl" data-reveal data-i18n="h_tools">NARZĘDZIA</div>
-        <div class="tools" id="tools"></div>
+        <div class="tools" id="tools" data-reveal></div>
         <div class="lbl" style="margin-top:30px" data-reveal data-i18n="h_lang">JĘZYKI</div>
         <div class="langs" data-reveal><span data-i18n="lang_pl">Polski, ojczysty</span><br><span data-i18n="lang_en">Angielski, biegły</span></div>
       </div>
@@ -327,10 +327,10 @@ function buildJobs(){
     </div>`).join('');
 }
 function buildSkills(){
-  document.getElementById('skills').innerHTML = SKILLS[lang].map((s,i)=>`<div class="sk" data-reveal data-rd="${i*70}"><i></i>${esc(s)}</div>`).join('');
+  document.getElementById('skills').innerHTML = SKILLS[lang].map(s=>`<div class="sk"><i></i>${esc(s)}</div>`).join('');
 }
 function buildTools(){
-  document.getElementById('tools').innerHTML = TOOLS.map((t,i)=>`<span data-reveal data-rd="${i*45}">${esc(t)}</span>`).join('');
+  document.getElementById('tools').innerHTML = TOOLS.map(t=>`<span>${esc(t)}</span>`).join('');
 }
 function buildEdu(){
   document.getElementById('edu').innerHTML = EDU[lang].map(e=>`
@@ -364,26 +364,54 @@ document.getElementById('langBtn').onclick = ()=>{ lang = isEn()?'pl':'en'; loca
 /* akcent współdzielony z portfolio */
 const savedAcc = localStorage.getItem('aa_accent'); if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
 
-/* reveal */
-const io = new IntersectionObserver(entries=>{
-  entries.filter(e=>e.isIntersecting).forEach((e,i)=>{
-    io.unobserve(e.target); e.target.style.opacity='';
-    /* data-rd = wlasne opoznienie wg kolejnosci na liscie (kaskada);
-       bez niego stagger liczy sie z indeksu w paczce obserwatora */
-    const rd = e.target.dataset.rd;
-    e.target.animate(
-      [{opacity:0,transform:'translateY(28px)'},{opacity:1,transform:'none'}],
-      {duration:800,delay:rd!==undefined?+rd:i*110,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
-    );
-  });
-},{threshold:.12,rootMargin:'0px 0px -30px 0px'});
-function revealInit(){
-  document.querySelectorAll('[data-reveal]').forEach(el=>{
-    if(el.dataset.rv) return;
-    if(el.getBoundingClientRect().top > innerHeight*.92){ el.dataset.rv='1'; el.style.opacity='0'; io.observe(el); }
-  });
-}
+/* reveal: kolejka — sekcje wchodza jedna po drugiej, a te poza kadrem czekaja na swoja kolej.
+   Start dopiero po animacji hero. */
+let heroDone = false;
+const heroQ = [];
+function heroReady(fn){ heroDone ? fn() : heroQ.push(fn); }
+(function watchHero(){
+  const v = document.querySelector('.hero-video');
+  const go = () => { if(heroDone) return; heroDone = true; heroQ.splice(0).forEach(f=>f()); };
+  if(v) v.addEventListener('animationend', () => setTimeout(go, 140), { once:true });
+  setTimeout(go, 2200);
+})();
 
+let seq = [], seen = [], cursor = 0, timer = null, io = null;
+const stillCV = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const pump = () => {
+  if(timer || !heroDone) return;
+  if(cursor >= seq.length){ if(io){ io.disconnect(); io = null; } return; }
+  if(!seen[cursor]) return;
+  const el = seq[cursor++];
+  el.style.opacity = '';
+  el.animate(
+    [{opacity:0,transform:'translateX(-48px)'},{opacity:1,transform:'none'}],
+    {duration:750,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+  );
+  timer = setTimeout(() => { timer = null; pump(); }, 190);
+};
+
+function revealInit(){
+  seq = [...document.querySelectorAll('[data-reveal]')];
+  if(!seq.length) return;
+  if(stillCV){ seq.forEach(el => el.style.opacity=''); return; }
+  seen = new Array(seq.length).fill(false);
+  cursor = 0;
+  seq.forEach(el => { el.style.opacity = '0'; });
+  if(io) io.disconnect();
+  io = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(!e.isIntersecting) return;
+      const k = seq.indexOf(e.target);
+      if(k > -1) seen[k] = true;
+      io.unobserve(e.target);
+    });
+    pump();
+  },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  seq.forEach(el => io.observe(el));
+  heroReady(pump);
+}
 buildTools();
 applyLang();
 

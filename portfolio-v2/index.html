@@ -27,8 +27,8 @@ img{display:block}
 @view-transition{navigation:auto}
 @keyframes slideFromLeft{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
 @keyframes slideFromRight{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
-::view-transition-group(portrait),::view-transition-group(heroText){animation-duration:.75s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
-::view-transition-old(heroText),::view-transition-new(heroText){animation-duration:.45s}
+
+
 /* reszta strony: miekkie przenikanie z lekkim dryfem zamiast twardego cross-fade */
 @keyframes vtOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-10px)}}
 @keyframes vtIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -153,8 +153,8 @@ img{display:block}
 /* O MNIE */
 .about{position:relative;padding:clamp(44px,5vw,64px) var(--gut) clamp(44px,5vw,60px);display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,5vw,84px) clamp(40px,5vw,84px);align-items:start}
 .about>*{max-width:100%}
-.about-photo{width:clamp(280px,32vw,430px);overflow:hidden;view-transition-name:portrait;animation:slideFromRight .9s .1s cubic-bezier(.2,.7,.2,1) both}
-.about-body{view-transition-name:heroText;animation:slideFromLeft .85s cubic-bezier(.2,.7,.2,1) both}
+.about-photo{width:clamp(280px,32vw,430px);overflow:hidden;animation:slideFromRight .9s .1s cubic-bezier(.2,.7,.2,1) both}
+.about-body{animation:slideFromLeft .85s cubic-bezier(.2,.7,.2,1) both}
 .about-photo img,.about-photo video{width:100%;height:auto;display:block}
 .about-photo video{width:calc(100% + 10px);margin-left:-5px}
 .polaroid{width:clamp(220px,22vw,300px);height:clamp(280px,28vw,380px);transform:rotate(-3deg);background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(28,24,19,.12);padding:10px 10px 34px}
@@ -329,7 +329,7 @@ img{display:block}
 <div id="kontakt" class="contact">
   <div class="sec-vlabel"><span class="vtxt">03 / <span data-i18n="nav_contact">Kontakt</span></span><span class="vbar"></span></div>
   <div class="contact-grid">
-    <div class="c-left" data-reveal>
+    <div class="c-left" id="contactLeft">
       <h2 class="sec-title-u"><span data-i18n="cta_1">Porozmawiajmy</span><span class="ac">.</span></h2>
       <p class="c-sub" data-i18n="c_sub">Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.</p>
       <div class="c-links">
@@ -625,6 +625,11 @@ function staggerCards(grid){
   if(filters && filters.offsetParent !== null) seq.unshift(filters);
   if(head) seq.unshift(head);
   if(wip) seq.push(wip);
+  // sekcja Kontakt zamyka kolejke — wchodzi po projektach
+  const contact = document.getElementById('contactLeft');
+  const cform = document.querySelector('#kontakt [data-contact-form]');
+  if(contact) seq.push(contact);
+  if(cform) seq.push(cform);
   if(!seq.length) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ seq.forEach(el=>el.style.opacity=''); return; }
 
