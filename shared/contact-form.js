@@ -23,7 +23,7 @@
     f_name:  ['Imię / Firma', 'Name / Company'],
     f_email: ['E-mail', 'E-mail'],
     f_msg:   ['Wiadomość', 'Message'],
-    f_send:  ['Wyślij wiadomość', 'Send message'],
+    f_send:  ['Wyślij', 'Send'],
     ph_name: ['Jan Kowalski', 'Jane Doe'],
     ph_email:['jan@firma.pl', 'jane@company.com'],
     ph_msg:  ['Cześć Amitiel, chcielibyśmy...', "Hi Amitiel, we'd love to..."],
