@@ -46,10 +46,11 @@
   };
 
   const CSS = `
-.c-form{display:grid;gap:18px}
-.c-form .c-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.c-form{display:grid;gap:18px;min-width:0;max-width:100%}
+.c-form .c-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-width:0}
+.c-form .field{min-width:0}
 .c-form .field label{display:block;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,232,.55);margin-bottom:8px}
-.c-form .field input,.c-form .field textarea{width:100%;background:rgba(246,241,232,.04);border:1px solid rgba(246,241,232,.18);border-radius:8px;padding:13px 15px;color:var(--cream,#f6f1e8);font:400 15px 'Archivo',sans-serif;transition:border-color .2s,background .2s}
+.c-form .field input,.c-form .field textarea{width:100%;max-width:100%;min-width:0;background:rgba(246,241,232,.04);border:1px solid rgba(246,241,232,.18);border-radius:8px;padding:13px 15px;color:var(--cream,#f6f1e8);font:400 15px 'Archivo',sans-serif;transition:border-color .2s,background .2s}
 .c-form .field textarea{resize:vertical;min-height:120px}
 .c-form .field input::placeholder,.c-form .field textarea::placeholder{color:rgba(246,241,232,.4)}
 .c-form .field input:focus,.c-form .field textarea:focus{outline:none;border-color:var(--accent,#C26A32);background:rgba(246,241,232,.07)}
@@ -68,7 +69,7 @@
 .field.invalid{animation:cfNudge .4s cubic-bezier(.36,.07,.19,.97)}
 @keyframes cfNudge{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(3px)}50%{transform:translateX(-3px)}}
 
-.c-formwrap{position:relative}
+.c-formwrap{position:relative;min-width:0;max-width:100%}
 .c-formwrap .c-form{transform-style:preserve-3d}
 
 /* wejscie: pola wsuwaja sie po kolei, z lekkim opoznieniem */
@@ -114,6 +115,13 @@
   .c-formwrap [data-reveal]{opacity:1;transform:none;transition:none}
 }
 @media(max-width:820px){.c-form .c-row{grid-template-columns:1fr}}
+@media(max-width:420px){
+  .c-form{gap:15px}
+  .c-form .field input,.c-form .field textarea{padding:12px 13px;font-size:16px}
+  .c-form .c-send{padding:14px 12px}
+  .env{width:min(132px,42vw)}
+  .c-sent-d{max-width:100%}
+}
 `;
 
   const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
