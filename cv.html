@@ -269,7 +269,7 @@ const DICT = {
   nav_exp:['Doświadczenie','Experience'], nav_skills:['Umiejętności','Skills'], nav_edu:['Edukacja','Education'],
   dl:['Pobierz PDF','Download PDF'],
   role:['Senior Graphic Designer','Senior Graphic Designer'],
-  loc:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
+  loc:['Warszawa, Polska<br>GMT+1','Warsaw, Poland<br>GMT+1'],
   summary:['Ponad 12 lat doświadczenia w tworzeniu produktów cyfrowych, interfejsów i systemów wizualnych. Łączę UI/UX, branding, ilustrację, grafikę 2D i 3D, motion design oraz kierunek artystyczny. Rozwijam projekty od koncepcji po produkcję i wdrożenie, wykorzystując nowe technologie do tworzenia kompletnych produktów i narzędzi oraz lepszego rozumienia systemów stojących za ich działaniem.','12+ years of experience creating digital products, interfaces and visual systems. I work across UI/UX, branding, illustration, 2D/3D, motion design and art direction. I develop projects from concept through production and implementation, using new technologies to build complete products and tools while understanding the systems behind them.'],
   h_exp:['Doświadczenie','Experience'], h_skills_big:['Umiejętności','Skills'], h_tools:['NARZĘDZIA','TOOLS'],
   h_edu_big:['Edukacja','Education'], h_lang:['JĘZYKI','LANGUAGES'],
@@ -350,7 +350,7 @@ function buildEdu(){
 }
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const p = DICT[el.getAttribute('data-i18n')]; if(p) el.textContent = isEn()?p[1]:p[0];
+    const p = DICT[el.getAttribute('data-i18n')]; if(p) el.innerHTML = isEn()?p[1]:p[0];
   });
   document.getElementById('langBtn').textContent = isEn()?'PL':'EN';
   document.documentElement.lang = lang;

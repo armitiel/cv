@@ -393,7 +393,7 @@ const DICT = {
   sk_5:['Animacja i motion','Animation & motion'],
   cta:['Porozmawiajmy',"Let's talk"],
   wip_notice:['Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.','The remaining projects are currently being reorganized into a new layout and will be updated here. Further work samples are available on request.'],
-  foot_city:['Warszawa, Polska · GMT+1','Warsaw, Poland · GMT+1'],
+  foot_city:['Warszawa, Polska<br>GMT+1','Warsaw, Poland<br>GMT+1'],
   c_avail:['Dostępny do współpracy','Available for work'],
   cta_1:['Porozmawiajmy','Let’s talk'],
   cta_2:['',''],
@@ -404,7 +404,7 @@ let lang = localStorage.getItem('aa_lang') || 'pl';
 const isEn = ()=>lang==='en';
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const p = DICT[el.getAttribute('data-i18n')]; if(p) el.textContent = isEn()?p[1]:p[0];
+    const p = DICT[el.getAttribute('data-i18n')]; if(p) el.innerHTML = isEn()?p[1]:p[0];
   });
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
     const p = DICT[el.getAttribute('data-i18n-ph')]; if(p) el.placeholder = isEn()?p[1]:p[0];
