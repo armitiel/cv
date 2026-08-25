@@ -406,7 +406,11 @@ function revealInit(){
   if(stillCV){ seq.forEach(el => el.style.opacity=''); return; }
   seen = new Array(seq.length).fill(false);
   cursor = 0;
-  seq.forEach(el => { el.style.opacity = '0'; });
+  seq.forEach((el,i) => {
+    const r = el.getBoundingClientRect();
+    if(r.top < innerHeight && r.bottom > 0){ seen[i] = true; }
+    else { el.style.opacity = '0'; }
+  });
   if(io) io.disconnect();
   io = new IntersectionObserver(es => {
     es.forEach(e => {
@@ -417,7 +421,7 @@ function revealInit(){
     });
     pump();
   },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
-  seq.forEach(el => io.observe(el));
+  seq.forEach((el,i) => { if(!seen[i]) io.observe(el); });
   heroReady(pump);
 }
 buildTools();
@@ -433,7 +437,11 @@ const ioV = new IntersectionObserver(es=>{
     );
   });
 },{threshold:0,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.vlabel').forEach(el=>{ el.style.opacity='0'; ioV.observe(el); });
+document.querySelectorAll('.vlabel').forEach(el=>{
+  const r=el.getBoundingClientRect();
+  if(r.top < innerHeight && r.bottom > 0) return;
+  el.style.opacity='0'; ioV.observe(el);
+});
 
 /* ---- force autoplay videos on mobile ---- */
 document.querySelectorAll('video[autoplay]').forEach(v=>{

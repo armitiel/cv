@@ -636,9 +636,14 @@ function staggerCards(grid){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ seq.forEach(el=>el.style.opacity=''); return; }
 
   if(cardsIO){ cardsIO.disconnect(); cardsIO=null; }
-  seq.forEach(el=>{ el.style.opacity='0'; });
 
   const seen = new Array(seq.length).fill(false);
+  seq.forEach((el,i)=>{
+    const r = el.getBoundingClientRect();
+    if(r.top < innerHeight && r.bottom > 0){ seen[i] = true; }
+    else { el.style.opacity='0'; }
+  });
+
   let cursor = 0, timer = null;
 
   /* Gra sciśle po kolei. Element wchodzi dopiero, gdy: hero sie skonczyl,
@@ -666,7 +671,7 @@ function staggerCards(grid){
     pump();
   },{threshold:.15,rootMargin:'0px 0px -8% 0px'});
 
-  seq.forEach(el=>cardsIO.observe(el));
+  seq.forEach((el,i)=>{ if(!seen[i]) cardsIO.observe(el); });
   heroReady(pump);
 }
 applyLang();
@@ -682,7 +687,11 @@ const ioV=new IntersectionObserver(es=>{
     );
   });
 },{threshold:0,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.sec-vlabel').forEach(el=>{ el.style.opacity='0'; ioV.observe(el); });
+document.querySelectorAll('.sec-vlabel').forEach(el=>{
+  const r=el.getBoundingClientRect();
+  if(r.top < innerHeight && r.bottom > 0) return;
+  el.style.opacity='0'; ioV.observe(el);
+});
 
 /* ---- force autoplay videos on mobile ---- */
 document.querySelectorAll('video[autoplay]').forEach(v=>{
