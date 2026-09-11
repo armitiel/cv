@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portfolio — Amitiel Angelisme</title>
+<script>document.documentElement.classList.add('js-lines')</script>
 <meta name="description" content="Amitiel Angelisme · wszechstronny projektant. Praca graficzna jako sztuka użytkowa łączona z nowymi technologiami — branding, 3D, UI, ilustracja, motion. Warszawa.">
 <link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -220,6 +221,33 @@ img{display:block}
 .wip-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2.2s infinite}
 
 [data-reveal]{will-change:opacity,transform}
+
+/* Podkreslenia tytulow (.sec-title-u::after) i linia dzielaca sekcje rozjezdzaja
+   sie z lewej w prawo w momencie wejscia w kadr. Klasa js-lines jest ustawiana
+   w <head>, zeby stan poczatkowy (scaleX(0)) zadzialal przed pierwszym paintem -
+   inaczej kreska mignelaby w pelnej szerokosci i dopiero potem sie zwinela.
+   Bordera nie da sie rozjechac, wiec zostaje na miejscu (trzyma layout), ale
+   przezroczysty, a kreske rysuje warstwa ::after. W #projekty ::before jest juz
+   zajete przez poswiate, dlatego ::after; siedzi wewnatrz padding boxu, bo
+   sekcja ma overflow:hidden. Selektor ze stanem .anim-in musi byc
+   specyficzniejszy od bazowego, inaczej kreska nigdy sie nie rozjedzie. */
+html.js-lines .sec-title-u::after{transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+html.js-lines .sec-title-u.anim-in::after{transform:scaleX(1)}
+html.js-lines #projekty{border-top-color:transparent}
+html.js-lines #projekty::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--ink);transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.22,.61,.36,1);pointer-events:none;z-index:1}
+html.js-lines #projekty.anim-in::after{transform:scaleX(1)}
+/* Cienka linia nad kolumnami w "O mnie". Opoznienie .95s zgrywa ja z kaskada
+   wejscia tego bloku (.about-cols ma animation-delay:.98s), zeby kreska nie
+   pojawiala sie przed trescia, ktora podkresla. */
+html.js-lines .about-cols{position:relative;border-top-color:transparent}
+html.js-lines .about-cols::before{content:'';position:absolute;top:-1px;left:0;width:100%;height:1px;background:var(--line);transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.22,.61,.36,1) .95s;pointer-events:none}
+html.js-lines .about-cols.anim-in::before{transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){
+  html.js-lines .sec-title-u::after{transform:none}
+  html.js-lines #projekty{border-top-color:var(--ink)}
+  html.js-lines #projekty::after{display:none}
+  html.js-lines .about-cols{border-top-color:var(--line)}
+  html.js-lines .about-cols::before{display:none}}
 
 @media(max-width:1000px){ .card{grid-column:span 6} }
 @media(max-width:620px){ .card{grid-column:span 12} }
@@ -603,6 +631,36 @@ function revealInit(scope){
   });
 }
 
+/* ---- kreski: podkreslenia tytulow + linia dzielaca sekcje ----
+   Osobny obserwator, zeby nie wchodzic w system [data-reveal] powyzej.
+   Start dopiero po zaladowaniu strony (albo po 1.5s, gdyby cos sie zawieszalo):
+   w chwili parsowania portret nie jest jeszcze wczytany, dokument jest krotszy
+   i elementy z dolu strony wygladaja na widoczne - dostawaly wtedy animacje od
+   razu, wiec nikt jej nie widzial. */
+(function(){
+  let started = false;
+  const start = () => {
+    if(started) return; started = true;
+    const targets = [...document.querySelectorAll('.sec-title-u, #projekty, .about-cols')];
+    if(!targets.length) return;
+    const go = el => el.classList.add('anim-in');
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ targets.forEach(go); return; }
+    const ioL = new IntersectionObserver(es=>{
+      es.filter(e=>e.isIntersecting).forEach(e=>{ ioL.unobserve(e.target); go(e.target); });
+    },{threshold:0, rootMargin:'0px 0px -10% 0px'});
+    targets.forEach(el=>{
+      const r = el.getBoundingClientRect();
+      if(r.top < innerHeight && r.bottom > 0){
+        /* juz w kadrze: odpalamy po dwoch klatkach, zeby stan poczatkowy zdazyl sie
+           namalowac i przejscie bylo widoczne, a nie przeskoczylo od razu na koniec */
+        requestAnimationFrame(()=>requestAnimationFrame(()=>go(el)));
+      } else ioL.observe(el);
+    });
+  };
+  if(document.readyState === 'complete') start();
+  else { addEventListener('load', start, {once:true}); setTimeout(start, 1500); }
+})();
+
 /* ---- karty projektow: wsuwaja sie po kolei, z opoznieniem ----
    Dziala i przy pierwszym wejsciu w kadr, i po kazdej zmianie filtra. */
 let cardsIO = null;
@@ -675,7 +733,38 @@ function staggerCards(grid){
   heroReady(pump);
 }
 applyLang();
-revealInit();
+/* Pierwszy przebieg reveal dopiero po zaladowaniu strony (awaryjnie po 1.5s).
+   W trakcie parsowania portret nie jest jeszcze wczytany, dokument jest krotszy
+   i elementy z dolu strony wypadaja w pierwszym kadrze - byly wtedy pomijane
+   (bez ukrycia i bez obserwatora), czyli nigdy sie nie animowaly. Po load
+   geometria jest juz prawdziwa; elementy, do ktorych uzytkownik zdazyl zjechac,
+   dalej sa pomijane, wiec nic nie zniknie mu pod palcami. */
+(function(){
+  let done = false;
+  const run = () => { if(done) return; done = true; revealInit(); };
+  if(document.readyState === 'complete') run();
+  else { addEventListener('load', run, {once:true}); setTimeout(run, 1500); }
+})();
+
+/* Siatka bezpieczenstwa dla reveal: przy skoku (kotwica, przywrocenie pozycji,
+   bardzo szybki zjazd) element moze nigdy nie przeciac kadru i zostalby ukryty
+   na zawsze. Po scrollu odslaniamy wiec to, co uzytkownik juz minal - bez
+   animacji, bo jej wejscia i tak nikt nie zobaczyl. */
+(function(){
+  let tyka = false;
+  const zamiec = () => {
+    tyka = false;
+    let zostalo = 0;
+    document.querySelectorAll('[data-reveal]').forEach(el=>{
+      if(el.style.opacity !== '0') return;
+      if(el.getBoundingClientRect().bottom < 0){ io.unobserve(el); el.style.opacity=''; }
+      else zostalo++;
+    });
+    if(!zostalo) removeEventListener('scroll', zaplanuj);
+  };
+  const zaplanuj = () => { if(tyka) return; tyka = true; requestAnimationFrame(zamiec); };
+  addEventListener('scroll', zaplanuj, {passive:true});
+})();
 
 /* ---- reveal bocznych etykiet sekcji (zachowuje rotate) ---- */
 const ioV=new IntersectionObserver(es=>{

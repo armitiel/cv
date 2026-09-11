@@ -475,9 +475,41 @@ const io=new IntersectionObserver(entries=>{
     );
   });
 },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('[data-reveal]').forEach(el=>{
-  if(el.getBoundingClientRect().top > innerHeight*.9){ el.style.opacity='0'; io.observe(el); }
-});
+/* Decyzja o ukryciu dopiero po zaladowaniu strony (awaryjnie po 1.5s): przy
+   parsowaniu obrazy nie sa jeszcze wczytane, dokument jest krotszy i elementy
+   z dolu wypadaja w pierwszym kadrze - byly wtedy pomijane (bez ukrycia i bez
+   obserwatora), czyli nigdy sie nie animowaly. */
+(function(){
+  let done = false;
+  const run = () => {
+    if(done) return; done = true;
+    document.querySelectorAll('[data-reveal]').forEach(el=>{
+      if(el.getBoundingClientRect().top > innerHeight*.9){ el.style.opacity='0'; io.observe(el); }
+    });
+  };
+  if(document.readyState === 'complete') run();
+  else { addEventListener('load', run, {once:true}); setTimeout(run, 1500); }
+})();
+
+/* Siatka bezpieczenstwa dla reveal: przy skoku (kotwica, przywrocenie pozycji,
+   bardzo szybki zjazd) element moze nigdy nie przeciac kadru i zostalby ukryty
+   na zawsze. Po scrollu odslaniamy wiec to, co uzytkownik juz minal - bez
+   animacji, bo jej wejscia i tak nikt nie zobaczyl. */
+(function(){
+  let tyka = false;
+  const zamiec = () => {
+    tyka = false;
+    let zostalo = 0;
+    document.querySelectorAll('[data-reveal]').forEach(el=>{
+      if(el.style.opacity !== '0') return;
+      if(el.getBoundingClientRect().bottom < 0){ io.unobserve(el); el.style.opacity=''; }
+      else zostalo++;
+    });
+    if(!zostalo) removeEventListener('scroll', zaplanuj);
+  };
+  const zaplanuj = () => { if(tyka) return; tyka = true; requestAnimationFrame(zamiec); };
+  addEventListener('scroll', zaplanuj, {passive:true});
+})();
 </script>
 <!-- build v2 -->
 <script>
