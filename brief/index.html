@@ -26,6 +26,7 @@
   --accent-ink: #FFFFFF;
   --accent-soft: #E1E6FB;
   --note-bg: #E8EBF8; --note-line: #C3CBEC; --note-line-on: #7C8FE2;
+  --mark-bg: #1F3FD1; --mark-ink: #FFFFFF;
   --danger: #B3261E;
   --block: #D8DEEA;
   --block-ink: #0E1638;
@@ -47,6 +48,7 @@
     --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
     --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
     --note-bg: rgba(147, 165, 255, .08); --note-line: rgba(147, 165, 255, .3); --note-line-on: rgba(147, 165, 255, .62);
+    --mark-bg: #0237A5; --mark-ink: #FFFFFF;
     --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
     --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
     --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -58,6 +60,7 @@
   --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
   --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
     --note-bg: rgba(147, 165, 255, .08); --note-line: rgba(147, 165, 255, .3); --note-line-on: rgba(147, 165, 255, .62);
+    --mark-bg: #0237A5; --mark-ink: #FFFFFF;
   --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
   --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
   --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -88,14 +91,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .saved.is-on { opacity: 1; }
 @media (max-width: 760px) { .doc, .saved { display: none; } .meter { margin-left: auto; } }
 
-/* ---------- otwarcie ---------- */
-.hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(36px, 6vw, 88px); align-items: start; padding-block: clamp(44px, 8vw, 104px) clamp(48px, 7vw, 92px); }
-.hero-text { container-type: inline-size; min-width: 0; }
-.hero h1 { margin: 0 0 20px; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
-.lead { margin: 0 0 14px; max-width: 54ch; font-size: clamp(17.5px, 1.5vw, 19.5px); line-height: 1.6; color: var(--text); }
-.howto .deadline { display: block; margin-bottom: 6px; font-weight: 600; color: var(--ink); }
-.howto { margin: 24px 0 0; padding-top: 18px; max-width: 56ch; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--mute); }
-@media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .wire { max-width: 480px; } }
+/* ---------- otwarcie: tylko pytanie z makietą, w jednej kolumnie ---------- */
+.hero { padding-block: clamp(28px, 4vw, 52px) clamp(48px, 7vw, 92px); }
+.hero .wire { max-width: 560px; margin-inline: auto; }
+/* nad pytaniem: czego dotyczy brief */
+.kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0 0 16px; font-family: var(--body); font-size: 15px; font-weight: 600; line-height: 1.3; letter-spacing: .01em; color: var(--mute); }
+.kicker-site { padding-left: 12px; border-left: 1px solid var(--line-strong); color: var(--ink); }
+@media (max-width: 900px) { .hero .wire { max-width: 480px; } }
 
 /* makieta: te same bloki treści przechodzą w nowy układ */
 .wire { margin: 0; container-type: inline-size; }
@@ -136,7 +138,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie: odpowiedzi są przyciskami pod nią */
 .path-head { margin-bottom: 18px; }
 /* rozmiar zależy od szerokości kolumny: „Jak rozumiesz” i „ten redesign? *” mieszczą się w dwóch liniach */
-.path-title { margin: 0 0 16px; font-family: var(--display); font-weight: 700; font-size: clamp(34px, 5vw, 72px); font-size: min(78px, 12.6cqi); line-height: 1; letter-spacing: -.035em; color: var(--accent); text-wrap: balance; }
+.path-title { margin: 0 0 16px; font-family: var(--display); font-weight: 700; font-size: clamp(34px, 5vw, 72px); font-size: min(78px, 12.6cqi); line-height: 1; letter-spacing: -.035em; color: var(--mark-ink); text-wrap: balance; }
+/* niebieskie tło pod każdą linią pytania, jak zaznaczony tekst */
+.path-mark { padding: 0 .12em; background: var(--mark-bg); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .path-title .req { color: inherit; }
 .path-hint { max-width: 52ch; }
 .path-next { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 500; color: var(--ink); }
@@ -277,11 +281,11 @@ textarea.inp { min-height: 116px; resize: vertical; }
 }
 @media print {
   :root { --paper: #fff; --field: #fff; --ink: #000; --text: #111; --mute: #555; --line: #bbb; --accent: #000; padding: 0; }
-  body::before, .bar, .wire, .howto, .foot, .actions, .status, .send { display: none !important; }
+  body::before, .bar, .wire-frame, .wire-cap, .path-title, .path-hint, .foot, .actions, .status, .send { display: none !important; }
   body { font-size: 11pt; }
-  .hero { display: block; padding: 0 0 10pt; }
-  .hero h1 { margin-bottom: 8pt; font-size: 24pt; }
-  .lead { font-size: 11pt; }
+  .hero { padding: 0 0 10pt; }
+  .hero .wire { max-width: none; }
+  .kicker { margin: 0; font-size: 18pt; color: #000; }
   .block-head { position: static; }
   .result { padding: 0; border: 0; }
   .summary dt, .summary dd { break-inside: avoid; }
@@ -308,16 +312,9 @@ textarea.inp { min-height: 116px; resize: vertical; }
   <!-- otwarcie jest częścią formularza, bo pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie -->
   <form id="brief" class="form" novalidate>
   <section class="hero">
-    <div class="hero-text">
-      <h1 id="title">Redesign Strony naszpomost.pl</h1>
-      <!-- wstęp i termin pokazują się dopiero po wyborze wariantu, żeby nie podpowiadać odpowiedzi -->
-      <div class="hero-more" id="hero-more">
-        <div id="intro"></div>
-        <p class="howto" id="howto"></p>
-      </div>
-    </div>
     <div class="wire" id="path">
       <div class="path-head">
+        <h1 class="kicker" id="title"><span id="title-doc">Brief projektowy</span><span class="kicker-site" id="title-site">naszpomost.pl</span></h1>
         <h2 class="path-title" id="path-title"></h2>
         <p class="q-hint path-hint" id="path-hint"></p>
       </div>
@@ -412,12 +409,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
     id: "redesign-wordpress",
     marka: "Amitiel",
     nazwa: "Brief projektowy",
-    tytul: "Redesign Strony naszpomost.pl",
-    wstep: [
-      "Redesign rozumiem jako ułożenie strony na nowo z treści, które już na niej są. Zaczynam od układu i hierarchii: co jest najważniejsze, w jakiej kolejności i jak to pokazać. Styl graficzny dopasowuję na końcu, tak żeby wspierał treść."
-    ],
-    termin: "Termin odpowiedzi: do poniedziałku 19.10 włącznie.",
-    instrukcja: "Pola z gwiazdką są wymagane, a jeśli coś nie jest jeszcze ustalone, wystarczy wpisać „do ustalenia”.",
+    tytul: "Redesign Strony naszpomost.pl",   // temat maila i tytuł karty przeglądarki
+    strona: "naszpomost.pl",                  // nad pytaniem: „Brief projektowy | naszpomost.pl”
     email: "amitiel@naszpomost.pl",
 
     // WYSYŁKA ODPOWIEDZI — przez Web3Forms (web3forms.com).
@@ -683,7 +676,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   // pytanie przy makiecie: odpowiedzi są przyciskami pod makietą i od razu ją przestawiają
   function renderPathQuestion(s, f) {
     const id = "f-" + f.id, hintId = id + "-hint", errId = id + "-err";
-    $("#path-title").replaceChildren(s.tytul, f.wymagane ? req() : null);
+    $("#path-title").replaceChildren(el("span", { class: "path-mark" }, s.tytul, f.wymagane ? req() : null));
     const hint = $("#path-hint");
     hint.id = hintId;
     hint.textContent = f.podpowiedz || "";
@@ -725,9 +718,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
     document.title = BRIEF.nazwa + ": " + BRIEF.tytul + " | " + BRIEF.marka;
     $("#brand").textContent = BRIEF.marka;
     $("#doc-name").textContent = BRIEF.nazwa;
-    $("#title").textContent = BRIEF.tytul;
-    $("#intro").replaceChildren(...BRIEF.wstep.map((t) => el("p", { class: "lead", text: t })));
-    $("#howto").replaceChildren(BRIEF.termin ? el("strong", { class: "deadline", text: BRIEF.termin }) : "", BRIEF.instrukcja);
+    $("#title-doc").textContent = BRIEF.nazwa;
+    $("#title-site").textContent = BRIEF.strona;
     $("#fine").textContent = BRIEF.zgoda + (canSend ? " Odpowiedzi trafiają do mnie e-mailem przez serwis " + BRIEF.wysylka.usluga + "." : "");
     $("#contact").replaceChildren("W razie pytań proszę pisać na ", el("a", { href: "mailto:" + BRIEF.email, text: BRIEF.email }), ".");
     submitBtn.textContent = sendLabel;
@@ -883,10 +875,9 @@ textarea.inp { min-height: 116px; resize: vertical; }
       a.cancel();
     };
   }
-  // reszta formularza (sekcje 01 i dalej) pokazuje się dopiero po odpowiedzi na „Jak rozumiesz ten redesign?”
-  // przed odpowiedzią na „Jak rozumiesz ten redesign?” widać tylko tytuł i pytanie z makietą;
-  // wstęp, termin, formularz (sekcje 01 i dalej) i stopka pojawiają się po wyborze wariantu
-  const nextHint = $("#path-next"), heroMore = $("#hero-more"), footEl = $("#foot");
+  // przed odpowiedzią na „Jak rozumiesz ten redesign?” widać tylko pytanie z makietą;
+  // formularz (sekcje 01 i dalej) i stopka pojawiają się po wyborze wariantu
+  const nextHint = $("#path-next"), footEl = $("#foot");
   let restShown = null, restAnims = [];
   function showRest(show, animate) {
     if (restShown === show) return;
@@ -894,12 +885,12 @@ textarea.inp { min-height: 116px; resize: vertical; }
     restAnims.forEach((a) => a.cancel());
     restAnims = [];
     reveal(nextHint, !show, animate);
-    const nodes = [heroMore, host, footEl];
+    const nodes = [host, footEl];
     if (!animate || !canAnimate) { nodes.forEach((n) => { n.hidden = !show; }); return; }
     if (show) {
       nodes.forEach((n) => { n.hidden = false; });
-      // wstęp i kolejne sekcje wjeżdżają po sobie (dalsze sekcje są i tak poniżej ekranu), stopka na końcu
-      restAnims = [heroMore, ...[...host.children].slice(0, 4)].map((n, i) => n.animate(
+      // kolejne sekcje wjeżdżają po sobie (dalsze są i tak poniżej ekranu), stopka na końcu
+      restAnims = [...host.children].slice(0, 4).map((n, i) => n.animate(
         [{ opacity: 0, transform: "translateY(28px)" }, { opacity: 1, transform: "translateY(0)" }],
         { duration: 560, delay: 60 + i * 90, easing: "cubic-bezier(.2, .75, .25, 1)", fill: "backwards" }));
       restAnims.push(footEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 520, easing: "ease", fill: "backwards" }));
