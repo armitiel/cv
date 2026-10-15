@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Brief projektowy: Redesign strony na WordPressie | Amitiel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap">
+<style>
+/* =====================================================================
+   MOTYW — kolory, kroje i rytm. Zmiana wartości poniżej przestawia
+   całą stronę (najpierw tryb jasny, niżej tryb ciemny).
+   ===================================================================== */
+:root {
+  --paper: #EEF1F6;
+  --field: #FFFFFF;
+  --ink: #0E1638;
+  --text: #2B3355;
+  --mute: #5A6386;
+  --line: #D5DBE7;
+  --line-strong: #A9B2CA;
+  --accent: #1F3FD1;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E1E6FB;
+  --danger: #B3261E;
+  --block: #D8DEEA;
+  --block-ink: #0E1638;
+  --shadow: 0 34px 60px -38px rgba(14, 22, 56, .5);
+  --ring: 0 0 0 3px rgba(31, 63, 209, .3);
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --display: "Syne", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --body: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --bar-h: 60px;
+  --ease: cubic-bezier(.65, 0, .35, 1);
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
+    --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
+    --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+    --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
+    --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
+    --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
+  --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
+  --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+  --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
+  --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px); }
+body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-underline-offset: 3px; }
+.hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { width: 100%; max-width: 1160px; margin-inline: auto; padding-inline: clamp(18px, 4.5vw, 48px); }
+
+/* ---------- pasek górny ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 21; background: var(--paper); background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3); }
+.bar .wrap { height: var(--bar-h); display: flex; align-items: center; gap: 16px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.01em; color: var(--ink); }
+.doc { padding-left: 16px; border-left: 1px solid var(--line-strong); font-size: 14.5px; line-height: 1.2; color: var(--mute); }
+.meter { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.meter-track { width: clamp(64px, 16vw, 200px); height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.meter-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width .45s var(--ease); }
+.meter-text { font-size: 14px; color: var(--mute); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.saved { font-size: 13.5px; color: var(--mute); white-space: nowrap; opacity: 0; transition: opacity .3s ease; }
+.saved.is-on { opacity: 1; }
+@media (max-width: 760px) { .doc, .saved { display: none; } }
+
+/* ---------- otwarcie ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(36px, 6vw, 88px); align-items: center; padding-block: clamp(44px, 8vw, 104px) clamp(48px, 7vw, 92px); }
+.hero-text { container-type: inline-size; min-width: 0; }
+.hero h1 { margin: 0 0 28px; font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5vw, 72px); font-size: min(78px, 14.4cqi); line-height: 1; letter-spacing: -.035em; color: var(--ink); text-wrap: balance; }
+.lead { margin: 0 0 14px; max-width: 54ch; font-size: clamp(17.5px, 1.5vw, 19.5px); line-height: 1.6; color: var(--text); }
+.howto { margin: 24px 0 0; padding-top: 18px; max-width: 56ch; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--mute); }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .wire { max-width: 480px; } }
+
+/* makieta: te same bloki treści przechodzą w nowy układ */
+.wire { margin: 0; }
+.wire-frame { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; background: var(--field); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+.wire-url { position: absolute; left: 4%; right: 4%; top: 3.6%; height: 4.6%; border-radius: 999px; background: var(--paper); }
+.wb { position: absolute; left: var(--bx); top: var(--by); width: var(--bw); height: var(--bh); border-radius: 5px; background: var(--block);
+  transition: left .9s var(--ease) var(--d, 0ms), top .9s var(--ease) var(--d, 0ms), width .9s var(--ease) var(--d, 0ms), height .9s var(--ease) var(--d, 0ms), background-color .6s ease var(--d, 0ms), box-shadow .6s ease var(--d, 0ms); }
+.wire-frame[data-state="after"] .wb { left: var(--ax); top: var(--ay); width: var(--aw); height: var(--ah); }
+.wire-frame[data-state="after"] .wb-head { background: var(--block-ink); }
+.wire-frame[data-state="after"] .wb-cta { background: var(--accent); border-radius: 999px; }
+.wb-img::after { content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity .6s ease .5s;
+  background: radial-gradient(circle at 74% 30%, var(--accent) 0 8%, transparent 8.5%), linear-gradient(160deg, var(--accent-soft), transparent 75%); }
+.wire-frame[data-state="after"] .wb-img::after { opacity: 1; }
+.wire-frame[data-state="after"] .wb-col { background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+.wb-col::before, .wb-col::after { content: ""; position: absolute; left: 11%; border-radius: 3px; opacity: 0; transition: opacity .4s ease .75s; }
+.wb-col::before { top: 16%; width: 52%; height: 11%; background: var(--line-strong); }
+.wb-col::after { top: 40%; width: 76%; height: 40%; background: repeating-linear-gradient(to bottom, var(--block) 0 18%, transparent 18% 34%); }
+.wire-frame[data-state="after"] .wb-col::before, .wire-frame[data-state="after"] .wb-col::after { opacity: 1; }
+.wire-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; margin-top: 16px; font-size: 15px; color: var(--mute); }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--field); }
+.seg button { min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--mute); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.seg button:focus-visible { outline: none; box-shadow: var(--ring); }
+
+/* ---------- sekcje formularza ---------- */
+.block { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 20px clamp(28px, 5vw, 80px); padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
+.block-head { align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 28px); }
+.num { display: block; margin-bottom: 14px; font-family: var(--display); font-weight: 700; font-size: clamp(44px, 5vw, 68px); line-height: .9; letter-spacing: -.04em; color: var(--accent); font-variant-numeric: tabular-nums; }
+.block-head h2 { margin: 0; max-width: 13ch; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
+.block-body { min-width: 0; max-width: 720px; }
+@media (max-width: 860px) {
+  .block { grid-template-columns: 1fr; }
+  .block-head { position: static; display: flex; align-items: baseline; gap: 14px; }
+  .num { margin: 0; font-size: 40px; }
+  .block-head h2 { max-width: none; }
+}
+
+.q { padding-block: 28px; border-top: 1px solid var(--line); }
+.q:first-child { padding-top: 0; border-top: 0; }
+.q fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.q legend { padding: 0; }
+.q-title { display: block; margin: 0 0 4px; max-width: 58ch; font-size: 18px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+.req { margin-left: .2em; color: var(--accent); }
+.q-hint { margin: 0; max-width: 60ch; font-size: 15px; line-height: 1.5; color: var(--mute); }
+.ctl { margin-top: 14px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; }
+.f { min-width: 0; }
+.f.wide { grid-column: 1 / -1; }
+.f-label { display: block; margin-bottom: 8px; font-size: 15.5px; font-weight: 600; color: var(--ink); }
+.sub-label { display: block; margin-bottom: 8px; font-size: 15px; font-weight: 500; color: var(--text); }
+.f .q-hint { margin-bottom: 8px; }
+.sub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 16px; }
+.extra { margin-top: 18px; max-width: 560px; }
+.note { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; max-width: 60ch; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); font-size: 15px; line-height: 1.5; }
+.note-ico { flex: none; display: inline-flex; margin-top: 3px; color: var(--accent); }
+.err { margin: 8px 0 0; font-size: 14.5px; font-weight: 500; color: var(--danger); }
+@media (max-width: 600px) { .grid, .sub-grid { grid-template-columns: 1fr; } }
+
+/* pola */
+.inp { display: block; width: 100%; min-height: 50px; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--field); color: var(--ink); font: inherit; font-size: 16px; line-height: 1.5; transition: border-color .15s ease, box-shadow .15s ease; }
+.inp::placeholder { color: var(--mute); opacity: .8; }
+textarea.inp { min-height: 116px; resize: vertical; }
+.inp:hover { border-color: var(--mute); }
+.inp:focus { outline: none; border-color: var(--accent); box-shadow: var(--ring); }
+.inp[aria-invalid="true"] { border-color: var(--danger); }
+.sel { position: relative; }
+.sel select { appearance: none; -webkit-appearance: none; padding-right: 46px; cursor: pointer; }
+.sel select:has(option[value=""]:checked) { color: var(--mute); }
+.sel::after { content: ""; position: absolute; right: 19px; top: 50%; width: 8px; height: 8px; border-right: 2px solid var(--mute); border-bottom: 2px solid var(--mute); transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+
+/* wybór opcji */
+.opts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.opt { position: relative; display: inline-flex; }
+.opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.opt span { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 10px 18px 10px 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--field); color: var(--ink); font-size: 15.5px; line-height: 1.3; transition: background-color .15s ease, border-color .15s ease; }
+.opt span::before { content: ""; flex: none; width: 18px; height: 18px; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--field) center / 14px no-repeat; transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease; }
+.opt.is-multi span::before { border-radius: 5px; }
+.opt:hover span { border-color: var(--accent); }
+.opt input:checked + span { background: var(--accent-soft); border-color: var(--accent); }
+.opt input:checked + span::before { border-color: var(--accent); background-color: var(--accent); box-shadow: inset 0 0 0 3.5px var(--field); }
+.opt.is-multi input:checked + span::before { box-shadow: none; background-image: var(--check); }
+.opt input:focus-visible + span { box-shadow: var(--ring); }
+.opt input[aria-invalid="true"] + span { border-color: var(--danger); }
+
+/* przyciski i wysyłka */
+.send { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 40px; }
+.err-sum { margin: 0; font-weight: 500; color: var(--danger); }
+.fine { margin: 0; max-width: 60ch; font-size: 14px; line-height: 1.5; color: var(--mute); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 28px; border: 1px solid transparent; border-radius: 999px; font: inherit; font-size: 16px; font-weight: 600; line-height: 1.2; text-decoration: none; cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+.btn:focus-visible { outline: none; box-shadow: var(--ring); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--accent) 86%, var(--ink)); }
+.btn-line { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-line:hover { border-color: var(--ink); }
+.btn[disabled] { opacity: .6; cursor: progress; }
+.btn-sm { min-height: 40px; padding: 8px 16px; font-size: 14.5px; }
+.btn-danger { background: var(--danger); color: var(--paper); }
+
+/* podsumowanie po wysłaniu */
+.result { padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
+.result:focus { outline: none; }
+.result h2 { margin: 0 0 14px; font-family: var(--display); font-weight: 700; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.04; letter-spacing: -.03em; color: var(--ink); }
+.result-text { margin: 0; max-width: 58ch; font-size: 18px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 26px; }
+.actions .linkbtn { margin-left: 6px; }
+.status { min-height: 1.6em; margin: 14px 0 0; font-size: 15px; color: var(--mute); }
+.summary { display: grid; gap: 36px; max-width: 820px; margin-top: 36px; }
+.summary h3 { margin: 0 0 10px; font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -.01em; color: var(--ink); }
+.summary h3 span { margin-right: 4px; color: var(--accent); }
+.summary dl { margin: 0; border-top: 1px solid var(--line); }
+.summary dt { padding-top: 14px; font-weight: 600; color: var(--ink); }
+.summary dd { margin: 4px 0 0; padding-bottom: 14px; border-bottom: 1px solid var(--line); white-space: pre-wrap; overflow-wrap: anywhere; }
+.summary dd.empty { color: var(--mute); }
+
+/* stopka */
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 28px 44px; border-top: 1px solid var(--line); font-size: 15px; color: var(--mute); }
+.foot p { margin: 0; }
+.foot a { color: var(--ink); }
+.linkbtn { padding: 6px 0; border: 0; background: none; color: var(--mute); font: inherit; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.linkbtn:hover { color: var(--ink); }
+.linkbtn:focus-visible { outline: none; box-shadow: var(--ring); border-radius: 4px; }
+.clear-confirm { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--ink); }
+.noscript { padding: 16px 18px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
+}
+@media print {
+  :root { --paper: #fff; --field: #fff; --ink: #000; --text: #111; --mute: #555; --line: #bbb; --accent: #000; padding: 0; }
+  body::before, .bar, .wire, .howto, .foot, .actions, .status, .send { display: none !important; }
+  body { font-size: 11pt; }
+  .hero { display: block; padding: 0 0 10pt; }
+  .hero h1 { margin-bottom: 8pt; font-size: 24pt; }
+  .lead { font-size: 11pt; }
+  .block-head { position: static; }
+  .result { padding: 0; border: 0; }
+  .summary dt, .summary dd { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <span class="brand" id="brand">Amitiel</span>
+    <span class="doc" id="doc-name">Brief projektowy</span>
+    <div class="meter" id="meter" role="progressbar" aria-label="Postęp wypełniania" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0">
+      <span class="meter-track"><span class="meter-fill" id="fill"></span></span>
+      <span class="meter-text" id="meter-text">0 z 18 pytań</span>
+    </div>
+    <span class="saved" id="saved" aria-live="polite"></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-text">
+      <h1 id="title">Redesign strony na WordPressie</h1>
+      <div id="intro"></div>
+      <p class="howto" id="howto"></p>
+    </div>
+    <figure class="wire">
+      <div class="wire-frame" id="wire" data-state="before" aria-hidden="true">
+        <span class="wire-url"></span>
+        <span class="wb" style="--bx:5%;--by:13%;--bw:15%;--bh:6%;--ax:5%;--ay:13%;--aw:12%;--ah:5%"></span>
+        <span class="wb" style="--bx:5%;--by:22%;--bw:70%;--bh:3.5%;--ax:56%;--ay:14%;--aw:39%;--ah:3%;--d:40ms"></span>
+        <span class="wb wb-head" style="--bx:5%;--by:29%;--bw:48%;--bh:5%;--ax:5%;--ay:24%;--aw:47%;--ah:11%;--d:80ms"></span>
+        <span class="wb" style="--bx:5%;--by:37%;--bw:90%;--bh:3.5%;--ax:5%;--ay:38.5%;--aw:40%;--ah:3.5%;--d:120ms"></span>
+        <span class="wb wb-img" style="--bx:66%;--by:44%;--bw:29%;--bh:19%;--ax:57%;--ay:22%;--aw:38%;--ah:32%;--d:60ms"></span>
+        <span class="wb wb-cta" style="--bx:68%;--by:87%;--bw:24%;--bh:6%;--ax:5%;--ay:45%;--aw:21%;--ah:8%;--d:200ms"></span>
+        <span class="wb wb-col" style="--bx:5%;--by:44%;--bw:56%;--bh:3.5%;--ax:5%;--ay:62%;--aw:28%;--ah:21%;--d:160ms"></span>
+        <span class="wb wb-col" style="--bx:5%;--by:50%;--bw:56%;--bh:3.5%;--ax:36%;--ay:62%;--aw:28%;--ah:21%;--d:200ms"></span>
+        <span class="wb wb-col" style="--bx:5%;--by:56%;--bw:40%;--bh:3.5%;--ax:67%;--ay:62%;--aw:28%;--ah:21%;--d:240ms"></span>
+        <span class="wb" style="--bx:5%;--by:66%;--bw:56%;--bh:14%;--ax:5%;--ay:88%;--aw:90%;--ah:5%;--d:280ms"></span>
+      </div>
+      <figcaption class="wire-cap">
+        <span>Te same treści, nowy układ i hierarchia.</span>
+        <span class="seg" role="group" aria-label="Układ strony na makiecie">
+          <button type="button" data-set="before" aria-pressed="true">Przed</button>
+          <button type="button" data-set="after" aria-pressed="false">Po</button>
+        </span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <noscript><p class="noscript">Formularz działa po włączeniu JavaScriptu. Odpowiedzi można też przesłać bezpośrednio na adres <a href="mailto:amitiel@naszpomost.pl">amitiel@naszpomost.pl</a>.</p></noscript>
+
+  <form id="brief" class="form" novalidate>
+    <div class="hp" aria-hidden="true">
+      <label for="f-www">Strona www (pole techniczne, proszę zostawić puste)</label>
+      <input type="text" id="f-www" name="www" tabindex="-1" autocomplete="off">
+    </div>
+    <div id="pola"></div>
+    <div class="send" id="send">
+      <p class="err-sum" id="err-sum" role="alert" hidden></p>
+      <button type="submit" class="btn btn-primary" id="submit">Wyślij brief</button>
+      <p class="fine" id="fine"></p>
+    </div>
+  </form>
+
+  <section class="result" id="wynik" tabindex="-1" aria-labelledby="wynik-tytul" hidden>
+    <h2 id="wynik-tytul"></h2>
+    <p class="result-text" id="wynik-tekst"></p>
+    <div class="actions" id="actions"></div>
+    <p class="status" id="status" role="status"></p>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <footer class="foot">
+    <p id="contact"></p>
+    <div>
+      <button type="button" class="linkbtn" id="clear">Wyczyść formularz</button>
+      <span class="clear-confirm" id="clear-confirm" hidden>
+        <span>Usunąć wszystkie odpowiedzi z tej przeglądarki?</span>
+        <button type="button" class="btn btn-sm btn-danger" id="clear-yes">Usuń odpowiedzi</button>
+        <button type="button" class="btn btn-sm btn-line" id="clear-no">Zostaw</button>
+      </span>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =====================================================================
+     TREŚĆ FORMULARZA — tu zmieniasz pytania, opisy i ustawienia.
+
+     Typy pól:
+       "tekst"   krótka odpowiedź          "dlugi"   dłuższa odpowiedź
+       "email"   adres e-mail              "telefon" numer telefonu
+       "data"    data                      "lista"   lista rozwijana (opcje)
+       "jeden"   wybór jednej opcji        "wiele"   wybór kilku opcji
+       "grupa"   kilka pól pod jednym pytaniem (pola: [...])
+
+     Przydatne klucze:
+       wymagane: true       pole konieczne do wysłania
+       podpowiedz: "…"      szary opis pod pytaniem
+       placeholder: "…"     przykład w pustym polu
+       dopisek: {…}         dodatkowe pole pod opcjami (id, etykieta, placeholder)
+       uwaga: "…"           wyróżniona informacja pod pytaniem
+       licz: false          pole nie wlicza się do paska postępu
+       { tekst: "…", osobno: true }   opcja, która odznacza pozostałe
+
+     Nowy typ briefu: skopiuj plik, zmień "id" i treść sekcji.
+     ===================================================================== */
+  const BRIEF = {
+    id: "redesign-wordpress",
+    marka: "Amitiel",
+    nazwa: "Brief projektowy",
+    tytul: "Redesign strony na WordPressie",
+    wstep: [
+      "Redesign to nowa warstwa wizualna istniejącej strony, zbudowana na jej aktualnych treściach. Projektuję układ, hierarchię i sposób prezentacji informacji — to coś więcej niż zmiana stylów CSS.",
+      "Zakres zmian w treściach i zakres wdrożenia potwierdzamy wspólnie przed rozpoczęciem prac."
+    ],
+    instrukcja: "Wypełnienie zajmie około 15 minut. Odpowiedzi zapisują się na bieżąco w tej przeglądarce, więc do formularza można wrócić później. Pola z gwiazdką są wymagane, a jeśli coś nie jest jeszcze ustalone, wystarczy wpisać „do ustalenia”.",
+    email: "amitiel@naszpomost.pl",
+
+    // WYSYŁKA ODPOWIEDZI — przez Web3Forms (web3forms.com).
+    // Na stronie Web3Forms wpisujesz swój e-mail i dostajesz mailem klucz (access key).
+    // Klucz jest publiczny z założenia, więc można go bezpiecznie wkleić poniżej.
+    // Bez klucza (oraz na podglądzie w claude.ai) klient dostaje gotową wiadomość
+    // e-mail do wysłania i kopię odpowiedzi do pobrania.
+    wysylka: {
+      adres: "https://api.web3forms.com/submit",
+      klucz: "9b02d347-d356-4afc-9f7b-247c23ce35e0",                              // ← tu wklej access key z maila
+      nadawca: "Brief ze strony Amitiel",     // nazwa nadawcy w Twojej skrzynce
+      usluga: "Web3Forms"
+    },
+
+    zgoda: "Dane z formularza wykorzystuję wyłącznie do przygotowania oferty i kontaktu w sprawie tego projektu.",
+
+    sekcje: [
+      {
+        tytul: "Dane projektu", numer: false, uklad: "siatka",
+        pola: [
+          { id: "projekt", typ: "tekst", etykieta: "Projekt lub adres strony", wymagane: true, placeholder: "np. firma.pl", autocomplete: "url" },
+          { id: "zleceniodawca", typ: "tekst", etykieta: "Zleceniodawca", wymagane: true, placeholder: "Nazwa firmy lub imię i nazwisko", autocomplete: "organization" },
+          { id: "osoba", typ: "tekst", etykieta: "Osoba kontaktowa", placeholder: "Imię, nazwisko i stanowisko", autocomplete: "name", licz: false },
+          { id: "email", typ: "email", etykieta: "E-mail", wymagane: true, placeholder: "nazwa@firma.pl" },
+          { id: "telefon", typ: "telefon", etykieta: "Telefon", placeholder: "np. 600 100 200", licz: false },
+          { id: "data", typ: "data", etykieta: "Data", domyslnie: "dzis", licz: false }
+        ]
+      },
+      {
+        tytul: "Cel i zakres redesignu",
+        pola: [
+          { id: "cel", typ: "dlugi", pytanie: "Jaki jest główny cel przebudowy strony?", wymagane: true,
+            placeholder: "np. strona wygląda nieaktualnie, trudno znaleźć ofertę, mało zapytań z telefonów…" },
+          { id: "zakres", typ: "wiele", pytanie: "Co obejmuje zakres prac?", podpowiedz: "Można zaznaczyć kilka odpowiedzi.",
+            opcje: ["Nowy layout i hierarchia informacji", "Odświeżenie identyfikacji wizualnej", "UX i ścieżki użytkownika", "Responsywność", "Wdrożenie w WordPressie", { tekst: "Do ustalenia", osobno: true }],
+            dopisek: { id: "zakres_uwagi", etykieta: "Uwagi do zakresu", placeholder: "np. najpierw strona główna, podstrony w drugim etapie" } },
+          { id: "bez_zmian", typ: "dlugi", pytanie: "Które elementy obecnej strony muszą pozostać bez zmian?",
+            placeholder: "np. logo, struktura menu, adresy podstron, formularz kontaktowy…" },
+          { id: "wymagania", typ: "dlugi", pytanie: "Czy są wymagania, ograniczenia lub specyfikacje, które trzeba uwzględnić przed rozpoczęciem?",
+            placeholder: "np. wytyczne marki, dostępność cyfrowa (WCAG), termin kampanii, integracje z innymi systemami…" }
+        ]
+      },
+      {
+        tytul: "Treści i kontekst branżowy",
+        pola: [
+          { id: "tresci", typ: "jeden", pytanie: "Czy aktualne treści na stronie są zatwierdzone i nadal aktualne?",
+            opcje: ["Tak", "Częściowo", "Nie, treści się zmienią"],
+            dopisek: { id: "tresci_uwagi", etykieta: "Co wymaga aktualizacji?", placeholder: "np. cennik, zespół, opisy usług" } },
+          { id: "priorytety", typ: "dlugi", pytanie: "Które usługi, produkty, komunikaty i działania użytkownika są priorytetowe?",
+            placeholder: "np. kluczowa usługa, zapytanie o wycenę, telefon, zapis na newsletter…" },
+          { id: "odbiorcy", typ: "dlugi", pytanie: "Kim są główni odbiorcy strony i co powinni na niej znaleźć?",
+            placeholder: "np. właściciele firm szukający wykonawcy: oferta, realizacje, kontakt" },
+          { id: "reorganizacja", typ: "jeden", pytanie: "Czy mogę reorganizować istniejące treści w sekcje i zmieniać ich kolejność bez zmiany znaczenia?",
+            opcje: ["Tak", "Tak, po konsultacji", "Nie, układ treści zostaje"] },
+          { id: "akceptacja", typ: "tekst", pytanie: "Kto zatwierdza ewentualne skróty, korekty i propozycje zmian tekstu?",
+            placeholder: "Imię, nazwisko i rola" }
+        ]
+      },
+      {
+        tytul: "Kierunek wizualny i materiały",
+        pola: [
+          { id: "identyfikacja", typ: "wiele", pytanie: "Czy istnieje brandbook, logo, typografia, paleta kolorów lub biblioteka materiałów?",
+            podpowiedz: "Można zaznaczyć kilka odpowiedzi.",
+            opcje: ["Brandbook lub księga znaku", "Logo w wersji wektorowej", "Typografia", "Paleta kolorów", "Biblioteka materiałów (zdjęcia, grafiki)", { tekst: "Brak materiałów", osobno: true }],
+            dopisek: { id: "materialy_link", etykieta: "Link do materiałów", placeholder: "Dysk Google, Dropbox, WeTransfer…" } },
+          { id: "referencje", typ: "dlugi", pytanie: "Jakie strony lub rozwiązania stanowią punkt odniesienia?",
+            podpowiedz: "Linki i krótki komentarz: co się w nich podoba — układ, kolory, typografia, klimat.", placeholder: "https://…" },
+          { id: "zasoby", typ: "dlugi", pytanie: "Jakie zdjęcia, grafiki, ikony i inne materiały są dostępne oraz kto zapewnia prawa do ich użycia?",
+            placeholder: "np. sesja zdjęciowa z 2024 r. (prawa po stronie firmy), ikony z obecnej strony, zdjęcia stockowe do zakupu…" }
+        ]
+      },
+      {
+        tytul: "WordPress i środowisko pracy",
+        pola: [
+          { id: "wp", typ: "grupa", pytanie: "Jaki motyw, builder i kluczowe wtyczki są obecnie używane?",
+            podpowiedz: "Jeśli trudno to ustalić, sprawdzę to po otrzymaniu dostępu.",
+            pola: [
+              { id: "wp_motyw", typ: "tekst", etykieta: "Motyw", placeholder: "np. Astra, Hello Elementor, motyw autorski" },
+              { id: "wp_builder", typ: "lista", etykieta: "Builder", opcje: ["Edytor blokowy (Gutenberg)", "Elementor", "Divi", "WPBakery", "Bricks", "Oxygen", "Inny", "Nie wiem"] },
+              { id: "wp_wtyczki", typ: "dlugi", etykieta: "Kluczowe wtyczki", placeholder: "np. WooCommerce, WPML, Yoast SEO, Contact Form 7…", szerokie: true, wiersze: 3 }
+            ] },
+          { id: "dostep", typ: "jeden", pytanie: "Czy otrzymam dostęp do panelu WordPress i niezbędnych informacji technicznych?",
+            opcje: ["Tak", "Tak, po podpisaniu umowy", "Nie, wdrożenie po naszej stronie", "Do ustalenia"],
+            uwaga: "Proszę nie wpisywać tu haseł. Dane dostępowe przekażemy osobno, bezpiecznym kanałem." },
+          { id: "staging", typ: "jeden", pytanie: "Czy na serwerze zostanie udostępnione osobne środowisko testowe (staging) do podglądu i prezentacji kolejnych wersji?",
+            podpowiedz: "Staging to kopia strony, na której można bezpiecznie pokazywać zmiany przed publikacją.",
+            opcje: ["Tak", "Nie", "Do ustalenia"] }
+        ]
+      },
+      {
+        tytul: "Na koniec", numer: false,
+        pola: [
+          { id: "uwagi", typ: "dlugi", pytanie: "Czy jest coś jeszcze, o czym warto wiedzieć przed startem?",
+            placeholder: "np. preferowany termin, osoby do kontaktu, plany rozwoju strony…", licz: false }
+        ]
+      }
+    ]
+  };
+
+  /* =====================================================================
+     DZIAŁANIE FORMULARZA — zwykle nie wymaga zmian.
+     ===================================================================== */
+  const $ = (s) => document.querySelector(s);
+  const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+  const KEY = "brief:" + BRIEF.id + ":v1";
+  const LOCK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.5"/></svg>';
+  const INPUT_TYPE = { tekst: "text", email: "email", telefon: "tel", data: "date" };
+
+  function el(tag, attrs, ...kids) {
+    const n = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      const v = attrs[k];
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const kid of kids.flat(Infinity)) if (kid !== null && kid !== undefined && kid !== false) n.append(kid);
+    return n;
+  }
+  const norm = (o) => (typeof o === "string" ? { tekst: o } : o);
+  const filled = (x) => (Array.isArray(x) ? x.length > 0 : !!(x && String(x).trim()));
+  const isChoice = (f) => f.typ === "jeden" || f.typ === "wiele";
+  const inputOf = (n) => (n.matches("input, textarea, select") ? n : n.querySelector("input, textarea, select"));
+  function plural(n, one, few, many) {
+    if (n === 1) return one;
+    const a = n % 10, b = n % 100;
+    return a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many;
+  }
+  function today() {
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  /* lista wszystkich pól */
+  const FIELDS = [], BY_ID = {}, COUNTED = [];
+  BRIEF.sekcje.forEach((s) => s.pola.forEach((f) => {
+    if (f.licz !== false) COUNTED.push(f);
+    (f.typ === "grupa" ? f.pola : [f]).forEach((p) => { FIELDS.push(p); BY_ID[p.id] = p; });
+    if (f.dopisek) { const d = Object.assign({ typ: "tekst" }, f.dopisek); FIELDS.push(d); BY_ID[d.id] = d; }
+  }));
+  const CHECKED = FIELDS.filter((f) => f.wymagane || f.typ === "email");
+
+  const form = $("#brief"), host = $("#pola"), sendBox = $("#send"), submitBtn = $("#submit"), errSum = $("#err-sum");
+  const result = $("#wynik"), resTitle = $("#wynik-tytul"), resText = $("#wynik-tekst"), actions = $("#actions"), statusEl = $("#status"), summary = $("#summary");
+  const meter = $("#meter"), fill = $("#fill"), meterText = $("#meter-text"), savedEl = $("#saved");
+  const honeypot = document.getElementById("f-www");
+  const onClaude = !!(window.claude && typeof window.claude.use === "function");
+  const canSend = !!(BRIEF.wysylka.adres && BRIEF.wysylka.klucz) && !onClaude;
+  const sendLabel = canSend ? "Wyślij brief" : "Przygotuj brief do wysłania";
+
+  /* ---------- budowanie strony ---------- */
+  function req() { return el("span", { class: "req", "aria-hidden": "true", text: "*" }); }
+
+  function control(f) {
+    const id = "f-" + f.id;
+    if (f.typ === "dlugi") {
+      return el("textarea", { class: "inp", id, name: f.id, rows: f.wiersze || 4, placeholder: f.placeholder || null, "aria-required": f.wymagane ? "true" : null });
+    }
+    if (f.typ === "lista") {
+      return el("div", { class: "sel" },
+        el("select", { class: "inp", id, name: f.id, "aria-required": f.wymagane ? "true" : null },
+          el("option", { value: "", text: f.placeholder || "Wybierz z listy" }),
+          f.opcje.map((o) => el("option", { value: o, text: o }))));
+    }
+    const a = { class: "inp", id, name: f.id, type: INPUT_TYPE[f.typ] || "text", placeholder: f.placeholder || null, "aria-required": f.wymagane ? "true" : null };
+    if (f.typ === "email") { a.autocomplete = "email"; a.inputmode = "email"; a.spellcheck = "false"; }
+    if (f.typ === "telefon") { a.autocomplete = "tel"; a.inputmode = "tel"; }
+    if (f.autocomplete) a.autocomplete = f.autocomplete;
+    return el("input", a);
+  }
+
+  function describe(input, hintId, errId) {
+    input.setAttribute("aria-describedby", [hintId, errId].filter(Boolean).join(" "));
+  }
+
+  function renderSimple(f, sub) {
+    const id = "f-" + f.id, hintId = f.podpowiedz ? id + "-hint" : null, errId = id + "-err";
+    const ctl = control(f);
+    describe(inputOf(ctl), hintId, errId);
+    return el("div", { class: "f" + (f.szerokie ? " wide" : "") },
+      el("label", { class: sub ? "sub-label" : "f-label", for: id }, f.etykieta || f.pytanie, f.wymagane ? req() : null),
+      hintId ? el("p", { class: "q-hint", id: hintId, text: f.podpowiedz }) : null,
+      ctl,
+      el("p", { class: "err", id: errId, hidden: true }));
+  }
+
+  function renderExtra(d) {
+    const f = Object.assign({ typ: "tekst" }, d);
+    return el("div", { class: "extra" }, el("label", { class: "sub-label", for: "f-" + f.id, text: f.etykieta }), control(f));
+  }
+
+  function note(t) {
+    const ico = el("span", { class: "note-ico", "aria-hidden": "true" });
+    ico.innerHTML = LOCK;
+    return el("p", { class: "note" }, ico, el("span", { text: t }));
+  }
+
+  function renderQuestion(f) {
+    const id = "f-" + f.id, hintId = f.podpowiedz ? id + "-hint" : null, errId = id + "-err";
+    const hint = hintId ? el("p", { class: "q-hint", id: hintId, text: f.podpowiedz }) : null;
+    const extras = [f.dopisek ? renderExtra(f.dopisek) : null, f.uwaga ? note(f.uwaga) : null, el("p", { class: "err", id: errId, hidden: true })];
+
+    if (isChoice(f) || f.typ === "grupa") {
+      let body;
+      if (f.typ === "grupa") {
+        body = el("div", { class: "sub-grid" }, f.pola.map((p) => renderSimple(p, true)));
+      } else {
+        body = el("div", { class: "opts" }, f.opcje.map(norm).map((o, k) => {
+          const oid = id + "-" + k;
+          return el("label", { class: "opt" + (f.typ === "wiele" ? " is-multi" : ""), for: oid },
+            el("input", { type: f.typ === "jeden" ? "radio" : "checkbox", id: oid, name: f.id, value: o.tekst, "data-osobno": o.osobno ? "1" : null }),
+            el("span", { text: o.tekst }));
+        }));
+      }
+      return el("div", { class: "q" },
+        el("fieldset", { "aria-describedby": [hintId, errId].filter(Boolean).join(" ") },
+          el("legend", { class: "q-title" }, f.pytanie, f.wymagane ? req() : null),
+          hint, body, extras));
+    }
+
+    const ctl = control(f);
+    describe(inputOf(ctl), hintId, errId);
+    return el("div", { class: "q" },
+      el("label", { class: "q-title", for: id }, f.pytanie, f.wymagane ? req() : null),
+      hint, el("div", { class: "ctl" }, ctl), extras);
+  }
+
+  const META = [];
+  function renderForm() {
+    let n = 0;
+    BRIEF.sekcje.forEach((s, i) => {
+      const number = s.numer === false ? null : String(++n).padStart(2, "0");
+      META.push({ s, number });
+      const body = el("div", { class: "block-body" });
+      if (s.uklad === "siatka") body.append(el("div", { class: "grid" }, s.pola.map((f) => renderSimple(f, false))));
+      else s.pola.forEach((f) => body.append(renderQuestion(f)));
+      host.append(el("section", { class: "block", "aria-labelledby": "h-" + i },
+        el("div", { class: "block-head" },
+          number ? el("span", { class: "num", "aria-hidden": "true", text: number }) : null,
+          el("h2", { id: "h-" + i, text: s.tytul })),
+        body));
+    });
+    host.lastElementChild.querySelector(".block-body").append(sendBox);
+  }
+
+  function renderTexts() {
+    document.title = BRIEF.nazwa + ": " + BRIEF.tytul + " | " + BRIEF.marka;
+    $("#brand").textContent = BRIEF.marka;
+    $("#doc-name").textContent = BRIEF.nazwa;
+    $("#title").textContent = BRIEF.tytul;
+    $("#intro").replaceChildren(...BRIEF.wstep.map((t) => el("p", { class: "lead", text: t })));
+    $("#howto").textContent = BRIEF.instrukcja;
+    $("#fine").textContent = BRIEF.zgoda + (canSend ? " Odpowiedzi trafiają do mnie e-mailem przez serwis " + BRIEF.wysylka.usluga + "." : "");
+    $("#contact").replaceChildren("W razie pytań proszę pisać na ", el("a", { href: "mailto:" + BRIEF.email, text: BRIEF.email }), ".");
+    submitBtn.textContent = sendLabel;
+  }
+
+  /* ---------- odczyt i zapis odpowiedzi ---------- */
+  function readValues() {
+    const v = {};
+    FIELDS.forEach((f) => {
+      if (f.typ === "jeden") {
+        const c = form.querySelector('input[name="' + f.id + '"]:checked');
+        v[f.id] = c ? c.value : "";
+      } else if (f.typ === "wiele") {
+        v[f.id] = Array.from(form.querySelectorAll('input[name="' + f.id + '"]:checked'), (i) => i.value);
+      } else {
+        const n = document.getElementById("f-" + f.id);
+        v[f.id] = n ? n.value.trim() : "";
+      }
+    });
+    return v;
+  }
+
+  function applyValues(v) {
+    FIELDS.forEach((f) => {
+      const val = v[f.id];
+      if (val === undefined) return;
+      if (isChoice(f)) {
+        const set = new Set(Array.isArray(val) ? val : [val]);
+        form.querySelectorAll('input[name="' + f.id + '"]').forEach((i) => { i.checked = set.has(i.value); });
+      } else {
+        const n = document.getElementById("f-" + f.id);
+        if (n && typeof val === "string") n.value = val;
+      }
+    });
+  }
+
+  function setDefaults() {
+    FIELDS.forEach((f) => {
+      if (f.domyslnie !== "dzis") return;
+      const n = document.getElementById("f-" + f.id);
+      if (n && !n.value) n.value = today();
+    });
+  }
+
+  function load() {
+    try { const raw = localStorage.getItem(KEY); return raw ? (JSON.parse(raw).v || null) : null; } catch (e) { return null; }
+  }
+
+  let timer = null;
+  function store() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({ v: readValues(), t: Date.now() }));
+        savedEl.textContent = "Zapisano w przeglądarce";
+        savedEl.classList.add("is-on");
+      } catch (e) { /* zapis w przeglądarce niedostępny */ }
+    }, 400);
+  }
+
+  function updateProgress(v) {
+    const t = COUNTED.length;
+    const n = COUNTED.filter((f) => (f.typ === "grupa" ? f.pola.some((p) => filled(v[p.id])) : filled(v[f.id]))).length;
+    const label = n + " z " + t + " " + (t === 1 ? "pytania" : "pytań");
+    fill.style.width = (t ? Math.round((n / t) * 100) : 0) + "%";
+    meterText.textContent = label;
+    meter.setAttribute("aria-valuemax", String(t));
+    meter.setAttribute("aria-valuenow", String(n));
+    meter.setAttribute("aria-valuetext", label);
+  }
+
+  /* ---------- sprawdzanie ---------- */
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function fieldError(f, v) {
+    const val = v[f.id];
+    if (f.wymagane && !filled(val)) return isChoice(f) ? "Potrzebna jest co najmniej jedna odpowiedź." : "To pole jest potrzebne do wysłania briefu.";
+    if (f.typ === "email" && filled(val) && !EMAIL_RE.test(val)) return "Ten adres e-mail jest niepełny. Poprawny format: nazwa@firma.pl.";
+    return "";
+  }
+  function setError(f, msg) {
+    const errEl = document.getElementById("f-" + f.id + "-err");
+    const inputs = isChoice(f) ? form.querySelectorAll('input[name="' + f.id + '"]') : [document.getElementById("f-" + f.id)];
+    inputs.forEach((i) => { if (!i) return; if (msg) i.setAttribute("aria-invalid", "true"); else i.removeAttribute("aria-invalid"); });
+    if (errEl) { errEl.textContent = msg; errEl.hidden = !msg; }
+  }
+
+  function onEdit(e) {
+    const t = e.target;
+    if (e.type === "change" && t.type === "checkbox" && t.checked) {
+      const group = form.querySelectorAll('input[type="checkbox"][name="' + t.name + '"]');
+      group.forEach((i) => {
+        if (i === t) return;
+        if (t.dataset.osobno || i.dataset.osobno) i.checked = false;
+      });
+    }
+    const v = readValues();
+    const f = BY_ID[t.name];
+    if (f && t.getAttribute("aria-invalid") === "true") {
+      setError(f, fieldError(f, v));
+      if (!form.querySelector('[aria-invalid="true"]')) errSum.hidden = true;
+    }
+    updateProgress(v);
+    store();
+  }
+
+  /* ---------- treść do wysłania ---------- */
+  function display(f, val) {
+    if (Array.isArray(val)) return val.join(", ");
+    if (f.typ === "data" && val) { const p = val.split("-"); return p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : val; }
+    return val || "";
+  }
+  function entries(v) {
+    return META.map(({ s, number }) => ({
+      number, title: s.tytul,
+      items: s.pola.map((f) => {
+        let a = f.typ === "grupa"
+          ? f.pola.filter((p) => filled(v[p.id])).map((p) => p.etykieta + ": " + display(p, v[p.id])).join("\n")
+          : display(f, v[f.id]);
+        if (f.dopisek && filled(v[f.dopisek.id])) {
+          const lab = f.dopisek.etykieta;
+          a = (a ? a + "\n" : "") + lab + (/[?:]$/.test(lab) ? " " : ": ") + v[f.dopisek.id];
+        }
+        return { id: f.id, q: f.pytanie || f.etykieta, a };
+      })
+    }));
+  }
+  function buildText(v) {
+    const L = [BRIEF.nazwa + ": " + BRIEF.tytul, "Przygotowano: " + new Date().toLocaleString("pl-PL")];
+    entries(v).forEach((sec) => {
+      L.push("", ((sec.number ? sec.number + " " : "") + sec.title).toUpperCase(), "");
+      sec.items.forEach((it) => {
+        L.push(it.q);
+        L.push(it.a ? it.a.split("\n").map((x) => "   " + x).join("\n") : "   (brak odpowiedzi)");
+        L.push("");
+      });
+    });
+    return L.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+  }
+  function payload(v, subject) {
+    const data = { access_key: BRIEF.wysylka.klucz, subject, from_name: BRIEF.wysylka.nadawca, email: v.email || "" };
+    entries(v).forEach((sec) => sec.items.forEach((it) => {
+      if (it.id === "email") return; // adres klienta jest już w polu "email" (Odpowiedz trafia do klienta)
+      data[(sec.number ? sec.number + ". " : "") + it.q] = it.a || "—";
+    }));
+    return data;
+  }
+  function subjectOf(v) {
+    return "Brief: " + BRIEF.tytul + " – " + (v.projekt || v.zleceniodawca || "nowy projekt");
+  }
+  function renderSummary(v) {
+    summary.replaceChildren(...entries(v).map((sec) => el("section", null,
+      el("h3", null, sec.number ? [el("span", { text: sec.number }), " "] : null, sec.title),
+      el("dl", null, sec.items.map((it) => [
+        el("dt", { text: it.q }),
+        el("dd", { class: it.a ? null : "empty", text: it.a || "Brak odpowiedzi" })
+      ])))));
+  }
+
+  /* ---------- kopiowanie, pobieranie, komunikaty ---------- */
+  function say(msg) {
+    statusEl.textContent = "";
+    setTimeout(() => { statusEl.textContent = msg; }, 30);
+  }
+  async function copyText(text) {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+      try {
+        const t = el("textarea", { class: "vh", readonly: true });
+        t.value = text; document.body.append(t); t.select();
+        ok = document.execCommand("copy"); t.remove();
+      } catch (e2) { ok = false; }
+    }
+    say(ok ? "Odpowiedzi skopiowane do schowka." : "Kopiowanie jest tu zablokowane. Odpowiedzi są widoczne poniżej i można je zaznaczyć ręcznie.");
+  }
+  const downloadsReady = (window.claude && typeof window.claude.use === "function")
+    ? window.claude.use("downloads").catch(() => null)
+    : Promise.resolve(null);
+  async function saveCopy(text, v) {
+    const slug = String(v.projekt || v.zleceniodawca || "projekt").toLowerCase().replace(/ł/g, "l")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "projekt";
+    const filename = "brief-" + BRIEF.id + "-" + slug + ".txt";
+    const dl = await downloadsReady;
+    if (dl) {
+      try { await dl.save({ filename, data: text }); say("Kopia odpowiedzi zapisana."); }
+      catch (e) { if (!e || e.code !== "declined") say("Pobieranie jest tu niedostępne. Odpowiedzi można skopiować."); }
+      return;
+    }
+    try {
+      const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+      const a = el("a", { href: url, download: filename });
+      document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    } catch (e) { say("Pobieranie jest tu niedostępne. Odpowiedzi można skopiować."); }
+  }
+
+  /* ---------- wynik ---------- */
+  function showResult(mode, failed, v, text, subject) {
+    renderSummary(v);
+    resTitle.textContent = mode === "sent" ? "Brief wysłany" : "Brief gotowy do wysłania";
+    resText.textContent = mode === "sent"
+      ? "Dziękuję. Przejrzę odpowiedzi i wrócę z pytaniami albo propozycją kolejnych kroków."
+      : (failed ? "Automatyczna wysyłka nie powiodła się, ale odpowiedzi są zachowane. " : "")
+        + "Wystarczy otworzyć gotową wiadomość e-mail albo skopiować odpowiedzi i przesłać je na adres " + BRIEF.email + ".";
+    actions.replaceChildren();
+    if (mode !== "sent") {
+      actions.append(el("a", { class: "btn btn-primary", href: "mailto:" + BRIEF.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text) }, "Otwórz wiadomość e-mail"));
+      actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => copyText(text) }, "Kopiuj odpowiedzi"));
+    }
+    actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => saveCopy(text, v) }, "Pobierz kopię odpowiedzi"));
+    if (!framed && typeof window.print === "function") {
+      actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => { try { window.print(); } catch (e) { /* druk niedostępny */ } } }, "Drukuj lub zapisz PDF"));
+    }
+    actions.append(el("button", { type: "button", class: "linkbtn", onclick: backToForm }, "Wróć do formularza"));
+    statusEl.textContent = "";
+    form.hidden = true;
+    result.hidden = false;
+    result.focus({ preventScroll: true });
+    if (result.scrollIntoView) result.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+  function backToForm() {
+    result.hidden = true;
+    form.hidden = false;
+    submitBtn.focus({ preventScroll: true });
+    if (submitBtn.scrollIntoView) submitBtn.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+  }
+
+  /* ---------- wysyłka ---------- */
+  async function onSubmit(e) {
+    e.preventDefault();
+    const v = readValues();
+    const bad = CHECKED.filter((f) => { const m = fieldError(f, v); setError(f, m); return !!m; });
+    if (bad.length) {
+      const n = bad.length;
+      errSum.hidden = false;
+      errSum.textContent = n === 1
+        ? "Jedno pole wymaga uzupełnienia lub poprawy — szczegóły przy zaznaczonym polu."
+        : n + " " + plural(n, "pole wymaga", "pola wymagają", "pól wymaga") + " uzupełnienia lub poprawy — szczegóły przy zaznaczonych polach.";
+      const first = bad[0];
+      const target = isChoice(first) ? form.querySelector('input[name="' + first.id + '"]') : document.getElementById("f-" + first.id);
+      if (target) {
+        target.focus({ preventScroll: true });
+        if (target.scrollIntoView) target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      }
+      return;
+    }
+    errSum.hidden = true;
+    const text = buildText(v), subject = subjectOf(v);
+    let mode = "manual", failed = false;
+    if (honeypot && honeypot.value) {
+      mode = "sent"; // pole-pułapka wypełnione przez bota: nic nie wysyłamy
+    } else if (canSend) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Wysyłanie…";
+      try {
+        const res = await fetch(BRIEF.wysylka.adres, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(payload(v, subject))
+        });
+        let ok = res.ok;
+        try { const j = await res.json(); if (j && j.success === false) ok = false; } catch (e2) { /* odpowiedź bez JSON */ }
+        if (ok) mode = "sent"; else failed = true;
+      } catch (err) { failed = true; }
+      submitBtn.disabled = false;
+      submitBtn.textContent = sendLabel;
+    }
+    showResult(mode, failed, v, text, subject);
+  }
+
+  /* ---------- makieta w otwarciu ---------- */
+  const wire = $("#wire"), segBtns = document.querySelectorAll(".seg button");
+  function setWire(state) {
+    wire.dataset.state = state;
+    segBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.set === state)));
+  }
+  segBtns.forEach((b) => b.addEventListener("click", () => setWire(b.dataset.set)));
+
+  /* ---------- czyszczenie ---------- */
+  const clearBtn = $("#clear"), clearBox = $("#clear-confirm");
+  clearBtn.addEventListener("click", () => { clearBtn.hidden = true; clearBox.hidden = false; $("#clear-no").focus(); });
+  $("#clear-no").addEventListener("click", () => { clearBox.hidden = true; clearBtn.hidden = false; clearBtn.focus(); });
+  $("#clear-yes").addEventListener("click", () => {
+    clearTimeout(timer);
+    try { localStorage.removeItem(KEY); } catch (e) { /* brak dostępu */ }
+    form.reset();
+    setDefaults();
+    CHECKED.forEach((f) => setError(f, ""));
+    errSum.hidden = true;
+    updateProgress(readValues());
+    savedEl.classList.remove("is-on");
+    clearBox.hidden = true;
+    clearBtn.hidden = false;
+    if (!result.hidden) { result.hidden = true; form.hidden = false; }
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
+
+  /* ---------- start ---------- */
+  renderTexts();
+  renderForm();
+  const saved = load();
+  if (saved) applyValues(saved);
+  setDefaults();
+  updateProgress(readValues());
+  if (saved) { savedEl.textContent = "Przywrócono zapisane odpowiedzi"; savedEl.classList.add("is-on"); }
+  form.addEventListener("input", onEdit);
+  form.addEventListener("change", onEdit);
+  form.addEventListener("submit", onSubmit);
+  if (reduceMotion) setWire("after"); else setTimeout(() => setWire("after"), 900);
+})();
+</script>
+</body>
+</html>
