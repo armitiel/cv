@@ -1151,9 +1151,14 @@ textarea.inp { min-height: 116px; resize: vertical; }
     viewBtn.setAttribute("aria-pressed", String(mode === "teraz"));
     placePill(true);
   }
-  // „Teraz” pokazuje obecną stronę i nie zmienia odpowiedzi; kliknięcie odpowiedzi pokazuje jej wariant
-  // (także ponowne kliknięcie już wybranej, gdy makieta pokazuje akurat „Teraz”)
-  viewBtn.addEventListener("click", () => { stopDemo(); setWire("teraz"); });
+  // „Teraz” to stan wyjściowy: pokazuje obecną stronę i cofa wybór wariantu, więc reszta strony
+  // chowa się do ponownego wyboru (odpowiedzi wpisane niżej zostają na miejscu)
+  viewBtn.addEventListener("click", () => {
+    stopDemo();
+    setWire("teraz");
+    const picked = form.querySelector('input[name="sciezka"]:checked');
+    if (picked) { picked.checked = false; picked.dispatchEvent(new Event("change", { bubbles: true })); }
+  });
   seg.addEventListener("click", (e) => {
     const opt = e.target.closest && e.target.closest(".seg-opt");
     if (opt && opt.dataset.mode) { stopDemo(); setWire(opt.dataset.mode); }
