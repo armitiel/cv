@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light dark">
-<title>Brief projektowy: Redesign strony na WordPressie | Amitiel</title>
+<title>Brief projektowy: Redesign Strony naszpomost.pl | Amitiel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap">
@@ -86,15 +86,16 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 760px) { .doc, .saved { display: none; } .meter { margin-left: auto; } }
 
 /* ---------- otwarcie ---------- */
-.hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(36px, 6vw, 88px); align-items: center; padding-block: clamp(44px, 8vw, 104px) clamp(48px, 7vw, 92px); }
+.hero { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(36px, 6vw, 88px); align-items: start; padding-block: clamp(44px, 8vw, 104px) clamp(48px, 7vw, 92px); }
 .hero-text { container-type: inline-size; min-width: 0; }
-.hero h1 { margin: 0 0 28px; font-family: var(--display); font-weight: 700; font-size: clamp(38px, 5vw, 72px); font-size: min(78px, 14.4cqi); line-height: 1; letter-spacing: -.035em; color: var(--ink); text-wrap: balance; }
+.hero h1 { margin: 0 0 20px; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
 .lead { margin: 0 0 14px; max-width: 54ch; font-size: clamp(17.5px, 1.5vw, 19.5px); line-height: 1.6; color: var(--text); }
+.howto .deadline { display: block; margin-bottom: 6px; font-weight: 600; color: var(--ink); }
 .howto { margin: 24px 0 0; padding-top: 18px; max-width: 56ch; border-top: 1px solid var(--line); font-size: 15.5px; line-height: 1.6; color: var(--mute); }
 @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .wire { max-width: 480px; } }
 
 /* makieta: te same bloki treści przechodzą w nowy układ */
-.wire { margin: 0; }
+.wire { margin: 0; container-type: inline-size; }
 .wire-frame { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; background: var(--field); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
 .wire-url { position: absolute; left: 4%; right: 4%; top: 3.6%; height: 4.6%; border-radius: 999px; background: var(--paper); }
 .wb { position: absolute; left: var(--bx); top: var(--by); width: var(--bw); height: var(--bh); border-radius: 5px; background: var(--block);
@@ -127,8 +128,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .wb-col::after { top: 40%; width: 76%; height: 40%; background: repeating-linear-gradient(to bottom, var(--block) 0 18%, transparent 18% 34%); }
 .wire-frame[data-mode="uklad"] .wb-col::before, .wire-frame[data-mode="uklad"] .wb-col::after,
 .wire-frame[data-mode="pelny"] .wb-col::before, .wire-frame[data-mode="pelny"] .wb-col::after { opacity: 1; }
-.wire-cap { display: grid; gap: 10px; margin-top: 16px; font-size: 15px; color: var(--mute); }
-.wire-note { display: grid; margin: 0; max-width: 60ch; line-height: 1.5; }
+.wire-cap { margin-top: 16px; font-size: 15px; color: var(--mute); }
+.wire-note { display: grid; margin: 12px 0 0; max-width: 60ch; line-height: 1.5; }
+/* pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie: odpowiedzi są przyciskami pod nią */
+.path-head { margin-bottom: 18px; }
+/* rozmiar zależy od szerokości kolumny: „Jak rozumiesz” i „ten redesign? *” mieszczą się w dwóch liniach */
+.path-title { margin: 0 0 16px; font-family: var(--display); font-weight: 700; font-size: clamp(34px, 5vw, 72px); font-size: min(78px, 12.6cqi); line-height: 1; letter-spacing: -.035em; color: var(--accent); text-wrap: balance; }
+.path-title .req { color: inherit; }
+.path-hint { max-width: 52ch; }
+.path-next { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 500; color: var(--ink); }
 .wire-note > span { grid-area: 1 / 1; visibility: hidden; }
 .wire-note > span.is-on { visibility: visible; }
 .wire-note b { color: var(--ink); font-weight: 600; }
@@ -137,16 +145,21 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .seg-pill { position: absolute; top: 0; left: 0; width: 0; height: 0; border-radius: 12px; background: var(--ink); box-shadow: 0 8px 18px -12px rgba(14, 22, 56, .55); pointer-events: none; }
 .seg.is-ready .seg-pill { transition: transform .45s cubic-bezier(.3, .8, .25, 1), width .45s cubic-bezier(.3, .8, .25, 1), height .45s cubic-bezier(.3, .8, .25, 1); }
 .seg.is-still .seg-pill { transition: none; }
-.seg button { position: relative; z-index: 1; flex: 1 1 0; min-height: 48px; padding: 10px 12px; border: 0; border-radius: 12px; background: transparent; color: var(--mute); font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; white-space: nowrap; cursor: pointer; transition: color .3s ease; }
-.seg button:hover { color: var(--ink); }
-.seg button[aria-pressed="true"] { color: var(--paper); }
-@container (max-width: 419px) { .seg button { padding-inline: 8px; } }
+.seg-view, .seg-opt { position: relative; z-index: 1; flex: 1 1 0; display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 12px; border: 0; border-radius: 12px; background: transparent; color: var(--mute); font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; text-align: center; white-space: nowrap; cursor: pointer; transition: color .3s ease, box-shadow .2s ease; }
+.seg-view:hover, .seg-opt:hover { color: var(--ink); }
+.seg-opt input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+/* wybrana odpowiedź ma obwódkę, gdy makieta pokazuje akurat co innego (np. „Teraz”) */
+.seg-opt:where(:has(input:checked)) { color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+/* pokazywany wariant leży na podświetleniu; ta reguła musi wygrywać z obwódką powyżej */
+.seg .is-on, .seg .is-on:hover { color: var(--paper); box-shadow: none; }
+.seg-view:focus-visible, .seg-opt:has(input:focus-visible) { outline: none; box-shadow: var(--ring); }
+.seg:has(input[aria-invalid="true"]) { border-color: var(--danger); }
+@container (max-width: 419px) { .seg-view, .seg-opt { padding-inline: 8px; } }
 @container (max-width: 384px) {
   .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .seg button { padding-inline: 12px; white-space: normal; }
+  .seg-view, .seg-opt { padding-inline: 12px; white-space: normal; }
 }
-@media (prefers-reduced-motion: reduce) { .seg.is-ready .seg-pill, .seg button { transition: none; } }
-.seg button:focus-visible { outline: none; box-shadow: var(--ring); }
+@media (prefers-reduced-motion: reduce) { .seg.is-ready .seg-pill, .seg-view, .seg-opt { transition: none; } }
 
 /* ---------- sekcje formularza ---------- */
 .block { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 20px clamp(28px, 5vw, 80px); padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
@@ -283,13 +296,24 @@ textarea.inp { min-height: 116px; resize: vertical; }
 </header>
 
 <main class="wrap">
+  <noscript><p class="noscript">Formularz działa po włączeniu JavaScriptu. Odpowiedzi można też przesłać bezpośrednio na adres <a href="mailto:amitiel@naszpomost.pl">amitiel@naszpomost.pl</a>.</p></noscript>
+
+  <!-- otwarcie jest częścią formularza, bo pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie -->
+  <form id="brief" class="form" novalidate>
   <section class="hero">
     <div class="hero-text">
-      <h1 id="title">Redesign strony na WordPressie</h1>
-      <div id="intro"></div>
-      <p class="howto" id="howto"></p>
+      <h1 id="title">Redesign Strony naszpomost.pl</h1>
+      <!-- wstęp i termin pokazują się dopiero po wyborze wariantu, żeby nie podpowiadać odpowiedzi -->
+      <div class="hero-more" id="hero-more">
+        <div id="intro"></div>
+        <p class="howto" id="howto"></p>
+      </div>
     </div>
-    <figure class="wire">
+    <div class="wire" id="path">
+      <div class="path-head">
+        <h2 class="path-title" id="path-title"></h2>
+        <p class="q-hint path-hint" id="path-hint"></p>
+      </div>
       <div class="wire-frame" id="wire" data-mode="teraz" aria-hidden="true">
         <span class="wire-url"></span>
         <span class="wb" style="--bx:5%;--by:13%;--bw:15%;--bh:6%;--ax:5%;--ay:13%;--aw:12%;--ah:5%"></span>
@@ -303,22 +327,18 @@ textarea.inp { min-height: 116px; resize: vertical; }
         <span class="wb wb-col" style="--bx:5%;--by:56%;--bw:40%;--bh:3.5%;--ax:67%;--ay:62%;--aw:28%;--ah:21%;--d:240ms"></span>
         <span class="wb wb-foot" style="--bx:5%;--by:66%;--bw:56%;--bh:14%;--ax:5%;--ay:88%;--aw:90%;--ah:5%;--d:280ms"></span>
       </div>
-      <figcaption class="wire-cap">
-        <span class="seg" role="group" aria-label="Zakres zmian na makiecie">
+      <div class="wire-cap" id="path-q">
+        <div class="seg" id="seg" role="group" aria-labelledby="path-title">
           <span class="seg-pill" aria-hidden="true"></span>
-          <button type="button" data-mode="teraz" aria-pressed="true">Teraz</button>
-          <button type="button" data-mode="styl" aria-pressed="false">Tylko styl</button>
-          <button type="button" data-mode="uklad" aria-pressed="false">Nowy układ</button>
-          <button type="button" data-mode="pelny" aria-pressed="false">Pełna przebudowa</button>
-        </span>
+          <button type="button" class="seg-view" data-mode="teraz" aria-pressed="true" title="Pokaż obecną stronę na makiecie">Teraz</button>
+          <!-- odpowiedzi (Tylko styl / Nowy układ / Pełna przebudowa) dokłada skrypt z konfiguracji -->
+        </div>
         <p class="wire-note" id="wire-note"></p>
-      </figcaption>
-    </figure>
+        <p class="path-next" id="path-next">Kolejne pytania pojawią się po wybraniu wariantu.</p>
+      </div>
+    </div>
   </section>
 
-  <noscript><p class="noscript">Formularz działa po włączeniu JavaScriptu. Odpowiedzi można też przesłać bezpośrednio na adres <a href="mailto:amitiel@naszpomost.pl">amitiel@naszpomost.pl</a>.</p></noscript>
-
-  <form id="brief" class="form" novalidate>
     <div class="hp" aria-hidden="true">
       <label for="f-www">Strona www (pole techniczne, proszę zostawić puste)</label>
       <input type="text" id="f-www" name="www" tabindex="-1" autocomplete="off">
@@ -339,7 +359,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     <div class="summary" id="summary"></div>
   </section>
 
-  <footer class="foot">
+  <footer class="foot" id="foot">
     <p id="contact"></p>
     <div>
       <button type="button" class="linkbtn" id="clear">Wyczyść formularz</button>
@@ -374,6 +394,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
        uwaga: "…"           wyróżniona informacja pod pytaniem
        uwagaUkryjGdy: […]   chowa „uwagę” po wybraniu jednej z tych odpowiedzi
        uwagaGdy: {…}        informacja widoczna tylko po wybraniu jednej z odpowiedzi (wartosci, tekst)
+       przyMakiecie: true   (sekcja) jej pytanie stoi przy makiecie w otwarciu, a odpowiedzi
+                            przestawiają makietę; opcje mają wtedy krotko (napis) i makieta (styl/uklad/pelny)
        licz: false          pole nie wlicza się do paska postępu
        { tekst: "…", osobno: true }   opcja, która odznacza pozostałe
 
@@ -383,11 +405,11 @@ textarea.inp { min-height: 116px; resize: vertical; }
     id: "redesign-wordpress",
     marka: "Amitiel",
     nazwa: "Brief projektowy",
-    tytul: "Redesign strony na WordPressie",
+    tytul: "Redesign Strony naszpomost.pl",
     wstep: [
-      "Redesign rozumiem jako ułożenie strony na nowo z treści, które już na niej są. Zaczynam od układu i hierarchii: co jest najważniejsze, w jakiej kolejności i jak to pokazać. Styl graficzny dopasowuję na końcu, tak żeby wspierał treść.",
-      "Zakres zmian w treściach i zakres wdrożenia potwierdzamy wspólnie przed rozpoczęciem prac."
+      "Redesign rozumiem jako ułożenie strony na nowo z treści, które już na niej są. Zaczynam od układu i hierarchii: co jest najważniejsze, w jakiej kolejności i jak to pokazać. Styl graficzny dopasowuję na końcu, tak żeby wspierał treść."
     ],
+    termin: "Termin odpowiedzi: do poniedziałku 19.10 włącznie.",
     instrukcja: "Pola z gwiazdką są wymagane, a jeśli coś nie jest jeszcze ustalone, wystarczy wpisać „do ustalenia”.",
     email: "amitiel@naszpomost.pl",
 
@@ -414,15 +436,15 @@ textarea.inp { min-height: 116px; resize: vertical; }
 
     sekcje: [
       {
-        tytul: "Jak rozumiesz ten redesign?", numer: false, wPodgladzie: false,
+        tytul: "Jak rozumiesz ten redesign?", numer: false, wPodgladzie: false, przyMakiecie: true,
         pola: [
           { id: "sciezka", typ: "jeden", wymagane: true,
             pytanie: "Który zakres zmian masz na myśli?",
-            podpowiedz: "Słowo „redesign” znaczy dla różnych osób co innego. Makieta na górze strony pokazuje, czym różnią się te trzy warianty.",
+            podpowiedz: "Słowo „redesign” znaczy dla różnych osób co innego. Wybierz wariant, a makieta pokaże, co zmieni się na stronie. „Teraz” pokazuje obecny układ.",
             opcje: [
-              "Tylko warstwa wizualna (styl / wtyczka do WordPressa)",
-              "Nowy układ i hierarchia na istniejącej stronie",
-              "Pełna przebudowa wyglądu i struktury"
+              { tekst: "Tylko warstwa wizualna (styl / wtyczka do WordPressa)", krotko: "Tylko styl", makieta: "styl" },
+              { tekst: "Nowy układ i hierarchia na istniejącej stronie", krotko: "Nowy układ", makieta: "uklad" },
+              { tekst: "Pełna przebudowa wyglądu i struktury", krotko: "Pełna przebudowa", makieta: "pelny" }
             ],
             uwagaGdy: {
               wartosci: ["Tylko warstwa wizualna (styl / wtyczka do WordPressa)"],
@@ -651,12 +673,34 @@ textarea.inp { min-height: 116px; resize: vertical; }
       hint, el("div", { class: "ctl" }, ctl), extras);
   }
 
+  // pytanie przy makiecie: odpowiedzi są przyciskami pod makietą i od razu ją przestawiają
+  function renderPathQuestion(s, f) {
+    const id = "f-" + f.id, hintId = id + "-hint", errId = id + "-err";
+    $("#path-title").replaceChildren(s.tytul, f.wymagane ? req() : null);
+    const hint = $("#path-hint");
+    hint.id = hintId;
+    hint.textContent = f.podpowiedz || "";
+    const segEl = $("#seg");
+    segEl.setAttribute("aria-describedby", hintId + " " + errId);
+    f.opcje.map(norm).forEach((o, k) => {
+      const oid = id + "-" + k;
+      segEl.append(el("label", { class: "seg-opt", for: oid, "data-mode": o.makieta || "" },
+        el("input", { type: "radio", id: oid, name: f.id, value: o.tekst }),
+        el("span", { text: o.krotko || o.tekst })));
+    });
+    const cap = $("#path-q");
+    if (f.uwagaGdy) { const nn = note(f.uwagaGdy.tekst, INFO); nn.id = id + "-cnote"; nn.hidden = true; cap.append(nn); }
+    if (f._potw) cap.append(confirmBox(f._potw));
+    cap.append(el("p", { class: "err", id: errId, hidden: true }));
+  }
+
   const META = [];
   function renderForm() {
     let n = 0;
     BRIEF.sekcje.forEach((s, i) => {
       const number = s.numer === false ? null : String(++n).padStart(2, "0");
       META.push({ s, number });
+      if (s.przyMakiecie) { renderPathQuestion(s, s.pola[0]); return; }
       const body = el("div", { class: "block-body" });
       if (s.wstep) body.append(el("p", { class: "block-intro", text: s.wstep }));
       if (s.uklad === "siatka") body.append(el("div", { class: "grid" }, s.pola.map((f) => renderSimple(f, false))));
@@ -676,7 +720,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     $("#doc-name").textContent = BRIEF.nazwa;
     $("#title").textContent = BRIEF.tytul;
     $("#intro").replaceChildren(...BRIEF.wstep.map((t) => el("p", { class: "lead", text: t })));
-    $("#howto").textContent = BRIEF.instrukcja;
+    $("#howto").replaceChildren(BRIEF.termin ? el("strong", { class: "deadline", text: BRIEF.termin }) : "", BRIEF.instrukcja);
     $("#fine").textContent = BRIEF.zgoda + (canSend ? " Odpowiedzi trafiają do mnie e-mailem przez serwis " + BRIEF.wysylka.usluga + "." : "");
     $("#contact").replaceChildren("W razie pytań proszę pisać na ", el("a", { href: "mailto:" + BRIEF.email, text: BRIEF.email }), ".");
     submitBtn.textContent = sendLabel;
@@ -783,6 +827,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
       if (!form.querySelector('[aria-invalid="true"]')) errSum.hidden = true;
     }
     applyConditions(v, true);
+    showRest(filled(v.sciezka), true);
     if (window.__wireFromPath && BY_ID["sciezka"]) window.__wireFromPath(v["sciezka"]);
     updateProgress(v);
     store();
@@ -830,6 +875,38 @@ textarea.inp { min-height: 116px; resize: vertical; }
       if (!show) node.hidden = true;
       a.cancel();
     };
+  }
+  // reszta formularza (sekcje 01 i dalej) pokazuje się dopiero po odpowiedzi na „Jak rozumiesz ten redesign?”
+  // przed odpowiedzią na „Jak rozumiesz ten redesign?” widać tylko tytuł i pytanie z makietą;
+  // wstęp, termin, formularz (sekcje 01 i dalej) i stopka pojawiają się po wyborze wariantu
+  const nextHint = $("#path-next"), heroMore = $("#hero-more"), footEl = $("#foot");
+  let restShown = null, restAnims = [];
+  function showRest(show, animate) {
+    if (restShown === show) return;
+    restShown = show;
+    restAnims.forEach((a) => a.cancel());
+    restAnims = [];
+    reveal(nextHint, !show, animate);
+    const nodes = [heroMore, host, footEl];
+    if (!animate || !canAnimate) { nodes.forEach((n) => { n.hidden = !show; }); return; }
+    if (show) {
+      nodes.forEach((n) => { n.hidden = false; });
+      // wstęp i kolejne sekcje wjeżdżają po sobie (dalsze sekcje są i tak poniżej ekranu), stopka na końcu
+      restAnims = [heroMore, ...[...host.children].slice(0, 4)].map((n, i) => n.animate(
+        [{ opacity: 0, transform: "translateY(28px)" }, { opacity: 1, transform: "translateY(0)" }],
+        { duration: 560, delay: 60 + i * 90, easing: "cubic-bezier(.2, .75, .25, 1)", fill: "backwards" }));
+      restAnims.push(footEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 520, easing: "ease", fill: "backwards" }));
+    } else {
+      restAnims = nodes.map((n) => n.animate(
+        [{ opacity: 1, transform: "translateY(0)" }, { opacity: 0, transform: "translateY(16px)" }],
+        { duration: 220, easing: "cubic-bezier(.4, 0, .2, 1)", fill: "forwards" }));
+      restAnims[restAnims.length - 1].onfinish = () => {
+        if (restShown !== false) return;
+        nodes.forEach((n) => { n.hidden = true; });
+        restAnims.forEach((a) => a.cancel());
+        restAnims = [];
+      };
+    }
   }
   function applyConditions(v, animate) {
     // najpierw notki wewnątrz pytań, potem całe pytania, żeby rozwijany blok miał już ostateczną wysokość
@@ -1039,7 +1116,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   }
 
   /* ---------- makieta w otwarciu ---------- */
-  const wire = $("#wire"), wireNote = $("#wire-note"), segBtns = document.querySelectorAll(".seg button");
+  const wire = $("#wire"), wireNote = $("#wire-note"), seg = $("#seg"), pill = seg.querySelector(".seg-pill"), viewBtn = seg.querySelector(".seg-view");
   const WIRE_NOTE = {
     teraz: "<b>Obecna strona.</b> Treści są ułożone przypadkowo i najważniejsze informacje giną wśród pozostałych.",
     styl:  "<b>Tylko styl (wtyczka).</b> Zmieniają się kolory i fonty, ale bloki zostają dokładnie tam, gdzie były. Układ i hierarchia treści się nie poprawiają.",
@@ -1063,14 +1140,21 @@ textarea.inp { min-height: 116px; resize: vertical; }
       noteEls[k].classList.toggle("is-on", k === mode);
       noteEls[k].setAttribute("aria-hidden", String(k !== mode));
     }
-    segBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+    seg.querySelectorAll("[data-mode]").forEach((x) => x.classList.toggle("is-on", x.dataset.mode === mode));
+    viewBtn.setAttribute("aria-pressed", String(mode === "teraz"));
     placePill(true);
   }
-  segBtns.forEach((b) => b.addEventListener("click", () => { stopDemo(); setWire(b.dataset.mode); }));
-  // podświetlenie wybranego wariantu przesuwa się płynnie pod przyciskami
-  const seg = document.querySelector(".seg"), pill = document.querySelector(".seg-pill");
+  // „Teraz” pokazuje obecną stronę i nie zmienia odpowiedzi; kliknięcie odpowiedzi pokazuje jej wariant
+  // (także ponowne kliknięcie już wybranej, gdy makieta pokazuje akurat „Teraz”)
+  viewBtn.addEventListener("click", () => { stopDemo(); setWire("teraz"); });
+  seg.addEventListener("click", (e) => {
+    const opt = e.target.closest && e.target.closest(".seg-opt");
+    if (opt && opt.dataset.mode) { stopDemo(); setWire(opt.dataset.mode); }
+  });
+  seg.addEventListener("focusin", () => stopDemo());
+  // podświetlenie pokazywanego wariantu przesuwa się płynnie pod przyciskami
   function placePill(animate) {
-    const b = seg && seg.querySelector('button[aria-pressed="true"]');
+    const b = seg && seg.querySelector(".is-on");
     if (!b || !pill) return;
     if (!animate) seg.classList.add("is-still");
     pill.style.width = b.offsetWidth + "px";
@@ -1081,7 +1165,6 @@ textarea.inp { min-height: 116px; resize: vertical; }
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(() => placePill(false));
     ro.observe(seg);
-    segBtns.forEach((b) => ro.observe(b));
   } else {
     window.addEventListener("resize", () => placePill(false));
   }
@@ -1096,13 +1179,17 @@ textarea.inp { min-height: 116px; resize: vertical; }
   // makieta reaguje na wybór ścieżki w formularzu
   window.__wireFromPath = function (val) {
     const m = modeFromPath(val);
-    if (m && wire.dataset.mode !== m) { stopDemo(); setWire(m); }
+    if (!m) return;
+    stopDemo();
+    if (wire.dataset.mode !== m) setWire(m);
   };
-  // jedno pokazanie po wejściu: obecna strona → tylko styl → nowy układ
+  // jedno pokazanie po wejściu: obecna strona → trzy warianty → z powrotem obecna strona.
+  // Niczego nie zaznacza; zatrzymuje się przy pierwszym kliknięciu.
   function playDemo() {
     setWire("teraz");
     if (reduceMotion) return;
-    demo = [setTimeout(() => setWire("styl"), 1600), setTimeout(() => setWire("uklad"), 4200)];
+    demo = [setTimeout(() => setWire("styl"), 1600), setTimeout(() => setWire("uklad"), 4200),
+            setTimeout(() => setWire("pelny"), 6800), setTimeout(() => setWire("teraz"), 9400)];
   }
 
   /* ---------- czyszczenie ---------- */
@@ -1117,6 +1204,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     FIELDS.forEach((f) => setError(f, ""));
     errSum.hidden = true;
     applyConditions(readValues());
+    showRest(false, true);
     stopDemo(); setWire("teraz");
     updateProgress(readValues());
     savedEl.classList.remove("is-on");
@@ -1129,11 +1217,12 @@ textarea.inp { min-height: 116px; resize: vertical; }
   /* ---------- start ---------- */
   renderTexts();
   renderForm();
-  const saved = load();
+  const saved = preview ? null : load();
   if (saved) applyValues(saved);
   setDefaults();
   const start = readValues();
   applyConditions(start);
+  showRest(filled(start.sciezka), false);
   updateProgress(start);
   if (saved) { savedEl.textContent = "Przywrócono zapisane odpowiedzi"; savedEl.classList.add("is-on"); }
   form.addEventListener("input", onEdit);
