@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Odpowiedzi do briefu: Redesign strony na WordPressie | Amitiel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap">
+<style>
+:root {
+  --paper: #EEF1F6; --field: #FFFFFF; --ink: #0E1638; --text: #2B3355; --mute: #5A6386;
+  --line: #D5DBE7; --line-strong: #A9B2CA; --accent: #1F3FD1; --accent-ink: #FFFFFF; --accent-soft: #E1E6FB;
+  --danger: #B3261E; --block: #D8DEEA; --block-ink: #0E1638;
+  --ring: 0 0 0 3px rgba(31, 63, 209, .3);
+  --display: "Syne", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --body: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --bar-h: 60px;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
+    --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
+    --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+    --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB; --ring: 0 0 0 3px rgba(147, 165, 255, .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
+  --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
+  --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+  --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB; --ring: 0 0 0 3px rgba(147, 165, 255, .45);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px); }
+body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-underline-offset: 3px; }
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { width: 100%; max-width: 1160px; margin-inline: auto; padding-inline: clamp(18px, 4.5vw, 48px); }
+
+/* pasek górny */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 21; background: var(--paper); background: color-mix(in srgb, var(--paper) 86%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1.3); backdrop-filter: blur(14px) saturate(1.3); }
+.bar .wrap { height: var(--bar-h); display: flex; align-items: center; gap: 16px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.01em; color: var(--ink); }
+.doc { padding-left: 16px; border-left: 1px solid var(--line-strong); font-size: 14.5px; line-height: 1.2; color: var(--mute); }
+@media (max-width: 760px) { .doc { display: none; } }
+.bar-total { margin-left: auto; font-size: 14px; color: var(--mute); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* otwarcie */
+.hero { padding-block: clamp(44px, 7vw, 96px) clamp(28px, 4vw, 44px); }
+.hero h1 { margin: 0 0 22px; max-width: 16ch; font-family: var(--display); font-weight: 700; font-size: clamp(38px, 6.2vw, 76px); line-height: 1; letter-spacing: -.035em; color: var(--ink); text-wrap: balance; }
+.lead { margin: 0; max-width: 60ch; font-size: clamp(17.5px, 1.5vw, 19.5px); line-height: 1.6; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border: 1px solid transparent; border-radius: 999px; font: inherit; font-size: 15.5px; font-weight: 600; line-height: 1.2; text-decoration: none; cursor: pointer; transition: background-color .15s ease, border-color .15s ease; }
+.btn:focus-visible { outline: none; box-shadow: var(--ring); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--accent) 86%, var(--ink)); }
+.btn-line { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+.btn-line:hover { border-color: var(--ink); }
+.btn[disabled] { opacity: .6; cursor: progress; }
+
+/* rozkład trzech wariantów */
+.split { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2.4vw, 28px); margin: 0 0 clamp(36px, 5vw, 64px); padding: 0; list-style: none; }
+.path { min-width: 0; padding: 18px 18px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--field); }
+.path.is-empty { background: transparent; border-style: dashed; }
+.path .glyph { display: block; width: 100%; max-width: 260px; height: auto; margin-bottom: 16px; }
+.path-name { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.15; letter-spacing: -.015em; color: var(--ink); }
+.path-desc { margin: 6px 0 14px; font-size: 15px; line-height: 1.5; color: var(--mute); }
+.path-count { margin: 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 15.5px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.path-who { margin: 2px 0 0; font-size: 15px; line-height: 1.5; color: var(--text); }
+.path.is-empty .path-who { color: var(--mute); }
+@media (max-width: 760px) {
+  .split { grid-template-columns: 1fr; }
+  .path { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: start; }
+  .path .glyph { grid-row: span 4; margin: 2px 0 0; }
+}
+
+/* miniatury makiety: te same stany co w formularzu */
+.g-frame { fill: var(--paper); stroke: var(--line); stroke-width: .6; }
+.g-url { fill: var(--field); }
+.g-b { fill: var(--block); }
+.g-styl .g-b { fill: color-mix(in srgb, var(--accent) 24%, var(--field)); }
+.g-styl .g-col { fill: color-mix(in srgb, var(--accent) 16%, var(--field)); }
+.g-styl .g-head { fill: var(--accent); }
+.g-styl .g-cta { fill: var(--ink); }
+.g-uklad .g-head, .g-pelny .g-head { fill: var(--block-ink); }
+.g-uklad .g-cta { fill: var(--ink); }
+.g-pelny .g-cta { fill: var(--accent); }
+.g-pelny .g-foot { fill: var(--ink); }
+.g-uklad .g-col, .g-pelny .g-col { fill: var(--field); stroke: var(--line); stroke-width: .5; }
+.g-dot { fill: var(--accent); }
+.g-inna .g-b { fill: var(--line); }
+
+/* odpowiedzi poszczególnych osób */
+.status { margin: 0 0 40px; font-size: 16px; color: var(--mute); }
+.state { margin: 0 0 56px; padding: 28px; border: 1px dashed var(--line-strong); border-radius: 16px; }
+.state p { margin: 0 0 18px; max-width: 56ch; color: var(--text); }
+.people { border-bottom: 1px solid var(--line); }
+.person { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 20px clamp(28px, 5vw, 80px); padding-block: clamp(32px, 5vw, 56px); border-top: 1px solid var(--line); }
+.person-head { align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px); }
+.person-head h2 { margin: 0 0 4px; font-family: var(--display); font-weight: 700; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.05; letter-spacing: -.025em; color: var(--ink); overflow-wrap: anywhere; }
+.person-date { margin: 0 0 16px; font-size: 14.5px; color: var(--mute); }
+.person-path { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 15.5px; font-weight: 600; color: var(--ink); }
+.person-path .glyph { flex: none; width: 64px; height: auto; }
+.person-note { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--accent-soft); font-size: 14.5px; line-height: 1.5; color: var(--ink); }
+.person-body { min-width: 0; max-width: 720px; }
+.qa { margin: 0; }
+.qa + .qa { margin-top: 28px; }
+.qa h3 { margin: 0 0 4px; font-size: 14.5px; font-weight: 600; color: var(--mute); }
+.qa dl { margin: 0; }
+.qa dt { margin: 14px 0 4px; font-weight: 600; line-height: 1.45; color: var(--ink); }
+.qa dd { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.qa dd.empty { color: var(--mute); }
+@media (max-width: 860px) {
+  .person { grid-template-columns: 1fr; }
+  .person-head { position: static; }
+}
+
+.foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 28px 44px; font-size: 15px; color: var(--mute); }
+.foot p { margin: 0; }
+.foot a { color: var(--ink); }
+
+@media print {
+  body::before, .bar, .hero-actions, .foot { display: none !important; }
+  body { background: #fff; color: #000; }
+  .person { break-inside: avoid; }
+  .person-head { position: static; }
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <span class="brand">Amitiel</span>
+    <span class="doc">Odpowiedzi do briefu</span>
+    <span class="bar-total" id="bar-total"></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Jak rozumiemy ten redesign</h1>
+    <p class="lead">Odpowiedzi wszystkich osób, które wypełniły brief. Widać tu, kto jaki zakres zmian ma na myśli i czego oczekuje od nowej strony. Jeśli ktoś wysłał brief ponownie, pokazana jest jego najnowsza wersja.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="/brief/">Wypełnij brief</a>
+      <button type="button" class="btn btn-line" id="refresh">Odśwież odpowiedzi</button>
+    </div>
+  </section>
+
+  <p class="status" id="status" role="status" aria-live="polite">Wczytuję odpowiedzi…</p>
+
+  <section aria-labelledby="split-title" id="split-box" hidden>
+    <h2 class="vh" id="split-title">Wybrane warianty</h2>
+    <ul class="split" id="split"></ul>
+  </section>
+
+  <div class="state" id="state" hidden></div>
+
+  <section aria-label="Odpowiedzi poszczególnych osób" class="people" id="people" hidden></section>
+
+  <footer class="foot">
+    <p>Brief przygotował Amitiel. Pytania: <a href="mailto:amitiel@naszpomost.pl">amitiel@naszpomost.pl</a></p>
+    <p><a href="/brief/">Wróć do formularza</a></p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  const API = "/api/brief?brief=redesign-wordpress";
+  const FORM = "/brief/";
+
+  const PATHS = [
+    { key: "styl", name: "Tylko styl", desc: "Nowe kolory i fonty. Układ treści zostaje bez zmian.", test: /wizualn/i },
+    { key: "uklad", name: "Nowy układ", desc: "Te same treści w uporządkowanym układzie i hierarchii.", test: /układ|uklad/i },
+    { key: "pelny", name: "Pełna przebudowa", desc: "Nowy układ i nowy kierunek wizualny strony.", test: /przebudow/i }
+  ];
+  const OTHER = { key: "inna", name: "Inna odpowiedź", desc: "Odpowiedź spoza trzech wariantów.", test: null };
+
+  const $ = (s) => document.querySelector(s);
+  const statusEl = $("#status"), splitBox = $("#split-box"), splitEl = $("#split"), stateEl = $("#state"), peopleEl = $("#people"), totalEl = $("#bar-total"), refreshBtn = $("#refresh");
+
+  function el(tag, attrs, ...kids) {
+    const n = document.createElement(tag);
+    if (attrs) for (const k in attrs) {
+      const v = attrs[k];
+      if (v === null || v === undefined || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const kid of kids.flat(Infinity)) if (kid !== null && kid !== undefined && kid !== false) n.append(kid);
+    return n;
+  }
+  function plural(n, one, few, many) {
+    if (n === 1) return one;
+    const a = n % 10, b = n % 100;
+    return a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many;
+  }
+  const pathOf = (value) => PATHS.find((p) => p.test.test(value || "")) || OTHER;
+
+  /* miniatura makiety — te same pozycje bloków co animacja w formularzu */
+  const BEFORE = [[5,13,15,6,""],[5,22,70,3.5,""],[5,29,48,5,"head"],[5,37,90,3.5,""],[66,44,29,19,"img"],[68,87,24,6,"cta"],[5,44,56,3.5,"col"],[5,50,56,3.5,"col"],[5,56,40,3.5,"col"],[5,66,56,14,""]];
+  const AFTER  = [[5,13,12,5,""],[56,14,39,3,""],[5,24,47,11,"head"],[5,38.5,40,3.5,""],[57,22,38,32,"img"],[5,45,21,8,"cta"],[5,62,28,21,"col"],[36,62,28,21,"col"],[67,62,28,21,"col"],[5,88,90,5,"foot"]];
+  const SVG = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    const n = document.createElementNS(SVG, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function glyph(key) {
+    const svg = svgEl("svg", { viewBox: "0 0 100 75", class: "glyph g-" + key, "aria-hidden": "true", focusable: "false" });
+    svg.append(svgEl("rect", { class: "g-frame", x: .5, y: .5, width: 99, height: 74, rx: 5 }));
+    svg.append(svgEl("rect", { class: "g-url", x: 4, y: 2.7, width: 92, height: 3.4, rx: 1.7 }));
+    (key === "styl" || key === "inna" ? BEFORE : AFTER).forEach(([x, y, w, h, role]) => {
+      svg.append(svgEl("rect", { class: "g-b" + (role ? " g-" + role : ""), x, y: y * .75, width: w, height: h * .75, rx: role === "cta" && key !== "styl" ? h * .375 : 1.2 }));
+    });
+    if (key === "pelny") svg.append(svgEl("circle", { class: "g-dot", cx: 85, cy: 24.5, r: 3 }));
+    return svg;
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return "";
+    return d.toLocaleString("pl-PL", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
+  }
+
+  function renderSplit(list) {
+    const buckets = PATHS.map((p) => ({ p, who: [] }));
+    const other = { p: OTHER, who: [] };
+    list.forEach((e) => {
+      const p = pathOf(e.sciezka);
+      (buckets.find((b) => b.p === p) || other).who.push(e.imie);
+    });
+    if (other.who.length) buckets.push(other);
+    splitEl.replaceChildren(...buckets.map(({ p, who }) => el("li", { class: "path" + (who.length ? "" : " is-empty") },
+      glyph(p.key),
+      el("p", { class: "path-name", text: p.name }),
+      el("p", { class: "path-desc", text: p.desc }),
+      el("p", { class: "path-count", text: who.length + " " + plural(who.length, "osoba", "osoby", "osób") }),
+      el("p", { class: "path-who", text: who.length ? who.join(", ") : "Nikt jeszcze nie wybrał tego wariantu." }))));
+    splitBox.hidden = false;
+  }
+
+  function renderPerson(e, i) {
+    const p = pathOf(e.sciezka);
+    const id = "osoba-" + (i + 1);
+    const groups = [];
+    (e.odpowiedzi || []).forEach((o) => {
+      const last = groups[groups.length - 1];
+      if (last && last.title === o.sekcja) last.items.push(o);
+      else groups.push({ title: o.sekcja, items: [o] });
+    });
+    return el("article", { class: "person", "aria-labelledby": id },
+      el("header", { class: "person-head" },
+        el("h2", { id, text: e.imie }),
+        el("p", { class: "person-date", text: formatDate(e.data) }),
+        el("p", { class: "person-path" }, glyph(p.key), el("span", { text: p === OTHER ? (e.sciezka || p.name) : p.name })),
+        p.key === "styl" && e.potwierdzenie
+          ? el("p", { class: "person-note", text: "Potwierdzone: rozumie, że to zmiana wyłącznie wizualna, bez zmian układu i struktury strony." })
+          : null),
+      el("div", { class: "person-body" },
+        groups.length
+          ? groups.map((g) => el("section", { class: "qa" },
+              g.title ? el("h3", { text: g.title }) : null,
+              el("dl", null, g.items.map((o) => [
+                el("dt", { text: o.pytanie }),
+                el("dd", { class: o.odpowiedz ? null : "empty", text: o.odpowiedz || "Bez odpowiedzi" })
+              ]))))
+          : el("p", { class: "qa", text: "Ta osoba wybrała tylko wariant, bez dalszych odpowiedzi." })));
+  }
+
+  function showState(text, action) {
+    stateEl.replaceChildren(el("p", { text }), action);
+    stateEl.hidden = false;
+  }
+
+  function render(list) {
+    const n = list.length;
+    statusEl.textContent = n
+      ? n + " " + plural(n, "osoba wypełniła", "osoby wypełniły", "osób wypełniło") + " brief."
+      : "";
+    statusEl.hidden = !n;
+    totalEl.textContent = n ? n + " " + plural(n, "odpowiedź", "odpowiedzi", "odpowiedzi") : "";
+    stateEl.hidden = true;
+    if (!n) {
+      splitBox.hidden = true;
+      peopleEl.hidden = true;
+      showState("Nikt jeszcze nie wysłał briefu. Pierwsze odpowiedzi pojawią się tutaj.",
+        el("a", { class: "btn btn-primary", href: FORM, text: "Wypełnij brief" }));
+      return;
+    }
+    renderSplit(list);
+    peopleEl.replaceChildren(...list.map(renderPerson));
+    peopleEl.hidden = false;
+  }
+
+  async function load() {
+    refreshBtn.disabled = true;
+    statusEl.hidden = false;
+    statusEl.textContent = "Wczytuję odpowiedzi…";
+    try {
+      let list;
+      if (Array.isArray(window.__BRIEF_DEMO__)) {
+        list = window.__BRIEF_DEMO__;
+      } else {
+        const res = await fetch(API, { headers: { Accept: "application/json" }, cache: "no-store" });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data || !data.ok) throw new Error((data && data.blad) || "HTTP " + res.status);
+        list = data.odpowiedzi || [];
+      }
+      render(list);
+    } catch (e) {
+      statusEl.hidden = true;
+      splitBox.hidden = true;
+      peopleEl.hidden = true;
+      showState("Nie udało się wczytać odpowiedzi. Sprawdź połączenie z internetem i spróbuj ponownie.",
+        el("button", { type: "button", class: "btn btn-line", onclick: load, text: "Spróbuj ponownie" }));
+    } finally {
+      refreshBtn.disabled = false;
+    }
+  }
+
+  refreshBtn.addEventListener("click", load);
+  load();
+})();
+</script>
+</body>
+</html>

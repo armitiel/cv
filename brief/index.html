@@ -76,13 +76,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .bar .wrap { height: var(--bar-h); display: flex; align-items: center; gap: 16px; }
 .brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.01em; color: var(--ink); }
 .doc { padding-left: 16px; border-left: 1px solid var(--line-strong); font-size: 14.5px; line-height: 1.2; color: var(--mute); }
-.meter { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.meter { display: flex; align-items: center; gap: 12px; }
 .meter-track { width: clamp(64px, 16vw, 200px); height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
 .meter-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width .45s var(--ease); }
 .meter-text { font-size: 14px; color: var(--mute); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.saved { font-size: 13.5px; color: var(--mute); white-space: nowrap; opacity: 0; transition: opacity .3s ease; }
+/* komunikat o zapisie stoi po lewej stronie paska postępu, więc pasek nigdy się nie przesuwa */
+.saved { min-width: 0; margin-left: auto; overflow: hidden; text-overflow: ellipsis; font-size: 13.5px; color: var(--mute); white-space: nowrap; opacity: 0; transition: opacity .3s ease; }
 .saved.is-on { opacity: 1; }
-@media (max-width: 760px) { .doc, .saved { display: none; } }
+@media (max-width: 760px) { .doc, .saved { display: none; } .meter { margin-left: auto; } }
 
 /* ---------- otwarcie ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(36px, 6vw, 88px); align-items: center; padding-block: clamp(44px, 8vw, 104px) clamp(48px, 7vw, 92px); }
@@ -97,22 +98,54 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .wire-frame { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; background: var(--field); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
 .wire-url { position: absolute; left: 4%; right: 4%; top: 3.6%; height: 4.6%; border-radius: 999px; background: var(--paper); }
 .wb { position: absolute; left: var(--bx); top: var(--by); width: var(--bw); height: var(--bh); border-radius: 5px; background: var(--block);
-  transition: left .9s var(--ease) var(--d, 0ms), top .9s var(--ease) var(--d, 0ms), width .9s var(--ease) var(--d, 0ms), height .9s var(--ease) var(--d, 0ms), background-color .6s ease var(--d, 0ms), box-shadow .6s ease var(--d, 0ms); }
-.wire-frame[data-state="after"] .wb { left: var(--ax); top: var(--ay); width: var(--aw); height: var(--ah); }
-.wire-frame[data-state="after"] .wb-head { background: var(--block-ink); }
-.wire-frame[data-state="after"] .wb-cta { background: var(--accent); border-radius: 999px; }
-.wb-img::after { content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity .6s ease .5s;
+  transition: left .9s var(--ease) var(--d, 0ms), top .9s var(--ease) var(--d, 0ms), width .9s var(--ease) var(--d, 0ms), height .9s var(--ease) var(--d, 0ms), background-color .55s ease var(--d, 0ms), box-shadow .55s ease var(--d, 0ms); }
+
+/* TYLKO STYL: układ zostaje dokładnie taki sam (ten sam bałagan), zmieniają się wyłącznie kolory i „font” bloków */
+.wire-frame[data-mode="styl"] .wb { background: color-mix(in srgb, var(--accent) 24%, var(--field)); }
+.wire-frame[data-mode="styl"] .wb-head { background: var(--accent); }
+.wire-frame[data-mode="styl"] .wb-cta { background: var(--ink); border-radius: 5px; }
+.wire-frame[data-mode="styl"] .wb-col { background: color-mix(in srgb, var(--accent) 16%, var(--field)); }
+
+/* NOWY UKŁAD / PEŁNA PRZEBUDOWA: te same bloki przechodzą w uporządkowany layout */
+.wire-frame[data-mode="uklad"] .wb,
+.wire-frame[data-mode="pelny"] .wb { left: var(--ax); top: var(--ay); width: var(--aw); height: var(--ah); }
+.wire-frame[data-mode="uklad"] .wb-head,
+.wire-frame[data-mode="pelny"] .wb-head { background: var(--block-ink); }
+.wire-frame[data-mode="uklad"] .wb-cta,
+.wire-frame[data-mode="pelny"] .wb-cta { background: var(--ink); border-radius: 999px; }
+/* pełna przebudowa dokłada kolor marki i wykończenie */
+.wire-frame[data-mode="pelny"] .wb-cta { background: var(--accent); }
+.wire-frame[data-mode="pelny"] .wb-foot { background: var(--ink); }
+.wire-frame[data-mode="pelny"] .wb-col::before { background: var(--accent); }
+.wb-img::after { content: ""; position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity .6s ease .45s;
   background: radial-gradient(circle at 74% 30%, var(--accent) 0 8%, transparent 8.5%), linear-gradient(160deg, var(--accent-soft), transparent 75%); }
-.wire-frame[data-state="after"] .wb-img::after { opacity: 1; }
-.wire-frame[data-state="after"] .wb-col { background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
-.wb-col::before, .wb-col::after { content: ""; position: absolute; left: 11%; border-radius: 3px; opacity: 0; transition: opacity .4s ease .75s; }
+.wire-frame[data-mode="pelny"] .wb-img::after { opacity: 1; }
+.wire-frame[data-mode="uklad"] .wb-col,
+.wire-frame[data-mode="pelny"] .wb-col { background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+.wb-col::before, .wb-col::after { content: ""; position: absolute; left: 11%; border-radius: 3px; opacity: 0; transition: opacity .4s ease .7s; }
 .wb-col::before { top: 16%; width: 52%; height: 11%; background: var(--line-strong); }
 .wb-col::after { top: 40%; width: 76%; height: 40%; background: repeating-linear-gradient(to bottom, var(--block) 0 18%, transparent 18% 34%); }
-.wire-frame[data-state="after"] .wb-col::before, .wire-frame[data-state="after"] .wb-col::after { opacity: 1; }
-.wire-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; margin-top: 16px; font-size: 15px; color: var(--mute); }
-.seg { display: inline-flex; padding: 3px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--field); }
-.seg button { min-height: 36px; padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--mute); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
-.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.wire-frame[data-mode="uklad"] .wb-col::before, .wire-frame[data-mode="uklad"] .wb-col::after,
+.wire-frame[data-mode="pelny"] .wb-col::before, .wire-frame[data-mode="pelny"] .wb-col::after { opacity: 1; }
+.wire-cap { display: grid; gap: 10px; margin-top: 16px; font-size: 15px; color: var(--mute); }
+.wire-note { display: grid; margin: 0; max-width: 60ch; line-height: 1.5; }
+.wire-note > span { grid-area: 1 / 1; visibility: hidden; }
+.wire-note > span.is-on { visibility: visible; }
+.wire-note b { color: var(--ink); font-weight: 600; }
+.wire-cap { container-type: inline-size; }
+.seg { position: relative; display: flex; flex-wrap: wrap; width: 100%; padding: 4px; border-radius: 16px; border: 1px solid var(--line-strong); background: var(--field); }
+.seg-pill { position: absolute; top: 0; left: 0; width: 0; height: 0; border-radius: 12px; background: var(--ink); box-shadow: 0 8px 18px -12px rgba(14, 22, 56, .55); pointer-events: none; }
+.seg.is-ready .seg-pill { transition: transform .45s cubic-bezier(.3, .8, .25, 1), width .45s cubic-bezier(.3, .8, .25, 1), height .45s cubic-bezier(.3, .8, .25, 1); }
+.seg.is-still .seg-pill { transition: none; }
+.seg button { position: relative; z-index: 1; flex: 1 1 0; min-height: 48px; padding: 10px 12px; border: 0; border-radius: 12px; background: transparent; color: var(--mute); font: inherit; font-size: 15px; font-weight: 600; line-height: 1.2; white-space: nowrap; cursor: pointer; transition: color .3s ease; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { color: var(--paper); }
+@container (max-width: 419px) { .seg button { padding-inline: 8px; } }
+@container (max-width: 384px) {
+  .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .seg button { padding-inline: 12px; white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) { .seg.is-ready .seg-pill, .seg button { transition: none; } }
 .seg button:focus-visible { outline: none; box-shadow: var(--ring); }
 
 /* ---------- sekcje formularza ---------- */
@@ -146,6 +179,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .extra { margin-top: 18px; max-width: 560px; }
 .note { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; max-width: 60ch; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); font-size: 15px; line-height: 1.5; }
 .note-ico { flex: none; display: inline-flex; margin-top: 3px; color: var(--accent); }
+.block-intro { margin: 0 0 8px; max-width: 64ch; padding: 12px 14px; border-radius: 10px; background: var(--field); border: 1px solid var(--line); color: var(--mute); font-size: 15px; line-height: 1.55; }
+.q-confirm { margin-top: 14px; }
+.opt.confirm span { border-color: var(--accent); background: var(--accent-soft); border-radius: 14px; }
+.q-confirm .err { margin-left: 2px; }
 .err { margin: 8px 0 0; font-size: 14.5px; font-weight: 500; color: var(--danger); }
 @media (max-width: 600px) { .grid, .sub-grid { grid-template-columns: 1fr; } }
 
@@ -237,11 +274,11 @@ textarea.inp { min-height: 116px; resize: vertical; }
   <div class="wrap">
     <span class="brand" id="brand">Amitiel</span>
     <span class="doc" id="doc-name">Brief projektowy</span>
-    <div class="meter" id="meter" role="progressbar" aria-label="Postęp wypełniania" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0">
-      <span class="meter-track"><span class="meter-fill" id="fill"></span></span>
-      <span class="meter-text" id="meter-text">0 z 18 pytań</span>
-    </div>
     <span class="saved" id="saved" aria-live="polite"></span>
+    <div class="meter" id="meter" role="progressbar" aria-label="Postęp wypełniania" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0">
+      <span class="meter-track"><span class="meter-fill" id="fill"></span></span>
+      <span class="meter-text" id="meter-text">0 z 8 pytań</span>
+    </div>
   </div>
 </header>
 
@@ -253,7 +290,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
       <p class="howto" id="howto"></p>
     </div>
     <figure class="wire">
-      <div class="wire-frame" id="wire" data-state="before" aria-hidden="true">
+      <div class="wire-frame" id="wire" data-mode="teraz" aria-hidden="true">
         <span class="wire-url"></span>
         <span class="wb" style="--bx:5%;--by:13%;--bw:15%;--bh:6%;--ax:5%;--ay:13%;--aw:12%;--ah:5%"></span>
         <span class="wb" style="--bx:5%;--by:22%;--bw:70%;--bh:3.5%;--ax:56%;--ay:14%;--aw:39%;--ah:3%;--d:40ms"></span>
@@ -264,14 +301,17 @@ textarea.inp { min-height: 116px; resize: vertical; }
         <span class="wb wb-col" style="--bx:5%;--by:44%;--bw:56%;--bh:3.5%;--ax:5%;--ay:62%;--aw:28%;--ah:21%;--d:160ms"></span>
         <span class="wb wb-col" style="--bx:5%;--by:50%;--bw:56%;--bh:3.5%;--ax:36%;--ay:62%;--aw:28%;--ah:21%;--d:200ms"></span>
         <span class="wb wb-col" style="--bx:5%;--by:56%;--bw:40%;--bh:3.5%;--ax:67%;--ay:62%;--aw:28%;--ah:21%;--d:240ms"></span>
-        <span class="wb" style="--bx:5%;--by:66%;--bw:56%;--bh:14%;--ax:5%;--ay:88%;--aw:90%;--ah:5%;--d:280ms"></span>
+        <span class="wb wb-foot" style="--bx:5%;--by:66%;--bw:56%;--bh:14%;--ax:5%;--ay:88%;--aw:90%;--ah:5%;--d:280ms"></span>
       </div>
       <figcaption class="wire-cap">
-        <span>Te same treści, nowy układ i hierarchia.</span>
-        <span class="seg" role="group" aria-label="Układ strony na makiecie">
-          <button type="button" data-set="before" aria-pressed="true">Przed</button>
-          <button type="button" data-set="after" aria-pressed="false">Po</button>
+        <span class="seg" role="group" aria-label="Zakres zmian na makiecie">
+          <span class="seg-pill" aria-hidden="true"></span>
+          <button type="button" data-mode="teraz" aria-pressed="true">Teraz</button>
+          <button type="button" data-mode="styl" aria-pressed="false">Tylko styl</button>
+          <button type="button" data-mode="uklad" aria-pressed="false">Nowy układ</button>
+          <button type="button" data-mode="pelny" aria-pressed="false">Pełna przebudowa</button>
         </span>
+        <p class="wire-note" id="wire-note"></p>
       </figcaption>
     </figure>
   </section>
@@ -332,6 +372,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
        placeholder: "…"     przykład w pustym polu
        dopisek: {…}         dodatkowe pole pod opcjami (id, etykieta, placeholder)
        uwaga: "…"           wyróżniona informacja pod pytaniem
+       uwagaUkryjGdy: […]   chowa „uwagę” po wybraniu jednej z tych odpowiedzi
+       uwagaGdy: {…}        informacja widoczna tylko po wybraniu jednej z odpowiedzi (wartosci, tekst)
        licz: false          pole nie wlicza się do paska postępu
        { tekst: "…", osobno: true }   opcja, która odznacza pozostałe
 
@@ -343,10 +385,10 @@ textarea.inp { min-height: 116px; resize: vertical; }
     nazwa: "Brief projektowy",
     tytul: "Redesign strony na WordPressie",
     wstep: [
-      "Redesign to nowa warstwa wizualna istniejącej strony, zbudowana na jej aktualnych treściach. Projektuję układ, hierarchię i sposób prezentacji informacji — to coś więcej niż zmiana stylów CSS.",
+      "Redesign rozumiem jako ułożenie strony na nowo z treści, które już na niej są. Zaczynam od układu i hierarchii: co jest najważniejsze, w jakiej kolejności i jak to pokazać. Styl graficzny dopasowuję na końcu, tak żeby wspierał treść.",
       "Zakres zmian w treściach i zakres wdrożenia potwierdzamy wspólnie przed rozpoczęciem prac."
     ],
-    instrukcja: "Wypełnienie zajmie około 15 minut. Odpowiedzi zapisują się na bieżąco w tej przeglądarce, więc do formularza można wrócić później. Pola z gwiazdką są wymagane, a jeśli coś nie jest jeszcze ustalone, wystarczy wpisać „do ustalenia”.",
+    instrukcja: "Pola z gwiazdką są wymagane, a jeśli coś nie jest jeszcze ustalone, wystarczy wpisać „do ustalenia”.",
     email: "amitiel@naszpomost.pl",
 
     // WYSYŁKA ODPOWIEDZI — przez Web3Forms (web3forms.com).
@@ -361,18 +403,35 @@ textarea.inp { min-height: 116px; resize: vertical; }
       usluga: "Web3Forms"
     },
 
-    zgoda: "Dane z formularza wykorzystuję wyłącznie do przygotowania oferty i kontaktu w sprawie tego projektu.",
+    // Wspólny podgląd: kopia odpowiedzi trafia do bazy, a strona „podglad” pokazuje odpowiedzi
+    // wszystkich osób (imię i odpowiedzi; bez adresu e-mail i bez sekcji z wPodgladzie: false).
+    wspolne: {
+      zapis: "/api/brief",
+      podglad: "/brief/odpowiedzi/"
+    },
+
+    zgoda: "Dane z formularza wykorzystuję wyłącznie do przygotowania oferty i kontaktu w sprawie tego projektu. Twoje imię i odpowiedzi (bez adresu e-mail i danych technicznych) zobaczą też inne osoby wypełniające ten brief.",
 
     sekcje: [
       {
-        tytul: "Dane projektu", numer: false, uklad: "siatka",
+        tytul: "Jak rozumiesz ten redesign?", numer: false, wPodgladzie: false,
         pola: [
-          { id: "projekt", typ: "tekst", etykieta: "Projekt lub adres strony", wymagane: true, placeholder: "np. firma.pl", autocomplete: "url" },
-          { id: "zleceniodawca", typ: "tekst", etykieta: "Zleceniodawca", wymagane: true, placeholder: "Nazwa firmy lub imię i nazwisko", autocomplete: "organization" },
-          { id: "osoba", typ: "tekst", etykieta: "Osoba kontaktowa", placeholder: "Imię, nazwisko i stanowisko", autocomplete: "name", licz: false },
-          { id: "email", typ: "email", etykieta: "E-mail", wymagane: true, placeholder: "nazwa@firma.pl" },
-          { id: "telefon", typ: "telefon", etykieta: "Telefon", placeholder: "np. 600 100 200", licz: false },
-          { id: "data", typ: "data", etykieta: "Data", domyslnie: "dzis", licz: false }
+          { id: "sciezka", typ: "jeden", wymagane: true,
+            pytanie: "Który zakres zmian masz na myśli?",
+            podpowiedz: "Słowo „redesign” znaczy dla różnych osób co innego. Makieta na górze strony pokazuje, czym różnią się te trzy warianty.",
+            opcje: [
+              "Tylko warstwa wizualna (styl / wtyczka do WordPressa)",
+              "Nowy układ i hierarchia na istniejącej stronie",
+              "Pełna przebudowa wyglądu i struktury"
+            ],
+            uwagaGdy: {
+              wartosci: ["Tylko warstwa wizualna (styl / wtyczka do WordPressa)"],
+              tekst: "To zmiana wyłącznie kosmetyczna: kolory, typografia, odstępy i detale. Nie zmienia układu strony, hierarchii informacji ani ścieżek użytkownika. Te elementy zostają takie, jak są teraz." },
+            potwierdzenieGdy: {
+              wartosci: ["Tylko warstwa wizualna (styl / wtyczka do WordPressa)"],
+              id: "sciezka_swiadomy",
+              tekst: "Rozumiem, że to zmiana wyłącznie wizualna i nie obejmie układu ani struktury strony." }
+          }
         ]
       },
       {
@@ -381,12 +440,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
           { id: "cel", typ: "dlugi", pytanie: "Jaki jest główny cel przebudowy strony?", wymagane: true,
             placeholder: "np. strona wygląda nieaktualnie, trudno znaleźć ofertę, mało zapytań z telefonów…" },
           { id: "zakres", typ: "wiele", pytanie: "Co obejmuje zakres prac?", podpowiedz: "Można zaznaczyć kilka odpowiedzi.",
-            opcje: ["Nowy layout i hierarchia informacji", "Odświeżenie identyfikacji wizualnej", "UX i ścieżki użytkownika", "Responsywność", "Wdrożenie w WordPressie", { tekst: "Do ustalenia", osobno: true }],
-            dopisek: { id: "zakres_uwagi", etykieta: "Uwagi do zakresu", placeholder: "np. najpierw strona główna, podstrony w drugim etapie" } },
-          { id: "bez_zmian", typ: "dlugi", pytanie: "Które elementy obecnej strony muszą pozostać bez zmian?",
-            placeholder: "np. logo, struktura menu, adresy podstron, formularz kontaktowy…" },
-          { id: "wymagania", typ: "dlugi", pytanie: "Czy są wymagania, ograniczenia lub specyfikacje, które trzeba uwzględnić przed rozpoczęciem?",
-            placeholder: "np. wytyczne marki, dostępność cyfrowa (WCAG), termin kampanii, integracje z innymi systemami…" }
+            opcje: ["Nowy layout i hierarchia informacji", "Odświeżenie identyfikacji wizualnej", "UX i ścieżki użytkownika", "Responsywność", "Wdrożenie w WordPressie", { tekst: "Do ustalenia", osobno: true }] }
         ]
       },
       {
@@ -396,42 +450,25 @@ textarea.inp { min-height: 116px; resize: vertical; }
             opcje: ["Tak", "Częściowo", "Nie, treści się zmienią"],
             dopisek: { id: "tresci_uwagi", etykieta: "Co wymaga aktualizacji?", placeholder: "np. cennik, zespół, opisy usług" } },
           { id: "priorytety", typ: "dlugi", pytanie: "Które usługi, produkty, komunikaty i działania użytkownika są priorytetowe?",
-            placeholder: "np. kluczowa usługa, zapytanie o wycenę, telefon, zapis na newsletter…" },
-          { id: "odbiorcy", typ: "dlugi", pytanie: "Kim są główni odbiorcy strony i co powinni na niej znaleźć?",
-            placeholder: "np. właściciele firm szukający wykonawcy: oferta, realizacje, kontakt" },
-          { id: "reorganizacja", typ: "jeden", pytanie: "Czy mogę reorganizować istniejące treści w sekcje i zmieniać ich kolejność bez zmiany znaczenia?",
-            opcje: ["Tak", "Tak, po konsultacji", "Nie, układ treści zostaje"] },
-          { id: "akceptacja", typ: "tekst", pytanie: "Kto zatwierdza ewentualne skróty, korekty i propozycje zmian tekstu?",
-            placeholder: "Imię, nazwisko i rola" }
+            placeholder: "np. kluczowa usługa, zapytanie o wycenę, telefon, zapis na newsletter…" }
         ]
       },
       {
-        tytul: "Kierunek wizualny i materiały",
+        tytul: "WordPress i środowisko pracy", wPodgladzie: false,
+        wstep: "Ta sekcja dotyczy spraw technicznych. Jeśli nie zajmujesz się techniczną obsługą serwisu, wybierz „Nie” i przejdź dalej. Ustalę to z osobą, która się tym zajmuje.",
         pola: [
-          { id: "identyfikacja", typ: "wiele", pytanie: "Czy istnieje brandbook, logo, typografia, paleta kolorów lub biblioteka materiałów?",
-            podpowiedz: "Można zaznaczyć kilka odpowiedzi.",
-            opcje: ["Brandbook lub księga znaku", "Logo w wersji wektorowej", "Typografia", "Paleta kolorów", "Biblioteka materiałów (zdjęcia, grafiki)", { tekst: "Brak materiałów", osobno: true }],
-            dopisek: { id: "materialy_link", etykieta: "Link do materiałów", placeholder: "Dysk Google, Dropbox, WeTransfer…" } },
-          { id: "referencje", typ: "dlugi", pytanie: "Jakie strony lub rozwiązania stanowią punkt odniesienia?",
-            podpowiedz: "Linki i krótki komentarz: co się w nich podoba — układ, kolory, typografia, klimat.", placeholder: "https://…" },
-          { id: "zasoby", typ: "dlugi", pytanie: "Jakie zdjęcia, grafiki, ikony i inne materiały są dostępne oraz kto zapewnia prawa do ich użycia?",
-            placeholder: "np. sesja zdjęciowa z 2024 r. (prawa po stronie firmy), ikony z obecnej strony, zdjęcia stockowe do zakupu…" }
-        ]
-      },
-      {
-        tytul: "WordPress i środowisko pracy",
-        pola: [
-          { id: "wp", typ: "grupa", pytanie: "Jaki motyw, builder i kluczowe wtyczki są obecnie używane?",
-            podpowiedz: "Jeśli trudno to ustalić, sprawdzę to po otrzymaniu dostępu.",
-            pola: [
-              { id: "wp_motyw", typ: "tekst", etykieta: "Motyw", placeholder: "np. Astra, Hello Elementor, motyw autorski" },
-              { id: "wp_builder", typ: "lista", etykieta: "Builder", opcje: ["Edytor blokowy (Gutenberg)", "Elementor", "Divi", "WPBakery", "Bricks", "Oxygen", "Inny", "Nie wiem"] },
-              { id: "wp_wtyczki", typ: "dlugi", etykieta: "Kluczowe wtyczki", placeholder: "np. WooCommerce, WPML, Yoast SEO, Contact Form 7…", szerokie: true, wiersze: 3 }
-            ] },
-          { id: "dostep", typ: "jeden", pytanie: "Czy otrzymam dostęp do panelu WordPress i niezbędnych informacji technicznych?",
-            opcje: ["Tak", "Tak, po podpisaniu umowy", "Nie, wdrożenie po naszej stronie", "Do ustalenia"],
-            uwaga: "Proszę nie wpisywać tu haseł. Dane dostępowe przekażemy osobno, bezpiecznym kanałem." },
+          { id: "techniczny", typ: "jeden", pytanie: "Czy zajmujesz się techniczną stroną serwisu?",
+            opcje: ["Tak, jestem osobą techniczną", "Nie, nie jestem osobą techniczną"] },
+          { id: "dostep", typ: "jeden", pytanie: "Czy otrzymam dostęp do panelu WordPress i obecnych plików strony?",
+            pokazGdy: { pole: "techniczny", wartosci: ["Tak, jestem osobą techniczną"] },
+            opcje: ["Tak", "Nie, wdrożenie po naszej stronie", "Do ustalenia"],
+            uwagaGdy: {
+              wartosci: ["Nie, wdrożenie po naszej stronie", "Do ustalenia"],
+              tekst: "Jeśli nie dostanę dostępu do plików, przygotuję projekt na podstawie tego, co widać na stronie. Grafiki mogą wtedy wymagać dopasowania przy wdrożeniu, np. wymiarów, kadrów zdjęć i odstępów. Pomoże nawet sama kopia motywu albo dostęp do wersji testowej." },
+            uwaga: "Proszę nie wpisywać tu haseł. Konkretne dane dostępowe (panel WordPress, FTP lub SFTP, hosting) prześlij osobno mailem na amitiel@naszpomost.pl.",
+            uwagaUkryjGdy: ["Nie, wdrożenie po naszej stronie"] },
           { id: "staging", typ: "jeden", pytanie: "Czy na serwerze zostanie udostępnione osobne środowisko testowe (staging) do podglądu i prezentacji kolejnych wersji?",
+            pokazGdy: { pole: "techniczny", wartosci: ["Tak, jestem osobą techniczną"] },
             podpowiedz: "Staging to kopia strony, na której można bezpiecznie pokazywać zmiany przed publikacją.",
             opcje: ["Tak", "Nie", "Do ustalenia"] }
         ]
@@ -440,7 +477,14 @@ textarea.inp { min-height: 116px; resize: vertical; }
         tytul: "Na koniec", numer: false,
         pola: [
           { id: "uwagi", typ: "dlugi", pytanie: "Czy jest coś jeszcze, o czym warto wiedzieć przed startem?",
-            placeholder: "np. preferowany termin, osoby do kontaktu, plany rozwoju strony…", licz: false }
+            placeholder: "np. preferowany termin, plany rozwoju strony…", licz: false }
+        ]
+      },
+      {
+        tytul: "Dane kontaktowe", numer: false, uklad: "siatka", wPodgladzie: false,
+        pola: [
+          { id: "imie", typ: "tekst", etykieta: "Imię", wymagane: true, placeholder: "Jak się do Ciebie zwracać", autocomplete: "given-name" },
+          { id: "email", typ: "email", etykieta: "E-mail", wymagane: true, placeholder: "nazwa@firma.pl" }
         ]
       }
     ]
@@ -453,6 +497,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
   const KEY = "brief:" + BRIEF.id + ":v1";
+  const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4.9" r="1" fill="currentColor"/></svg>';
   const LOCK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.5"/></svg>';
   const INPUT_TYPE = { tekst: "text", email: "email", telefon: "tel", data: "date" };
 
@@ -484,20 +529,39 @@ textarea.inp { min-height: 116px; resize: vertical; }
   }
 
   /* lista wszystkich pól */
-  const FIELDS = [], BY_ID = {}, COUNTED = [];
+  const FIELDS = [], BY_ID = {}, COUNTED = [], COND = [], NOTES = [];
   BRIEF.sekcje.forEach((s) => s.pola.forEach((f) => {
-    if (f.licz !== false) COUNTED.push(f);
+    if (f.licz !== false && !f.pokazGdy) COUNTED.push(f);
+    if (f.uwagaGdy) NOTES.push({ el: "f-" + f.id + "-cnote", on: f.id, vals: f.uwagaGdy.wartosci, show: true });
+    if (f.uwaga && f.uwagaUkryjGdy) NOTES.push({ el: "f-" + f.id + "-note", on: f.id, vals: f.uwagaUkryjGdy, show: false });
     (f.typ === "grupa" ? f.pola : [f]).forEach((p) => { FIELDS.push(p); BY_ID[p.id] = p; });
     if (f.dopisek) { const d = Object.assign({ typ: "tekst" }, f.dopisek); FIELDS.push(d); BY_ID[d.id] = d; }
+    if (f.pokazGdy) COND.push({ id: f.id, on: f.pokazGdy.pole, vals: f.pokazGdy.wartosci });
+    if (f.potwierdzenieGdy) {
+      const c = { id: f.potwierdzenieGdy.id, typ: "potwierdzenie", pytanie: f.potwierdzenieGdy.tekst,
+                  licz: false, parent: f.id, vals: f.potwierdzenieGdy.wartosci };
+      f._potw = c; FIELDS.push(c); BY_ID[c.id] = c;
+      COND.push({ id: c.id, on: f.id, vals: c.vals, mustConfirm: true });
+    }
   }));
-  const CHECKED = FIELDS.filter((f) => f.wymagane || f.typ === "email");
+  const CHECKED = FIELDS.filter((f) => (f.wymagane || f.typ === "email") && !f.pokazGdy);
+  function requiredNow(v) {
+    const out = CHECKED.slice();
+    COND.forEach((c) => {
+      if (!c.mustConfirm) return;
+      if (c.vals.indexOf(v[c.on]) !== -1) out.push(BY_ID[c.id]);
+    });
+    return out;
+  }
 
   const form = $("#brief"), host = $("#pola"), sendBox = $("#send"), submitBtn = $("#submit"), errSum = $("#err-sum");
   const result = $("#wynik"), resTitle = $("#wynik-tytul"), resText = $("#wynik-tekst"), actions = $("#actions"), statusEl = $("#status"), summary = $("#summary");
   const meter = $("#meter"), fill = $("#fill"), meterText = $("#meter-text"), savedEl = $("#saved");
   const honeypot = document.getElementById("f-www");
   const onClaude = !!(window.claude && typeof window.claude.use === "function");
-  const canSend = !!(BRIEF.wysylka.adres && BRIEF.wysylka.klucz) && !onClaude;
+  const preview = onClaude || !!window.__BRIEF_PODGLAD__ || !/^https?:$/.test(location.protocol);
+  const canSend = !!(BRIEF.wysylka.adres && BRIEF.wysylka.klucz) && !preview;
+  const canShare = !!(BRIEF.wspolne && BRIEF.wspolne.zapis) && !preview;
   const sendLabel = canSend ? "Wyślij brief" : "Przygotuj brief do wysłania";
 
   /* ---------- budowanie strony ---------- */
@@ -541,16 +605,27 @@ textarea.inp { min-height: 116px; resize: vertical; }
     return el("div", { class: "extra" }, el("label", { class: "sub-label", for: "f-" + f.id, text: f.etykieta }), control(f));
   }
 
-  function note(t) {
+  function note(t, icon) {
     const ico = el("span", { class: "note-ico", "aria-hidden": "true" });
-    ico.innerHTML = LOCK;
+    ico.innerHTML = icon || LOCK;
     return el("p", { class: "note" }, ico, el("span", { text: t }));
   }
 
+  function confirmBox(c) {
+    const id = "f-" + c.id, errId = id + "-err";
+    return el("div", { class: "q-confirm", id: id + "-wrap", hidden: true },
+      el("label", { class: "opt is-multi confirm", for: id },
+        el("input", { type: "checkbox", id, name: c.id, value: "tak" }),
+        el("span", { text: c.pytanie })),
+      el("p", { class: "err", id: errId, hidden: true }));
+  }
   function renderQuestion(f) {
     const id = "f-" + f.id, hintId = f.podpowiedz ? id + "-hint" : null, errId = id + "-err";
     const hint = hintId ? el("p", { class: "q-hint", id: hintId, text: f.podpowiedz }) : null;
-    const extras = [f.dopisek ? renderExtra(f.dopisek) : null, f.uwaga ? note(f.uwaga) : null, el("p", { class: "err", id: errId, hidden: true })];
+    const condNote = f.uwagaGdy ? (() => { const nn = note(f.uwagaGdy.tekst, INFO); nn.id = id + "-cnote"; nn.hidden = true; return nn; })() : null;
+    const fixedNote = f.uwaga ? (() => { const nn = note(f.uwaga); nn.id = id + "-note"; return nn; })() : null;
+    const extras = [f.dopisek ? renderExtra(f.dopisek) : null, condNote, fixedNote,
+      f._potw ? confirmBox(f._potw) : null, el("p", { class: "err", id: errId, hidden: true })];
 
     if (isChoice(f) || f.typ === "grupa") {
       let body;
@@ -564,7 +639,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
             el("span", { text: o.tekst }));
         }));
       }
-      return el("div", { class: "q" },
+      return el("div", { class: "q", id: f.pokazGdy ? "q-" + f.id : null, hidden: f.pokazGdy ? true : null },
         el("fieldset", { "aria-describedby": [hintId, errId].filter(Boolean).join(" ") },
           el("legend", { class: "q-title" }, f.pytanie, f.wymagane ? req() : null),
           hint, body, extras));
@@ -572,7 +647,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
 
     const ctl = control(f);
     describe(inputOf(ctl), hintId, errId);
-    return el("div", { class: "q" },
+    return el("div", { class: "q", id: f.pokazGdy ? "q-" + f.id : null, hidden: f.pokazGdy ? true : null },
       el("label", { class: "q-title", for: id }, f.pytanie, f.wymagane ? req() : null),
       hint, el("div", { class: "ctl" }, ctl), extras);
   }
@@ -584,6 +659,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
       const number = s.numer === false ? null : String(++n).padStart(2, "0");
       META.push({ s, number });
       const body = el("div", { class: "block-body" });
+      if (s.wstep) body.append(el("p", { class: "block-intro", text: s.wstep }));
       if (s.uklad === "siatka") body.append(el("div", { class: "grid" }, s.pola.map((f) => renderSimple(f, false))));
       else s.pola.forEach((f) => body.append(renderQuestion(f)));
       host.append(el("section", { class: "block", "aria-labelledby": "h-" + i },
@@ -616,6 +692,9 @@ textarea.inp { min-height: 116px; resize: vertical; }
         v[f.id] = c ? c.value : "";
       } else if (f.typ === "wiele") {
         v[f.id] = Array.from(form.querySelectorAll('input[name="' + f.id + '"]:checked'), (i) => i.value);
+      } else if (f.typ === "potwierdzenie") {
+        const n = document.getElementById("f-" + f.id);
+        v[f.id] = n && n.checked ? "tak" : "";
       } else {
         const n = document.getElementById("f-" + f.id);
         v[f.id] = n ? n.value.trim() : "";
@@ -677,6 +756,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   function fieldError(f, v) {
     const val = v[f.id];
+    if (f.typ === "potwierdzenie") return filled(val) ? "" : "Zaznacz potwierdzenie, aby wysłać brief z tą opcją.";
     if (f.wymagane && !filled(val)) return isChoice(f) ? "Potrzebna jest co najmniej jedna odpowiedź." : "To pole jest potrzebne do wysłania briefu.";
     if (f.typ === "email" && filled(val) && !EMAIL_RE.test(val)) return "Ten adres e-mail jest niepełny. Poprawny format: nazwa@firma.pl.";
     return "";
@@ -703,8 +783,28 @@ textarea.inp { min-height: 116px; resize: vertical; }
       setError(f, fieldError(f, v));
       if (!form.querySelector('[aria-invalid="true"]')) errSum.hidden = true;
     }
+    applyConditions(v);
+    if (window.__wireFromPath && BY_ID["sciezka"]) window.__wireFromPath(v["sciezka"]);
     updateProgress(v);
     store();
+  }
+  function applyConditions(v) {
+    COND.forEach((c) => {
+      const active = c.vals.indexOf(v[c.on]) !== -1;
+      if (c.mustConfirm) {
+        const wrap = document.getElementById("f-" + c.id + "-wrap");
+        if (wrap) wrap.hidden = !active;
+        if (!active) { const cb = document.getElementById("f-" + c.id); if (cb && cb.checked) cb.checked = false; }
+      } else {
+        const q = document.getElementById("q-" + c.id);
+        if (q) q.hidden = !active;
+      }
+    });
+    // informacje zależne od odpowiedzi: uwagaGdy pokazuje notkę, uwagaUkryjGdy ją chowa
+    NOTES.forEach((n) => {
+      const nn = document.getElementById(n.el);
+      if (nn) nn.hidden = (n.vals.indexOf(v[n.on]) !== -1) !== n.show;
+    });
   }
 
   /* ---------- treść do wysłania ---------- */
@@ -717,6 +817,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     return META.map(({ s, number }) => ({
       number, title: s.tytul,
       items: s.pola.map((f) => {
+        if (f.pokazGdy && f.pokazGdy.wartosci.indexOf(v[f.pokazGdy.pole]) === -1) return null;
         let a = f.typ === "grupa"
           ? f.pola.filter((p) => filled(v[p.id])).map((p) => p.etykieta + ": " + display(p, v[p.id])).join("\n")
           : display(f, v[f.id]);
@@ -724,8 +825,11 @@ textarea.inp { min-height: 116px; resize: vertical; }
           const lab = f.dopisek.etykieta;
           a = (a ? a + "\n" : "") + lab + (/[?:]$/.test(lab) ? " " : ": ") + v[f.dopisek.id];
         }
+        if (f._potw && f.potwierdzenieGdy.wartosci.indexOf(v[f.id]) !== -1) {
+          a = (a ? a + "\n" : "") + "Potwierdzenie świadomości: " + (filled(v[f._potw.id]) ? "TAK — " + f._potw.pytanie : "BRAK");
+        }
         return { id: f.id, q: f.pytanie || f.etykieta, a };
-      })
+      }).filter(Boolean)
     }));
   }
   function buildText(v) {
@@ -748,8 +852,43 @@ textarea.inp { min-height: 116px; resize: vertical; }
     }));
     return data;
   }
+  function sciezkaSkrot(v) {
+    const val = v.sciezka || "";
+    if (/wizualn/i.test(val)) return "tylko styl";
+    if (/układ|uklad/i.test(val)) return "nowy układ";
+    if (/przebudow/i.test(val)) return "pełna przebudowa";
+    return "";
+  }
+  function sharePayload(v) {
+    const hidden = new Set(META.filter(({ s }) => s.wPodgladzie === false).map(({ s }) => s.tytul));
+    const odpowiedzi = [];
+    entries(v).forEach((sec) => {
+      if (hidden.has(sec.title)) return;
+      sec.items.forEach((it) => odpowiedzi.push({ sekcja: sec.title, pytanie: it.q, odpowiedz: it.a || "" }));
+    });
+    const p = BY_ID.sciezka && BY_ID.sciezka._potw;
+    return {
+      brief: BRIEF.id,
+      imie: v.imie || "",
+      email: v.email || "",
+      sciezka: v.sciezka || "",
+      potwierdzenie: !!(p && filled(v[p.id])),
+      odpowiedzi
+    };
+  }
+  async function saveShared(v) {
+    try {
+      const res = await fetch(BRIEF.wspolne.zapis, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(sharePayload(v))
+      });
+      return res.ok;
+    } catch (e) { return false; }
+  }
   function subjectOf(v) {
-    return "Brief: " + BRIEF.tytul + " – " + (v.projekt || v.zleceniodawca || "nowy projekt");
+    const s = sciezkaSkrot(v);
+    return "Brief: " + BRIEF.tytul + (s ? " – " + s : "") + (v.imie ? " (" + v.imie + ")" : "");
   }
   function renderSummary(v) {
     summary.replaceChildren(...entries(v).map((sec) => el("section", null,
@@ -780,7 +919,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     ? window.claude.use("downloads").catch(() => null)
     : Promise.resolve(null);
   async function saveCopy(text, v) {
-    const slug = String(v.projekt || v.zleceniodawca || "projekt").toLowerCase().replace(/ł/g, "l")
+    const slug = String(v.imie || "brief").toLowerCase().replace(/ł/g, "l")
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "projekt";
     const filename = "brief-" + BRIEF.id + "-" + slug + ".txt";
     const dl = await downloadsReady;
@@ -798,13 +937,19 @@ textarea.inp { min-height: 116px; resize: vertical; }
   }
 
   /* ---------- wynik ---------- */
-  function showResult(mode, failed, v, text, subject) {
+  function showResult(mode, failed, v, text, subject, shared) {
     renderSummary(v);
-    resTitle.textContent = mode === "sent" ? "Brief wysłany" : "Brief gotowy do wysłania";
+    const previewOnly = mode !== "sent" && preview && !failed;
+    resTitle.textContent = mode === "sent" ? "Brief wysłany" : (previewOnly ? "Brief gotowy (podgląd)" : "Brief gotowy do wysłania");
     resText.textContent = mode === "sent"
       ? "Dziękuję. Przejrzę odpowiedzi i wrócę z pytaniami albo propozycją kolejnych kroków."
-      : (failed ? "Automatyczna wysyłka nie powiodła się, ale odpowiedzi są zachowane. " : "")
-        + "Wystarczy otworzyć gotową wiadomość e-mail albo skopiować odpowiedzi i przesłać je na adres " + BRIEF.email + ".";
+        + (shared ? " Twoje odpowiedzi są już widoczne na wspólnej stronie, obok odpowiedzi innych osób." : "")
+      : previewOnly
+        // podgląd (claude.ai albo plik otwarty lokalnie): wysyłka wyłączona, na stronie mail idzie sam
+        ? "To jest podgląd, więc wysyłka jest tu wyłączona. Na stronie kliknięcie „Wyślij brief” od razu wysyła te odpowiedzi mailem na "
+          + BRIEF.email + ". Tutaj możesz otworzyć ten sam mail ręcznie."
+        : (failed ? "Automatyczna wysyłka nie powiodła się, ale odpowiedzi są zachowane. " : "")
+          + "Wystarczy otworzyć gotową wiadomość e-mail albo skopiować odpowiedzi i przesłać je na adres " + BRIEF.email + ".";
     actions.replaceChildren();
     if (mode !== "sent") {
       actions.append(el("a", { class: "btn btn-primary", href: "mailto:" + BRIEF.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text) }, "Otwórz wiadomość e-mail"));
@@ -813,6 +958,10 @@ textarea.inp { min-height: 116px; resize: vertical; }
     actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => saveCopy(text, v) }, "Pobierz kopię odpowiedzi"));
     if (!framed && typeof window.print === "function") {
       actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => { try { window.print(); } catch (e) { /* druk niedostępny */ } } }, "Drukuj lub zapisz PDF"));
+    }
+    if (canShare && BRIEF.wspolne.podglad) {
+      const look = el("a", { class: "btn " + (mode === "sent" ? "btn-primary" : "btn-line"), href: BRIEF.wspolne.podglad }, "Zobacz odpowiedzi innych osób");
+      if (mode === "sent") actions.prepend(look); else actions.append(look);
     }
     actions.append(el("button", { type: "button", class: "linkbtn", onclick: backToForm }, "Wróć do formularza"));
     statusEl.textContent = "";
@@ -832,7 +981,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
   async function onSubmit(e) {
     e.preventDefault();
     const v = readValues();
-    const bad = CHECKED.filter((f) => { const m = fieldError(f, v); setError(f, m); return !!m; });
+    const need = requiredNow(v);
+    const bad = need.filter((f) => { const m = fieldError(f, v); setError(f, m); return !!m; });
     if (bad.length) {
       const n = bad.length;
       errSum.hidden = false;
@@ -849,12 +999,13 @@ textarea.inp { min-height: 116px; resize: vertical; }
     }
     errSum.hidden = true;
     const text = buildText(v), subject = subjectOf(v);
-    let mode = "manual", failed = false;
+    let mode = "manual", failed = false, shared = false;
     if (honeypot && honeypot.value) {
       mode = "sent"; // pole-pułapka wypełnione przez bota: nic nie wysyłamy
     } else if (canSend) {
       submitBtn.disabled = true;
       submitBtn.textContent = "Wysyłanie…";
+      const sharing = canShare ? saveShared(v) : Promise.resolve(false);
       try {
         const res = await fetch(BRIEF.wysylka.adres, {
           method: "POST",
@@ -865,19 +1016,79 @@ textarea.inp { min-height: 116px; resize: vertical; }
         try { const j = await res.json(); if (j && j.success === false) ok = false; } catch (e2) { /* odpowiedź bez JSON */ }
         if (ok) mode = "sent"; else failed = true;
       } catch (err) { failed = true; }
+      shared = await sharing;
       submitBtn.disabled = false;
       submitBtn.textContent = sendLabel;
     }
-    showResult(mode, failed, v, text, subject);
+    showResult(mode, failed, v, text, subject, shared);
   }
 
   /* ---------- makieta w otwarciu ---------- */
-  const wire = $("#wire"), segBtns = document.querySelectorAll(".seg button");
-  function setWire(state) {
-    wire.dataset.state = state;
-    segBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.set === state)));
+  const wire = $("#wire"), wireNote = $("#wire-note"), segBtns = document.querySelectorAll(".seg button");
+  const WIRE_NOTE = {
+    teraz: "<b>Obecna strona.</b> Treści są ułożone przypadkowo i najważniejsze informacje giną wśród pozostałych.",
+    styl:  "<b>Tylko styl (wtyczka).</b> Zmieniają się kolory i fonty, ale bloki zostają dokładnie tam, gdzie były. Układ i hierarchia treści się nie poprawiają.",
+    uklad: "<b>Nowy układ.</b> Te same treści zostają uporządkowane: czytelna kolejność sekcji, wyraźny nagłówek i widoczne wezwanie do działania.",
+    pelny: "<b>Pełna przebudowa.</b> Uporządkowany układ i nowy kierunek wizualny: kolor marki, zdjęcia i dopracowane detale."
+  };
+  const noteEls = {};
+  Object.keys(WIRE_NOTE).forEach((k) => {
+    const span = document.createElement("span");
+    span.innerHTML = WIRE_NOTE[k];
+    span.setAttribute("aria-hidden", "true");
+    wireNote.append(span);
+    noteEls[k] = span;
+  });
+  let demo = [];
+  function stopDemo() { demo.forEach(clearTimeout); demo = []; }
+  function setWire(mode) {
+    if (!WIRE_NOTE[mode]) return;
+    wire.dataset.mode = mode;
+    for (const k in noteEls) {
+      noteEls[k].classList.toggle("is-on", k === mode);
+      noteEls[k].setAttribute("aria-hidden", String(k !== mode));
+    }
+    segBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+    placePill(true);
   }
-  segBtns.forEach((b) => b.addEventListener("click", () => setWire(b.dataset.set)));
+  segBtns.forEach((b) => b.addEventListener("click", () => { stopDemo(); setWire(b.dataset.mode); }));
+  // podświetlenie wybranego wariantu przesuwa się płynnie pod przyciskami
+  const seg = document.querySelector(".seg"), pill = document.querySelector(".seg-pill");
+  function placePill(animate) {
+    const b = seg && seg.querySelector('button[aria-pressed="true"]');
+    if (!b || !pill) return;
+    if (!animate) seg.classList.add("is-still");
+    pill.style.width = b.offsetWidth + "px";
+    pill.style.height = b.offsetHeight + "px";
+    pill.style.transform = "translate(" + b.offsetLeft + "px, " + b.offsetTop + "px)";
+    if (!animate) requestAnimationFrame(() => requestAnimationFrame(() => seg.classList.remove("is-still")));
+  }
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => placePill(false));
+    ro.observe(seg);
+    segBtns.forEach((b) => ro.observe(b));
+  } else {
+    window.addEventListener("resize", () => placePill(false));
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => placePill(false));
+  requestAnimationFrame(() => { placePill(false); seg.classList.add("is-ready"); });
+  function modeFromPath(val) {
+    if (/wizualn/i.test(val || "")) return "styl";
+    if (/układ|uklad/i.test(val || "")) return "uklad";
+    if (/przebudow/i.test(val || "")) return "pelny";
+    return "";
+  }
+  // makieta reaguje na wybór ścieżki w formularzu
+  window.__wireFromPath = function (val) {
+    const m = modeFromPath(val);
+    if (m && wire.dataset.mode !== m) { stopDemo(); setWire(m); }
+  };
+  // jedno pokazanie po wejściu: obecna strona → tylko styl → nowy układ
+  function playDemo() {
+    setWire("teraz");
+    if (reduceMotion) return;
+    demo = [setTimeout(() => setWire("styl"), 1600), setTimeout(() => setWire("uklad"), 4200)];
+  }
 
   /* ---------- czyszczenie ---------- */
   const clearBtn = $("#clear"), clearBox = $("#clear-confirm");
@@ -888,8 +1099,10 @@ textarea.inp { min-height: 116px; resize: vertical; }
     try { localStorage.removeItem(KEY); } catch (e) { /* brak dostępu */ }
     form.reset();
     setDefaults();
-    CHECKED.forEach((f) => setError(f, ""));
+    FIELDS.forEach((f) => setError(f, ""));
     errSum.hidden = true;
+    applyConditions(readValues());
+    stopDemo(); setWire("teraz");
     updateProgress(readValues());
     savedEl.classList.remove("is-on");
     clearBox.hidden = true;
@@ -904,12 +1117,14 @@ textarea.inp { min-height: 116px; resize: vertical; }
   const saved = load();
   if (saved) applyValues(saved);
   setDefaults();
-  updateProgress(readValues());
+  const start = readValues();
+  applyConditions(start);
+  updateProgress(start);
   if (saved) { savedEl.textContent = "Przywrócono zapisane odpowiedzi"; savedEl.classList.add("is-on"); }
   form.addEventListener("input", onEdit);
   form.addEventListener("change", onEdit);
   form.addEventListener("submit", onSubmit);
-  if (reduceMotion) setWire("after"); else setTimeout(() => setWire("after"), 900);
+  if (modeFromPath(start.sciezka)) setWire(modeFromPath(start.sciezka)); else playDemo();
 })();
 </script>
 </body>
