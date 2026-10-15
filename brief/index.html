@@ -25,6 +25,7 @@
   --accent: #1F3FD1;
   --accent-ink: #FFFFFF;
   --accent-soft: #E1E6FB;
+  --note-bg: #E8EBF8; --note-line: #C3CBEC; --note-line-on: #7C8FE2;
   --danger: #B3261E;
   --block: #D8DEEA;
   --block-ink: #0E1638;
@@ -45,6 +46,7 @@
     --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
     --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
     --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+    --note-bg: rgba(147, 165, 255, .08); --note-line: rgba(147, 165, 255, .3); --note-line-on: rgba(147, 165, 255, .62);
     --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
     --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
     --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -55,6 +57,7 @@
   --paper: #0A0F24; --field: #10183A; --ink: #EEF1FB; --text: #C8CEE6; --mute: #959EC1;
   --line: rgba(238, 241, 251, .12); --line-strong: rgba(238, 241, 251, .28);
   --accent: #93A5FF; --accent-ink: #0A0F24; --accent-soft: rgba(147, 165, 255, .15);
+    --note-bg: rgba(147, 165, 255, .08); --note-line: rgba(147, 165, 255, .3); --note-line-on: rgba(147, 165, 255, .62);
   --danger: #FF8A80; --block: #222B52; --block-ink: #EEF1FB;
   --shadow: 0 34px 60px -30px rgba(0, 0, 0, .75); --ring: 0 0 0 3px rgba(147, 165, 255, .45);
   --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%230A0F24' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
@@ -190,11 +193,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .f .q-hint { margin-bottom: 8px; }
 .sub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 16px; }
 .extra { margin-top: 18px; max-width: 560px; }
-.note { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; max-width: 60ch; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); font-size: 15px; line-height: 1.5; }
-.note-ico { flex: none; display: inline-flex; margin-top: 3px; color: var(--accent); }
-.block-intro { margin: 0 0 8px; max-width: 64ch; padding: 12px 14px; border-radius: 10px; background: var(--field); border: 1px solid var(--line); color: var(--mute); font-size: 15px; line-height: 1.55; }
-.q-confirm { margin-top: 14px; }
-.opt.confirm span { border-color: var(--accent); background: var(--accent-soft); border-radius: 14px; }
+/* pola informacyjne (notatki, potwierdzenie, wprowadzenie sekcji): ta sama szerokość, delikatne kolory */
+.note { display: flex; gap: 12px; align-items: flex-start; width: 100%; max-width: 640px; margin: 16px 0 0; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--note-bg); color: var(--text); font-size: 15px; line-height: 1.5; }
+.note-ico { flex: none; display: inline-flex; margin-top: 3px; color: var(--accent); opacity: .75; }
+.block-intro { width: 100%; max-width: 640px; margin: 0 0 8px; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--field); border: 1px solid var(--line); color: var(--mute); font-size: 15px; line-height: 1.5; }
+.q-confirm { width: 100%; max-width: 640px; margin-top: 14px; }
+.opt.confirm { display: flex; }
+.opt.confirm span { flex: 1; align-items: flex-start; gap: 12px; min-height: 0; padding: 12px 16px 12px 14px; border-radius: 12px; border-color: var(--note-line); background: var(--note-bg); color: var(--text); font-size: 15px; line-height: 1.5; }
+.opt.confirm span::before { margin-top: 2px; }
+.opt.confirm:hover span, .opt.confirm input:checked + span { border-color: var(--note-line-on); background: var(--note-bg); }
 .q-confirm .err { margin-left: 2px; }
 .err { margin: 8px 0 0; font-size: 14.5px; font-weight: 500; color: var(--danger); }
 @media (max-width: 600px) { .grid, .sub-grid { grid-template-columns: 1fr; } }
