@@ -36,6 +36,7 @@
   --display: "Syne", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   --body: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
   --bar-h: 60px;
+  --head-w: clamp(250px, 32vw, 380px);   /* lewa kolumna: pytanie w otwarciu i tytuły sekcji */
   --ease: cubic-bezier(.65, 0, .35, 1);
   color-scheme: light;
   box-sizing: border-box;
@@ -96,10 +97,12 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 370px) { .meter-unit { display: none; } }
 @media (max-width: 330px) { .doc-site { display: none; } }
 
-/* ---------- otwarcie: tylko pytanie z makietą, w jednej kolumnie ---------- */
-.hero { padding-block: clamp(32px, 5vw, 64px) clamp(48px, 7vw, 92px); }
-.hero .wire { max-width: 560px; margin-inline: auto; }
-@media (max-width: 900px) { .hero .wire { max-width: 480px; } }
+/* ---------- otwarcie: ta sama siatka i te same odstępy co sekcje formularza ----------
+   pytanie z podpowiedzią po lewej (jak „01 Cel i zakres…”), makieta i odpowiedzi po prawej (jak pola) */
+.hero { display: grid; grid-template-columns: minmax(0, var(--head-w)) minmax(0, 1fr); gap: 24px clamp(28px, 5vw, 80px); align-items: start; padding-block: clamp(40px, 6vw, 72px); }
+.hero-head { min-width: 0; container-type: inline-size; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 28px); }
+.hero .wire { min-width: 0; max-width: 720px; }
+@media (max-width: 860px) { .hero { grid-template-columns: 1fr; } .hero-head { position: static; } .hero .wire { max-width: 560px; } }
 
 /* makieta: te same bloki treści przechodzą w nowy układ */
 .wire { margin: 0; container-type: inline-size; }
@@ -137,15 +140,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .wire-frame[data-mode="pelny"] .wb-col::before, .wire-frame[data-mode="pelny"] .wb-col::after { opacity: 1; }
 .wire-cap { margin-top: 16px; font-size: 15px; color: var(--mute); }
 .wire-note { display: grid; margin: 12px 0 0; max-width: 60ch; line-height: 1.5; }
-/* pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie: odpowiedzi są przyciskami pod nią */
-.path-head { margin-bottom: 18px; }
-/* rozmiar zależy od szerokości kolumny: „Jak rozumiesz” i „ten redesign? *” mieszczą się w dwóch liniach */
+/* pytanie „Jak rozumiesz ten redesign?” stoi obok makiety: odpowiedzi są przyciskami pod nią.
+   Rozmiar zależy od szerokości lewej kolumny: „Jak rozumiesz” i „ten redesign? *” mieszczą się w dwóch liniach */
 .path-title { margin: 0 0 16px; font-family: var(--display); font-weight: 700; font-size: clamp(34px, 5vw, 72px); font-size: min(78px, 12.6cqi); line-height: 1; letter-spacing: -.035em; color: var(--mark-ink); text-wrap: balance; }
 /* niebieskie tło pod każdą linią pytania, jak zaznaczony tekst */
 .path-mark { padding: 0 .12em; background: var(--mark-bg); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .path-title .req { color: inherit; }
 .path-hint { max-width: 52ch; }
-.path-next { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 500; color: var(--ink); }
+.path-next { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); font-size: 14.5px; font-weight: 400; color: var(--mute); }
 .wire-note > span { grid-area: 1 / 1; visibility: hidden; }
 .wire-note > span.is-on { visibility: visible; }
 .wire-note b { color: var(--ink); font-weight: 600; }
@@ -171,7 +173,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (prefers-reduced-motion: reduce) { .seg.is-ready .seg-pill, .seg-view, .seg-opt { transition: none; } }
 
 /* ---------- sekcje formularza ---------- */
-.block { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 20px clamp(28px, 5vw, 80px); padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
+.block { display: grid; grid-template-columns: minmax(0, var(--head-w)) minmax(0, 1fr); gap: 20px clamp(28px, 5vw, 80px); padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
 .block-head { align-self: start; position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 28px); }
 .num { display: block; margin-bottom: 14px; font-family: var(--display); font-weight: 700; font-size: clamp(44px, 5vw, 68px); line-height: .9; letter-spacing: -.04em; color: var(--accent); font-variant-numeric: tabular-nums; }
 .block-head h2 { margin: 0; max-width: 13ch; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.15; letter-spacing: -.02em; color: var(--ink); }
@@ -199,11 +201,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .f .q-hint { margin-bottom: 8px; }
 .sub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 16px; }
 .extra { margin-top: 18px; max-width: 560px; }
-/* pola informacyjne (notatki, potwierdzenie, wprowadzenie sekcji): ta sama szerokość, delikatne kolory */
-.note { display: flex; gap: 12px; align-items: flex-start; width: 100%; max-width: 640px; margin: 16px 0 0; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--note-bg); color: var(--text); font-size: 15px; line-height: 1.5; }
+/* pola informacyjne (notatki, potwierdzenie, wprowadzenie sekcji): pełna szerokość kolumny, jak pola, i delikatne kolory */
+.note { display: flex; gap: 12px; align-items: flex-start; width: 100%; margin: 16px 0 0; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--note-bg); color: var(--text); font-size: 15px; line-height: 1.5; }
 .note-ico { flex: none; display: inline-flex; margin-top: 3px; color: var(--accent); opacity: .75; }
-.block-intro { width: 100%; max-width: 640px; margin: 0 0 8px; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--field); border: 1px solid var(--line); color: var(--mute); font-size: 15px; line-height: 1.5; }
-.q-confirm { width: 100%; max-width: 640px; margin-top: 14px; }
+.block-intro { width: 100%; margin: 0 0 8px; padding: 12px 16px 12px 14px; border-radius: 12px; background: var(--field); border: 1px solid var(--line); color: var(--mute); font-size: 15px; line-height: 1.5; }
+.q-confirm { width: 100%; margin-top: 14px; }
 .opt.confirm { display: flex; }
 .opt.confirm span { flex: 1; align-items: flex-start; gap: 12px; min-height: 0; padding: 12px 16px 12px 14px; border-radius: 12px; border-color: var(--note-line); background: var(--note-bg); color: var(--text); font-size: 15px; line-height: 1.5; }
 .opt.confirm span::before { margin-top: 2px; }
@@ -285,8 +287,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   :root { --paper: #fff; --field: #fff; --ink: #000; --text: #111; --mute: #555; --line: #bbb; --accent: #000; padding: 0; }
   body::before, .bar, .wire-frame, .wire-cap, .path-title, .path-hint, .foot, .actions, .status, .send { display: none !important; }
   body { font-size: 11pt; }
-  .hero { padding: 0 0 10pt; }
-  .hero .wire { max-width: none; }
+  .hero { display: block; padding: 0 0 10pt; }
   #title { position: static !important; width: auto; height: auto; margin: 0; clip: auto; overflow: visible; white-space: normal; font-size: 18pt; color: #000; }
   .block-head { position: static; }
   .result { padding: 0; border: 0; }
@@ -315,12 +316,12 @@ textarea.inp { min-height: 116px; resize: vertical; }
   <!-- otwarcie jest częścią formularza, bo pytanie „Jak rozumiesz ten redesign?” stoi przy makiecie -->
   <form id="brief" class="form" novalidate>
   <section class="hero">
+    <div class="hero-head path-head">
+      <h1 class="vh" id="title">Brief projektowy: Redesign Strony naszpomost.pl</h1>
+      <h2 class="path-title" id="path-title"></h2>
+      <p class="q-hint path-hint" id="path-hint"></p>
+    </div>
     <div class="wire" id="path">
-      <div class="path-head">
-        <h1 class="vh" id="title">Brief projektowy: Redesign Strony naszpomost.pl</h1>
-        <h2 class="path-title" id="path-title"></h2>
-        <p class="q-hint path-hint" id="path-hint"></p>
-      </div>
       <div class="wire-frame" id="wire" data-mode="teraz" aria-hidden="true">
         <span class="wire-url"></span>
         <span class="wb" style="--bx:5%;--by:13%;--bw:15%;--bh:6%;--ax:5%;--ay:13%;--aw:12%;--ah:5%"></span>
