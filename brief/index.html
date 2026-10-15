@@ -495,7 +495,6 @@ textarea.inp { min-height: 116px; resize: vertical; }
      ===================================================================== */
   const $ = (s) => document.querySelector(s);
   const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
   const KEY = "brief:" + BRIEF.id + ":v1";
   const INFO = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7.2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4.9" r="1" fill="currentColor"/></svg>';
   const LOCK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7V5.2a2.5 2.5 0 0 1 5 0V7" stroke="currentColor" stroke-width="1.5"/></svg>';
@@ -915,26 +914,6 @@ textarea.inp { min-height: 116px; resize: vertical; }
     }
     say(ok ? "Odpowiedzi skopiowane do schowka." : "Kopiowanie jest tu zablokowane. Odpowiedzi są widoczne poniżej i można je zaznaczyć ręcznie.");
   }
-  const downloadsReady = (window.claude && typeof window.claude.use === "function")
-    ? window.claude.use("downloads").catch(() => null)
-    : Promise.resolve(null);
-  async function saveCopy(text, v) {
-    const slug = String(v.imie || "brief").toLowerCase().replace(/ł/g, "l")
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "projekt";
-    const filename = "brief-" + BRIEF.id + "-" + slug + ".txt";
-    const dl = await downloadsReady;
-    if (dl) {
-      try { await dl.save({ filename, data: text }); say("Kopia odpowiedzi zapisana."); }
-      catch (e) { if (!e || e.code !== "declined") say("Pobieranie jest tu niedostępne. Odpowiedzi można skopiować."); }
-      return;
-    }
-    try {
-      const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
-      const a = el("a", { href: url, download: filename });
-      document.body.append(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 4000);
-    } catch (e) { say("Pobieranie jest tu niedostępne. Odpowiedzi można skopiować."); }
-  }
 
   /* ---------- wynik ---------- */
   function showResult(mode, failed, v, text, subject, shared) {
@@ -954,10 +933,6 @@ textarea.inp { min-height: 116px; resize: vertical; }
     if (mode !== "sent") {
       actions.append(el("a", { class: "btn btn-primary", href: "mailto:" + BRIEF.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text) }, "Otwórz wiadomość e-mail"));
       actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => copyText(text) }, "Kopiuj odpowiedzi"));
-    }
-    actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => saveCopy(text, v) }, "Pobierz kopię odpowiedzi"));
-    if (!framed && typeof window.print === "function") {
-      actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => { try { window.print(); } catch (e) { /* druk niedostępny */ } } }, "Drukuj lub zapisz PDF"));
     }
     if (canShare && BRIEF.wspolne.podglad) {
       const look = el("a", { class: "btn " + (mode === "sent" ? "btn-primary" : "btn-line"), href: BRIEF.wspolne.podglad }, "Zobacz odpowiedzi innych osób");
