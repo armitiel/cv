@@ -782,27 +782,67 @@ textarea.inp { min-height: 116px; resize: vertical; }
       setError(f, fieldError(f, v));
       if (!form.querySelector('[aria-invalid="true"]')) errSum.hidden = true;
     }
-    applyConditions(v);
+    applyConditions(v, true);
     if (window.__wireFromPath && BY_ID["sciezka"]) window.__wireFromPath(v["sciezka"]);
     updateProgress(v);
     store();
   }
-  function applyConditions(v) {
+  /* ---------- płynne pojawianie się i chowanie pól ---------- */
+  const canAnimate = !reduceMotion && typeof Element.prototype.animate === "function";
+  const BOX = ["marginTop", "marginBottom", "paddingTop", "paddingBottom", "borderTopWidth", "borderBottomWidth"];
+  function boxState(cs) {
+    const s = { height: cs.height, opacity: cs.opacity, transform: cs.transform === "none" ? "translateY(0px)" : cs.transform };
+    BOX.forEach((p) => { s[p] = cs[p]; });
+    return s;
+  }
+  // pokazuje albo chowa element; z animate: true rozwija go od zera (wysokość, odstępy, przezroczystość),
+  // tak że treść poniżej przesuwa się płynnie zamiast skakać
+  function reveal(node, show, animate) {
+    if (!node) return;
+    const run = node._anim;
+    if ((run ? run._show : !node.hidden) === show) return;
+    let from = null;
+    if (run) { // zmiana w trakcie animacji: startujemy z miejsca, w którym element właśnie jest
+      from = boxState(getComputedStyle(node));
+      node._anim = null;
+      run.cancel();
+      node.style.overflow = "";
+    }
+    node.hidden = false;
+    if (!animate || !canAnimate || !node.getClientRects().length) { node.hidden = !show; return; }
+    const full = boxState(getComputedStyle(node));
+    full.opacity = "1";
+    full.transform = "translateY(0px)";
+    const zero = { height: "0px", opacity: "0", transform: "translateY(-8px)" };
+    BOX.forEach((p) => { zero[p] = "0px"; });
+    const a = node.animate(show ? [from || zero, full] : [from || full, zero], {
+      duration: show ? 360 : 240,
+      easing: show ? "cubic-bezier(.2, .75, .25, 1)" : "cubic-bezier(.4, 0, .2, 1)",
+      fill: "both"
+    });
+    a._show = show;
+    node._anim = a;
+    node.style.overflow = "hidden";
+    a.onfinish = () => {
+      if (node._anim !== a) return;
+      node._anim = null;
+      node.style.overflow = "";
+      if (!show) node.hidden = true;
+      a.cancel();
+    };
+  }
+  function applyConditions(v, animate) {
+    // najpierw notki wewnątrz pytań, potem całe pytania, żeby rozwijany blok miał już ostateczną wysokość
+    // uwagaGdy pokazuje notkę, uwagaUkryjGdy ją chowa
+    NOTES.forEach((n) => reveal(document.getElementById(n.el), (n.vals.indexOf(v[n.on]) !== -1) === n.show, animate));
     COND.forEach((c) => {
       const active = c.vals.indexOf(v[c.on]) !== -1;
       if (c.mustConfirm) {
-        const wrap = document.getElementById("f-" + c.id + "-wrap");
-        if (wrap) wrap.hidden = !active;
+        reveal(document.getElementById("f-" + c.id + "-wrap"), active, animate);
         if (!active) { const cb = document.getElementById("f-" + c.id); if (cb && cb.checked) cb.checked = false; }
       } else {
-        const q = document.getElementById("q-" + c.id);
-        if (q) q.hidden = !active;
+        reveal(document.getElementById("q-" + c.id), active, animate);
       }
-    });
-    // informacje zależne od odpowiedzi: uwagaGdy pokazuje notkę, uwagaUkryjGdy ją chowa
-    NOTES.forEach((n) => {
-      const nn = document.getElementById(n.el);
-      if (nn) nn.hidden = (n.vals.indexOf(v[n.on]) !== -1) !== n.show;
     });
   }
 
