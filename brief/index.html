@@ -70,7 +70,11 @@
 
 *, *::before, *::after { box-sizing: inherit; }
 [hidden] { display: none !important; }
-html { background: var(--paper); -webkit-text-size-adjust: 100%; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px); }
+html { background: var(--paper); -webkit-text-size-adjust: 100%; scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--bar-h) + 24px);
+  /* miejsce na pasek przewijania jest zawsze zarezerwowane, więc strona nie przesuwa się w poziomie,
+     gdy po wyborze wariantu robi się dłuższa (albo po „Teraz” znowu krótsza) */
+  scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
 body { margin: 0; background: var(--paper); color: var(--text); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 a { color: var(--accent); text-underline-offset: 3px; }
 .hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
