@@ -262,6 +262,17 @@ textarea.inp { min-height: 116px; resize: vertical; }
 .result { padding-block: clamp(40px, 6vw, 72px); border-top: 1px solid var(--line); }
 .result:focus { outline: none; }
 .result h2 { margin: 0 0 14px; font-family: var(--display); font-weight: 700; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.04; letter-spacing: -.03em; color: var(--ink); }
+/* krótkie „ładowanie” przed tekstem zamykającym: nagłówek jak w podsumowaniu, cienki pasek jak u góry i kolejne kroki */
+.loader { max-width: 560px; }
+.loader-title { margin: 0 0 22px; font-family: var(--display); font-weight: 700; font-size: clamp(32px, 4.2vw, 52px); line-height: 1.04; letter-spacing: -.03em; color: var(--ink); }
+.loader-dots { display: inline-flex; gap: .1em; margin-left: .12em; }
+.loader-dots i { display: block; width: .13em; height: .13em; border-radius: 50%; background: var(--accent); animation: loader-dot 1.1s ease-in-out infinite; }
+.loader-dots i:nth-child(2) { animation-delay: .16s; }
+.loader-dots i:nth-child(3) { animation-delay: .32s; }
+@keyframes loader-dot { 0%, 70%, 100% { opacity: .25; } 35% { opacity: 1; } }
+.loader-track { display: block; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.loader-fill { display: block; height: 100%; border-radius: inherit; background: var(--accent); transform: scaleX(0); transform-origin: left center; }
+.loader-step { min-height: 1.5em; margin: 14px 0 0; font-size: 15px; color: var(--mute); }
 .result-text { margin: 0; max-width: 58ch; font-size: 18px; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 26px; }
 .actions .linkbtn { margin-left: 6px; }
@@ -364,11 +375,19 @@ textarea.inp { min-height: 116px; resize: vertical; }
   </form>
 
   <section class="result" id="wynik" tabindex="-1" aria-labelledby="wynik-tytul" hidden>
-    <h2 id="wynik-tytul"></h2>
-    <p class="result-text" id="wynik-tekst"></p>
-    <div class="actions" id="actions"></div>
-    <p class="status" id="status" role="status"></p>
-    <div class="summary" id="summary"></div>
+    <!-- krótkie „ładowanie”, potem tekst zamykający -->
+    <div class="loader" id="loader" role="status" aria-live="polite" hidden>
+      <p class="loader-title"><span id="loader-title">Wysyłam brief</span><span class="loader-dots" aria-hidden="true"><i></i><i></i><i></i></span></p>
+      <span class="loader-track" aria-hidden="true"><span class="loader-fill" id="loader-fill"></span></span>
+      <p class="loader-step" id="loader-step"></p>
+    </div>
+    <div class="result-body" id="wynik-tresc">
+      <h2 id="wynik-tytul"></h2>
+      <p class="result-text" id="wynik-tekst"></p>
+      <div class="actions" id="actions"></div>
+      <p class="status" id="status" role="status"></p>
+      <div class="summary" id="summary"></div>
+    </div>
   </section>
 
   <footer class="foot" id="foot">
@@ -1038,8 +1057,61 @@ textarea.inp { min-height: 116px; resize: vertical; }
     say(ok ? "Odpowiedzi skopiowane do schowka." : "Kopiowanie jest tu zablokowane. Odpowiedzi są widoczne poniżej i można je zaznaczyć ręcznie.");
   }
 
+  /* ---------- „ładowanie” przed tekstem zamykającym ---------- */
+  // Po kliknięciu „Wyślij brief” podsumowanie najpierw chwilę „się ładuje”: pasek dochodzi do końca,
+  // zmieniają się kolejne kroki, a dopiero potem wjeżdża tekst zamykający. Prawdziwa wysyłka idzie w tym
+  // samym czasie; całość trwa co najmniej ok. 2,3 s albo tyle, ile wysyłka. Przy „ogranicz ruch” wynik jest od razu.
+  const loader = $("#loader"), loaderTitle = $("#loader-title"), loaderStep = $("#loader-step"), loaderFill = $("#loader-fill"), resBody = $("#wynik-tresc");
+  const LOAD_MIN = 1600;   // tyle co najmniej trwają dwa pierwsze kroki; trzeci (domknięcie paska) dokłada ok. 0,8 s
+  let run = 0;             // zmienia się przy czyszczeniu formularza, żeby spóźnione „ładowanie” niczego nie nadpisało
+  function setStep(t) {
+    loaderStep.textContent = t;
+    loaderStep.animate([{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "none" }], { duration: 260, easing: "ease-out" });
+  }
+  function startLoading(sending) {
+    const steps = sending
+      ? ["Zbieram odpowiedzi…", "Wysyłam e-mail…", "Przygotowuję podsumowanie…"]
+      : ["Zbieram odpowiedzi…", "Przygotowuję wiadomość…", "Przygotowuję podsumowanie…"];
+    loaderTitle.textContent = sending ? "Wysyłam brief" : "Przygotowuję brief";
+    loaderStep.textContent = steps[0];
+    resBody.hidden = true;
+    loader.hidden = false;
+    form.hidden = true;
+    result.hidden = false;
+    window.scrollTo({ top: 0, behavior: "auto" });
+    const t0 = performance.now();
+    // pasek szybko dochodzi do ok. 3/4, potem powoli pełznie, dopóki wysyłka trwa
+    let bar = loaderFill.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(.92)" }], { duration: 4200, easing: "cubic-bezier(.15, .75, .35, 1)", fill: "forwards" });
+    const second = setTimeout(() => setStep(steps[1]), 650);
+    return function finish() {
+      return new Promise((done) => {
+        setTimeout(() => {
+          clearTimeout(second);
+          setStep(steps[2]);
+          const now = getComputedStyle(loaderFill).transform;
+          bar.cancel();
+          bar = loaderFill.animate([{ transform: now === "none" ? "scaleX(0)" : now }, { transform: "scaleX(1)" }], { duration: 600, easing: "cubic-bezier(.4, 0, .2, 1)", fill: "forwards" });
+          bar.onfinish = () => setTimeout(done, 200);
+        }, Math.max(0, LOAD_MIN - (performance.now() - t0)));
+      });
+    };
+  }
+  // tekst zamykający: „ładowanie” znika, a tytuł, tekst, przyciski i odpowiedzi wjeżdżają po kolei
+  function revealResult() {
+    const out = loader.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-8px)" }], { duration: 220, easing: "ease-in", fill: "forwards" });
+    out.onfinish = () => {
+      loader.hidden = true;
+      out.cancel();
+      resBody.hidden = false;
+      [...resBody.children].filter((n) => !n.hidden && n !== statusEl).forEach((n, i) => n.animate(
+        [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }],
+        { duration: 560, delay: i * 90, easing: "cubic-bezier(.2, .75, .25, 1)", fill: "backwards" }));
+      result.focus({ preventScroll: true });
+    };
+  }
+
   /* ---------- wynik ---------- */
-  function showResult(mode, failed, v, text, subject, shared) {
+  function showResult(mode, failed, v, text, subject, shared, afterLoading) {
     renderSummary(v);
     const previewOnly = mode !== "sent" && preview && !failed;
     resTitle.textContent = mode === "sent" ? "Brief wysłany" : (previewOnly ? "Brief gotowy (podgląd)" : "Brief gotowy do wysłania");
@@ -1065,6 +1137,9 @@ textarea.inp { min-height: 116px; resize: vertical; }
     statusEl.textContent = "";
     form.hidden = true;
     result.hidden = false;
+    if (afterLoading) { revealResult(); return; }
+    loader.hidden = true;
+    resBody.hidden = false;
     result.focus({ preventScroll: true });
     if (result.scrollIntoView) result.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
   }
@@ -1098,6 +1173,8 @@ textarea.inp { min-height: 116px; resize: vertical; }
     errSum.hidden = true;
     const text = buildText(v), subject = subjectOf(v);
     let mode = "manual", failed = false, shared = false;
+    const mine = ++run;
+    const finishLoading = canAnimate ? startLoading(canSend) : null;
     if (honeypot && honeypot.value) {
       mode = "sent"; // pole-pułapka wypełnione przez bota: nic nie wysyłamy
     } else if (canSend) {
@@ -1118,7 +1195,9 @@ textarea.inp { min-height: 116px; resize: vertical; }
       submitBtn.disabled = false;
       submitBtn.textContent = sendLabel;
     }
-    showResult(mode, failed, v, text, subject, shared);
+    if (finishLoading) await finishLoading();
+    if (mine !== run) return;   // w międzyczasie formularz wyczyszczono
+    showResult(mode, failed, v, text, subject, shared, !!finishLoading);
   }
 
   /* ---------- makieta w otwarciu ---------- */
@@ -1209,6 +1288,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   $("#clear-no").addEventListener("click", () => { clearBox.hidden = true; clearBtn.hidden = false; clearBtn.focus(); });
   $("#clear-yes").addEventListener("click", () => {
     clearTimeout(timer);
+    run++;
     try { localStorage.removeItem(KEY); } catch (e) { /* brak dostępu */ }
     form.reset();
     setDefaults();
@@ -1221,7 +1301,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     savedEl.classList.remove("is-on");
     clearBox.hidden = true;
     clearBtn.hidden = false;
-    if (!result.hidden) { result.hidden = true; form.hidden = false; }
+    if (!result.hidden) { result.hidden = true; loader.hidden = true; resBody.hidden = false; form.hidden = false; }
     window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   });
 
