@@ -276,14 +276,15 @@ textarea.inp { min-height: 116px; resize: vertical; }
 .result-text { margin: 0; max-width: 58ch; font-size: 18px; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin-top: 26px; }
 .actions .linkbtn { margin-left: 6px; }
-.status { min-height: 1.6em; margin: 14px 0 0; font-size: 15px; color: var(--mute); }
-.summary { display: grid; gap: 36px; max-width: 820px; margin-top: 36px; }
-.summary h3 { margin: 0 0 10px; font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -.01em; color: var(--ink); }
-.summary h3 span { margin-right: 4px; color: var(--accent); }
+/* wysłane odpowiedzi: pod potwierdzeniem, wyraźnie na drugim planie */
+.summary-label { max-width: 760px; margin: 56px 0 0; padding-top: 22px; border-top: 1px solid var(--line); font-size: 14px; font-weight: 600; letter-spacing: .02em; color: var(--mute); }
+.summary { display: grid; gap: 28px; max-width: 760px; margin-top: 18px; font-size: 15px; line-height: 1.55; }
+.summary h3 { margin: 0 0 6px; font-family: var(--body); font-weight: 600; font-size: 15px; letter-spacing: 0; color: var(--text); }
+.summary h3 span { margin-right: 6px; color: var(--accent); }
 .summary dl { margin: 0; border-top: 1px solid var(--line); }
-.summary dt { padding-top: 14px; font-weight: 600; color: var(--ink); }
-.summary dd { margin: 4px 0 0; padding-bottom: 14px; border-bottom: 1px solid var(--line); white-space: pre-wrap; overflow-wrap: anywhere; }
-.summary dd.empty { color: var(--mute); }
+.summary dt { padding-top: 12px; font-size: 14px; font-weight: 500; color: var(--mute); }
+.summary dd { margin: 3px 0 0; padding-bottom: 12px; border-bottom: 1px solid var(--line); color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.summary dd.empty { color: var(--mute); opacity: .75; }
 
 /* stopka */
 .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 28px 44px; border-top: 1px solid var(--line); font-size: 15px; color: var(--mute); }
@@ -385,7 +386,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
       <h2 id="wynik-tytul"></h2>
       <p class="result-text" id="wynik-tekst"></p>
       <div class="actions" id="actions"></div>
-      <p class="status" id="status" role="status"></p>
+      <p class="summary-label" id="summary-label"></p>
       <div class="summary" id="summary"></div>
     </div>
   </section>
@@ -603,7 +604,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
   }
 
   const form = $("#brief"), host = $("#pola"), sendBox = $("#send"), submitBtn = $("#submit"), errSum = $("#err-sum");
-  const result = $("#wynik"), resTitle = $("#wynik-tytul"), resText = $("#wynik-tekst"), actions = $("#actions"), statusEl = $("#status"), summary = $("#summary");
+  const result = $("#wynik"), resTitle = $("#wynik-tytul"), resText = $("#wynik-tekst"), actions = $("#actions"), summaryLabel = $("#summary-label"), summary = $("#summary");
   const meter = $("#meter"), fill = $("#fill"), meterText = $("#meter-text"), savedEl = $("#saved");
   const honeypot = document.getElementById("f-www");
   const onClaude = !!(window.claude && typeof window.claude.use === "function");
@@ -1040,23 +1041,6 @@ textarea.inp { min-height: 116px; resize: vertical; }
       ])))));
   }
 
-  /* ---------- kopiowanie, pobieranie, komunikaty ---------- */
-  function say(msg) {
-    statusEl.textContent = "";
-    setTimeout(() => { statusEl.textContent = msg; }, 30);
-  }
-  async function copyText(text) {
-    let ok = false;
-    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
-      try {
-        const t = el("textarea", { class: "vh", readonly: true });
-        t.value = text; document.body.append(t); t.select();
-        ok = document.execCommand("copy"); t.remove();
-      } catch (e2) { ok = false; }
-    }
-    say(ok ? "Odpowiedzi skopiowane do schowka." : "Kopiowanie jest tu zablokowane. Odpowiedzi są widoczne poniżej i można je zaznaczyć ręcznie.");
-  }
-
   /* ---------- „ładowanie” przed tekstem zamykającym ---------- */
   // Po kliknięciu „Wyślij brief” podsumowanie najpierw chwilę „się ładuje”: pasek dochodzi do końca,
   // zmieniają się kolejne kroki, a dopiero potem wjeżdża tekst zamykający. Prawdziwa wysyłka idzie w tym
@@ -1103,9 +1087,13 @@ textarea.inp { min-height: 116px; resize: vertical; }
       loader.hidden = true;
       out.cancel();
       resBody.hidden = false;
-      [...resBody.children].filter((n) => !n.hidden && n !== statusEl).forEach((n, i) => n.animate(
-        [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }],
-        { duration: 560, delay: i * 90, easing: "cubic-bezier(.2, .75, .25, 1)", fill: "backwards" }));
+      // najpierw potwierdzenie (tytuł, tekst, przyciski), a wysłane odpowiedzi spokojnie chwilę później
+      [...resBody.children].filter((n) => !n.hidden).forEach((n, i) => {
+        const later = n === summaryLabel || n === summary;
+        n.animate([{ opacity: 0, transform: later ? "translateY(10px)" : "translateY(18px)" }, { opacity: 1, transform: "none" }],
+          later ? { duration: 700, delay: n === summary ? 820 : 700, easing: "ease-out", fill: "backwards" }
+                : { duration: 560, delay: i * 90, easing: "cubic-bezier(.2, .75, .25, 1)", fill: "backwards" });
+      });
       result.focus({ preventScroll: true });
     };
   }
@@ -1113,28 +1101,25 @@ textarea.inp { min-height: 116px; resize: vertical; }
   /* ---------- wynik ---------- */
   function showResult(mode, failed, v, text, subject, shared, afterLoading) {
     renderSummary(v);
-    const previewOnly = mode !== "sent" && preview && !failed;
-    resTitle.textContent = mode === "sent" ? "Brief wysłany" : (previewOnly ? "Brief gotowy (podgląd)" : "Brief gotowy do wysłania");
-    resText.textContent = mode === "sent"
-      ? "Dziękuję. Przejrzę odpowiedzi i wrócę z pytaniami albo propozycją kolejnych kroków."
+    // podgląd (claude.ai albo plik otwarty lokalnie) kończy się tak samo jak strona po wysłaniu,
+    // choć niczego nie wysyła; prawdziwa wysyłka działa tylko na stronie
+    const done = mode === "sent" || (preview && !failed);
+    resTitle.textContent = done ? "Brief wysłany" : "Brief gotowy do wysłania";
+    resText.textContent = done
+      ? "Dziękuję za udzielone informacje. Przejrzę odpowiedzi i wrócę z pytaniami albo propozycją kolejnych kroków."
         + (shared ? " Twoje odpowiedzi są już widoczne na wspólnej stronie, obok odpowiedzi innych osób." : "")
-      : previewOnly
-        // podgląd (claude.ai albo plik otwarty lokalnie): wysyłka wyłączona, na stronie mail idzie sam
-        ? "To jest podgląd, więc wysyłka jest tu wyłączona. Na stronie kliknięcie „Wyślij brief” od razu wysyła te odpowiedzi mailem na "
-          + BRIEF.email + ". Tutaj możesz otworzyć ten sam mail ręcznie."
-        : (failed ? "Automatyczna wysyłka nie powiodła się, ale odpowiedzi są zachowane. " : "")
-          + "Wystarczy otworzyć gotową wiadomość e-mail albo skopiować odpowiedzi i przesłać je na adres " + BRIEF.email + ".";
+      : (failed ? "Automatyczna wysyłka nie powiodła się, ale odpowiedzi są zachowane. " : "")
+        + "Wystarczy otworzyć gotową wiadomość e-mail i wysłać ją na adres " + BRIEF.email + ".";
     actions.replaceChildren();
-    if (mode !== "sent") {
+    if (!done) {
       actions.append(el("a", { class: "btn btn-primary", href: "mailto:" + BRIEF.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(text) }, "Otwórz wiadomość e-mail"));
-      actions.append(el("button", { type: "button", class: "btn btn-line", onclick: () => copyText(text) }, "Kopiuj odpowiedzi"));
     }
     if (canShare && BRIEF.wspolne.podglad) {
-      const look = el("a", { class: "btn " + (mode === "sent" ? "btn-primary" : "btn-line"), href: BRIEF.wspolne.podglad }, "Zobacz odpowiedzi innych osób");
-      if (mode === "sent") actions.prepend(look); else actions.append(look);
+      const look = el("a", { class: "btn " + (done ? "btn-primary" : "btn-line"), href: BRIEF.wspolne.podglad }, "Zobacz odpowiedzi innych osób");
+      if (done) actions.prepend(look); else actions.append(look);
     }
     actions.append(el("button", { type: "button", class: "linkbtn", onclick: backToForm }, "Wróć do formularza"));
-    statusEl.textContent = "";
+    summaryLabel.textContent = done ? "Wysłane odpowiedzi" : "Twoje odpowiedzi";
     form.hidden = true;
     result.hidden = false;
     if (afterLoading) { revealResult(); return; }
@@ -1174,7 +1159,7 @@ textarea.inp { min-height: 116px; resize: vertical; }
     const text = buildText(v), subject = subjectOf(v);
     let mode = "manual", failed = false, shared = false;
     const mine = ++run;
-    const finishLoading = canAnimate ? startLoading(canSend) : null;
+    const finishLoading = canAnimate ? startLoading(canSend || preview) : null;
     if (honeypot && honeypot.value) {
       mode = "sent"; // pole-pułapka wypełnione przez bota: nic nie wysyłamy
     } else if (canSend) {
