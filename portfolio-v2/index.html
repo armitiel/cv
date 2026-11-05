@@ -530,6 +530,7 @@ const TAGS2 = {
   'shadow-tagger':['Gra','Art','Motion'],
   'nft-generative-system':['AI','Art'],
   'atomic-cherry':['Gra','Art'],
+  'casino-slot-art':['Gra','Art','Motion'],
   'nfc-card':['Motion','Branding'],
   'graffiti':['Art','Mural']
 };
@@ -578,6 +579,7 @@ const PROJ_ICONS = {
   'shadow-tagger':CONCEPT.rytm,
   'nft-generative-system':CONCEPT.cykl,
   'atomic-cherry':CONCEPT.iskra,
+  'casino-slot-art':CONCEPT.iskra,
   'nfc-card':CONCEPT.warstwy,
   'graffiti':CONCEPT.iskra,
   'illustrations':CONCEPT.struktura,
@@ -610,7 +612,7 @@ function buildGrid(){
   let html = '';
   visible().forEach(p=>{
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
-    const href = p.slug==='hubble-rx' ? 'hubble.html' : p.slug==='olympus-defence' ? 'olympus.html' : 'projekt.html?p='+p.slug;
+    const href = p.slug==='hubble-rx' ? 'hubble.html' : p.slug==='olympus-defence' ? 'olympus.html' : p.slug==='casino-slot-art' ? 'casino.html' : 'projekt.html?p='+p.slug;
     html += `<a href="${href}" class="proj-ico">
       <span class="pi-icon">${DOC}</span>
       <span class="pi-name">${shortName(p.title)}</span>

@@ -212,6 +212,7 @@ const P = window.PROJECTS;
 const slug = new URLSearchParams(location.search).get('p') || P[0].slug;
 if(slug === 'hubble-rx') location.replace('hubble.html');
 if(slug === 'olympus-defence') location.replace('olympus.html');
+if(slug === 'casino-slot-art') location.replace('casino.html');
 const i = Math.max(0, P.findIndex(x=>x.slug===slug));
 const p = P[i];
 if(p.theme==='dark') document.body.classList.add('dark');
@@ -452,7 +453,7 @@ function buildPfGrid(){
   const list = pfFilter==='all' ? otherP : otherP.filter(x=>x.category.toLowerCase().includes(pfFilter));
   document.getElementById('pfGrid').innerHTML = list.map(x=>{
     const tags = FTAGS[x.slug] || x.category.split(',').map(s=>s.trim());
-    const href = x.slug==='hubble-rx' ? 'hubble.html' : 'projekt.html?p='+x.slug;
+    const href = x.slug==='hubble-rx' ? 'hubble.html' : x.slug==='casino-slot-art' ? 'casino.html' : 'projekt.html?p='+x.slug;
     return `<a href="${href}" class="pf-card">
       <span class="pf-ico">${FICONS[tags[0]?.toLowerCase()]||FICONS['all']}</span>
       <span class="pf-info">
