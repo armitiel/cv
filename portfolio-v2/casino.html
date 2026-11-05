@@ -79,6 +79,32 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 .logo-copy h2{max-width:11ch;margin-top:12px}.logo-copy p{max-width:50ch}
 .logo-panel{margin:0;padding:clamp(24px,4vw,56px);background:#fff;border:1px solid var(--line);border-radius:12px}
 .logo-panel img{width:100%}
+.splash{margin:clamp(56px,7vw,104px) 0 0}
+.splash-pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+.splash-pair img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;box-shadow:0 30px 80px -30px rgba(42,17,80,.55)}
+.splash-pair span{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+.splash figcaption{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:var(--gap) clamp(32px,5vw,88px);margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.splash figcaption b{font-size:clamp(20px,1.8vw,26px);line-height:1.15;letter-spacing:-.02em}
+.splash figcaption p{max-width:58ch;margin:0}
+
+/* ---------- proces: szkic, warianty, 3D i render (kompaktowo, powiekszenie po kliknieciu) ---------- */
+.process{padding-block:clamp(64px,7vw,104px);border-top:1px solid #d8d2c6;background:var(--cream)}
+.steps-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin:0;padding:0;list-style:none;counter-reset:p}
+.pstep{counter-increment:p}
+.pthumb{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:1px solid #d8d2c6;border-radius:10px;overflow:hidden;background:#808080;cursor:zoom-in}
+.pthumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.pthumb:hover img{transform:scale(1.03)}
+.pthumb.is-sheet{background:#fff}
+.pthumb:after{content:'';position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:rgba(27,18,48,.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6'/%3E%3Cpath d='M20 20l-4.5-4.5M11 8.5v5M8.5 11h5'/%3E%3C/svg%3E") center/16px no-repeat}
+.pstep h3{display:flex;align-items:baseline;gap:10px;margin:16px 0 6px;font-size:18px;letter-spacing:-.01em}
+.pstep h3:before{content:counter(p);display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;transform:translateY(-2px)}
+.pstep p{margin:0;font-size:14.5px;max-width:44ch}
+.pstep em{font-style:normal;font-weight:700;color:var(--ink)}
+.lightbox{width:min(1400px,94vw);max-height:92vh;padding:0;border:0;border-radius:12px;background:#1b1230;overflow:visible}
+.lightbox::backdrop{background:rgba(16,8,32,.82)}
+.lightbox img{display:block;width:100%;max-height:86vh;object-fit:contain;border-radius:12px;background:#fff}
+.lightbox p{margin:0;padding:12px 16px;color:#ffffffc0;font-size:14px}
+.lb-close{position:absolute;right:-6px;top:-46px;min-height:40px;padding:8px 14px;border:1px solid #ffffff55;border-radius:9px;background:transparent;color:#fff;font-weight:600;cursor:pointer}
 
 /* ---------- ekran bonusu: kolejnosc czytania ---------- */
 .anatomy{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start}
@@ -97,10 +123,11 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 .video iframe{display:none;width:100%;height:100%;border:0}.video.is-playing iframe{display:block}
 .video-cover{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:var(--plum);cursor:pointer}
 .video-cover img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.video-cover:after{content:'';position:absolute;inset:0;background:rgba(42,17,80,.55)}
+.video-cover-logo{position:absolute;left:clamp(20px,3vw,44px);top:clamp(18px,2.6vw,38px);z-index:2;width:clamp(110px,13vw,200px)!important;height:auto!important;filter:drop-shadow(0 12px 24px #0008)}
 .video-cover:hover img{transform:scale(1.02)}
-.video-play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:clamp(70px,7vw,104px);height:clamp(70px,7vw,104px);padding-left:6px;border-radius:50%;background:var(--gold);color:var(--plum);font-size:clamp(22px,2.2vw,32px);transform:translate(-50%,-50%);box-shadow:0 20px 54px #0009;transition:transform .3s ease}
+.video-play{position:absolute;left:50%;top:50%;z-index:2;display:grid;place-items:center;width:clamp(70px,7vw,104px);height:clamp(70px,7vw,104px);padding-left:6px;border-radius:50%;background:var(--gold);color:var(--plum);font-size:clamp(22px,2.2vw,32px);transform:translate(-50%,-50%);box-shadow:0 20px 54px #0009;transition:transform .3s ease}
 .video-cover:hover .video-play{transform:translate(-50%,-50%) scale(1.08)}
-.video-note{display:flex;justify-content:space-between;gap:16px;margin-top:14px;color:var(--muted);font-size:14px}
 
 /* ---------- wazdan (sekcja czeka na materialy) ---------- */
 .wazdan[hidden]{display:none}
@@ -108,7 +135,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 /* ---------- podsumowanie ---------- */
 .result{padding-block:clamp(92px,11vw,160px);color:#fff;text-align:center;background:var(--plum);border-bottom:3px solid var(--gold)}
 .result .label{color:var(--gold)}.result h2{max-width:18ch;margin:14px auto 22px}.result p{max-width:58ch;margin:auto;color:#ffffffa8}
-.game,.result,#symbole,#logo,#bonus{scroll-margin-top:calc(var(--navh) + 14px)}
+.game,.result,#proces,#symbole,#logo,#bonus{scroll-margin-top:calc(var(--navh) + 14px)}
 
 /* ---------- stopka (wspolna) ---------- */
 .footer{background:#0b0d12;color:#f2f5f5;padding:clamp(48px,6vw,80px) 0 40px}.back{display:inline-block;margin-bottom:36px;color:#ffffff80;font:700 13px Archivo;text-transform:uppercase}.footer h2{font-size:clamp(26px,3.4vw,38px);text-transform:uppercase}.footer h2 i{color:var(--gold);font-style:normal}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}.action{display:flex;justify-content:space-between;padding:18px;border:1px solid #ffffff20;font-weight:700}.pf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:46px}.pf-card{padding:16px;border:1px solid #ffffff1a}.pf-name{display:block;font-weight:700}.pf-tags{display:block;margin-top:5px;color:#ffffff59;font:500 9px 'IBM Plex Mono';text-transform:uppercase}.foot{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid #ffffff26;color:#ffffff73;font:500 11px 'IBM Plex Mono';line-height:1.6;text-transform:uppercase}
@@ -117,8 +144,8 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 .case-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--paper);color:var(--ink);transition:opacity .55s ease,visibility .55s ease}.case-loader.is-done{opacity:0;visibility:hidden;pointer-events:none}.case-loader-inner{width:min(360px,calc(100vw - 48px));text-align:center}.case-loader-logo{display:block;width:min(150px,40vw);margin:0 auto 26px;mix-blend-mode:multiply}.case-loader-track{height:2px;background:var(--line);overflow:hidden}.case-loader-bar{display:block;width:0;height:100%;background:var(--cherry);transition:width .25s ease}.case-loader-meta{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted);font:600 12.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
 .case-loading main,.case-loading .footer{visibility:hidden}.case-ready main,.case-ready .footer{visibility:visible;animation:case-in .7s ease both}@keyframes case-in{from{opacity:0}to{opacity:1}}
 
-@media(max-width:900px){.hero-top{grid-template-columns:1fr}.head,.logo-grid,.anatomy,.story{grid-template-columns:1fr}.story-copy{grid-template-columns:1fr}.story-copy p+p{padding:var(--gap) 0 0;border-left:0;border-top:1px solid var(--line)}.head p{margin-top:8px}}
-@media(max-width:620px){:root{--navh:64px}.nav-in{gap:8px}.brand{display:none}.nav-r{gap:8px}.case-nav{margin:0;overflow-x:auto}.case-nav a{padding:7px;font-size:9px;white-space:nowrap}.nav-in>a:first-child{font-size:0}.nav-in>a:first-child:before{content:'←';font-size:17px}.hero h1{font-size:clamp(38px,11vw,54px)}.meta{grid-template-columns:1fr}.stage{border-radius:8px;aspect-ratio:1400/940}.stage>img{inset:auto;left:-18.57%;top:-5.32%;width:137.14%;max-width:none;height:auto;object-fit:fill}.reels{left:15%;width:70%}.bar-msg{left:33.9%;width:38.6%;font-size:2.7cqw}.stage-foot{display:grid}.spin-btn{justify-content:center}.sym-strip,.sym-names{gap:4px}.sym img{height:110px;padding:6%}.sym-names b{font-size:15px}.sym-names span{font-size:11.5px}.sym-bar{display:grid}.toggle{width:100%}.toggle button{flex:1}.actions{grid-template-columns:1fr}.foot{display:grid;gap:12px}.foot #city{text-align:left!important}.video-note{display:grid;gap:4px}}
+@media(max-width:900px){.hero-top{grid-template-columns:1fr}.head,.logo-grid,.anatomy,.story,.splash figcaption{grid-template-columns:1fr}.steps-row{grid-template-columns:1fr;gap:18px}.pstep{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:0 16px;align-items:start}.pstep h3{margin-top:0}.pstep .pthumb{grid-row:span 2}.story-copy{grid-template-columns:1fr}.story-copy p+p{padding:var(--gap) 0 0;border-left:0;border-top:1px solid var(--line)}.head p{margin-top:8px}}
+@media(max-width:620px){:root{--navh:64px}.nav-in{gap:8px}.brand{display:none}.nav-r{gap:8px}.case-nav{margin:0;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}.splash-pair{grid-template-columns:1fr;gap:18px}.pstep{grid-template-columns:1fr 1fr;gap:0 12px}.pstep h3{font-size:15.5px}.pstep p{font-size:13px}.pthumb:after{width:24px;height:24px;background-size:13px}.case-nav a{padding:7px;font-size:9px;white-space:nowrap}.nav-in>a:first-child{font-size:0}.nav-in>a:first-child:before{content:'←';font-size:17px}.hero h1{font-size:clamp(38px,11vw,54px)}.meta{grid-template-columns:1fr}.stage{border-radius:8px;aspect-ratio:1400/940}.stage>img{inset:auto;left:-18.57%;top:-5.32%;width:137.14%;max-width:none;height:auto;object-fit:fill}.reels{left:15%;width:70%}.bar-msg{left:33.9%;width:38.6%;font-size:2.7cqw}.stage-foot{display:grid}.spin-btn{justify-content:center}.sym-strip,.sym-names{gap:4px}.sym img{height:110px;padding:6%}.sym-names b{font-size:15px}.sym-names span{font-size:11.5px}.sym-bar{display:grid}.toggle{width:100%}.toggle button{flex:1}.actions{grid-template-columns:1fr}.foot{display:grid;gap:12px}.foot #city{text-align:left!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.case-ready main,.case-ready .footer{animation:none}.payline.is-win{animation:none}.reel.is-spinning .strip{filter:none}}
 </style></head><body class="case-loading">
 <div class="case-loader" id="caseLoader" role="status" aria-live="polite" aria-label="Ładowanie projektu Casino Slot Art">
@@ -128,7 +155,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <div class="case-loader-meta"><span data-en="Loading project">Ładowanie projektu</span><span id="caseLoaderValue">0%</span></div>
   </div>
 </div>
-<nav class="nav"><div class="nav-in"><a href="index.html#projekty" data-en="← Back to portfolio">← Wróć do portfolio</a><div class="case-nav"><a href="#maszyna" data-en="Machine">Maszyna</a><a href="#symbole" data-en="Symbols">Symbole</a><a href="#logo">Logo</a><a href="#bonus">Bonus</a><a href="#gameplay">Gameplay</a></div><div class="nav-r"><a class="brand" href="index.html"><img src="logo-a.png" alt="Amitiel"></a><button id="langBtn">EN</button></div></div></nav>
+<nav class="nav"><div class="nav-in"><a href="index.html#projekty" data-en="← Back to portfolio">← Wróć do portfolio</a><div class="case-nav"><a href="#maszyna" data-en="Machine">Maszyna</a><a href="#proces" data-en="Process">Proces</a><a href="#symbole" data-en="Symbols">Symbole</a><a href="#logo">Logo</a><a href="#bonus">Bonus</a><a href="#gameplay">Gameplay</a></div><div class="nav-r"><a class="brand" href="index.html"><img src="logo-a.png" alt="Amitiel"></a><button id="langBtn">EN</button></div></div></nav>
 <main>
 
 <header class="hero" id="maszyna"><div class="container">
@@ -142,7 +169,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <dl class="meta">
       <div><dt data-en="Role">Rola</dt><dd>Graphic Designer / Animator</dd></div>
       <div><dt data-en="Studio">Studio</dt><dd>Huuuge Games</dd></div>
-      <div><dt data-en="Tools">Narzędzia</dt><dd>Illustrator, Photoshop, Spine</dd></div>
+      <div><dt data-en="Tools">Narzędzia</dt><dd>Illustrator, Photoshop, Spine, ZBrush</dd></div>
     </dl>
     </div>
   </div>
@@ -171,9 +198,33 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <div><span class="label" data-en="Scope">Zakres</span><h3 data-en="From a single symbol to the bonus screen">Od pojedynczego symbolu po ekran bonusu</h3></div>
     <div class="story-copy">
       <p data-en="I designed and animated the elements of Atomic Cherry: reel symbols, the logo, splash screens, bonus screens and the machine UI. Every asset had to fit the technical, visual and regulatory limits of the platform.">Projektowałem i animowałem elementy gry Atomic Cherry: symbole bębnów, logo, splash screeny, ekrany bonusowe i interfejs maszyny. Każdy asset musiał zmieścić się w technicznych, wizualnych i regulacyjnych ograniczeniach platformy.</p>
-      <p data-en="I generated part of the 2D assets and animations from a 3D workflow. Shared light and perspective kept the symbols and machine consistent, and new variants were faster to produce.">Część assetów 2D i animacji generowałem z workflow 3D. Wspólne światło i perspektywa trzymały symbole i maszynę w jednym stylu, a kolejne warianty powstawały szybciej.</p>
+      <p data-en="I generated part of the 2D assets and animations from a 3D workflow in ZBrush. Shared light and perspective kept the symbols and machine consistent, and new variants were faster to produce.">Część assetów 2D i animacji generowałem z workflow 3D w ZBrushu. Wspólne światło i perspektywa trzymały symbole i maszynę w jednym stylu, a kolejne warianty powstawały szybciej.</p>
     </div>
   </div>
+</div></section>
+
+<section class="process" id="proces"><div class="container">
+  <div class="head reveal">
+    <div><span class="label" data-en="Process">Proces</span><h2 data-en="From sketch to layers in the engine">Od szkicu do warstw w silniku</h2></div>
+    <p data-en="The machine started as a drawing. The chosen direction became a 3D model, and its render was cut into 2D layers for the game engine. Click an image to enlarge it.">Maszyna zaczęła się od rysunku. Wybrany kierunek stał się modelem 3D, a jego render pociąłem na warstwy 2D do silnika gry. Kliknij obraz, żeby go powiększyć.</p>
+  </div>
+  <ol class="steps-row reveal">
+    <li class="pstep">
+      <button class="pthumb" type="button" data-full="projects/atomic-cherry/sketch-cabinets.webp" aria-label="Powiększ: szkice obudowy" data-en-label="Enlarge: cabinet sketches"><img src="projects/atomic-cherry/sketch-cabinets.webp" alt="Cztery ręczne szkice obudowy maszyny z bębnami i panelami bocznymi" data-en-alt="Four hand-drawn sketches of the machine cabinet with reels and side panels"></button>
+      <h3 data-en="Cabinet sketches">Szkice obudowy</h3>
+      <p data-en="Four hand-drawn concepts of the reels and side panels, to test the machine's silhouette before any 3D work.">Cztery ręczne koncepcje bębnów i paneli bocznych. Sprawdzały sylwetkę maszyny, zanim zacząłem cokolwiek modelować.</p>
+    </li>
+    <li class="pstep">
+      <button class="pthumb is-sheet" type="button" data-full="projects/atomic-cherry/sketch-variants.webp" aria-label="Powiększ: warianty na ekranie gry" data-en-label="Enlarge: variants on the game screen"><img src="projects/atomic-cherry/sketch-variants-thumb.webp" alt="Sześć wariantów obudowy narysowanych na makiecie ekranu gry" data-en-alt="Six cabinet variants drawn over the game screen mockup"></button>
+      <h3 data-en="Variants on the game screen">Warianty na ekranie gry</h3>
+      <p data-en="Six versions drawn over the screen mockup with the symbols and info bar, to check how the machine fits the interface.">Sześć wersji narysowanych na makiecie ekranu, razem z symbolami i paskiem informacji. Tak sprawdzałem, jak maszyna mieści się w interfejsie.</p>
+    </li>
+    <li class="pstep">
+      <button class="pthumb" type="button" data-full="projects/atomic-cherry/slot-machine.webp" aria-label="Powiększ: gotowy render maszyny" data-en-label="Enlarge: final machine render"><img src="projects/atomic-cherry/slot-machine.webp" alt="Gotowy render maszyny Atomic Cherry" data-en-alt="Final render of the Atomic Cherry machine"></button>
+      <h3 data-en="3D in ZBrush, render to 2D">3D w ZBrushu, render do 2D</h3>
+      <p data-en="I modelled the chosen direction in ZBrush, then split the render into 2D layers, such as the reels and side panels, ready to assemble in the engine.">Wybrany kierunek wymodelowałem w <em>ZBrushu</em>. Render rozbiłem na warstwy 2D, takie jak bębny i panele boczne, gotowe do złożenia w silniku gry.</p>
+    </li>
+  </ol>
 </div></section>
 
 <section class="dark section" id="symbole"><div class="container">
@@ -209,6 +260,14 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <p data-en="The logo pairs the classic fruit-machine cherry with bold pink lettering on a gold diamond inspired by Las Vegas signs. On the cherry symbol the atom's orbits that name the game join in. Pink, gold and violet return in the machine, the symbols and the bonus screens.">Logo łączy klasyczną wiśnię z automatów z grubym, różowym liternictwem na złotym rombie w duchu szyldów Las Vegas. Na symbolu wiśni dochodzą orbity atomu, od których gra wzięła nazwę. Róż, złoto i fiolet wracają w maszynie, w symbolach i na ekranach bonusu.</p>
   </div>
   <figure class="logo-panel reveal"><img src="projects/atomic-cherry/logo.webp" alt="Logo Atomic Cherry" data-en-alt="Atomic Cherry logo"></figure>
+</div><div class="container">
+  <figure class="splash reveal">
+    <div class="splash-pair">
+      <div><img src="projects/atomic-cherry/splash.webp" alt="Splash screen Atomic Cherry: logo po lewej, hasło i odznaka Featured Game po prawej, tło z gwiazdkami" data-en-alt="Atomic Cherry splash screen: logo on the left, tagline and Featured Game badge on the right, star pattern background"><span data-en="Horizontal layout on a star pattern">Układ poziomy na tle z gwiazdkami</span></div>
+      <div><img src="projects/atomic-cherry/splash-hc.webp" alt="Splash screen Atomic Cherry: logo i hasło na środku, wokół lecące, rozmyte wiśnie" data-en-alt="Atomic Cherry splash screen: logo and tagline in the centre, blurred cherries flying around"><span data-en="Centred layout with flying cherries">Układ centralny z lecącymi wiśniami</span></div>
+    </div>
+    <figcaption><b data-en="Featured Game splash screens">Splash screeny Featured Game</b><p data-en="The screens that announce the game in the casino lobby. Both carry the logo, the line “Take a bite of this cherry bomb!” and the Featured Game badge. The second variant centres the composition and adds motion-blurred cherries.">Ekrany, które zapowiadają grę w lobby kasyna. Oba niosą logo, hasło „Take a bite of this cherry bomb!” i odznakę Featured Game. Drugi wariant ustawia kompozycję centralnie i dodaje rozmyte w ruchu wiśnie.</p></figcaption>
+  </figure>
 </div></section>
 
 <section class="dark section" id="bonus"><div class="container">
@@ -238,8 +297,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <div><span class="label">Gameplay</span><h2 data-en="Atomic Cherry in motion">Atomic Cherry w ruchu</h2></div>
     <p data-en="A gameplay recording: spinning reels, symbol animations and the Free Spins bonus in the running game.">Nagranie rozgrywki: kręcące się bębny, animacje symboli i bonus Free Spins w działającej grze.</p>
   </div>
-  <div class="video reveal"><button class="video-cover" type="button" aria-label="Odtwórz gameplay Atomic Cherry" data-en-label="Play Atomic Cherry gameplay" onclick="const v=this.closest('.video'),f=v.querySelector('iframe');f.src=f.dataset.src;v.classList.add('is-playing');this.remove();f.focus()"><img src="projects/atomic-cherry/splash.webp" alt="" aria-hidden="true"><span class="video-play" aria-hidden="true">▶</span></button><iframe data-src="https://www.youtube-nocookie.com/embed/J9SEVBRJBeY?autoplay=1&amp;rel=0" title="Atomic Cherry gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-  <div class="video-note reveal"><span data-en="Cover: the Featured Game splash screen from the casino lobby.">Okładka: splash screen Featured Game z lobby kasyna.</span><span>YouTube</span></div>
+  <div class="video reveal"><button class="video-cover" type="button" aria-label="Odtwórz gameplay Atomic Cherry" data-en-label="Play Atomic Cherry gameplay" onclick="const v=this.closest('.video'),f=v.querySelector('iframe');f.src=f.dataset.src;v.classList.add('is-playing');this.remove();f.focus()"><img src="projects/atomic-cherry/slot-machine.webp" alt="" aria-hidden="true"><img class="video-cover-logo" src="projects/atomic-cherry/logo.webp" alt="" aria-hidden="true"><span class="video-play" aria-hidden="true">▶</span></button><iframe data-src="https://www.youtube-nocookie.com/embed/J9SEVBRJBeY?autoplay=1&amp;rel=0" title="Atomic Cherry gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
 </div></section>
 
 <!-- WAZDAN: sekcja czeka na materialy. Po dodaniu grafik usun atrybut hidden i dopisz link w .case-nav -->
@@ -253,6 +311,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
   <p data-en="Atomic Cherry taught me to design within strict technical and regulatory requirements without losing the energy players expect from a slot. Symbols, animations and screens were built as one system, ready for implementation.">Atomic Cherry nauczyło mnie projektować w ścisłych wymaganiach technicznych i regulacyjnych, bez utraty energii, której gracz oczekuje od slotu. Symbole, animacje i ekrany powstawały jako jeden system, gotowy do wdrożenia.</p>
 </div></section>
 </main>
+<dialog class="lightbox" id="lightbox" aria-label="Podgląd" data-en-label="Preview"><button class="lb-close" type="button" data-en="Close">Zamknij</button><img alt=""><p></p></dialog>
 
 <footer class="footer"><div class="container"><a class="back" href="index.html#projekty">← <span id="backLbl">Wróć do portfolio</span></a><h2 id="nextLbl">Co dalej<i>?</i></h2><div class="actions"><a class="action" href="index.html#projekty"><span id="allLbl">Zobacz wszystkie projekty</span><span>→</span></a><a class="action" href="index.html#kontakt"><span id="talkLbl">Porozmawiajmy</span><span>→</span></a></div><div class="pf-grid" id="pfGrid"></div><div class="foot"><span>© 2026<br>Amitiel Angelisme</span><span id="city" style="text-align:right">Warszawa, Polska<br>GMT+1</span></div></div></footer>
 
@@ -282,6 +341,8 @@ document.querySelectorAll('main [id]').forEach(x=>so.observe(x));
 (function(){
   const loader=document.getElementById('caseLoader'),bar=document.getElementById('caseLoaderBar'),val=document.getElementById('caseLoaderValue'),
         media=[...document.querySelectorAll('main img')].filter(i=>!i.closest('[hidden]'));
+  /* lazy-loading zatrzymalby pasek na obrazkach spoza ekranu, wiec na czas ladowania pobieramy wszystko od razu */
+  media.forEach(i=>i.loading='eager');
   let done=0,revealed=false;
   const paint=()=>{const pct=media.length?Math.round(done/media.length*100):100;bar.style.width=pct+'%';val.textContent=pct+'%'};
   const reveal=()=>{
@@ -377,6 +438,17 @@ document.querySelectorAll('main [id]').forEach(x=>so.observe(x));
     const a=reelsEl.getBoundingClientRect(),b=msg.getBoundingClientRect();
     if(e.clientX>=a.left&&e.clientX<=a.right&&e.clientY>=a.top&&e.clientY<=b.bottom)spin();
   });
+})();
+
+/* ---------- proces: powiekszenie szkicu po kliknieciu ---------- */
+(function(){
+  const dlg=document.getElementById('lightbox'),img=dlg.querySelector('img'),cap=dlg.querySelector('p');
+  document.querySelectorAll('.pthumb').forEach(b=>b.addEventListener('click',()=>{
+    const t=b.querySelector('img');img.src=b.dataset.full;img.alt=t.alt;cap.textContent=b.parentElement.querySelector('h3').textContent;
+    dlg.showModal();
+  }));
+  dlg.querySelector('.lb-close').addEventListener('click',()=>dlg.close());
+  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 })();
 
 /* ---------- symbole: przelacznik stanu ---------- */
