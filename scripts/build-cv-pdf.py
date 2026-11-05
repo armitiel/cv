@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """Generuje assets/Amitiel_Angelisme_CV.pdf z czystego HTML (WeasyPrint).
-Uruchom po kazdej zmianie tresci:  python3 scripts/build-cv-pdf.py"""
+Uruchom po kazdej zmianie tresci:  python3 scripts/build-cv-pdf.py
+
+Czcionki jak na stronie CV (cv.html): Archivo (tekst, naglowki) + IBM Plex Mono
+(daty, etykiety, kontakt, stopka). Pliki TTF leza w scripts/fonts/ (licencja OFL),
+wiec PDF wyglada tak samo niezaleznie od czcionek zainstalowanych w systemie."""
 import pathlib, base64
 from weasyprint import HTML
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "Amitiel_Angelisme_CV.pdf"
 PORTRAIT = ROOT / "portfolio-v2" / "me.png"
+FONTS = ROOT / "scripts" / "fonts"
 
 ACCENT, INK, BG = "#C96318", "#1C1813", "#F4EFE7"
 MUTED = "#9a8a76"
@@ -14,10 +19,11 @@ HAIR = "rgba(28,24,19,.12)"
 
 NAME = "AMITIEL ANGELISME"
 ROLE = "SENIOR GRAPHIC DESIGNER"
-SUMMARY = ("Multidisciplinary designer with 12+ years of experience across branding, illustration, "
-           "2D/3D, motion, game interfaces and visual systems. I take projects from concept and art "
-           "direction through to production and implementation — for products shipped globally with "
-           "50M+ downloads.")
+SUMMARY = ("Senior Graphic Designer with 12+ years of experience across digital products, UI/UX, "
+           "branding, illustration, 2D/3D and motion design. I combine visual thinking with new "
+           "technologies to develop cohesive products, tools and experiences - from concept and art "
+           "direction to production and implementation.")
+SHOW_CTA = False  # blok "Get in touch." na dole strony 2 (w opublikowanej wersji ukryty)
 CONTACTS = ["armitiel@gmail.com", "linkedin.com/in/amitiel", "amitiel.cv/portfolio", "Warsaw, Poland | GMT+1"]
 
 RECENT = [
@@ -92,74 +98,97 @@ langs_html = "".join('<tr><td class="n">' + n + '</td><td class="l">' + lv + '</
 edu_html = "".join('<tr><td class="y">' + y + '</td><td class="s">' + s + '</td><td class="d">' + d + '</td></tr>'
                    for y, s, d in EDUCATION)
 
-CSS = """
+def _face(family, weight, fname):
+    return ("@font-face { font-family:'%s'; font-weight:%d; font-style:normal; src:url('%s'); }\n"
+            % (family, weight, (FONTS / fname).as_uri()))
+
+
+FONT_FACES = "".join([
+    _face("Archivo", 400, "Archivo-Regular.ttf"),
+    _face("Archivo", 500, "Archivo-Medium.ttf"),
+    _face("Archivo", 600, "Archivo-SemiBold.ttf"),
+    _face("Archivo", 700, "Archivo-Bold.ttf"),
+    _face("Archivo", 900, "Archivo-Black.ttf"),
+    _face("IBM Plex Mono", 400, "IBMPlexMono-Regular.ttf"),
+    _face("IBM Plex Mono", 500, "IBMPlexMono-Medium.ttf"),
+    _face("IBM Plex Mono", 600, "IBMPlexMono-SemiBold.ttf"),
+])
+
+CSS = FONT_FACES + """
 @page { size: A4; margin: 0 0 46pt 0; background: %(BG)s;
-  @bottom-left { content: "%(NAME)s  |  %(ROLE)s"; font-family:'Liberation Sans',Arial,sans-serif; font-size:6.2pt;
+  @bottom-left { width:70%%; content: "%(NAME)s  |  %(ROLE)s"; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:6.2pt;
      letter-spacing:.7pt; color:%(MUTED)s; padding:8pt 0 0 36pt; border-top:.6pt solid #ddd5c6; vertical-align:top; }
-  @bottom-center { content:""; border-top:.6pt solid #ddd5c6; padding-top:8pt; }
-  @bottom-right { content: counter(page, decimal-leading-zero) " / 02"; font-family:'Liberation Sans',Arial,sans-serif;
+  @bottom-right { width:30%%; text-align:right; content: counter(page, decimal-leading-zero) " / 02"; font-family:'IBM Plex Mono',monospace; font-weight:500;
      font-size:6.2pt; letter-spacing:.7pt; color:%(MUTED)s; padding:8pt 36pt 0 0; border-top:.6pt solid #ddd5c6; vertical-align:top; }
 }
 html { background:%(BG)s; }
-body { margin:0; font-family:'Liberation Sans',Arial,sans-serif; color:%(INK)s; }
+body { margin:0; font-family:'Archivo',sans-serif; color:%(INK)s; }
 .topbar { height:7pt; background:%(ACCENT)s; }
 .pad { padding: 26pt 36pt 0 36pt; }
 .head { width:100%%; border-collapse:collapse; }
 .head td { vertical-align:top; }
 .head .hl { width:57%%; padding-right:16pt; }
-.eyebrow { font-size:6.6pt; font-weight:bold; letter-spacing:1.6pt; color:%(ACCENT)s; }
-.name { font-size:33pt; font-weight:bold; line-height:1.0; letter-spacing:-1.2pt; margin-top:9pt; }
+.eyebrow { font-family:'IBM Plex Mono',monospace; font-size:6.6pt; font-weight:600; letter-spacing:1.6pt; color:%(ACCENT)s; }
+.name { font-size:33pt; font-weight:900; line-height:.95; letter-spacing:-1.15pt; margin-top:9pt; }
 .name .dot { color:%(ACCENT)s; }
-.role { font-size:10pt; font-weight:bold; letter-spacing:.4pt; margin-top:11pt; }
-.summary { font-size:8.2pt; line-height:1.55; color:#4f4a41; margin-top:11pt; }
+.role { font-size:10pt; font-weight:600; letter-spacing:.4pt; margin-top:11pt; }
+.summary { font-size:9pt; line-height:1.5; font-weight:400; color:#4f4a41; margin-top:11pt; }
 .portrait { width:100%%; }
-.contacts { margin-top:12pt; font-size:7.2pt; line-height:1.9; color:#4f4a41; }
+.contacts { margin-top:12pt; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:7pt; line-height:1.9; color:#4f4a41; }
 .contacts .muted { color:%(MUTED)s; }
 .sec { margin-top:22pt; }
 .sech { width:100%%; border-collapse:collapse; }
-.sect { font-size:19pt; font-weight:bold; letter-spacing:-.3pt; }
+.sect { font-size:19pt; font-weight:900; letter-spacing:-.55pt; }
 .secrule { height:1.4pt; background:%(ACCENT)s; margin-top:7pt; }
 .job { width:100%%; border-collapse:collapse; border-bottom:.6pt solid #e3dccf; }
 .job td { vertical-align:top; padding:8pt 0; }
-.jdate { width:104pt; font-size:6.6pt; font-weight:bold; letter-spacing:.7pt; color:#5c564b; padding-top:10pt !important; }
+.jdate { width:104pt; font-family:'IBM Plex Mono',monospace; font-size:6.6pt; font-weight:600; letter-spacing:.3pt; color:#5c564b; padding-top:10pt !important; }
 .bullet { display:inline-block; width:3.4pt; height:3.4pt; border-radius:50%%; background:%(ACCENT)s; margin-right:6pt; vertical-align:middle; }
-.jco { font-size:10.5pt; font-weight:bold; letter-spacing:.2pt; }
-.jro { font-size:7.6pt; color:%(ACCENT)s; margin-top:2pt; }
-.jde { font-size:7.2pt; line-height:1.5; color:#5c564b; margin-top:5pt; }
-.band { break-before:page; background:%(INK)s; color:#fff; padding:16pt 36pt; font-size:17pt; font-weight:bold;
-        letter-spacing:-.2pt; position:relative; }
+.jco { font-size:10.5pt; font-weight:900; letter-spacing:0; }
+.jro { font-size:7.6pt; font-weight:600; color:%(ACCENT)s; margin-top:2pt; }
+.jde { font-size:7.2pt; font-weight:400; line-height:1.5; color:#5c564b; margin-top:5pt; }
+.band { break-before:page; background:%(INK)s; color:#fff; padding:16pt 36pt; font-size:17pt; font-weight:900;
+        letter-spacing:-.5pt; position:relative; }
 .band .bdot { position:absolute; right:40pt; top:24pt; width:6pt; height:6pt; border-radius:50%%; background:%(ACCENT)s; }
 .mh { width:100%%; border-collapse:collapse; margin-bottom:10pt; }
-.mh .lbl { font-size:7pt; font-weight:bold; letter-spacing:1.8pt; color:%(ACCENT)s; white-space:nowrap; padding-right:9pt; vertical-align:middle; }
+.mh .lbl { font-family:'IBM Plex Mono',monospace; font-size:7pt; font-weight:600; letter-spacing:.85pt; color:%(ACCENT)s; white-space:nowrap; padding-right:9pt; vertical-align:middle; }
 .mh .ln { width:100%%; vertical-align:middle; }
 .mh .ln div { height:1.4pt; background:%(ACCENT)s; }
 .cols { width:100%%; border-collapse:collapse; margin-top:18pt; }
 .cols td { vertical-align:top; width:50%%; }
 .cols .cleft { padding-right:26pt; }
-.caps div { font-size:8.4pt; color:#3f3a33; line-height:1.3; margin-bottom:4.6pt; }
+.caps div { font-size:8.4pt; font-weight:600; color:#3f3a33; line-height:1.3; margin-bottom:4.6pt; }
 .caps .b { display:inline-block; width:3.2pt; height:3.2pt; border-radius:50%%; background:%(ACCENT)s; margin-right:7pt; vertical-align:middle; }
 .chip { display:inline-block; font-size:7.4pt; font-weight:500; color:%(INK)s; padding:2.4pt 6pt;
         border:.6pt solid rgba(28,24,19,.18); border-radius:1.5pt; background:rgba(255,255,255,.45); margin:0 4pt 5pt 0; }
 .langblk { margin-top:14pt; }
 .lang { width:100%%; border-collapse:collapse; }
 .lang td { padding:3pt 0; }
-.lang .n { font-size:9.2pt; font-weight:bold; color:%(INK)s; }
-.lang .l { text-align:right; font-size:7.4pt; color:%(MUTED)s; text-transform:uppercase; letter-spacing:.8pt; }
+.lang .n { font-size:9.2pt; font-weight:600; color:%(INK)s; }
+.lang .l { text-align:right; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:6.8pt; color:%(MUTED)s; text-transform:uppercase; letter-spacing:.8pt; }
 .edublk { margin-top:18pt; }
 .edu2 { width:100%%; border-collapse:collapse; }
 .edu2 td { padding:6pt 0; border-bottom:.6pt solid %(HAIR)s; vertical-align:baseline; }
-.edu2 .y { width:92pt; font-size:7.8pt; font-weight:500; color:%(MUTED)s; letter-spacing:.4pt; }
-.edu2 .s { font-size:9.8pt; font-weight:bold; color:%(INK)s; }
-.edu2 .d { text-align:right; font-size:8.4pt; color:%(ACCENT)s; white-space:nowrap; }
-.cta2 { margin-top:18pt; font-size:17pt; font-weight:bold; letter-spacing:-.4pt; color:%(INK)s; line-height:1.05; }
+.edu2 .y { width:92pt; font-family:'IBM Plex Mono',monospace; font-size:7.2pt; font-weight:600; color:%(MUTED)s; letter-spacing:.4pt; }
+.edu2 .s { font-size:9.8pt; font-weight:900; color:%(INK)s; }
+.edu2 .d { text-align:right; font-size:8.4pt; font-weight:500; color:%(ACCENT)s; white-space:nowrap; }
+.cta2 { margin-top:18pt; font-size:17pt; font-weight:900; letter-spacing:-.4pt; color:%(INK)s; line-height:1.05; }
 .cta2 .dot { color:%(ACCENT)s; }
 .ctal { margin-top:9pt; font-size:8.8pt; color:%(INK)s; }
 .ctal .sep { color:rgba(28,24,19,.35); padding:0 6pt; }
 .ctal .acc { color:%(ACCENT)s; }
 """ % dict(BG=BG, INK=INK, ACCENT=ACCENT, MUTED=MUTED, HAIR=HAIR, NAME=NAME, ROLE=ROLE)
 
+CTA_HTML = ('<div class="cta2">Get in touch<span class="dot">.</span></div>'
+            '<div class="ctal">armitiel@gmail.com<span class="sep">/</span>'
+            '<span class="acc">amitiel.cv/portfolio</span></div>')
+
 html = (
- '<!doctype html><html><head><meta charset="utf-8"><style>' + CSS + '</style></head><body>'
+ '<!doctype html><html><head><meta charset="utf-8">'
+ '<title>Amitiel Angelisme - Senior Graphic Designer</title>'
+ '<meta name="author" content="Amitiel Angelisme">'
+ '<meta name="description" content="Curriculum Vitae">'
+ '<style>' + CSS + '</style></head><body>'
  '<div class="topbar"></div>'
  '<div class="pad">'
    '<table class="head"><tr>'
@@ -191,9 +220,7 @@ html = (
      '</td>'
    '</tr></table>'
    '<div class="edublk">' + minihead("EDUCATION") + '<table class="edu2">' + edu_html + '</table></div>'
-   '<div class="cta2">Get in touch<span class="dot">.</span></div>'
-   '<div class="ctal">armitiel@gmail.com<span class="sep">/</span>'
-   '<span class="acc">amitiel.cv/portfolio</span></div>'
+   + (CTA_HTML if SHOW_CTA else '') +
  '</div>'
  '</body></html>')
 
