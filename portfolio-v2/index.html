@@ -155,6 +155,11 @@ img{display:block}
 .pi-mini svg{width:14px;height:14px;display:block}
 .pi-tags{font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin-top:6px;line-height:1.3}
 
+#personalGames{scroll-margin-top:90px}
+.pi-new{display:inline-block;width:7px;height:7px;margin-inline-start:6px;border-radius:50%;vertical-align:middle;background:var(--accent);animation:project-new-pulse 2s ease-in-out infinite}
+@keyframes project-new-pulse{50%{opacity:.4}}
+@media(prefers-reduced-motion:reduce){.pi-new{animation:none}}
+
 /* O MNIE */
 .about{position:relative;padding:clamp(44px,5vw,64px) var(--gut) clamp(44px,5vw,60px);display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,5vw,84px) clamp(40px,5vw,84px);align-items:start}
 .about>*{max-width:100%}
@@ -422,6 +427,7 @@ const DICT = {
   st_2:['ZREALIZOWANYCH KONCEPCJI','CONCEPTS BROUGHT TO LIFE'],
   st_3:['NARZĘDZI W WARSZTACIE','TOOLS IN THE KIT'],
   sec_projects:['Wybrane projekty','Selected work'],
+  personal_games:['Osobiste projekty gier','Personal game projects'],
   sec_about:['O mnie','About me'],
   about_lead:['Cześć, jestem Amitiel.',"Hi, I'm Amitiel."],
   stx_1:['Lat doświadczenia','Years of experience'],
@@ -620,6 +626,14 @@ function buildGrid(){
       <span class="pi-tags">${tagList(p).join(', ')}</span>
     </a>`;
   });
+  if(filter==='all' || filter==='game'){
+    html += `<a href="personal-games.html" class="proj-ico" id="personalGames">
+      <span class="pi-icon" aria-hidden="true">${DOC}</span>
+      <span class="pi-name">${DICT.personal_games[isEn()?1:0]}<span class="pi-new" role="img" aria-label="${isEn()?'New':'Nowość'}"></span></span>
+      <span class="pi-mini" aria-hidden="true">${FILTER_ICONS.game}</span>
+      <span class="pi-tags">${isEn()?'2 prototypes':'2 prototypy'}</span>
+    </a>`;
+  }
   if(SHOW_ILLUSTRATIONS && visible().length > 1 && (filter==='all' || filter==='art')){
     html += `<a href="ilustracje.html" class="proj-ico">
       <span class="pi-icon">${DOC}</span>

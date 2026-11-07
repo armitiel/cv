@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Osobiste projekty gier — Amitiel Angelisme</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#C26A32;--bg:#e4dbd0;--ink:#1c1813;--line:rgba(28,24,19,.15);--gut:max(clamp(24px,7vw,110px),calc((100vw - 1320px)/2));--navh:76px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.nav{position:sticky;top:0;z-index:40;background:rgba(228,219,208,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.wrap{padding-inline:var(--gut)}
+.nav .wrap{display:flex;align-items:center;gap:24px;min-height:var(--navh)}
+.back{display:inline-flex;align-items:center;gap:4px;flex:none;font-size:13px;font-weight:700;text-decoration:none}
+.back:hover{text-decoration:underline}
+.case-nav{display:flex;gap:4px;margin-left:clamp(12px,3vw,46px)}
+.case-nav a{padding:8px 12px;border-radius:999px;color:rgba(28,24,19,.72);font:700 11px 'IBM Plex Mono',monospace;text-transform:uppercase;text-decoration:none}
+.case-nav a:hover{background:rgba(28,24,19,.08);color:var(--ink)}
+.nav-r{display:flex;align-items:center;gap:26px;margin-left:auto}
+.logo{display:block;width:auto;height:32px;mix-blend-mode:multiply}
+#langBtn{border:1px solid var(--ink);border-radius:8px;padding:5px 14px;background:transparent;color:color-mix(in srgb,var(--accent) 65%,var(--ink));font:700 12px 'Archivo',sans-serif;cursor:pointer}
+#langBtn:hover{background:var(--ink);color:var(--bg)}
+main.wrap{padding-block:clamp(36px,6vw,86px)}
+h1{margin:0 0 clamp(24px,4vw,48px);font:900 clamp(29px,4.6vw,64px)/.98 'Archivo',sans-serif;text-transform:uppercase;letter-spacing:-.035em}
+h1::after{content:'';display:block;width:64px;height:3px;margin-top:16px;border-radius:2px;background:var(--accent)}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,2.5vw,36px)}
+.game{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;background:rgba(28,24,19,.035);scroll-margin-top:calc(var(--navh) + 16px)}
+.preview{display:block;border-radius:15px 15px 0 0;overflow:hidden}
+.preview img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#0b0a17}
+.game:first-child .preview img{background:#f6ebd1}
+.info{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:clamp(16px,2.3vw,30px)}
+.info h2{margin:0;font-size:clamp(23px,2.6vw,36px);letter-spacing:-.025em}
+.status{display:inline-block;margin-top:10px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;font:700 .7rem/1.3 'IBM Plex Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
+.info p{margin:10px 0 0;line-height:1.5}
+.play{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--ink);border-radius:8px;font:500 .875rem/1.3 'IBM Plex Mono',monospace;text-decoration:none}
+.play:hover{background:var(--ink);color:var(--bg)}
+.action{margin-top:auto;padding-top:20px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+  h1,.game{animation:fadeUp .65s cubic-bezier(.2,.7,.2,1) both}
+  .game{animation-delay:.09s}
+  .game + .game{animation-delay:.16s}
+}
+@media(max-width:620px){
+  :root{--navh:64px}
+  .nav .wrap,.nav-r{gap:8px}
+  .brand{display:none}
+  .back-label{font-size:0}
+  .back span[aria-hidden]{font-size:17px}
+  .case-nav{margin-left:0}
+  .case-nav a{padding:7px;font-size:10px}
+}
+@media(max-width:680px){.games{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap">
+    <a class="back" href="index.html#projekty"><span aria-hidden="true">←</span><span class="back-label" data-en="Back to portfolio">Wróć do portfolio</span></a>
+    <div class="case-nav">
+      <a href="#ewolucja">Ewolucja</a>
+      <a href="#shadow-tagger">Shadow Tagger</a>
+    </div>
+    <div class="nav-r">
+      <a class="brand" href="index.html"><img class="logo" src="logo-a.png" alt="Amitiel Angelisme"></a>
+      <button id="langBtn" type="button" aria-label="Switch to English">EN</button>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+  <h1 data-en="Personal game projects">Osobiste projekty gier</h1>
+  <div class="games">
+    <article class="game" id="ewolucja" aria-labelledby="ewolucja-title">
+      <a class="preview" href="https://ewolucja.net/">
+        <img src="projects/personal-games/ewolucja-cover.webp" alt="Ewolucja – ekran startowy" data-alt-en="Ewolucja – start screen" width="1200" height="709">
+      </a>
+      <div class="info">
+        <h2 id="ewolucja-title">Ewolucja</h2>
+        <span class="status" data-en="In testing">W fazie testów</span>
+        <p data-en="An educational game where children explore a small 3D planet with Lisek the fox. They discover minigames, including a memory game and a run where they solve maths problems. Some activities that begin in the game continue away from the screen.">Gra edukacyjna, w której dzieci odkrywają małą planetę 3D razem z Liskiem. Po drodze trafiają na minigry, takie jak gra na pamięć czy bieg z zadaniami matematycznymi. Część zadań zaczyna się w grze i ma ciąg dalszy poza ekranem.</p>
+        <p data-en="I came up with the entire concept myself, from the world and interface to the minigames and their mechanics. I use AI to help prototype and test ideas. The current version brings together the seeds of several ideas that I’m trying out in a single game.">Całą koncepcję wymyśliłem sam, od świata i interfejsu po minigry i ich mechaniki. AI pomaga mi prototypować i sprawdzać pomysły. W obecnej wersji są zalążki kilku różnych koncepcji, które testuję w ramach jednej gry.</p>
+        <div class="action"><a class="play" href="https://ewolucja.net/"><span data-en="Play Ewolucja">Zagraj w Ewolucję</span><span aria-hidden="true">↗</span></a></div>
+      </div>
+    </article>
+    <article class="game" id="shadow-tagger" aria-labelledby="shadow-tagger-title">
+      <a class="preview" href="https://shadow-tagger.vercel.app/">
+        <img src="projects/personal-games/shadow-tagger-cover.webp" alt="Shadow Tagger – ekran startowy" data-alt-en="Shadow Tagger – start screen" width="1200" height="570">
+      </a>
+      <div class="info">
+        <h2 id="shadow-tagger-title">Shadow Tagger</h2>
+        <span class="status" data-en="In testing">W fazie testów</span>
+        <p data-en="I’d always wanted to make a game about painting graffiti. Shadow Tagger was my first attempt to use AI to turn that idea into a playable prototype. In this stealth platformer, you collect spray cans and paint murals colour by colour. You climb ladders to reach new spots and hide in the shadows when a patrol approaches.">Od dawna chciałem zrobić grę o malowaniu graffiti. Shadow Tagger to moja pierwsza próba wykorzystania AI, by zamienić ten pomysł w grywalny prototyp. W tej skradankowej platformówce zbierasz puszki z farbą i malujesz murale kolor po kolorze. Po drabinach docierasz do nowych miejsc, a gdy zbliża się patrol, chowasz się w cieniu.</p>
+        <p data-en="I designed the gameplay, modelled and animated the characters in Blender, and built the prototype in Phaser. I used AI to help write the code and try out different gameplay mechanics.">Sam zaprojektowałem rozgrywkę, wymodelowałem i animowałem postacie w Blenderze oraz zbudowałem prototyp w Phaserze. AI wspierało mnie w pisaniu kodu i wypróbowywaniu różnych mechanik.</p>
+        <div class="action"><a class="play" href="https://shadow-tagger.vercel.app/"><span data-en="Play Shadow Tagger">Zagraj w Shadow Tagger</span><span aria-hidden="true">↗</span></a></div>
+      </div>
+    </article>
+  </div>
+</main>
+<script>
+const savedAcc=localStorage.getItem('aa_accent');
+if(savedAcc) document.documentElement.style.setProperty('--accent',savedAcc);
+let en=localStorage.getItem('aa_lang')==='en';
+const langBtn=document.getElementById('langBtn');
+const labels=Array.from(document.querySelectorAll('[data-en]'),el=>[el,el.textContent]);
+const images=Array.from(document.querySelectorAll('[data-alt-en]'),el=>[el,el.alt]);
+function applyLanguage(){
+  document.documentElement.lang=en?'en':'pl';
+  document.title=en?'Personal game projects — Amitiel Angelisme':'Osobiste projekty gier — Amitiel Angelisme';
+  labels.forEach(([el,pl])=>{el.textContent=en?el.dataset.en:pl});
+  images.forEach(([el,pl])=>{el.alt=en?el.dataset.altEn:pl});
+  langBtn.textContent=en?'PL':'EN';
+  langBtn.setAttribute('aria-label',en?'Przełącz na polski':'Switch to English');
+}
+applyLanguage();
+langBtn.onclick=()=>{
+  en=!en;
+  localStorage.setItem('aa_lang',en?'en':'pl');
+  applyLanguage();
+};
+</script>
+</body>
+</html>
