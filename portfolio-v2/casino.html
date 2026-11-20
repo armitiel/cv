@@ -2,7 +2,7 @@
 /* ---------- tokeny ----------
    paper/cream: wspolna baza portfolio. plum: fiolet z ekranow Atomic Cherry.
    cherry: czerwien symbolu wisni (akcent na jasnym). gold: zarezerwowany dla wygranej i akcentow na ciemnym. */
-:root{--paper:#fffdf8;--cream:#f6f1e8;--ink:#1b1230;--muted:#655f73;--plum:#2a1150;--plum-2:#3b1b6c;--cherry:#c4223f;--gold:#f4b52c;--reel:#fdfcff;--line:rgba(27,18,48,.14);--pad:clamp(20px,5vw,80px);--navh:76px;--max:1440px;--sec:clamp(76px,9vw,140px);--gap:clamp(16px,2vw,32px)}
+:root{--paper:#efe7f3;--cream:#e4d8ec;--ink:#1b1230;--muted:#655f73;--plum:#2a1150;--plum-2:#3b1b6c;--cherry:#c4223f;--gold:#f4b52c;--reel:#fdfcff;--line:rgba(27,18,48,.14);--pad:clamp(20px,5vw,80px);--navh:76px;--max:1440px;--sec:clamp(76px,9vw,140px);--gap:clamp(16px,2vw,32px)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Archivo,sans-serif}img{display:block;max-width:100%}a{color:inherit;text-decoration:none}button{font:inherit}
 .container{width:min(calc(100% - 2*var(--pad)),var(--max));margin:auto}.section{padding-block:var(--sec)}
 .label,.eyebrow,dt{font:600 12.5px 'IBM Plex Mono',monospace;letter-spacing:.11em;text-transform:uppercase}.label{color:var(--cherry)}
@@ -12,7 +12,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}.reveal.on{opacity:1;transform:none}
 
 /* ---------- nawigacja (wspolna z innymi case study) ---------- */
-.nav{position:sticky;top:0;z-index:40;background:rgba(255,253,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav-in{width:min(calc(100% - 2*var(--pad)),var(--max));height:var(--navh);margin:auto;display:flex;align-items:center;gap:24px}.nav a{font-size:13px;font-weight:700}.case-nav{display:flex;gap:4px;margin-left:clamp(12px,3vw,46px)}.case-nav a{padding:8px 12px;border-radius:999px;color:rgba(27,18,48,.62);font:700 11px 'IBM Plex Mono',monospace;text-transform:uppercase}.case-nav a:hover,.case-nav a.is-active{background:rgba(196,34,63,.1);color:var(--cherry)}.nav-r{display:flex;align-items:center;gap:26px;margin-left:auto}.brand img{height:32px;mix-blend-mode:multiply}#langBtn{border:1px solid var(--ink);border-radius:8px;padding:5px 14px;background:transparent;color:var(--cherry);font:700 12px Archivo;cursor:pointer}
+.nav{position:sticky;top:0;z-index:40;background:rgba(239,231,243,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav-in{width:min(calc(100% - 2*var(--pad)),var(--max));height:var(--navh);margin:auto;display:flex;align-items:center;gap:24px}.nav a{font-size:13px;font-weight:700}.case-nav{display:flex;gap:4px;margin-left:clamp(12px,3vw,46px)}.case-nav a{padding:8px 12px;border-radius:999px;color:rgba(27,18,48,.62);font:700 11px 'IBM Plex Mono',monospace;text-transform:uppercase}.case-nav a:hover,.case-nav a.is-active{background:rgba(196,34,63,.1);color:var(--cherry)}.nav-r{display:flex;align-items:center;gap:26px;margin-left:auto}.brand img{height:32px;mix-blend-mode:multiply}#langBtn{border:1px solid var(--ink);border-radius:8px;padding:5px 14px;background:transparent;color:var(--cherry);font:700 12px Archivo;cursor:pointer}
 
 /* ---------- hero: grywalna maszyna ---------- */
 .hero{padding-block:clamp(32px,4vw,56px) clamp(56px,7vw,104px);scroll-margin-top:var(--navh)}
@@ -51,7 +51,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 /* ---------- kontekst ---------- */
 .context{padding-block:clamp(70px,8vw,120px);background:var(--cream)}
 .context blockquote{max-width:24ch;margin:18px 0 0;font-size:clamp(30px,4.2vw,62px);font-weight:900;line-height:.98;letter-spacing:-.045em}
-.story{display:grid;grid-template-columns:.58fr 1fr;gap:var(--gap);margin-top:clamp(48px,6vw,80px);padding:clamp(28px,4vw,54px);background:#fff;border:1px solid #d8d2c6}
+.story{display:grid;grid-template-columns:.58fr 1fr;gap:var(--gap);margin-top:clamp(48px,6vw,80px);padding:clamp(28px,4vw,54px);background:#f7f2f9;border:1px solid var(--line)}
 .story h3{max-width:12ch;margin:12px 0 0;font-size:clamp(28px,3.4vw,48px);line-height:.98;letter-spacing:-.04em}
 .story-copy{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
 .story-copy p{margin:0;color:#4f4a5c}.story-copy p+p{padding-left:var(--gap);border-left:1px solid var(--line)}
@@ -88,7 +88,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 .splash figcaption p{max-width:58ch;margin:0}
 
 /* ---------- proces: szkic, warianty, 3D i render (kompaktowo, powiekszenie po kliknieciu) ---------- */
-.process{padding-block:clamp(64px,7vw,104px);border-top:1px solid #d8d2c6;background:var(--cream)}
+.process{padding-block:clamp(64px,7vw,104px);border-top:1px solid var(--line);background:var(--cream)}
 .steps-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin:0;padding:0;list-style:none;counter-reset:p}
 .pstep{counter-increment:p}
 .pthumb{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:1px solid #d8d2c6;border-radius:10px;overflow:hidden;background:#808080;cursor:zoom-in}
@@ -147,7 +147,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
 @media(max-width:900px){.hero-top{grid-template-columns:1fr}.head,.logo-grid,.anatomy,.story,.splash figcaption{grid-template-columns:1fr}.steps-row{grid-template-columns:1fr;gap:18px}.pstep{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:0 16px;align-items:start}.pstep h3{margin-top:0}.pstep .pthumb{grid-row:span 2}.story-copy{grid-template-columns:1fr}.story-copy p+p{padding:var(--gap) 0 0;border-left:0;border-top:1px solid var(--line)}.head p{margin-top:8px}}
 @media(max-width:620px){:root{--navh:64px}.nav-in{gap:8px}.brand{display:none}.nav-r{gap:8px}.case-nav{margin:0;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}.splash-pair{grid-template-columns:1fr;gap:18px}.pstep{grid-template-columns:1fr 1fr;gap:0 12px}.pstep h3{font-size:15.5px}.pstep p{font-size:13px}.pthumb:after{width:24px;height:24px;background-size:13px}.case-nav a{padding:7px;font-size:9px;white-space:nowrap}.nav-in>a:first-child{font-size:0}.nav-in>a:first-child:before{content:'←';font-size:17px}.hero h1{font-size:clamp(38px,11vw,54px)}.meta{grid-template-columns:1fr}.stage{border-radius:8px;aspect-ratio:1400/940}.stage>img{inset:auto;left:-18.57%;top:-5.32%;width:137.14%;max-width:none;height:auto;object-fit:fill}.reels{left:15%;width:70%}.bar-msg{left:33.9%;width:38.6%;font-size:2.7cqw}.stage-foot{display:grid}.spin-btn{justify-content:center}.sym-strip,.sym-names{gap:4px}.sym img{height:110px;padding:6%}.sym-names b{font-size:15px}.sym-names span{font-size:11.5px}.sym-bar{display:grid}.toggle{width:100%}.toggle button{flex:1}.actions{grid-template-columns:1fr}.foot{display:grid;gap:12px}.foot #city{text-align:left!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.case-ready main,.case-ready .footer{animation:none}.payline.is-win{animation:none}.reel.is-spinning .strip{filter:none}}
-</style></head><body class="case-loading">
+</style><link rel="stylesheet" href="atomic-assembly.css"></head><body class="case-loading">
 <div class="case-loader" id="caseLoader" role="status" aria-live="polite" aria-label="Ładowanie projektu Casino Slot Art">
   <div class="case-loader-inner">
     <img class="case-loader-logo" src="projects/atomic-cherry/cherry-still.webp" alt="">
@@ -155,7 +155,7 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
     <div class="case-loader-meta"><span data-en="Loading project">Ładowanie projektu</span><span id="caseLoaderValue">0%</span></div>
   </div>
 </div>
-<nav class="nav"><div class="nav-in"><a href="index.html#projekty" data-en="← Back to portfolio">← Wróć do portfolio</a><div class="case-nav"><a href="#maszyna" data-en="Machine">Maszyna</a><a href="#proces" data-en="Process">Proces</a><a href="#symbole" data-en="Symbols">Symbole</a><a href="#logo">Logo</a><a href="#bonus">Bonus</a><a href="#gameplay">Gameplay</a></div><div class="nav-r"><a class="brand" href="index.html"><img src="logo-a.png" alt="Amitiel"></a><button id="langBtn">EN</button></div></div></nav>
+<nav class="nav"><div class="nav-in"><a href="index.html#projekty" data-en="← Back to portfolio">← Wróć do portfolio</a><div class="case-nav"><a href="#maszyna" data-en="Machine">Maszyna</a><a href="#proces" data-en="Process">Proces</a><a href="#skladanie" data-en="Layers">Warstwy</a><a href="#symbole" data-en="Symbols">Symbole</a><a href="#logo">Logo</a><a href="#bonus">Bonus</a><a href="#gameplay">Gameplay</a></div><div class="nav-r"><a class="brand" href="index.html"><img src="logo-a.png" alt="Amitiel"></a><button id="langBtn">EN</button></div></div></nav>
 <main>
 
 <header class="hero" id="maszyna"><div class="container">
@@ -225,6 +225,25 @@ h1,h2,h3,p{margin-top:0}h2{margin-bottom:20px;font-size:clamp(38px,5vw,72px);lin
       <p data-en="I modelled the chosen direction in ZBrush, then split the render into 2D layers, such as the reels and side panels, ready to assemble in the engine.">Wybrany kierunek wymodelowałem w <em>ZBrushu</em>. Render rozbiłem na warstwy 2D, takie jak bębny i panele boczne, gotowe do złożenia w silniku gry.</p>
     </li>
   </ol>
+</div></section>
+
+<section class="ac-assembly section" id="skladanie" aria-labelledby="ac-title"><div class="container">
+  <div class="head reveal">
+    <div><span class="label" data-en="2D layers · Assembly">Warstwy 2D · Składanie</span><h2 id="ac-title" data-en="Thirteen layers. One machine.">Trzynaście warstw. Jedna maszyna.</h2></div>
+    <p data-en="The cabinet, reels, frame and interface come together in sequence. The symbols and jackpot display follow; the lights complete the machine. Replay the assembly or explore it at your own pace.">Obudowa, bębny, rama i interfejs łączą się w jedną całość. Dołączają symbole i wyświetlacz jackpotu, a światła zamykają kompozycję. Odtwórz składanie ponownie lub obejrzyj je we własnym tempie.</p>
+  </div>
+  <div class="ac-shell">
+    <div class="ac-artboard" id="ac-artboard" role="img" aria-label="Animacja składania maszyny Atomic Cherry" data-en-label="Atomic Cherry machine assembly animation">
+      <img class="ac-poster" src="projects/atomic-cherry/slot-machine.webp" alt="Maszyna Atomic Cherry" data-en-alt="Atomic Cherry machine" loading="lazy" width="1920" height="1085">
+    </div>
+    <div class="ac-controls" role="group" aria-label="Sterowanie animacją składania" data-en-label="Assembly animation controls">
+      <button class="ac-play" id="ac-play" type="button" disabled data-en="Play assembly">Odtwórz składanie</button>
+      <button class="ac-replay" id="ac-replay" type="button" aria-label="Odtwórz składanie od początku" data-en-label="Replay assembly from the beginning" disabled><span aria-hidden="true">↻</span></button>
+      <label class="ac-timeline"><span class="sr" data-en="Animation position">Pozycja animacji</span><input id="ac-seek" type="range" min="0" max="8600" step="10" value="0" disabled><output id="ac-time">0,0 / 8,6 s</output></label>
+      <label class="ac-speed"><span class="sr" data-en="Playback speed">Prędkość odtwarzania</span><select id="ac-speed"><option value="0.5">0,5×</option><option value="1" selected>1×</option><option value="1.5">1,5×</option></select></label>
+    </div>
+  </div>
+  <div class="ac-caption"><p id="ac-status" role="status" data-en="The animation starts when you reach this part of the page.">Animacja rozpocznie się, gdy dojdziesz do tej części strony.</p><span data-en="13 layers · 8.6 seconds">13 warstw · 8,6 sekundy</span></div>
 </div></section>
 
 <section class="dark section" id="symbole"><div class="container">
@@ -484,4 +503,8 @@ document.querySelectorAll('main [id]').forEach(x=>so.observe(x));
   var s=document.createElement('script');s.defer=true;s.src='/_vercel/insights/script.js';document.head.appendChild(s);
 })();
 </script>
+<script defer src="projects/atomic-cherry/assembly/asset-manifest.js"></script>
+<script defer src="projects/atomic-cherry/assembly/layers.js"></script>
+<script defer src="projects/atomic-cherry/assembly/assembly.js"></script>
+<script defer src="atomic-assembly.js"></script>
 </body></html>
