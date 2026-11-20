@@ -1,13 +1,14 @@
 window.ILLUSTRATION_SELECTION = [
   {
     "id": "soleo",
+    "plain": true,
     "title": [
-      "Soleo — maskotka w ruchu",
-      "Soleo — a mascot in motion"
+      "Soleo, maskotka w ruchu",
+      "Soleo, a mascot in motion"
     ],
     "description": [
-      "Projekt postaci rozwinięty w zestaw póz i animację.",
-      "A character developed through a set of poses and an animation."
+      "Maskotka i znak SOLEO® Family Resort, rodzinnego ośrodka wakacyjnego w Rewalu nad Bałtykiem. Ośmiorniczka Soleo jest częścią logo resortu i występuje w jego materiałach: od strefy wodnej AQUA FUN po atrakcje dla dzieci.",
+      "Mascot and brand mark of SOLEO® Family Resort, a family holiday resort in Rewal on the Baltic coast. The Soleo octopus is part of the resort's logo and appears across its materials, from the AQUA FUN water zone to the kids' attractions."
     ],
     "items": [
       {
@@ -17,11 +18,11 @@ window.ILLUSTRATION_SELECTION = [
           "One character, different poses"
         ],
         "caption": [
-          "Ośmiorniczka Soleo: sylwetka, mimika i warianty postaci.",
-          "The Soleo octopus: silhouette, expressions and character variations."
+          "Arkusz postaci: sylwetka, mimika i pozy związane z atrakcjami resortu: basen, nurkowanie, ping-pong. Spójny charakter pozwala używać maskotki zarówno w logo, jak i w materiałach dla rodzin.",
+          "Character sheet: silhouette, expressions and poses tied to the resort's attractions: swimming, snorkelling, table tennis. A consistent personality lets the mascot work both in the logo and in family-facing materials."
         ],
-        "width": 1800,
-        "height": 1775,
+        "width": 1499,
+        "height": 1463,
         "animated": false
       },
       {
@@ -31,14 +32,15 @@ window.ILLUSTRATION_SELECTION = [
           "Mascot animation"
         ],
         "caption": [
-          "Krótka pętla animacji. Uruchom ją przyciskiem poniżej.",
-          "A short animation loop. Use the button below to play it."
+          "Animowana pętla maskotki używana na stronie resortu. Uruchom ją przyciskiem poniżej.",
+          "An animated loop of the mascot used on the resort's website. Use the button below to play it."
         ],
         "width": 314,
         "height": 320,
         "animated": true
       }
-    ]
+    ],
+    "intro": true
   },
   {
     "id": "characters",
@@ -51,20 +53,6 @@ window.ILLUSTRATION_SELECTION = [
       "From character concepts to a colour scene and characters in dynamic poses."
     ],
     "items": [
-      {
-        "src": "illustrations/selected/character-concept.webp",
-        "title": [
-          "Eksploracja postaci",
-          "Character exploration"
-        ],
-        "caption": [
-          "Szkic koncepcyjny postaci — warianty stroju i charakteru.",
-          "Character concept sketch — exploring costume and personality."
-        ],
-        "width": 1800,
-        "height": 1273,
-        "animated": false
-      },
       {
         "src": "illustrations/selected/character-scene.webp",
         "title": [
@@ -80,6 +68,24 @@ window.ILLUSTRATION_SELECTION = [
         "animated": false
       },
       {
+        "src": "illustrations/selected/character-concept.webp",
+        "title": [
+          "Eksploracja postaci",
+          "Character exploration"
+        ],
+        "caption": [
+          "Szkic koncepcyjny postaci: warianty stroju i charakteru.",
+          "Character concept sketch exploring costume and personality."
+        ],
+        "width": 1800,
+        "height": 1273,
+        "animated": false,
+        "label": [
+          "Rolf Houston, szkic postaci",
+          "Rolf Houston, character sketch"
+        ]
+      },
+      {
         "src": "illustrations/selected/sport-characters.webp",
         "title": [
           "Postacie sportowe",
@@ -89,10 +95,24 @@ window.ILLUSTRATION_SELECTION = [
           "Ruch i sylwetki w ilustracji dla Middleton Junior.",
           "Movement and silhouettes in an illustration for Middleton Junior."
         ],
-        "width": 1351,
-        "height": 1600,
-        "animated": false
+        "width": 1203,
+        "height": 1476,
+        "animated": false,
+        "label": [
+          "Middleton Junior, postacie i logo klubu",
+          "Middleton Junior, characters and club logo"
+        ]
       }
+    ],
+    "intro": true,
+    "rows": [
+      [
+        0
+      ],
+      [
+        1,
+        2
+      ]
     ]
   },
   {
@@ -118,7 +138,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1600,
         "height": 800,
-        "animated": false
+        "animated": false,
+        "label": [
+          "Rozkładówka książki dla dzieci",
+          "Children's book spread"
+        ]
       },
       {
         "src": "illustrations/pencil-characters.webp",
@@ -130,8 +154,8 @@ window.ILLUSTRATION_SELECTION = [
           "Dwie postacie zbudowane wokół motywu ołówka.",
           "Two characters built around the pencil motif."
         ],
-        "width": 848,
-        "height": 743,
+        "width": 740,
+        "height": 655,
         "animated": false
       }
     ]
@@ -157,8 +181,8 @@ window.ILLUSTRATION_SELECTION = [
           "Zestaw stylizowanych ikon o wspólnym języku wizualnym.",
           "A set of stylised icons sharing one visual language."
         ],
-        "width": 1037,
-        "height": 524,
+        "width": 1165,
+        "height": 648,
         "animated": false
       },
       {
@@ -171,8 +195,8 @@ window.ILLUSTRATION_SELECTION = [
           "Ilustracja postaci łącząca miękką formę z dopracowanym detalem.",
           "A character illustration combining soft forms with detailed rendering."
         ],
-        "width": 800,
-        "height": 600,
+        "width": 687,
+        "height": 644,
         "animated": false
       }
     ]
@@ -200,7 +224,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1600,
         "height": 1600,
-        "animated": false
+        "animated": false,
+        "label": [
+          "Portret, technika rycinowa",
+          "Portrait, engraving style"
+        ]
       },
       {
         "src": "illustrations/cartoon/christmas-card.webp",
@@ -214,7 +242,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1600,
         "height": 1600,
-        "animated": false
+        "animated": false,
+        "label": [
+          "Agencja AT, kartka świąteczna",
+          "AT agency, Christmas card"
+        ]
       }
     ]
   }
