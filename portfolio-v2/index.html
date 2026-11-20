@@ -216,6 +216,7 @@ img{display:block}
 .contact h2.sec-title-u::after{display:none}
 .contact h2 .ac{color:var(--accent)}
 .c-sub{font:400 16px/1.6 'Archivo',sans-serif;color:rgba(228,219,208,.7);max-width:560px;margin-top:22px}
+@media(max-width:720px){.c-sub>span{display:block}}
 .c-mail{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font:700 clamp(18px,1.8vw,24px) 'Archivo',sans-serif;color:var(--cream);border-bottom:2px solid var(--accent);padding-bottom:4px}
 .c-mail:hover{color:var(--accent)}
 /* formularz kontaktowy: style w module /shared/contact-form.js */
@@ -423,7 +424,7 @@ html.js-lines .proj-ico{opacity:0}
   <div class="contact-grid">
     <div class="c-left" id="contactLeft">
       <h2 class="sec-title-u"><span data-i18n="cta_1">Porozmawiajmy</span><span class="ac">.</span></h2>
-      <p class="c-sub" data-i18n="c_sub">Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.</p>
+      <p class="c-sub" data-i18n="c_sub"><span>Masz projekt lub ofertę pracy?</span> <span>Napisz, porozmawiajmy.</span></p>
       <div class="c-links">
         <a href="mailto:armitiel@gmail.com" class="c-link">
           <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
@@ -489,7 +490,7 @@ const DICT = {
   c_avail:['Dostępny do współpracy','Available for work'],
   cta_1:['Porozmawiajmy','Let’s talk'],
   cta_2:['',''],
-  c_sub:['Masz projekt albo szukasz kogoś do zespołu? Napisz, z czym przychodzisz.','Have a project or a role to fill? Tell me what you’re after.'],
+  c_sub:['<span>Masz projekt lub ofertę pracy?</span> <span>Napisz, porozmawiajmy.</span>','<span>Have a project or a role in mind?</span> <span>I’d love to hear from you.</span>'],
   /* etykiety i placeholdery formularza: w module /shared/contact-form.js */
 };
 let lang = localStorage.getItem('aa_lang') || 'pl';
