@@ -322,6 +322,7 @@ html.js-lines .proj-ico{opacity:0}
 .about-cols{animation-delay:.98s}
 @media(prefers-reduced-motion:reduce){.about-lead .about-p{animation:none}}
 
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
@@ -348,9 +349,9 @@ html.js-lines .proj-ico{opacity:0}
     <h2 class="sec-title-u fu2" data-i18n="sec_about">O mnie</h2>
     <div class="about-lead">
       <p class="about-p"><span class="lead" data-i18n="about_lead">Cześć, jestem Amitiel.</span></p>
-      <p class="about-p" data-i18n="about_p2">Traktuję grafikę jako sztukę użytkową i łączę ją z nowymi technologiami. Szukam pomysłów, które mają własny język i zostają w pamięci.</p>
-      <p class="about-p" data-i18n="about_p3">Pracuję na styku UI/UX, brandingu, ilustracji, 2D, 3D i motion, dlatego buduję spójne światy wizualne, a nie pojedyncze elementy.</p>
-      <p class="about-p ac" data-i18n="about_p4">Najchętniej prowadzę produkt od pomysłu do działającego rezultatu.</p>
+      <p class="about-p" data-i18n="about_p2">Jestem projektantem UI, który dobiera rozwiązania do projektu, a nie odwrotnie. Znam sprawdzone wzorce z produkcji produktów cyfrowych i wiem, kiedy się ich trzymać, a kiedy dodać coś własnego.</p>
+      <p class="about-p" data-i18n="about_p3">Łączę UI i UX z interakcją, kontekstem użycia, opowieścią i animacją. Wspiera mnie w tym warsztat graficzny: ilustracja, branding, 2D i 3D.</p>
+      <p class="about-p ac" data-i18n="about_p4">Dzięki temu interfejs jest czytelny, spójny i ma własny charakter.</p>
     </div>
     <div class="about-cols fu4">
       <div>
@@ -380,9 +381,7 @@ html.js-lines .proj-ico{opacity:0}
 <!-- PROJEKTY -->
 <div id="projekty" class="sec">
   <div class="sec-vlabel"><span class="vtxt">02 / <span data-i18n="nav_projects">Projekty</span></span><span class="vbar"></span></div>
-  <div class="proj-head" id="projHead">
-    <h2 class="sec-title-u" data-i18n="sec_projects">Wybrane projekty</h2>
-  </div>
+  <h2 class="sr-only" data-i18n="sec_projects">Wybrane projekty</h2>
   <div class="filters" id="filters"></div>
   <div class="proj-row" id="grid"></div>
   <div class="wip-notice" id="wipNotice">
@@ -446,9 +445,9 @@ const DICT = {
   proj_hint:['Hover · podgląd kategorii','Hover · category preview'],
   cv_l:['CV / PDF','CV / PDF'], cv_v:['Pobierz ↗','Download ↗'],
   cal_l:['Kalendarz','Calendar'], cal_v:['Umów rozmowę ↗','Book a call ↗'],
-  about_p2:['Traktuję grafikę jako sztukę użytkową i łączę ją z nowymi technologiami. Szukam pomysłów, które mają własny język i zostają w pamięci.','I treat graphic design as applied art and combine it with new technology. I look for ideas with a language of their own that stay in memory.'],
-  about_p3:['Pracuję na styku UI/UX, brandingu, ilustracji, 2D, 3D i motion, dlatego buduję spójne światy wizualne, a nie pojedyncze elementy.','I work across UI/UX, branding, illustration, 2D, 3D and motion, so I build coherent visual worlds rather than single pieces.'],
-  about_p4:['Najchętniej prowadzę produkt od pomysłu do działającego rezultatu.','Most of all, I like taking a product from the first idea to a working result.'],
+  about_p2:['Jestem projektantem UI, który dobiera rozwiązania do projektu, a nie odwrotnie. Znam sprawdzone wzorce z produkcji produktów cyfrowych i wiem, kiedy się ich trzymać, a kiedy dodać coś własnego.','I am a UI designer who fits the solution to the project, not the other way round. I know the established patterns of digital product work and when to follow them or add something of my own.'],
+  about_p3:['Łączę UI i UX z interakcją, kontekstem użycia, opowieścią i animacją. Wspiera mnie w tym warsztat graficzny: ilustracja, branding, 2D i 3D.','I bring UI and UX together with interaction, context of use, storytelling and animation, backed by graphic craft in illustration, branding, 2D and 3D.'],
+  about_p4:['Dzięki temu interfejs jest czytelny, spójny i ma własny charakter.','The result is an interface that is clear, consistent and has a character of its own.'],
   lbl_skills:['UMIEJĘTNOŚCI','SKILLS'], lbl_tools:['NARZĘDZIA','TOOLS'],
   lbl_edu:['EDUKACJA','EDUCATION'], lbl_loc:['LOKALIZACJA','LOCATION'],
   loc_v:['Warszawa, Polska','Warsaw, Poland'],
