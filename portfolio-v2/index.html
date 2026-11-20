@@ -727,20 +727,29 @@ const HERO_GATE_MS = 1000;
 })();
 
 
+let cardsStaggered = false;
 function staggerCards(grid){
   const head = document.getElementById('projHead');
   const filters = document.getElementById('filters');
   const wip = document.getElementById('wipNotice');
-  const seq = [...grid.querySelectorAll('.proj-ico')];
-  // kolejnosc od gory: tytul -> filtry -> kafelki -> notka
-  if(filters && filters.offsetParent !== null) seq.unshift(filters);
-  if(head) seq.unshift(head);
-  if(wip) seq.push(wip);
-  // sekcja Kontakt zamyka kolejke — wchodzi po projektach
   const contact = document.getElementById('contactLeft');
   const cform = document.querySelector('#kontakt [data-contact-form]');
-  if(contact) seq.push(contact);
-  if(cform) seq.push(cform);
+  const seq = [...grid.querySelectorAll('.proj-ico')];
+  /* Pelna kaskada (tytul, filtry, kafelki, notka, Kontakt) tylko za pierwszym razem.
+     Przy zmianie filtra / jezyka wjezdzaja od nowa wylacznie kafelki - reszta,
+     w tym stopka z kontaktem, zostaje na miejscu bez animacji. */
+  if(cardsStaggered){
+    [head,filters,wip,contact,cform].forEach(el=>{ if(el) el.style.opacity='1'; });
+  } else {
+    cardsStaggered = true;
+    // kolejnosc od gory: tytul -> filtry -> kafelki -> notka
+    if(filters && filters.offsetParent !== null) seq.unshift(filters);
+    if(head) seq.unshift(head);
+    if(wip) seq.push(wip);
+    // sekcja Kontakt zamyka kolejke — wchodzi po projektach
+    if(contact) seq.push(contact);
+    if(cform) seq.push(cform);
+  }
   if(!seq.length) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ seq.forEach(el=>el.style.opacity='1'); return; }
 
