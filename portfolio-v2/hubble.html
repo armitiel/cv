@@ -150,7 +150,7 @@
 .story-bridge{padding-block:clamp(24px,2.8vw,40px);background:#fff;overflow:visible}.story-bridge:before,.story-bridge:after{display:none}.story-bridge .container{min-height:52px;padding:0;display:grid;grid-template-columns:72px minmax(0,1fr) auto;align-items:center;gap:0;background:#e4e8e9;overflow:hidden;border-radius:9px}.story-bridge .bridge-n{align-self:stretch;display:grid;place-items:center;background:var(--teal);color:#fff;font:700 12px 'IBM Plex Mono',monospace;letter-spacing:.1em}.story-bridge p{max-width:none;margin:0;padding:13px 20px;color:var(--ink);font:600 13px/1.35 'Archivo',sans-serif;letter-spacing:0}.story-bridge .bridge-label{padding:0 20px;color:#6d777d;font:600 9px 'IBM Plex Mono',monospace;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}@media(max-width:720px){.story-bridge{padding-block:20px}.story-bridge .container{grid-template-columns:56px 1fr;margin-inline:var(--pad);width:auto}.story-bridge p{padding:12px 14px;font-size:12px}.story-bridge .bridge-label{display:none}}
 .case-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--teal);color:#fff;transition:opacity .55s ease,visibility .55s ease}.case-loader.is-done{opacity:0;visibility:hidden;pointer-events:none}.case-loader-inner{width:min(360px,calc(100vw - 48px));text-align:center}.case-loader-logo{width:min(210px,58vw);margin:0 auto 30px;filter:brightness(0) invert(1)}.case-loader-track{height:2px;background:rgba(255,255,255,.25);overflow:hidden}.case-loader-bar{display:block;width:0;height:100%;background:#fff;transition:width .2s ease}.case-loader-meta{display:flex;justify-content:space-between;margin-top:11px;font:600 12.5px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase}.case-loader-note{opacity:.7}.case-loading main,.case-loading .proj-footer{visibility:hidden}.case-ready main,.case-ready .proj-footer{visibility:visible;animation:case-in .65s ease both}@keyframes case-in{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.case-loader,.case-ready main,.case-ready .proj-footer{transition:none;animation:none}}
 </style>
-</head>
+<style>/* stopka: wspolny wzor podstron projektow (jak Olympus) */.proj-footer{padding:clamp(48px,6vw,80px) 0 40px}.pf-back{display:inline-block;margin-bottom:36px;color:#ffffff80;font:700 13px Archivo,sans-serif;letter-spacing:normal}.pf-title{font:700 clamp(26px,3.4vw,38px)/.94 Archivo,sans-serif;letter-spacing:-.045em;text-transform:uppercase;margin:0 0 20px}.pf-actions{grid-template-columns:1fr 1fr;gap:12px;margin:0 0 26px}.pf-action{min-height:0;padding:18px;border:1px solid #ffffff20;border-radius:0;font-size:16px;font-weight:700;transition:border-color .2s}.pf-action:hover{border-color:#ffffff59;background:none;transform:none}.pf-filters{display:none!important}.pf-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:46px}.pf-card{display:block;padding:16px;background:none;border:1px solid #ffffff1a;border-radius:0;transition:border-color .2s}.pf-card:hover{transform:none;background:none;border-color:#ffffff59}.pf-card .pf-name{display:block;font:700 16px Archivo,sans-serif;white-space:normal}.pf-card .pf-tags{display:block;margin-top:5px;font:500 9px 'IBM Plex Mono',monospace;letter-spacing:normal;color:#ffffff59}.pf-foot{letter-spacing:normal;color:#ffffff73;border-top-color:#ffffff26}@media(max-width:620px){.pf-actions{grid-template-columns:1fr}}</style></head>
 <body class="case-loading">
 <div class="case-loader" id="caseLoader" role="status" aria-live="polite" aria-label="Ładowanie projektu HubbleRx">
   <div class="case-loader-inner">
@@ -236,20 +236,7 @@ function buildPfFilters(){
     b.onclick=()=>{pfFilter=b.dataset.f;buildPfFilters();buildPfGrid();};
   });
 }
-function buildPfGrid(){
-  const list=pfFilter==='all'?otherP:otherP.filter(x=>x.category.toLowerCase().includes(pfFilter));
-  document.getElementById('pfGrid').innerHTML=list.map(x=>{
-    const tags=FTAGS[x.slug]||x.category.split(',').map(s=>s.trim());
-    return `<a href="projekt.html?p=${x.slug}" class="pf-card">
-      <span class="pf-ico">${FICONS[tags[0]?.toLowerCase()]||FICONS['all']}</span>
-      <span class="pf-info">
-        <span class="pf-name">${esc(x.title.split(' - ')[0].split(' – ')[0])}</span>
-        <span class="pf-tags">${tags.join(' · ')}</span>
-      </span>
-    </a>`;
-  }).join('')||`<div style="color:rgba(242,245,245,.35);font:500 13px 'IBM Plex Mono',monospace;padding:20px 0">${T('Brak projektów w tej kategorii','No projects in this category')}</div>`;
-}
-buildPfFilters();
+function buildPfGrid(){const pfGrid=document.getElementById('pfGrid');const CASES=[['hubble.html','HubbleRx','Branding · Art · UI/UX'],['olympus.html','Olympus Defence','Game · Art · 3D · UI/UX · Motion'],['casino.html','Casino Slot Art','Game · Art · Motion'],['ilustracje.html',T('Ilustracja i postacie','Illustration & characters'),'Art · Illustration']];pfGrid.innerHTML=CASES.filter(c=>c[0]!=='hubble.html').map(c=>`<a class="pf-card" href="${c[0]}"><span class="pf-name">${c[1]}</span><span class="pf-tags">${c[2]}</span></a>`).join('');}
 buildPfGrid();
 </script>
 <script src="hubble-story.js"></script>
