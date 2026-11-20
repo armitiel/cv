@@ -114,7 +114,7 @@ img{display:block}
 /* kotwice (#projekty, #kontakt, #o-mnie) zatrzymuja sie pod przyklejonym paskiem nawigacji */
 #projekty,#omnie,#kontakt{scroll-margin-top:81px}
 /* Na desktopie projekty wypelniaja kadr pod przyklejona nawigacja. */
-@media(min-width:721px){#projekty{display:flex;flex-direction:column;min-height:calc(100vh - 81px);min-height:calc(100dvh - 81px)}#projekty .proj-head{margin-bottom:clamp(64px,8dvh,112px)}#projekty .filters{margin-top:auto}#projekty .proj-row{margin-bottom:96px}#projekty .wip-notice{margin-top:auto}}
+@media(min-width:721px){#projekty{display:flex;flex-direction:column;min-height:calc(100vh - 81px);min-height:calc(100dvh - 81px)}#projekty .proj-head{margin-top:auto;margin-bottom:clamp(56px,6dvh,80px)}#projekty .proj-row{margin-bottom:96px}#projekty .wip-notice{margin-top:auto}}
 @media(max-width:720px){#projekty,#omnie,#kontakt{scroll-margin-top:69px}}
 @media(max-width:560px){#projekty,#omnie,#kontakt{scroll-margin-top:61px}}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
