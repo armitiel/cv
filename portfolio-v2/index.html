@@ -111,6 +111,10 @@ img{display:block}
 /* PROJEKTY — widok kart ze starej strony, przeskinowany */
 .sec{position:relative;padding:clamp(44px,5vw,64px) var(--gut) clamp(44px,5vw,60px)}
 #projekty{position:relative;overflow:hidden;border-top:2px solid var(--ink)}
+/* kotwice (#projekty, #kontakt, #o-mnie) zatrzymuja sie pod przyklejonym paskiem nawigacji */
+#projekty,#omnie,#kontakt{scroll-margin-top:81px}
+@media(max-width:720px){#projekty,#omnie,#kontakt{scroll-margin-top:69px}}
+@media(max-width:560px){#projekty,#omnie,#kontakt{scroll-margin-top:61px}}
 #projekty::before{content:'';position:absolute;top:-90px;right:-130px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.1;pointer-events:none;z-index:0}
 #projekty>*{position:relative;z-index:1}
 #projekty>.sec-vlabel{position:absolute;z-index:2}
