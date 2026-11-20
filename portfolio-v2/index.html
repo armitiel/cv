@@ -150,8 +150,8 @@ img{display:block}
 .pi-icon{display:grid;place-items:center;width:100%;aspect-ratio:1;background:rgba(28,24,19,.035);border:1px solid rgba(28,24,19,.08);border-radius:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .pi-icon svg{width:44%;height:44%;display:block}
 .pi-project-icon{overflow:hidden}
-.pi-art{width:34%;height:34%;object-fit:contain;display:block;transition:transform .28s cubic-bezier(.2,.7,.2,1)}
-.proj-ico:hover .pi-art{transform:scale(1.05)}
+.pi-art{width:34%;height:34%;object-fit:contain;display:block;filter:brightness(.9) saturate(.8);transition:transform .28s cubic-bezier(.2,.7,.2,1),filter .28s}
+.proj-ico:hover .pi-art{transform:scale(1.05);filter:none}
 @media(prefers-reduced-motion:reduce){.proj-ico:hover .pi-art{transform:none}}
 .proj-ico:hover .pi-icon{transform:translateY(-4px);box-shadow:0 14px 30px rgba(28,24,19,.12);border-color:rgba(28,24,19,.28)}
 .pi-name{font:700 14px 'Archivo',sans-serif;margin-top:13px;line-height:1.15}
