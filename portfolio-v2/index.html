@@ -156,8 +156,10 @@ img{display:block}
 .pi-icon{display:grid;place-items:center;width:100%;aspect-ratio:1;background:rgba(28,24,19,.035);border:1px solid rgba(28,24,19,.08);border-radius:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .pi-icon svg{width:44%;height:44%;display:block}
 .pi-project-icon{overflow:hidden}
-.pi-art{width:34%;height:34%;object-fit:contain;display:block;filter:brightness(.9) saturate(.8);transition:transform .28s cubic-bezier(.2,.7,.2,1),filter .28s}
+.pi-art{width:34%;height:34%;object-fit:contain;display:block;filter:brightness(.9) saturate(.8);transition:transform .28s cubic-bezier(.2,.7,.2,1),filter .28s,opacity .28s}
 .proj-ico:hover .pi-art{transform:scale(1.05);filter:none}
+.proj-ico.is-viewed .pi-art{filter:saturate(.45) brightness(1.05);opacity:.8}
+.proj-ico.is-viewed:hover .pi-art,.proj-ico.is-viewed:focus-visible .pi-art{filter:saturate(.65) brightness(1.03);opacity:.9}
 @media(prefers-reduced-motion:reduce){.proj-ico:hover .pi-art{transform:none}}
 .proj-ico:hover .pi-icon{transform:translateY(-4px);box-shadow:0 14px 30px rgba(28,24,19,.12);border-color:rgba(28,24,19,.28)}
 .pi-name{font:700 14px 'Archivo',sans-serif;margin-top:13px;line-height:1.15}
@@ -642,6 +644,35 @@ const SHOW_ILLUSTRATIONS = true;
 const PROJECT_ICONS = {'hubble-rx':'projects/_icons/hubble-rx.webp','olympus-defence':'projects/_icons/olympus-defence.webp','casino-slot-art':'projects/_icons/casino-slot-art.webp'};
 const projectArt = src => src ? `<img class="pi-art" src="${src}" alt="" width="320" height="320" loading="lazy" decoding="async">` : DOC;
 const shortName = t => t.split(/\s[–-]\s/)[0];
+const VIEWED_PROJECTS_KEY = 'aa_viewed_projects';
+const viewedProjects = new Set();
+function syncViewedProjects(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(VIEWED_PROJECTS_KEY) || '[]');
+    if(Array.isArray(saved)) saved.filter(value=>typeof value==='string').forEach(value=>viewedProjects.add(value));
+  }catch{}
+  document.querySelectorAll('#grid .proj-ico').forEach(link=>{
+    const viewed = viewedProjects.has(link.getAttribute('href'));
+    link.classList.toggle('is-viewed',viewed);
+    if(viewed){
+      let label = link.querySelector('.viewed-label');
+      if(!label){label=document.createElement('span');label.className='viewed-label sr-only';link.appendChild(label);}
+      label.textContent=isEn()?'Viewed project':'Obejrzany projekt';
+    }
+  });
+}
+function rememberViewedProject(event){
+  if(event.defaultPrevented || (event.type==='auxclick' && event.button!==1)) return;
+  const link = event.target.closest('.proj-ico');
+  if(!link) return;
+  viewedProjects.add(link.getAttribute('href'));
+  try{localStorage.setItem(VIEWED_PROJECTS_KEY,JSON.stringify([...viewedProjects]));}catch{}
+  syncViewedProjects();
+}
+document.getElementById('grid').addEventListener('click',rememberViewedProject);
+document.getElementById('grid').addEventListener('auxclick',rememberViewedProject);
+addEventListener('pageshow',syncViewedProjects);
+addEventListener('storage',event=>{if(event.key===VIEWED_PROJECTS_KEY) syncViewedProjects();});
 function buildGrid(){
   let html = '';
   visible().forEach(p=>{
@@ -672,6 +703,7 @@ function buildGrid(){
   }
   const grid = document.getElementById('grid');
   grid.innerHTML = html;
+  syncViewedProjects();
   staggerCards(grid);
 }
 
