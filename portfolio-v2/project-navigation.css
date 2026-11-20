@@ -1,5 +1,6 @@
 .nav .portfolio-back-icon{display:none}
 @media(max-width:720px){
+  .pf-all>[aria-hidden="true"]{display:none}
   .nav{--project-nav-height:68px;--back-bg:var(--ink);--back-ink:#fff}
   .nav[data-project="hubble"]{--back-bg:var(--teal);--back-ink:var(--ink)}
   .nav[data-project="olympus"]{--back-bg:var(--gold);--back-ink:var(--navy)}
