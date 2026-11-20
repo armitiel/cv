@@ -23,7 +23,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1499,
         "height": 1463,
-        "animated": false
+        "animated": false,
+        "tech": [
+          "Wektor",
+          "Vector"
+        ]
       },
       {
         "src": "illustrations/selected/soleo-poster.webp",
@@ -37,7 +41,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 314,
         "height": 320,
-        "animated": true
+        "animated": true,
+        "tech": [
+          "Animacja Spine",
+          "Spine animation"
+        ]
       }
     ],
     "intro": true
@@ -65,7 +73,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1536,
         "height": 1024,
-        "animated": false
+        "animated": false,
+        "tech": [
+          "Raster, Photoshop",
+          "Raster, Photoshop"
+        ]
       },
       {
         "src": "illustrations/selected/character-concept.webp",
@@ -83,6 +95,10 @@ window.ILLUSTRATION_SELECTION = [
         "label": [
           "Rolf Houston, szkic postaci",
           "Rolf Houston, character sketch"
+        ],
+        "tech": [
+          "Raster, Photoshop",
+          "Raster, Photoshop"
         ]
       },
       {
@@ -101,6 +117,10 @@ window.ILLUSTRATION_SELECTION = [
         "label": [
           "Middleton Junior, postacie i logo klubu",
           "Middleton Junior, characters and club logo"
+        ],
+        "tech": [
+          "Wektor",
+          "Vector"
         ]
       }
     ],
@@ -142,6 +162,10 @@ window.ILLUSTRATION_SELECTION = [
         "label": [
           "Rozkładówka książki dla dzieci",
           "Children's book spread"
+        ],
+        "tech": [
+          "Wektor",
+          "Vector"
         ]
       },
       {
@@ -156,7 +180,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 740,
         "height": 655,
-        "animated": false
+        "animated": false,
+        "tech": [
+          "Wektor",
+          "Vector"
+        ]
       }
     ]
   },
@@ -183,7 +211,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1165,
         "height": 648,
-        "animated": false
+        "animated": false,
+        "tech": [
+          "3D i wektor",
+          "3D and vector"
+        ]
       },
       {
         "src": "illustrations/cartoon/snail-house.webp",
@@ -197,7 +229,11 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 687,
         "height": 644,
-        "animated": false
+        "animated": false,
+        "tech": [
+          "Wektor",
+          "Vector"
+        ]
       }
     ]
   },
@@ -228,6 +264,10 @@ window.ILLUSTRATION_SELECTION = [
         "label": [
           "Portret, technika rycinowa",
           "Portrait, engraving style"
+        ],
+        "tech": [
+          "Raster, Photoshop",
+          "Raster, Photoshop"
         ]
       },
       {
@@ -246,6 +286,10 @@ window.ILLUSTRATION_SELECTION = [
         "label": [
           "Agencja AT, kartka świąteczna",
           "AT agency, Christmas card"
+        ],
+        "tech": [
+          "Raster, Photoshop",
+          "Raster, Photoshop"
         ]
       }
     ]
