@@ -1,6 +1,10 @@
 .nav .portfolio-back-icon{display:none}
 @media(max-width:720px){
   .pf-all>[aria-hidden="true"]{display:none}
+  .footer .foot,.proj-footer .pf-foot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+  .footer .foot>span,.proj-footer .pf-foot>span{display:block;min-width:0;line-height:1.6}
+  .footer .foot>span:first-child,.proj-footer .pf-foot>span:first-child{text-align:left}
+  .footer .foot>span:last-child,.footer .foot>#city,.proj-footer .pf-foot>span:last-child{text-align:right!important}
   .nav{--project-nav-height:68px;--back-bg:var(--ink);--back-ink:#fff}
   .nav[data-project="hubble"]{--back-bg:var(--teal);--back-ink:var(--ink)}
   .nav[data-project="olympus"]{--back-bg:var(--gold);--back-ink:var(--navy)}
