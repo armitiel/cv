@@ -57,8 +57,8 @@ window.ILLUSTRATION_SELECTION = [
       "Characters and their worlds"
     ],
     "description": [
-      "Od szkicu koncepcyjnego po kolorową scenę i postacie w dynamicznych pozach.",
-      "From character concepts to a colour scene and characters in dynamic poses."
+      "Koncepty postaci i scen rysowane dla studia Robot Gentleman, twórców gry 60 Seconds!, oraz postacie sportowe dla Middleton Junior.",
+      "Character and scene concepts drawn for Robot Gentleman, the studio behind 60 Seconds!, plus sports characters for Middleton Junior."
     ],
     "items": [
       {
@@ -68,8 +68,8 @@ window.ILLUSTRATION_SELECTION = [
           "Characters in a scene"
         ],
         "caption": [
-          "Kolorowa scena z postaciami w futurystycznym otoczeniu.",
-          "A colour scene with characters in a futuristic setting."
+          "Koncept sceny z postaciami, rysowany dla studia Robot Gentleman.",
+          "Scene concept with characters, drawn for Robot Gentleman."
         ],
         "width": 1536,
         "height": 1024,
@@ -77,6 +77,10 @@ window.ILLUSTRATION_SELECTION = [
         "tech": [
           "Raster, Photoshop",
           "Raster, Photoshop"
+        ],
+        "label": [
+          "Robot Gentleman, koncept sceny",
+          "Robot Gentleman, scene concept"
         ]
       },
       {
@@ -86,15 +90,15 @@ window.ILLUSTRATION_SELECTION = [
           "Character exploration"
         ],
         "caption": [
-          "Szkic koncepcyjny postaci: warianty stroju i charakteru.",
-          "Character concept sketch exploring costume and personality."
+          "Rolf Houston: koncept postaci dla studia Robot Gentleman, warianty stroju i charakteru.",
+          "Rolf Houston: character concept for Robot Gentleman, exploring costume and personality."
         ],
         "width": 1800,
         "height": 1273,
         "animated": false,
         "label": [
-          "Rolf Houston, szkic postaci",
-          "Rolf Houston, character sketch"
+          "Robot Gentleman, koncept postaci",
+          "Robot Gentleman, character concept"
         ],
         "tech": [
           "Raster, Photoshop",
