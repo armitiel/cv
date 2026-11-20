@@ -146,8 +146,8 @@ window.ILLUSTRATION_SELECTION = [
       "Illustration tells a story"
     ],
     "description": [
-      "Sceny i bohaterowie do narracji dla młodszych odbiorców.",
-      "Scenes and characters for stories aimed at younger audiences."
+      "Mam doświadczenie w ilustrowaniu książek i materiałów dla dzieci: od rozkładówek z tekstem po postacie, które prowadzą młodszych czytelników przez opowieść.",
+      "I have experience illustrating books and materials for children, from spreads with text to characters that guide young readers through a story."
     ],
     "items": [
       {
@@ -190,7 +190,8 @@ window.ILLUSTRATION_SELECTION = [
           "Vector"
         ]
       }
-    ]
+    ],
+    "intro": true
   },
   {
     "id": "game-art",
