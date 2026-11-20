@@ -1,0 +1,128 @@
+[
+  {
+    "file": "advice-fox.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\porady\\lis-oddech.png",
+    "bytes": 66828,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "balloon.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\porady\\balon.png",
+    "bytes": 45793,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "fox-run.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\minigry\\lis-bieg.webp",
+    "bytes": 82876,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "hero-forest.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\wejscie\\tlo-start-lis.webp",
+    "bytes": 116180,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "hero-meeting.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\wejscie\\tlo-start-las.webp",
+    "bytes": 132902,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "home.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\ksiega\\domek.webp",
+    "bytes": 126776,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "memory-back.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\karty\\rewers.png",
+    "bytes": 5914,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "memory-fox.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\karty\\lis.png",
+    "bytes": 46122,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "memory-owl.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\karty\\sowa.png",
+    "bytes": 11680,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "memory-wizard.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\karty\\wizkor.png",
+    "bytes": 71277,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "mushroom.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\assets\\grzyby\\prawdziwek.webp",
+    "bytes": 50340,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-advice.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\audits\\2026-09-08-powiadomienia-tutoriale\\02-miekka-chmurka-porada.png",
+    "bytes": 40749,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-bubble.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\design-system\\evidence\\03-guidance-bubble.png",
+    "bytes": 49191,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-character.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\design-system\\evidence\\07-character-popup.png",
+    "bytes": 76133,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-reward.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\design-system\\evidence\\09-reward-screen.png",
+    "bytes": 57324,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-task.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\audyt-kierunku-2026-09-27\\05-swiat-zadanie.png",
+    "bytes": 60493,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-tournament.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\audyt-kierunku-2026-09-27\\03-intro-tablica-turnieju.png",
+    "bytes": 62612,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "ui-tutorial.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\audits\\2026-09-08-powiadomienia-tutoriale\\04-tutorial-pamiec-medrca.png",
+    "bytes": 45842,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "wizkor-avatar.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\frontend\\public\\wizkor_avatar.png",
+    "bytes": 239168,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "wizkor-blink.webp",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\styl\\wizkor-anim\\gotowe\\wizkor-super-lekki.webp",
+    "bytes": 248460,
+    "status": "source asset; unchanged copy"
+  },
+  {
+    "file": "world-game.png",
+    "source": "C:\\Users\\DELL\\EwolucJA\\docs\\audyt-kierunku-2026-09-27\\06-swiat-glowny.png",
+    "bytes": 60699,
+    "status": "source asset; unchanged copy"
+  }
+]

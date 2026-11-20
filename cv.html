@@ -126,6 +126,15 @@ html.js-anim .sec.paper.rule-in::before{transform:scaleX(1)}
 /* EXPERIENCE */
 .tl{position:relative;padding-left:26px}
 .tl-line{position:absolute;left:0;top:6px;bottom:6px;width:2px;background:rgba(28,24,19,.16);transform-origin:top}
+/* Pomaranczowy znacznik jedzie po osi czasu razem ze scrollem - pokazuje, w
+   ktorym miejscu historii jest czytelnik. Pozycje ustawia JS (procent wysokosci
+   osi), reszta to czysty CSS. */
+.tl-head{position:absolute;left:-4px;top:0;width:10px;height:10px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px var(--cream),0 0 0 5px rgba(194,106,50,.35);
+  transform:translateY(-50%);opacity:0;transition:opacity .45s var(--ease,ease);pointer-events:none;z-index:2}
+.tl-head.on{opacity:1}
+.tl-head::after{content:'';position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(194,106,50,.35);opacity:.9}
+@media(prefers-reduced-motion:reduce){.tl-head{display:none}}
 .job{position:relative;display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:start;padding:18px 0 26px;border-top:1px solid var(--line)}
 .job .dot{position:absolute;left:-31px;top:26px;width:11px;height:11px;border-radius:50%;box-shadow:0 0 0 4px var(--cream)}
 .job .yr{font:600 12px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:var(--mut);padding-top:5px}
@@ -505,6 +514,29 @@ document.querySelectorAll('.vlabel').forEach(el=>{
   if(r.top < innerHeight && r.bottom > 0) return;
   el.style.opacity='0'; ioV.observe(el);
 });
+
+/* pomaranczowy znacznik na osi czasu: jedzie za scrollem */
+(function(){
+  const tl = document.querySelector('.tl');
+  if(!tl || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const head = document.createElement('i');
+  head.className = 'tl-head';
+  tl.appendChild(head);
+  let tyka = false;
+  const przelicz = () => {
+    tyka = false;
+    const r = tl.getBoundingClientRect();
+    const linia = innerHeight * 0.42;                 // wysokosc odniesienia w kadrze
+    const widoczna = r.bottom > 0 && r.top < innerHeight;
+    head.classList.toggle('on', widoczna && r.top < linia);
+    const p = Math.min(1, Math.max(0, (linia - r.top) / Math.max(1, r.height)));
+    head.style.top = (p * 100).toFixed(2) + '%';
+  };
+  const zaplanuj = () => { if(tyka) return; tyka = true; requestAnimationFrame(przelicz); };
+  addEventListener('scroll', zaplanuj, {passive:true});
+  addEventListener('resize', zaplanuj);
+  przelicz();
+})();
 
 /* czarne linie dzielace sekcje: rozjazd z lewej w prawo w momencie wejscia w kadr */
 const ruleGo = el => heroReady(() => el.classList.add('rule-in'));

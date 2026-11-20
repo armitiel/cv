@@ -19,6 +19,10 @@ dist/
 # Local backups / dumps
 ovh-backup-*/
 *.bak
+*.bak-*
+/tmp/
+/Claude outputs/
+/.impeccable/review/
 
 # Debug / ad-hoc artifacts (nie commitujemy)
 _*.html

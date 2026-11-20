@@ -1,0 +1,12 @@
+{
+  "capturedAt": "2026-10-07",
+  "source": "https://ewolucja-azure.vercel.app/swiat?gra=bieg-liska",
+  "file": "bieg-planety-live.jpg",
+  "kind": "actual-live-gameplay-screenshot",
+  "dimensions": "1280x720",
+  "interaction": "Jak grać > GRAM!",
+  "description": "Lisek biegnie po wyniesionej drodze na planecie; widoczne bramki liczbowe, zadanie matematyczne, sterowanie pasami i skokiem.",
+  "videoAvailable": false,
+  "sourceCode": "C:/Users/DELL/EwolucJA/frontend/src/pages/BiegPlanetyGra.jsx",
+  "integrationNote": "Use in place of old fox-run.webp/start-bieg-scena.webp, which depict previous separate-course mode."
+}

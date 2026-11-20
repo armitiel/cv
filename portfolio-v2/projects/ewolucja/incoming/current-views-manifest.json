@@ -1,0 +1,8 @@
+{
+  "capturedAt": "2026-10-07",
+  "source": "C:/Users/DELL/EwolucJA/frontend",
+  "url": "http://127.0.0.1:5182/swiat",
+  "kind": "screenshots of current local game, test stages selected through the game's developer panel",
+  "files": ["world-current.png", "home-current.png", "atlas-current.png"],
+  "note": "Capture server uses temporary Vite config without the failing language Babel transform. Game source and visuals unchanged. No backend account; local test progression only. Captures crop the game frame."
+}
