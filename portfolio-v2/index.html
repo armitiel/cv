@@ -149,6 +149,8 @@ img{display:block}
 .proj-ico{display:flex;flex-direction:column;align-items:stretch;text-align:left;color:var(--ink)}
 .pi-icon{display:grid;place-items:center;width:100%;aspect-ratio:1;background:rgba(28,24,19,.035);border:1px solid rgba(28,24,19,.08);border-radius:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
 .pi-icon svg{width:44%;height:44%;display:block}
+.pi-project-icon{overflow:hidden}
+.pi-project-icon svg{width:76%;height:76%;overflow:visible;filter:drop-shadow(0 2px 2px rgba(28,24,19,.08))}
 .proj-ico:hover .pi-icon{transform:translateY(-4px);box-shadow:0 14px 30px rgba(28,24,19,.12);border-color:rgba(28,24,19,.28)}
 .pi-name{font:700 14px 'Archivo',sans-serif;margin-top:13px;line-height:1.15}
 .pi-mini{display:flex;gap:6px;margin-top:10px;color:var(--accent)}
@@ -226,7 +228,7 @@ img{display:block}
 .arrow-ext{width:13px;height:13px;display:inline-block;vertical-align:middle;margin-left:3px;position:relative;top:-1px}
 
 /* WIP NOTICE */
-.wip-notice{display:flex;align-items:center;gap:12px;margin-top:40px;padding:20px 24px;background:rgba(28,24,19,.04);border:1px dashed rgba(28,24,19,.2);border-radius:12px;font:500 14px/1.5 'Archivo',sans-serif;color:var(--soft)}
+.wip-notice{display:flex;align-items:center;gap:12px;margin-top:40px;padding:20px 24px;transform-origin:8% 50%;will-change:transform;background:rgba(28,24,19,.04);border:1px dashed rgba(28,24,19,.2);border-radius:12px;font:500 14px/1.5 'Archivo',sans-serif;color:var(--soft)}
 .wip-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2.2s infinite}
 
 [data-reveal]{will-change:opacity,transform}
@@ -270,6 +272,7 @@ html.js-lines .proj-ico{opacity:0}
   html.js-lines .proj-ico{opacity:1}}
 @media(prefers-reduced-motion:reduce){
   .about-photo video{animation:none}
+  .wip-notice{will-change:auto}
   html.js-lines .sec-title-u::after{transform:none}
   html.js-lines #projekty{border-top-color:var(--ink)}
   html.js-lines #projekty::after{display:none}
@@ -378,7 +381,7 @@ html.js-lines .proj-ico{opacity:0}
   <div class="proj-row" id="grid"></div>
   <div class="wip-notice" id="wipNotice">
     <span class="wip-dot"></span>
-    <span class="wip-txt" data-i18n="wip_notice">Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.</span>
+    <span class="wip-txt" data-i18n="wip_notice">Inne próbki prac udostępniam na życzenie.</span>
   </div>
 </div>
 
@@ -448,7 +451,7 @@ const DICT = {
   sk_3:['Projektowanie UI','UI design'], sk_4:['Ilustracja i game art','Illustration & game art'],
   sk_5:['Animacja i motion','Animation & motion'],
   cta:['Porozmawiajmy',"Let's talk"],
-  wip_notice:['Pozostałe projekty są aktualnie układane w nowy layout i będą aktualizowane w tym miejscu. Inne próbki prac udostępniam na życzenie.','The remaining projects are currently being reorganized into a new layout and will be updated here. Further work samples are available on request.'],
+  wip_notice:['Inne próbki prac udostępniam na życzenie.','Further work samples are available on request.'],
   foot_city:['Warszawa<br>Polska · GMT+1','Warsaw<br>Poland · GMT+1'],
   c_avail:['Dostępny do współpracy','Available for work'],
   cta_1:['Porozmawiajmy','Let’s talk'],
@@ -610,9 +613,11 @@ function buildFilters(){
   window._filtersAnimated=true;
 }
 
-const DOC = '<svg viewBox="0 0 48 48" fill="none" stroke="rgba(28,24,19,.4)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path d="M13 5h15l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#f1ead9"/><path d="M28 5v8h8"/></svg>';
-/* kafelek "Ilustracje" ukryty — ustaw na true, zeby go przywrocic */
-const SHOW_ILLUSTRATIONS = false;
+const fileIcon = (image='') => `<svg viewBox="0 0 48 48" fill="none" stroke="rgba(28,24,19,.4)" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M13 5h15l8 8v28a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#f1ead9"/><path d="M28 5v8h8"/>${image?`<image href="${image}" x="5" y="15" width="38" height="26" preserveAspectRatio="xMidYMid meet"/>`:''}</svg>`;
+const DOC = fileIcon();
+/* Wybrana kolekcja ilustracji i projektów postaci. */
+const SHOW_ILLUSTRATIONS = true;
+const PROJECT_ICONS = {'hubble-rx':'projects/hubble/logo-icon.webp','olympus-defence':'projects/olympus-defence/logo.webp','casino-slot-art':'projects/atomic-cherry/logo.webp'};
 const shortName = t => t.split(/\s[–-]\s/)[0];
 function buildGrid(){
   let html = '';
@@ -620,7 +625,7 @@ function buildGrid(){
     if(filter!=='all' && !p.category.toLowerCase().includes(filter)) return;
     const href = p.slug==='hubble-rx' ? 'hubble.html' : p.slug==='olympus-defence' ? 'olympus.html' : p.slug==='casino-slot-art' ? 'casino.html' : 'projekt.html?p='+p.slug;
     html += `<a href="${href}" class="proj-ico">
-      <span class="pi-icon">${DOC}</span>
+      <span class="pi-icon pi-project-icon">${fileIcon(PROJECT_ICONS[p.slug])}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
       <span class="pi-tags">${tagList(p).join(', ')}</span>
@@ -628,7 +633,7 @@ function buildGrid(){
   });
   if(filter==='all' || filter==='game'){
     html += `<a href="personal-games.html" class="proj-ico" id="personalGames">
-      <span class="pi-icon" aria-hidden="true">${DOC}</span>
+      <span class="pi-icon pi-project-icon" aria-hidden="true">${fileIcon('illustrations/selected/project-fox.webp')}</span>
       <span class="pi-name">${DICT.personal_games[isEn()?1:0]}<span class="pi-new" role="img" aria-label="${isEn()?'New':'Nowość'}"></span></span>
       <span class="pi-mini" aria-hidden="true">${FILTER_ICONS.game}</span>
       <span class="pi-tags">${isEn()?'2 prototypes':'2 prototypy'}</span>
@@ -636,8 +641,8 @@ function buildGrid(){
   }
   if(SHOW_ILLUSTRATIONS && visible().length > 1 && (filter==='all' || filter==='art')){
     html += `<a href="ilustracje.html" class="proj-ico">
-      <span class="pi-icon">${DOC}</span>
-      <span class="pi-name">${isEn()?'Illustrations':'Ilustracje'}</span>
+      <span class="pi-icon pi-project-icon">${fileIcon('illustrations/selected/soleo-poster.webp')}</span>
+      <span class="pi-name">${isEn()?'Illustration & Characters':'Ilustracja i postacie'}</span>
       <span class="pi-mini">${ICONS['art']||''}</span>
       <span class="pi-tags">${isEn()?'Art':'Sztuka'}</span>
     </a>`;
@@ -749,11 +754,25 @@ function staggerCards(grid){
     if(!seen[cursor]) return;
     const el = seq[cursor++];
     el.style.opacity='1';
+    /* Notka "w przygotowaniu" wchodzi jak dymek z newsem: nie wsuwa sie z reszta,
+       tylko - juz po wybrzmieniu kaskady kart - wyskakuje ze sciśnieciem i
+       rozciagnieciem (squash & stretch) i dopiero po kilku odbiciach sie ustala. */
+    const dymek = el.id === 'wipNotice';
     el.animate(
-      [{opacity:0,transform:'translateX(-56px)'},{opacity:1,transform:'none'}],
-      {duration:950,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
+      dymek
+        ? [{opacity:0,transform:'scale(.62,.78)',offset:0},
+           {opacity:1,transform:'scale(1.12,.9)',offset:.34},
+           {transform:'scale(.955,1.075)',offset:.54},
+           {transform:'scale(1.04,.972)',offset:.71},
+           {transform:'scale(.988,1.014)',offset:.85},
+           {transform:'scale(1.006,.995)',offset:.94},
+           {opacity:1,transform:'none',offset:1}]
+        : [{opacity:0,transform:'translateX(-56px)'},{opacity:1,transform:'none'}],
+      dymek
+        ? {duration:1150,delay:1700,easing:'cubic-bezier(.34,1.15,.44,1)',fill:'backwards'}
+        : {duration:950,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'}
     );
-    timer = setTimeout(()=>{ timer=null; pump(); }, 230);
+    timer = setTimeout(()=>{ timer=null; pump(); }, dymek ? 900 : 230);
   };
 
   /* Pomiar "co jest w kadrze" dopiero po zaladowaniu strony (awaryjnie 1.5s):
