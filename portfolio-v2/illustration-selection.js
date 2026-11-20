@@ -22,6 +22,7 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1800,
         "height": 1775,
+        "paperBlend": true,
         "animated": false
       },
       {
@@ -91,6 +92,7 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1351,
         "height": 1600,
+        "paperBlend": true,
         "animated": false
       }
     ]
@@ -132,6 +134,7 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 848,
         "height": 743,
+        "paperBlend": true,
         "animated": false
       }
     ]
@@ -159,6 +162,7 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 1037,
         "height": 524,
+        "paperBlend": true,
         "animated": false
       },
       {
@@ -173,6 +177,7 @@ window.ILLUSTRATION_SELECTION = [
         ],
         "width": 800,
         "height": 600,
+        "paperBlend": true,
         "animated": false
       }
     ]
