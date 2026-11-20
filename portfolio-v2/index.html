@@ -546,6 +546,9 @@ const TAGS2 = {
   'graffiti':['Art','Mural']
 };
 const tagList = p => TAGS2[p.slug] || String(p.category||'').split(',').map(s=>s.trim()).filter(Boolean);
+/* podpisy tagow po angielsku (klucze tagow zostaja polskie - od nich zaleza ikony) */
+const TAG_EN = {'gra':'Game','ilustracja':'Illustration'};
+const tagLabel = t => isEn() ? (TAG_EN[t.toLowerCase()]||t) : t;
 /* line-ikony per tag */
 const ICONS = {
   'branding':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 22 12 12 22 2 12z"/></svg>',
@@ -632,7 +635,7 @@ function buildGrid(){
       <span class="pi-icon pi-project-icon">${projectArt(PROJECT_ICONS[p.slug])}</span>
       <span class="pi-name">${shortName(p.title)}</span>
       <span class="pi-mini">${tagIcos(p)}</span>
-      <span class="pi-tags">${tagList(p).join(', ')}</span>
+      <span class="pi-tags">${tagList(p).map(tagLabel).join(', ')}</span>
     </a>`;
   });
   if(filter==='all' || filter==='game'){
