@@ -15,7 +15,27 @@ main{margin:auto;padding:0 var(--gutter)}.hero{display:grid;grid-template-column
 dialog{overflow-x:clip;background:var(--paper);color:var(--ink);border:0;border-radius:12px;padding:18px;width:min(1200px,96vw);max-height:94dvh}dialog::backdrop{background:rgba(20,17,14,.85)}.viewer-head{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:12px}.viewer-head h2{font-size:18px;margin:0}.viewer-close,.viewer-nav button{min-width:44px;min-height:44px;border:1px solid var(--line);border-radius:8px;background:transparent;padding:8px 15px}.viewer-image{will-change:transform,opacity;width:100%;height:min(65dvh,calc(94dvh - 300px));object-fit:contain}.viewer-nav{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:28px}.viewer-nav span{white-space:nowrap}.viewer-caption{font-size:14px;line-height:1.55;color:var(--soft);text-align:center;max-width:70ch;margin:16px auto 0;text-wrap:balance}
 @media(max-width:700px){.hero{grid-template-columns:1fr;padding-top:32px;gap:28px}.hero h1{max-width:15ch;font-size:clamp(32px,10vw,40px)}.hero-art{max-width:460px}.hero-art img{aspect-ratio:1}.works-row{flex-direction:column;gap:28px}.work{flex:none!important;width:100%}.works{gap:28px}.series,.series:first-child{padding-top:64px}.nav-in{gap:16px}.brand img{height:32px;width:auto}.viewer-image{height:min(55dvh,calc(94dvh - 300px))}.viewer-head h2{font-size:16px}.viewer-nav button{font-size:14px;padding:7px 10px}.pf-actions{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style><style>@media(max-width:720px){:root{--gutter:20px}}.pf-action,.pf-card{border-radius:8px}.pf-all{display:flex;justify-content:space-between;align-items:center;gap:12px}.pf-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:1000px){.pf-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:560px){.pf-grid{grid-template-columns:1fr!important}}</style><style>/* pasek nawigacji jak na stronie glownej */@media(max-width:720px){.nav-in{padding-block:0;height:68px}}@media(max-width:560px){.nav-in{height:60px}.lang{padding:4px 9px}}</style><style>.nav{box-shadow:0 1px 0 rgba(20,16,12,.04),0 10px 24px -12px rgba(20,16,12,.28)}</style><style>/* Opowiesc przy przewijaniu: najpierw tytul serii, potem prace po kolei, z pauza budujaca napiecie */@keyframes heroUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}@keyframes heroArt{from{opacity:0;transform:scale(.88) rotate(-4deg)}to{opacity:1;transform:none}}html.anim .hero h1{animation:heroUp .9s cubic-bezier(.16,1,.3,1) .1s both}html.anim .hero p{animation:heroUp .9s cubic-bezier(.16,1,.3,1) .3s both}html.anim .hero p.hero-more{animation-delay:.45s}html.anim .hero-art{animation:heroArt 1.3s cubic-bezier(.16,1,.3,1) .65s both}html.anim .series-head>*{opacity:0;transform:translateX(-32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0ms)}html.anim .work .image-button{opacity:0;transition:clip-path 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1),opacity .4s ease-out;transition-delay:var(--d,0ms)}html.anim .work.from-side .image-button{clip-path:inset(0 0 0 100% round 12px);transform:translateX(64px)}html.anim .work.from-below .image-button{clip-path:inset(100% 0 0 0 round 12px);transform:translateY(56px)}html.anim .work figcaption{opacity:0;transform:translateY(10px);transition:opacity .6s ease-out,transform .6s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--d,0ms) + 550ms)}html.anim .series.in .series-head>*,html.anim .series.in .work figcaption{opacity:1;transform:none}html.anim .series.in .work .image-button{opacity:1;clip-path:inset(0 0 0 0 round 12px);transform:none}</style></head><body>
+</style><style>@media(max-width:720px){:root{--gutter:20px}}.pf-action,.pf-card{border-radius:8px}.pf-all{display:flex;justify-content:space-between;align-items:center;gap:12px}.pf-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}@media(max-width:1000px){.pf-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:560px){.pf-grid{grid-template-columns:1fr!important}}</style><style>/* pasek nawigacji jak na stronie glownej */@media(max-width:720px){.nav-in{padding-block:0;height:68px}}@media(max-width:560px){.nav-in{height:60px}.lang{padding:4px 9px}}</style><style>.nav{box-shadow:0 1px 0 rgba(20,16,12,.04),0 10px 24px -12px rgba(20,16,12,.28)}</style><style>/* Opowiesc przy przewijaniu: najpierw tytul serii, potem prace po kolei, z pauza budujaca napiecie */@keyframes heroUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}@keyframes heroArt{from{opacity:0;transform:scale(.88) rotate(-4deg)}to{opacity:1;transform:none}}html.anim .hero h1{animation:heroUp .9s cubic-bezier(.16,1,.3,1) .1s both}html.anim .hero p{animation:heroUp .9s cubic-bezier(.16,1,.3,1) .3s both}html.anim .hero p.hero-more{animation-delay:.45s}html.anim .hero-art{animation:heroArt 1.3s cubic-bezier(.16,1,.3,1) .65s both}html.anim .series-head>*{opacity:0;transform:translateX(-32px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0ms)}html.anim .work .image-button{opacity:0;transition:clip-path 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1),opacity .4s ease-out;transition-delay:var(--d,0ms)}html.anim .work.from-side .image-button{clip-path:inset(0 0 0 100% round 12px);transform:translateX(64px)}html.anim .work.from-below .image-button{clip-path:inset(100% 0 0 0 round 12px);transform:translateY(56px)}html.anim .work figcaption{opacity:0;transform:translateY(10px);transition:opacity .6s ease-out,transform .6s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--d,0ms) + 550ms)}html.anim .series.in .series-head>*,html.anim .series.in .work figcaption{opacity:1;transform:none}html.anim .series.in .work .image-button{opacity:1;clip-path:inset(0 0 0 0 round 12px);transform:none}</style><style>/* Tytul rysowany olowkiem: linie pomocnicze, szkicowy kontur, szrafura, na koncu atrament.
+   Bez JS (albo gdy cos zawiedzie) tytul i tak pojawia sie po chwili dzieki inkFallback. */
+@keyframes inkFallback{to{color:var(--ink)}}
+.hero>div{position:relative}
+html.anim .hero h1{color:transparent;animation:inkFallback .4s ease-out 4.5s forwards}
+html.anim .hero h1.is-drawing{animation:none}
+html.anim .hero h1.is-drawn{animation:none;color:var(--ink);transition:color .6s ease-out}
+.pencil{position:absolute;overflow:visible;pointer-events:none;-webkit-user-select:none;user-select:none}
+.pencil text{letter-spacing:0}
+.pencil .sk{fill:none;stroke:#2e2a25;stroke-linejoin:round;stroke-linecap:round}
+.pencil .guide{stroke:#2e2a25;stroke-linecap:round}
+</style><style>/* Olowek-postac: towarzyszy tytulom serii, w kazdej przyjmuje styl jej ilustracji */
+.hp{position:relative;width:140px;height:180px;margin:0 0 6px -16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hp canvas{position:absolute;inset:0;width:100%;height:100%}
+.hp-dust{position:absolute;left:38%;bottom:6px;width:0;height:0;pointer-events:none}
+.hp-dust i{position:absolute;left:0;top:0;width:15px;height:1.5px;border-radius:2px;background:var(--ink);opacity:0;transform-origin:0 50%}
+html.anim .series-head>.hp{opacity:1;transform:none;transition:none}
+html.anim .hp canvas{visibility:hidden}
+html.anim .hp.on canvas{visibility:visible}
+@media(max-width:700px){.hp{width:108px;height:136px;margin-left:-12px}}
+</style></head><body>
 <a href="#main" class="skip" data-pl="Przejdź do ilustracji" data-en="Skip to illustrations">Przejdź do ilustracji</a>
 <header class="nav"><nav class="nav-in" aria-label="Portfolio"><a class="back" href="index.html#projekty" data-pl="← Wróć do portfolio" data-en="← Back to portfolio">← Wróć do portfolio</a><a href="index.html" class="brand"><img src="logo-a.png" alt="Amitiel, portfolio" width="40" height="40"></a><button class="lang" id="langBtn" type="button">EN</button></nav></header>
 <main id="main"><section class="hero"><div><h1 data-pl="Ilustracja i projektowanie postaci" data-en="Illustration & character design">Ilustracja i projektowanie postaci</h1><p data-pl="Wybrane prace: od maskotek i postaci do gier po ilustracje książkowe. Łączy je praca nad charakterem, gestem i czytelną sylwetką." data-en="Selected work, from mascots and game characters to book illustration. Each explores personality, gesture and a clear silhouette.">Wybrane prace: od maskotek i postaci do gier po ilustracje książkowe. Łączy je praca nad charakterem, gestem i czytelną sylwetką.</p><p class="hero-more" data-pl="Mam wypracowany, spójny styl, a jednocześnie potrafię dostarczyć dokładnie taki obraz, jakiego wymaga jego funkcja: znak marki, ikonę czytelną w małym rozmiarze albo ilustrację, która prowadzi opowieść." data-en="I have a developed, consistent style of my own, and I can deliver exactly the image a job calls for: a brand mark, an icon that reads at small sizes, or an illustration that carries a story.">Mam wypracowany, spójny styl, a jednocześnie potrafię dostarczyć dokładnie taki obraz, jakiego wymaga jego funkcja: znak marki, ikonę czytelną w małym rozmiarze albo ilustrację, która prowadzi opowieść.</p></div><figure class="hero-art"><img src="illustrations/selected/header-art.webp" width="1100" height="1095" alt="Fioletowy słoń rysuje razem z postacią ołówka trzymanego w dłoni" fetchpriority="high" id="heroArt"></figure></section>
@@ -35,6 +55,254 @@ function openViewer(i){current=i;updateViewer();$('viewer').showModal();document
 $('viewerPlay').onclick=()=>{viewerPlaying=!viewerPlaying;$('viewerImage').src=viewerPlaying?'illustrations/selected/soleo-motion.gif':all[current].src;$('viewerPlay').textContent=viewerPlaying?(en?'Pause animation':'Zatrzymaj animację'):(en?'Play animation':'Odtwórz animację');$('viewerPlay').setAttribute('aria-pressed',String(viewerPlaying))};$('closeViewer').onclick=()=>$('viewer').close();$('viewer').addEventListener('close',()=>{document.body.style.overflow='';$('viewerImage').src=all[current].src;viewerPlaying=false});$('viewer').addEventListener('click',e=>{if(e.target===$('viewer')){const r=$('viewer').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('viewer').close()}});let sliding=false;function go(d){const ni=current+d;if(ni<0||ni>=all.length||sliding)return;const img=$('viewerImage'),cap=$('viewerCaption');if(reduce){current=ni;updateViewer();return}sliding=true;const out=[{opacity:1,transform:'none'},{opacity:0,transform:'translateX('+(-d*48)+'px)'}];Promise.all([img.animate(out,{duration:160,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'}).finished,cap.animate([{opacity:1},{opacity:0}],{duration:160,fill:'forwards'}).finished]).then(async()=>{current=ni;updateViewer();try{await img.decode()}catch(e){}img.getAnimations().forEach(a=>a.cancel());cap.getAnimations().forEach(a=>a.cancel());img.animate([{opacity:0,transform:'translateX('+(d*48)+'px)'},{opacity:1,transform:'none'}],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});cap.animate([{opacity:0},{opacity:1}],{duration:300,delay:60,easing:'ease-out',fill:'backwards'});sliding=false})}$('previous').onclick=()=>go(-1);$('next').onclick=()=>go(1);$('viewer').addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(1)}if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}});const played=new Set();let storyIO=null;function story(){if(!document.documentElement.classList.contains('anim'))return;if(storyIO)storyIO.disconnect();const show=sec=>{sec.classList.add('in');played.add(sec.id);if(storyIO)storyIO.unobserve(sec)};storyIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting||e.boundingClientRect.bottom<0)show(e.target)}),{threshold:.15,rootMargin:'0px 0px -10% 0px'});const narrow=matchMedia('(max-width:700px)').matches;document.querySelectorAll('.series').forEach(sec=>{sec.querySelectorAll('.series-head>*').forEach((el,i)=>el.style.setProperty('--d',i*160+'ms'));sec.querySelectorAll('.work').forEach((w,i)=>{w.style.setProperty('--d',(narrow?300+i*280:480+i*620)+'ms');w.classList.add(i%2?'from-below':'from-side')});if(played.has(sec.id))sec.classList.add('in');else storyIO.observe(sec)})}let tick=false;addEventListener('scroll',()=>{if(tick)return;tick=true;requestAnimationFrame(()=>{tick=false;document.querySelectorAll('.series:not(.in)').forEach(sec=>{if(sec.getBoundingClientRect().bottom<0){sec.classList.add('in');played.add(sec.id)}})})},{passive:true});$('langBtn').onclick=()=>{en=!en;try{localStorage.setItem('aa_lang',en?'en':'pl')}catch(e){}render();story()};render();story();
 })();
 </script><script>
+/* Tytul rysowany olowkiem. Pozycje liter brane sa z prawdziwego ukladu h1, wiec rysunek
+   pokrywa sie z tekstem w kazdej szerokosci ekranu i w obu jezykach. */
+(()=>{'use strict';
+  const root=document.documentElement;
+  const h1=document.querySelector('.hero h1');
+  if(!h1||!root.classList.contains('anim'))return;
+  const NS='http://www.w3.org/2000/svg';
+  const el=(tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const k in attrs)n.setAttribute(k,attrs[k]);if(parent)parent.append(n);return n};
+  let svg=null,finished=false,timers=[];
+  /* zmiana jezyka w trakcie rysowania podmienia tekst h1: wtedy od razu pokaz gotowy tytul */
+  const mo=new MutationObserver(()=>{if(!finished&&svg)abort()});
+  mo.observe(h1,{childList:true,characterData:true,subtree:true});
+  const finish=()=>{
+    if(finished)return;finished=true;
+    timers.forEach(clearTimeout);mo.disconnect();
+    h1.classList.remove('is-drawing');h1.classList.add('is-drawn');
+    if(svg){const s=svg;s.animate([{opacity:1},{opacity:0}],{duration:600,easing:'ease-out',fill:'forwards'}).finished.then(()=>s.remove(),()=>s.remove())}
+  };
+  const abort=()=>{if(svg){svg.remove();svg=null}finish()};
+
+  function draw(){
+    const node=h1.firstChild;
+    if(!node||node.nodeType!==3||!h1.getClientRects().length){finish();return}
+    h1.classList.add('is-drawing');
+    const cs=getComputedStyle(h1),text=node.data,hr=h1.getBoundingClientRect(),fs=parseFloat(cs.fontSize);
+    /* linia bazowa: znacznik 0x0 przed pierwsza litera */
+    const mk=document.createElement('i');mk.style.cssText='display:inline-block;width:0;height:0;vertical-align:baseline';
+    h1.insertBefore(mk,node);
+    const range=document.createRange();range.setStart(node,0);range.setEnd(node,1);
+    const base=mk.getBoundingClientRect().top-range.getBoundingClientRect().top;
+    mk.remove();mo.takeRecords();
+    const chars=[],lines=new Map();
+    for(let i=0;i<text.length;i++){
+      if(/\s/.test(text[i]))continue;
+      range.setStart(node,i);range.setEnd(node,i+1);
+      const r=range.getBoundingClientRect();
+      const x=r.left-hr.left,y=Math.round(r.top-hr.top+base);
+      chars.push({c:text[i],x,y});
+      const ln=lines.get(y)||{x0:x,x1:x};ln.x0=Math.min(ln.x0,x);ln.x1=Math.max(ln.x1,r.right-hr.left);lines.set(y,ln);
+    }
+    if(!chars.length){finish();return}
+
+    svg=el('svg',{'aria-hidden':'true',focusable:'false',class:'pencil',width:hr.width,height:hr.height,viewBox:`0 0 ${hr.width} ${hr.height}`});
+    svg.style.cssText=`left:${h1.offsetLeft}px;top:${h1.offsetTop}px;font-family:${cs.fontFamily};font-weight:${cs.fontWeight};font-size:${fs}px`;
+    const defs=el('defs',{},svg);
+    /* drgajaca kreska olowka: szum przesuwa kontur o ulamek piksela */
+    [['pcA',4],['pcB',11]].forEach(([id,seed])=>{
+      const f=el('filter',{id,x:'-5%',y:'-20%',width:'110%',height:'140%'},defs);
+      el('feTurbulence',{type:'fractalNoise',baseFrequency:'0.045',numOctaves:'2',seed,result:'n'},f);
+      el('feDisplacementMap',{in:'SourceGraphic',in2:'n',scale:(fs*.045).toFixed(2),xChannelSelector:'R',yChannelSelector:'G'},f);
+    });
+    const hatchGap=Math.max(3,fs*.06);
+    const pat=el('pattern',{id:'pcHatch',patternUnits:'userSpaceOnUse',width:hatchGap,height:hatchGap,patternTransform:'rotate(-38)'},defs);
+    el('line',{x1:0,y1:0,x2:0,y2:hatchGap,stroke:'#2e2a25','stroke-width':Math.max(.7,fs*.013)},pat);
+
+    const sw=Math.max(.8,fs*.018),dash=Math.ceil(fs*8),gap=38,draw=950;
+    const gGuide=el('g',{filter:'url(#pcA)',opacity:'.3'},svg);
+    const gHatch=el('g',{fill:'url(#pcHatch)',filter:'url(#pcA)'},svg);
+    const gA=el('g',{class:'sk',filter:'url(#pcA)','stroke-width':sw},svg);
+    const gB=el('g',{class:'sk',filter:'url(#pcB)','stroke-width':sw*.8,opacity:'.5',transform:`translate(${(fs*.008).toFixed(2)} ${(-fs*.006).toFixed(2)})`},svg);
+
+    /* 1. linie pomocnicze: linia bazowa i gorna krawedz liter, szybki ruch przed rysowaniem */
+    let li=0;
+    lines.forEach((ln,y)=>{
+      const len=ln.x1-ln.x0+fs*.5;
+      [y,y-fs*.7].forEach((gy,k)=>{
+        const g=el('line',{x1:ln.x0-fs*.15,y1:gy,x2:ln.x0-fs*.15+len,y2:gy+(k?-.6:.6),class:'guide','stroke-width':Math.max(.6,fs*.01),'stroke-dasharray':len,'stroke-dashoffset':len},gGuide);
+        g.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:420,delay:li*90+k*60,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'});
+      });
+      li++;
+    });
+
+    /* 2. kontur liter dwiema kreskami, 3. szrafura, litera po literze */
+    const t0=180;
+    chars.forEach((ch,i)=>{
+      const at={x:ch.x.toFixed(2),y:ch.y};
+      const a=el('text',Object.assign({'stroke-dasharray':dash,'stroke-dashoffset':dash},at),gA);a.textContent=ch.c;
+      const b=el('text',Object.assign({'stroke-dasharray':dash,'stroke-dashoffset':dash},at),gB);b.textContent=ch.c;
+      const h=el('text',Object.assign({opacity:0},at),gHatch);h.textContent=ch.c;
+      const d=t0+i*gap;
+      a.animate([{strokeDashoffset:dash},{strokeDashoffset:0}],{duration:draw,delay:d,easing:'cubic-bezier(.45,.05,.3,1)',fill:'forwards'});
+      b.animate([{strokeDashoffset:dash},{strokeDashoffset:0}],{duration:draw*.9,delay:d+140,easing:'cubic-bezier(.45,.05,.3,1)',fill:'forwards'});
+      h.animate([{opacity:0},{opacity:.42}],{duration:420,delay:d+draw*.55,easing:'ease-out',fill:'forwards'});
+    });
+    h1.after(svg);
+
+    /* 4. atrament: prawdziwy tekst wchodzi, szkic gasnie */
+    timers.push(setTimeout(finish,t0+(chars.length-1)*gap+draw+120));
+  }
+
+  /* zmiana szerokosci okna w trakcie rysowania: od razu pokaz gotowy tytul */
+  const w0=innerWidth;addEventListener('resize',()=>{if(!finished&&svg&&innerWidth!==w0)abort()},{passive:true});
+
+  const fontsReady=(document.fonts&&document.fonts.ready)||Promise.resolve();
+  Promise.race([fontsReady,new Promise(r=>setTimeout(r,1500))]).then(()=>requestAnimationFrame(()=>{try{draw()}catch(e){abort()}}));
+})();
+</script>
+<script>
+/* Olowek-postac: spada od tytulu do tytulu (squash przy uderzeniu), wygina sie i w kazdej serii
+   przyjmuje styl jej ilustracji: grafika, koncept, ilustracja ksiazkowa, game art, maskotka.
+   Przy przewijaniu w gore przysiada i skacze z powrotem. Kazda seria ma tez wlasny temperament ruchu. Z ograniczonym ruchem stoi spokojnie przy kazdym tytule. */
+(()=>{'use strict';
+  const coll=document.getElementById('collection');if(!coll)return;
+  const motion=document.documentElement.classList.contains('anim');
+  const STYLE_OF={};(window.ILLUSTRATION_SELECTION||[]).forEach(g=>{STYLE_OF[g.id]=g.pencil||'flat'});
+  const imgs={};const img=k=>imgs[k]||(imgs[k]=Object.assign(new Image(),{src:'illustrations/pencil/pencil-'+k+'.webp'}));
+  Object.values(STYLE_OF).forEach(img);
+
+  /* ---------- rysowanie: olowek ciety na paski i ukladany na luku, zeby mogl sie wyginac ---------- */
+  const LEAN=.2;
+  function draw(h,style,s){
+    const c=h.c,ctx=h.ctx,im=img(style);
+    ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);
+    if(!im.complete||!im.naturalWidth)return;
+    const dpr=c.width/h.hp.clientWidth,ph=h.hp.clientHeight*.8*dpr,pw=ph*im.naturalWidth/im.naturalHeight;
+    ctx.translate(c.width*.38,c.height-6*dpr-s.lift*dpr);ctx.rotate(s.lean);ctx.scale(s.sx,s.sy);
+    const N=36,k=s.bend/ph,sh=im.naturalHeight/N,dh=ph/N;
+    for(let i=0;i<N;i++){
+      const a=(i+.5)*dh,th=k*a,x=Math.abs(k)<1e-6?0:(1-Math.cos(th))/k,y=Math.abs(k)<1e-6?-a:-Math.sin(th)/k;
+      ctx.save();ctx.translate(x,y);ctx.rotate(th);
+      ctx.drawImage(im,0,im.naturalHeight-(i+1)*sh,im.naturalWidth,sh+.6,-pw/2,-dh/2-.6,pw,dh+1.2);
+      ctx.restore();
+    }
+  }
+  const rest=()=>({bend:0,sx:1,sy:1,lean:LEAN,lift:0});
+
+  let heads=[];
+  function size(){const dpr=Math.min(2,devicePixelRatio||1);heads.forEach(h=>{h.c.width=Math.round(h.hp.clientWidth*dpr);h.c.height=Math.round(h.hp.clientHeight*dpr)})}
+  function attach(){
+    heads=[...coll.querySelectorAll('.series')].map(sec=>{
+      const head=sec.querySelector('.series-head');let hp=head.querySelector('.hp');
+      if(!hp){hp=document.createElement('div');hp.className='hp';hp.setAttribute('aria-hidden','true');
+        hp.innerHTML='<canvas></canvas><span class="hp-dust"><i></i><i></i><i></i><i></i></span>';head.prepend(hp)}
+      const c=hp.querySelector('canvas');return {sec,hp,c,ctx:c.getContext('2d'),style:STYLE_OF[sec.id]||'flat'};
+    });
+    size();
+  }
+  attach();
+
+  /* ---------- bez ruchu: olowek stoi przy kazdym tytule w stylu swojej serii ---------- */
+  if(!motion){
+    const paint=()=>heads.forEach(h=>draw(h,h.style,rest()));
+    Object.values(imgs).forEach(i=>i.addEventListener('load',paint));paint();
+    new MutationObserver(()=>{attach();paint()}).observe(coll,{childList:true});
+    addEventListener('resize',()=>{size();paint()},{passive:true});
+    return;
+  }
+
+  /* ---------- fizyka: sprezyny z lekkim przestrzeleniem daja zywy, gumowy ruch ---------- */
+  const P={bend:{x:0,v:0},sx:{x:1,v:0},sy:{x:1,v:0},lean:{x:LEAN,v:0}};
+  let lift=0,liftV=0;
+  const T={bend:0,sx:1,sy:1,lean:LEAN};
+  const spring=(p,t,dt,k=170,c=11)=>{p.v+=(-k*(p.x-t)-c*p.v)*dt;p.x+=p.v*dt};
+  /* temperament kazdej serii */
+  const PERS={
+    ink:t=>({bend:Math.sin(t*1.5)*.12,lean:LEAN+Math.sin(t*1.5+.7)*.05,sy:1,sx:1}),                 /* spokojny, zamyslony */
+    concept:t=>{const p=Math.floor(t/2.2)%2?1:-1;return{bend:p*.32,lean:LEAN+p*.12,sy:1,sx:1}},       /* rozglada sie */
+    flat:t=>{const b=Math.sin(t*2.2);return{bend:b*.04,lean:LEAN,sy:1+b*.03,sx:1-b*.02}},            /* oddycha */
+    game:t=>({bend:Math.sin(t*3)*.06,lean:LEAN,sy:1,sx:1}),                                            /* podskakuje */
+    mascot:t=>{const w=Math.sin(t*5.4);return{bend:w*.46,lean:LEAN+Math.sin(t*2.7)*.1,sy:1+Math.abs(w)*.05,sx:1-Math.abs(w)*.03}} /* tanczy */
+  };
+  let cur=-1,want=-1,moving=false,mode=null,fallT0=0,landT=0,lastHop=0,drawStyle=null,raf=0,visible=true;
+  const now=()=>performance.now()/1000;
+  /* na telefonie serie leza jedna pod druga: olowek wskakuje wczesniej i szybciej, z krotszego dystansu */
+  const narrowMQ=matchMedia('(max-width:700px)'),fast=()=>narrowMQ.matches;
+
+  function hop(v=240){if(lift<=0.5){liftV=v}}
+  function kick(squash=1,dir=Math.random()<.5?-1:1){P.sy.x=1-.34*squash;P.sx.x=1+.3*squash;P.bend.v+=dir*10*squash;P.lean.v+=dir*1.2*squash}
+  function puff(h){
+    const ang=[-168,-148,-32,-12];
+    h.hp.querySelectorAll('.hp-dust i').forEach((el,k)=>el.animate([{opacity:0,transform:`rotate(${ang[k]}deg) scaleX(.2)`},{opacity:.55,transform:`rotate(${ang[k]}deg) translateX(7px) scaleX(1)`,offset:.35},{opacity:0,transform:`rotate(${ang[k]}deg) translateX(22px) scaleX(.4)`}],{duration:540,easing:'cubic-bezier(.2,.7,.2,1)'}));
+  }
+  function frame(){
+    raf=0;if(cur<0||!visible)return;
+    const h=heads[cur];if(!h)return;
+    const t=now(),dt=1/60;
+    if(mode==='crouch'){T.bend=0;T.lean=LEAN+.06;T.sy=.74;T.sx=1.18}                                   /* przysiad przed skokiem */
+    else if(mode==='down'){const f=t-fallT0;T.bend=Math.sin(f*16)*.14;T.lean=LEAN-.08;T.sy=1.1;T.sx=.92}  /* spadanie */
+    else if(mode==='up'){const f=t-fallT0;T.bend=Math.sin(f*12)*.1;T.lean=LEAN+.16;T.sy=1.14;T.sx=.9}   /* lot w gore */
+    else{
+      const g=(PERS[h.style]||PERS.flat)(t-landT);Object.assign(T,g);
+      if(h.style==='game'&&t-lastHop>1.9&&t-landT>1){lastHop=t;hop(230)}
+    }
+    for(const k in P)spring(P[k],T[k],dt,k==='bend'?120:170,k==='bend'?7:11);
+    if(lift>0||liftV>0){liftV-=900*dt;lift+=liftV*dt;if(lift<=0){lift=0;if(liftV<-120)kick(.45);liftV=0}}
+    draw(h,drawStyle||h.style,{bend:P.bend.x,sx:P.sx.x,sy:P.sy.x,lean:P.lean.x,lift});
+    raf=requestAnimationFrame(frame);
+  }
+  const run=()=>{if(!raf)raf=requestAnimationFrame(frame)};
+  const show=i=>{heads.forEach((h,k)=>h.hp.classList.toggle('on',k===i))};
+
+  function land(power){
+    moving=false;mode=null;drawStyle=null;landT=now();lastHop=landT;kick(power);puff(heads[cur]);step();
+  }
+  const stop=()=>{moving=false;mode=null;drawStyle=null};
+  /* powrot: przysiad, wybicie i lot do poprzedniego tytulu; nad pierwszym tytulem olowek odlatuje w gore */
+  function jump(to){
+    const from=cur;moving=true;mode='crouch';run();
+    setTimeout(()=>{
+      const hpT=heads[to].hp,yF=heads[from].hp.getBoundingClientRect().top,yT=hpT.getBoundingClientRect().top;
+      const dist=Math.min(fast()?320:innerHeight+200,Math.max(80,yF-yT));
+      drawStyle=heads[from].style;mode='up';fallT0=now();cur=to;show(to);P.sy.x=1.22;P.sx.x=.86;run();
+      const T1=fast()?Math.min(460,230+Math.sqrt(dist)*11):Math.min(900,380+Math.sqrt(dist)*17);
+      hpT.animate([{transform:`translateY(${dist}px)`},{transform:'translateY(0)'}],{duration:T1,easing:'cubic-bezier(.18,.72,.36,1)'})
+        .finished.then(()=>land(.55),stop);
+    },fast()?80:150);
+  }
+  function leave(){
+    const from=cur;moving=true;mode='crouch';run();
+    setTimeout(()=>{
+      const hp=heads[from].hp,y=hp.getBoundingClientRect().top;
+      mode='up';fallT0=now();P.sy.x=1.22;P.sx.x=.86;
+      const a=hp.animate([{transform:'translateY(0)'},{transform:`translateY(${-(y+hp.offsetHeight+80)}px)`}],{duration:fast()?360:520,easing:'cubic-bezier(.3,.6,.6,1)',fill:'forwards'});
+      a.finished.then(()=>{cur=-1;show(-1);a.cancel();stop();step()},stop);
+    },fast()?80:150);
+  }
+  function fall(to){
+    const from=cur,hp=heads[to].hp,yTo=hp.getBoundingClientRect().top;
+    let yFrom=from>=0?heads[from].hp.getBoundingClientRect().top:-hp.offsetHeight-60;
+    yFrom=Math.max(yFrom,-hp.offsetHeight-60);
+    const dist=Math.min(fast()?320:1e4,Math.max(80,yTo-yFrom));
+    drawStyle=from>=0?heads[from].style:heads[to].style;   /* w locie jeszcze w poprzednim stylu */
+    cur=to;show(to);moving=true;mode='down';fallT0=now();run();
+    const T1=fast()?Math.min(500,240+Math.sqrt(dist)*12):Math.min(950,420+Math.sqrt(dist)*18);
+    hp.animate([{transform:`translateY(${-dist}px)`},{transform:'translateY(0)'}],{duration:T1,easing:'cubic-bezier(.45,0,.95,.55)'})
+      .finished.then(()=>land(1),stop);
+  }
+  function step(){
+    if(moving||want===cur)return;
+    if(want<cur){cur>0?jump(cur-1):leave();return}   /* w gore: skok do poprzedniego tytulu */
+    fall(cur+1);                                      /* w dol: spadanie tytul po tytule */
+  }
+  const pick=()=>{const line=innerHeight*(fast()?.86:.55);let n=-1;heads.forEach((h,i)=>{if(h.sec.getBoundingClientRect().top<line)n=i});return n};
+  let tick=false;
+  const onScroll=()=>{if(tick)return;tick=true;requestAnimationFrame(()=>{tick=false;const n=pick();if(n!==want){want=n;step()}})};
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',()=>{size();onScroll()},{passive:true});
+  document.addEventListener('visibilitychange',()=>{visible=!document.hidden;if(visible)run()});
+  /* zabawa: najechanie wygina olowek, klikniecie podrzuca */
+  coll.addEventListener('pointerenter',e=>{if(e.target.closest&&e.target.closest('.hp.on')){P.bend.v+=6;run()}},true);
+  coll.addEventListener('click',e=>{if(e.target.closest&&e.target.closest('.hp.on')){hop(320);P.bend.v-=5;run()}});
+  /* zmiana jezyka przebudowuje serie: przypnij olowek do nowych tytulow */
+  new MutationObserver(()=>{const keep=cur;attach();show(keep);run()}).observe(coll,{childList:true});
+  Object.values(imgs).forEach(i=>i.addEventListener('load',run));
+  onScroll();
+})();
+</script>
+<script>
 /* Vercel Web Analytics: z wykluczeniem wlasnych wizyt.
    Wejdz raz na ?noanalytics=1  -> ta przegladarka przestaje byc liczona (na stale).
    Wejdz na ?analytics=1        -> zliczanie wraca. */

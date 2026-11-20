@@ -1,53 +1,61 @@
 window.ILLUSTRATION_SELECTION = [
   {
-    "id": "soleo",
-    "plain": true,
+    "id": "line-light",
     "title": [
-      "Soleo, maskotka w ruchu",
-      "Soleo, a mascot in motion"
+      "Kreska i światło",
+      "Line and light"
     ],
     "description": [
-      "Maskotka i znak SOLEO® Family Resort, rodzinnego ośrodka wakacyjnego w Rewalu nad Bałtykiem. Ośmiorniczka Soleo jest częścią logo resortu i występuje w jego materiałach: od strefy wodnej AQUA FUN po atrakcje dla dzieci.",
-      "Mascot and brand mark of SOLEO® Family Resort, a family holiday resort in Rewal on the Baltic coast. The Soleo octopus is part of the resort's logo and appears across its materials, from the AQUA FUN water zone to the kids' attractions."
+      "Dwa odmienne sposoby budowania obrazu w czerni i bieli.",
+      "Two different approaches to building an image in black and white."
     ],
     "items": [
       {
-        "src": "illustrations/selected/soleo-sheet.webp",
+        "src": "illustrations/cartoon/gentleman-portrait.webp",
         "title": [
-          "Jedna postać, różne pozy",
-          "One character, different poses"
+          "Portret dżentelmena",
+          "Gentleman portrait"
         ],
         "caption": [
-          "Arkusz postaci: sylwetka, mimika i pozy związane z atrakcjami resortu: basen, nurkowanie, ping-pong. Spójny charakter pozwala używać maskotki zarówno w logo, jak i w materiałach dla rodzin.",
-          "Character sheet: silhouette, expressions and poses tied to the resort's attractions: swimming, snorkelling, table tennis. A consistent personality lets the mascot work both in the logo and in family-facing materials."
+          "Portret oparty na kreskowaniu i kontrastach w stylu rycinowym.",
+          "A portrait built through crosshatching and contrast in an engraving style."
         ],
-        "width": 1499,
-        "height": 1463,
+        "width": 1600,
+        "height": 1600,
         "animated": false,
+        "label": [
+          "Portret, technika rycinowa",
+          "Portrait, engraving style"
+        ],
         "tech": [
-          "Wektor",
-          "Vector"
+          "Raster, Photoshop",
+          "Raster, Photoshop"
         ]
       },
       {
-        "src": "illustrations/selected/soleo-poster.webp",
+        "src": "illustrations/cartoon/christmas-card.webp",
         "title": [
-          "Animacja maskotki",
-          "Mascot animation"
+          "Kartka świąteczna AT",
+          "AT Christmas card"
         ],
         "caption": [
-          "Animowana pętla maskotki używana na stronie resortu. Uruchom ją przyciskiem poniżej.",
-          "An animated loop of the mascot used on the resort's website. Use the button below to play it."
+          "Ilustracja świąteczna z kosmicznym motywem dla agencji reklamowej AT.",
+          "A space-themed Christmas illustration for the AT advertising agency."
         ],
-        "width": 314,
-        "height": 320,
-        "animated": true,
+        "width": 1600,
+        "height": 1600,
+        "animated": false,
+        "label": [
+          "Agencja AT, kartka świąteczna",
+          "AT agency, Christmas card"
+        ],
         "tech": [
-          "Animacja Spine",
-          "Spine animation"
+          "Raster, Photoshop",
+          "Raster, Photoshop"
         ]
       }
     ],
+    "pencil": "ink",
     "intro": true
   },
   {
@@ -137,7 +145,8 @@ window.ILLUSTRATION_SELECTION = [
         1,
         2
       ]
-    ]
+    ],
+    "pencil": "concept"
   },
   {
     "id": "stories",
@@ -191,7 +200,8 @@ window.ILLUSTRATION_SELECTION = [
         ]
       }
     ],
-    "intro": true
+    "intro": true,
+    "pencil": "flat"
   },
   {
     "id": "game-art",
@@ -240,63 +250,60 @@ window.ILLUSTRATION_SELECTION = [
           "Vector"
         ]
       }
-    ]
+    ],
+    "pencil": "game",
+    "intro": true
   },
   {
-    "id": "line-light",
+    "id": "soleo",
+    "plain": true,
     "title": [
-      "Kreska i światło",
-      "Line and light"
+      "Soleo, maskotka w ruchu",
+      "Soleo, a mascot in motion"
     ],
     "description": [
-      "Dwa odmienne sposoby budowania obrazu w czerni i bieli.",
-      "Two different approaches to building an image in black and white."
+      "Maskotka i znak SOLEO® Family Resort, rodzinnego ośrodka wakacyjnego w Rewalu nad Bałtykiem. Ośmiorniczka Soleo jest częścią logo resortu i występuje w jego materiałach: od strefy wodnej AQUA FUN po atrakcje dla dzieci.",
+      "Mascot and brand mark of SOLEO® Family Resort, a family holiday resort in Rewal on the Baltic coast. The Soleo octopus is part of the resort's logo and appears across its materials, from the AQUA FUN water zone to the kids' attractions."
     ],
     "items": [
       {
-        "src": "illustrations/cartoon/gentleman-portrait.webp",
+        "src": "illustrations/selected/soleo-sheet.webp",
         "title": [
-          "Portret dżentelmena",
-          "Gentleman portrait"
+          "Jedna postać, różne pozy",
+          "One character, different poses"
         ],
         "caption": [
-          "Portret oparty na kreskowaniu i kontrastach w stylu rycinowym.",
-          "A portrait built through crosshatching and contrast in an engraving style."
+          "Arkusz postaci: sylwetka, mimika i pozy związane z atrakcjami resortu: basen, nurkowanie, ping-pong. Spójny charakter pozwala używać maskotki zarówno w logo, jak i w materiałach dla rodzin.",
+          "Character sheet: silhouette, expressions and poses tied to the resort's attractions: swimming, snorkelling, table tennis. A consistent personality lets the mascot work both in the logo and in family-facing materials."
         ],
-        "width": 1600,
-        "height": 1600,
+        "width": 1499,
+        "height": 1463,
         "animated": false,
-        "label": [
-          "Portret, technika rycinowa",
-          "Portrait, engraving style"
-        ],
         "tech": [
-          "Raster, Photoshop",
-          "Raster, Photoshop"
+          "Wektor",
+          "Vector"
         ]
       },
       {
-        "src": "illustrations/cartoon/christmas-card.webp",
+        "src": "illustrations/selected/soleo-poster.webp",
         "title": [
-          "Kartka świąteczna AT",
-          "AT Christmas card"
+          "Animacja maskotki",
+          "Mascot animation"
         ],
         "caption": [
-          "Ilustracja świąteczna z kosmicznym motywem dla agencji reklamowej AT.",
-          "A space-themed Christmas illustration for the AT advertising agency."
+          "Animowana pętla maskotki używana na stronie resortu. Uruchom ją przyciskiem poniżej.",
+          "An animated loop of the mascot used on the resort's website. Use the button below to play it."
         ],
-        "width": 1600,
-        "height": 1600,
-        "animated": false,
-        "label": [
-          "Agencja AT, kartka świąteczna",
-          "AT agency, Christmas card"
-        ],
+        "width": 314,
+        "height": 320,
+        "animated": true,
         "tech": [
-          "Raster, Photoshop",
-          "Raster, Photoshop"
+          "Animacja Spine",
+          "Spine animation"
         ]
       }
-    ]
+    ],
+    "intro": true,
+    "pencil": "mascot"
   }
 ];
